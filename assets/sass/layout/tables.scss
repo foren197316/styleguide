@@ -1,5 +1,21 @@
 @charset "UTF-8";
 
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+  vertical-align: middle;
+}
+
+table tr.group-member td:first-child {
+  text-indent: 20px;
+}
+
+.table.table-hover tbody:hover {
+  background-color: #FBFBFB !important;
+}
+
+table td[rowspan]:hover {
+  background-color: #FBFBFB !important;
+}
+
 /*doc
 ---
 title: Complete Table
