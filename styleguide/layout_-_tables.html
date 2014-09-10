@@ -23,6 +23,12 @@
       <script src="theme-build/polyfill/html5shiv.js"></script>
       <script src="theme-build/polyfill/respond.min.js"></script>
     <![endif]-->
+
+    <script src="theme-build/js/vendors.min.js"></script>
+    <script type="text/javascript">
+      var jQuery_no_conflict = $.noConflict(true);
+    </script>
+    <script src="theme-build/js/main.js"></script>
 </head>
 
   <body class="cortana-body"  ng-controller="MainController">
@@ -178,12 +184,12 @@
             
           
             
-          
-            
               
               
                 <li><a href="javascript_-_buttons_js.html">Buttons JS</a></li>
               
+            
+          
             
           
             
@@ -458,12 +464,12 @@
             
           
             
+          
+            
               
               
                 <li><a href="layout_-_buttons.html">Buttons</a></li>
               
-            
-          
             
           
             
@@ -579,6 +585,10 @@
               
             
               
+                <li><a href="#a-complete-table">Complete Table</a></li>
+              
+            
+              
                 <li><a href="#b-striped-table">Striped table</a></li>
               
             
@@ -655,6 +665,152 @@
     <span class="nt">&lt;/tr&gt;</span>
   <span class="nt">&lt;/tbody&gt;</span>
 <span class="nt">&lt;/table&gt;</span>
+</pre></div></div></div><div class="cortana-content">
+<h1 id="a-complete-table">Complete Table</h1>
+</div><div class="codeExample"><div class="exampleOutput"><div class="table-responsive">
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th colspan="2">Participant</th>
+        <th>Agent</th>
+        <th>Program</th>
+        <th>Age</th>
+        <th>Country</th>
+        <th>Status</th>
+        <th>Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2"><a href="#">Draco Malfoy</a></td>
+        <td><a href="#">Magic Tours</a></td>
+        <td><a href="#">2015 Winter Work Travel</a></td>
+        <td>21</td>
+        <td><a href="#">United Kingdom</a></td>
+        <td><span class="label label-success">Accepted</span></td>
+        <td>1 hour ago</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td rowspan="3">Friends</td>
+      </tr>
+      <tr>
+        <td><a href="#">Vincent Crabbe</a></td>
+        <td><a href="#">Wizard Travels</a></td>
+        <td><a href="#">2015 Summer Work Travel</a></td>
+        <td>20</td>
+        <td><a href="#">United Kingdom</a></td>
+        <td><span class="label label-primary">Submitted</span></td>
+        <td>2 hours ago</td>
+      </tr>
+      <tr>
+        <td><a href="#">Gregory Goyle</a></td>
+        <td><a href="#">Wizard Travels</a></td>
+        <td><a href="#">2015 Summer Work Travel</a></td>
+        <td>21</td>
+        <td><a href="#">United Kingdom</a></td>
+        <td><span class="label label-info">Completed</span></td>
+        <td>1 day ago</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td rowspan="3">Couple</td>
+      </tr>
+      <tr>
+        <td><a href="#">Pansy Parkinson</a></td>
+        <td><a href="#">Broom Abroad</a></td>
+        <td><a href="#">2015 Winter Work Travel</a></td>
+        <td>20</td>
+        <td><a href="#">Scotland</a></td>
+        <td><span class="label label-danger">Rejected</span></td>
+        <td>2 days ago</td>
+      </tr>
+      <tr>
+        <td><a href="#">Marcus Flint</a></td>
+        <td><a href="#">Broom Abroad</a></td>
+        <td><a href="#">2015 Winter Work Travel</a></td>
+        <td>24</td>
+        <td><a href="#">Scotland</a></td>
+        <td><span class="label label-default">Started</span></td>
+        <td>3 days ago</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div><div class="codeBlock"><div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"table-responsive"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;table</span> <span class="na">class=</span><span class="s">"table table-condensed table-hover"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;thead&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;th</span> <span class="na">colspan=</span><span class="s">"2"</span><span class="nt">&gt;</span>Participant<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Agent<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Program<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Age<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Country<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Status<span class="nt">&lt;/th&gt;</span>
+        <span class="nt">&lt;th&gt;</span>Updated<span class="nt">&lt;/th&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;/thead&gt;</span>
+    <span class="nt">&lt;tbody&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;td</span> <span class="na">colspan=</span><span class="s">"2"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Draco Malfoy<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Magic Tours<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>2015 Winter Work Travel<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>21<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>United Kingdom<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;span</span> <span class="na">class=</span><span class="s">"label label-success"</span><span class="nt">&gt;</span>Accepted<span class="nt">&lt;/span&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>1 hour ago<span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;/tbody&gt;</span>
+    <span class="nt">&lt;tbody&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;td</span> <span class="na">rowspan=</span><span class="s">"3"</span><span class="nt">&gt;</span>Friends<span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Vincent Crabbe<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Wizard Travels<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>2015 Summer Work Travel<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>20<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>United Kingdom<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;span</span> <span class="na">class=</span><span class="s">"label label-primary"</span><span class="nt">&gt;</span>Submitted<span class="nt">&lt;/span&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>2 hours ago<span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Gregory Goyle<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Wizard Travels<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>2015 Summer Work Travel<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>21<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>United Kingdom<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;span</span> <span class="na">class=</span><span class="s">"label label-info"</span><span class="nt">&gt;</span>Completed<span class="nt">&lt;/span&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>1 day ago<span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;/tbody&gt;</span>
+    <span class="nt">&lt;tbody&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;td</span> <span class="na">rowspan=</span><span class="s">"3"</span><span class="nt">&gt;</span>Couple<span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Pansy Parkinson<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Broom Abroad<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>2015 Winter Work Travel<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>20<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Scotland<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;span</span> <span class="na">class=</span><span class="s">"label label-danger"</span><span class="nt">&gt;</span>Rejected<span class="nt">&lt;/span&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>2 days ago<span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+      <span class="nt">&lt;tr&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Marcus Flint<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Broom Abroad<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>2015 Winter Work Travel<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>24<span class="nt">&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Scotland<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;&lt;span</span> <span class="na">class=</span><span class="s">"label label-default"</span><span class="nt">&gt;</span>Started<span class="nt">&lt;/span&gt;&lt;/td&gt;</span>
+        <span class="nt">&lt;td&gt;</span>3 days ago<span class="nt">&lt;/td&gt;</span>
+      <span class="nt">&lt;/tr&gt;</span>
+    <span class="nt">&lt;/tbody&gt;</span>
+  <span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
 </pre></div></div></div><div class="cortana-content">
 <h1 id="b-striped-table">Striped table</h1>
 </div><div class="codeExample"><div class="exampleOutput"><table class="table table-striped">
@@ -1011,11 +1167,6 @@
     </footer>  
   </div>
 
-  <script src="theme-build/js/vendors.min.js"></script>
-  <script type="text/javascript">
-    var jQuery_no_conflict = $.noConflict(true);
-  </script>
-  <script src="theme-build/js/main.js"></script>
   <script type="text/javascript">
     function TypeaheadCtrl($scope) {
       $scope.selected = undefined;
@@ -1161,6 +1312,14 @@
               
               
               {
+              "title": "Complete Table",
+              "breadcrumb": "Layout - Tables > Complete Table",
+              "path": "layout_-_tables.html#a-complete-table"
+              },
+            
+              
+              
+              {
               "title": "Striped table",
               "breadcrumb": "Layout - Tables > Striped table",
               "path": "layout_-_tables.html#b-striped-table"
@@ -1218,34 +1377,6 @@
               
               {
               "title": "Buttons",
-              "breadcrumb": "Layout - Buttons > Buttons",
-              "path": "layout_-_buttons.html#a-buttons"
-              },
-            
-              
-              
-              {
-              "title": "Sizes",
-              "breadcrumb": "Layout - Buttons > Sizes",
-              "path": "layout_-_buttons.html#b-size"
-              },
-            
-              
-              
-              {
-              "title": "Active / Disabled",
-              "breadcrumb": "Layout - Buttons > Active / Disabled",
-              "path": "layout_-_buttons.html#c-active-disabled"
-              },
-            
-          
-        
-          
-            
-              
-              
-              {
-              "title": "Buttons",
               "breadcrumb": "JavaScript - Buttons JS > Buttons",
               "path": "javascript_-_buttons_js.html#a-buttons"
               },
@@ -1272,6 +1403,34 @@
               "title": "Radio",
               "breadcrumb": "JavaScript - Buttons JS > Radio",
               "path": "javascript_-_buttons_js.html#d-radio"
+              },
+            
+          
+        
+          
+            
+              
+              
+              {
+              "title": "Buttons",
+              "breadcrumb": "Layout - Buttons > Buttons",
+              "path": "layout_-_buttons.html#a-buttons"
+              },
+            
+              
+              
+              {
+              "title": "Sizes",
+              "breadcrumb": "Layout - Buttons > Sizes",
+              "path": "layout_-_buttons.html#b-size"
+              },
+            
+              
+              
+              {
+              "title": "Active / Disabled",
+              "breadcrumb": "Layout - Buttons > Active / Disabled",
+              "path": "layout_-_buttons.html#c-active-disabled"
               },
             
           

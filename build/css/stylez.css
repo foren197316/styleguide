@@ -6041,6 +6041,88 @@ category: Layout - Images
 */
 /*doc
 ---
+title: Complete Table
+name: a-complete-table
+category: Layout - Tables
+---
+
+```html_example
+<div class="table-responsive">
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th colspan="2">Participant</th>
+        <th>Agent</th>
+        <th>Program</th>
+        <th>Age</th>
+        <th>Country</th>
+        <th>Status</th>
+        <th>Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="2"><a href="#">Draco Malfoy</a></td>
+        <td><a href="#">Magic Tours</a></td>
+        <td><a href="#">2015 Winter Work Travel</a></td>
+        <td>21</td>
+        <td><a href="#">United Kingdom</a></td>
+        <td><span class="label label-success">Accepted</span></td>
+        <td>1 hour ago</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td rowspan="3">Friends</td>
+      </tr>
+      <tr>
+        <td><a href="#">Vincent Crabbe</a></td>
+        <td><a href="#">Wizard Travels</a></td>
+        <td><a href="#">2015 Summer Work Travel</a></td>
+        <td>20</td>
+        <td><a href="#">United Kingdom</a></td>
+        <td><span class="label label-primary">Submitted</span></td>
+        <td>2 hours ago</td>
+      </tr>
+      <tr>
+        <td><a href="#">Gregory Goyle</a></td>
+        <td><a href="#">Wizard Travels</a></td>
+        <td><a href="#">2015 Summer Work Travel</a></td>
+        <td>21</td>
+        <td><a href="#">United Kingdom</a></td>
+        <td><span class="label label-info">Completed</span></td>
+        <td>1 day ago</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td rowspan="3">Couple</td>
+      </tr>
+      <tr>
+        <td><a href="#">Pansy Parkinson</a></td>
+        <td><a href="#">Broom Abroad</a></td>
+        <td><a href="#">2015 Winter Work Travel</a></td>
+        <td>20</td>
+        <td><a href="#">Scotland</a></td>
+        <td><span class="label label-danger">Rejected</span></td>
+        <td>2 days ago</td>
+      </tr>
+      <tr>
+        <td><a href="#">Marcus Flint</a></td>
+        <td><a href="#">Broom Abroad</a></td>
+        <td><a href="#">2015 Winter Work Travel</a></td>
+        <td>24</td>
+        <td><a href="#">Scotland</a></td>
+        <td><span class="label label-default">Started</span></td>
+        <td>3 days ago</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+*/
+/*doc
+---
 title: Basic table
 name: a-basic-table
 category: Layout - Tables
@@ -7901,7 +7983,7 @@ category: JavaScript - Buttons JS
   $('#loading-example-btn').click(function () {
     var btn = $(this)
     btn.button('loading')
-    $.ajax(...).always(function () {
+    $.ajax("/").always(function () {
       btn.button('reset')
     });
   });
