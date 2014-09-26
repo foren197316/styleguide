@@ -11,7 +11,7 @@ class Cortanamarkdownrenderer < Redcarpet::Render::HTML
         '</div><div class="codeExample">' + '<div class="exampleOutput">' + render_html(code, language) + '</div>' + '<div class="codeBlock"><div class="highlight"><pre>' + formatter.format(lexer.lex(code)) + '</pre></div></div>' + '</div><div class="cortana-content">'
       end
     else
-      lexer = Rouge::Lexer.find_fancy('guess', code)
+      lexer = Rouge::Lexer.find_fancy('html', code)
       '</div><div class="codeBlock"><div class="highlight"><pre>' + formatter.format(lexer.lex(code)) + '</pre></div></div><div class="cortana-content">'
     end
   end
