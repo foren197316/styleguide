@@ -1,3 +1,3 @@
-# stylez Styleguide
+# Hello
 
-yyoyo
+<img src="/images/index.gif" class="img-responsive" />
