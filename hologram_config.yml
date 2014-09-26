@@ -12,20 +12,18 @@ custom_markdown: doc_assets/CortanaMarkdownRenderer.rb
 index: README
 
 dependencies:
-  - build/js
-  - build/css
-  - build/fonts
-  - build/images
+  - ./assets/js
+  - ./assets/fonts
+  - ./assets/images
+  - ./build/css
 
 # List all css to include for the styleguide render examples (path from styleguide directory)
 css_include:
-  - '/css/vendors.css'
-  - '/css/stylez.css'
+  - '/css/interexchange.css'
 
 # List all js to include for the styleguide render examples (path from styleguide directory)
 js_include:
-  - '/js/vendors.min.js'
-  - '/js/main.js'
+  - '/js/interexchange.js'
 
 # String who is used to split the category name and create category wrapper
 name_scope: ' - '

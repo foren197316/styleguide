@@ -67,7 +67,7 @@ gulp.task('vendors', function() {
  * With error reporting on compiling (so that there's no crash)
  */
 gulp.task('styles', function() {
-  return gulp.src('assets/sass/stylez.scss')
+  return gulp.src('assets/sass/interexchange.scss')
     .pipe($.rubySass())
       .on('error', $.notify.onError(function (error) {
          console.log(error.message);

@@ -1,16 +1,8 @@
 @charset "UTF-8";
 
-/*doc
----
-title: Index
-name: Index
-category: Stylez - Index
----
-*/
-
 // Init ------------------------------------
-@import 'stylez-mixins';
-@import 'stylez-variables';
+@import 'interexchange-mixins';
+@import 'interexchange-variables';
 @import 'bootstrap';
 
 // LAYOUT ----------------------------------
