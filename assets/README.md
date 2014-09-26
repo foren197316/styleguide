@@ -1,3 +1,7 @@
+# What To Expect
+
+<img src="/images/index.gif" class="img-responsive" />
+
 # Installation
 
 <div class="row">
@@ -15,7 +19,3 @@
 <!-- Include InterExchange Javascript -->
 <script src="http://styleguide.interexchange.io/js/interexchange.js" />
 ```
-
-# What To Expect
-
-<img src="/images/index.gif" class="img-responsive" />
