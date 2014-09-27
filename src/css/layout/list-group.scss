@@ -1,8 +1,12 @@
 @charset "UTF-8";
 
 @media (min-width: $screen-md-min) {
-  .media-body .align-middle {
-    padding-top: 40px;
+  .media-body {
+    padding-left: 5px;
+
+    .align-middle {
+      padding-top: 40px;
+    }
   }
 }
 
@@ -16,7 +20,7 @@ category: Layout - List Group
 ```html_example
 <div class="panel panel-default">
   <div class="list-group">
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/flint">
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -26,17 +30,17 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Mar 31 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">22 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </a>
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/parkinson">
       <div class="media text-danger">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -46,10 +50,10 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">23 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Mar 31 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">23 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
               </div>
             </div>
           </div>
@@ -65,7 +69,7 @@ category: Layout - List Group
 
 <div class="panel panel-default">
   <div class="list-group">
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/crabbe">
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -75,10 +79,10 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 12 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Apr 03 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">22 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 12 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Apr 03 2015</div>
               </div>
             </div>
           </div>
@@ -94,7 +98,7 @@ category: Layout - List Group
 
 <div class="panel panel-default">
   <div class="list-group">
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/malfoy">
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -104,10 +108,10 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Mar 31 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">22 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
               </div>
             </div>
           </div>

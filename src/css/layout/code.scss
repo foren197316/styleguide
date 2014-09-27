@@ -60,31 +60,6 @@ code, pre {
   color: $gray;
 }
 
-.exampleOutput {
-  border-top-right-radius: $border-radius-base;
-  border-top-left-radius: $border-radius-base;
-  padding: 50px 30px 30px;
-  border: 1px solid $gray-lighter;
-  position: relative;
-  width: 100%;
-  overflow-y: auto;
-  box-sizing: border-box;
-
-  &:after {
-    content: 'Example';
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: $gray-light;
-    border-right: 1px solid $gray-lighter;
-    border-bottom: 1px solid $gray-lighter;
-    border-bottom-right-radius: 4px;
-    padding: 5px 8px;
-    display: inline-block;
-    font-family: $font-family-base;
-  }
-}
-
 .codeBlock {
   border-bottom-right-radius: $border-radius-base;
   border-bottom-left-radius: $border-radius-base;

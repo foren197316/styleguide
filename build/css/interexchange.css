@@ -7217,29 +7217,6 @@ code, pre {
   body-bg-space: pre;
   color: #555555; }
 
-.exampleOutput {
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
-  padding: 50px 30px 30px;
-  border: 1px solid #eeeeee;
-  position: relative;
-  width: 100%;
-  overflow-y: auto;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box; }
-  .exampleOutput:after {
-    content: 'Example';
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: #999999;
-    border-right: 1px solid #eeeeee;
-    border-bottom: 1px solid #eeeeee;
-    border-bottom-right-radius: 4px;
-    padding: 5px 8px;
-    display: inline-block;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-
 .codeBlock {
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -7937,8 +7914,10 @@ Just use the `glyphicon` class followed by the specific icon class.
 |  <span class="glyphicon glyphicon-tree-deciduous"></span>          |  <pre>glyphicon glyphicon-tree-deciduous</pre>         |
 */
 @media (min-width: 992px) {
-  .media-body .align-middle {
-    padding-top: 40px; } }
+  .media-body {
+    padding-left: 5px; }
+    .media-body .align-middle {
+      padding-top: 40px; } }
 /*doc
 ---
 title: List Group
@@ -7949,7 +7928,7 @@ category: Layout - List Group
 ```html_example
 <div class="panel panel-default">
   <div class="list-group">
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/flint">
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -7959,17 +7938,17 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Mar 31 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">22 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </a>
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/parkinson">
       <div class="media text-danger">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -7979,10 +7958,10 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">23 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Mar 31 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">23 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
               </div>
             </div>
           </div>
@@ -7998,7 +7977,7 @@ category: Layout - List Group
 
 <div class="panel panel-default">
   <div class="list-group">
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/crabbe">
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -8008,10 +7987,10 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 12 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Apr 03 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">22 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 12 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Apr 03 2015</div>
               </div>
             </div>
           </div>
@@ -8027,7 +8006,7 @@ category: Layout - List Group
 
 <div class="panel panel-default">
   <div class="list-group">
-    <a class="list-group-item" href="#">
+    <a class="list-group-item" href="#/participants/malfoy">
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
@@ -8037,10 +8016,10 @@ category: Layout - List Group
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
-                <div class="col-md-3 col-xs-12 text-right"><strong>United Kingdom</strong></div>
-                <div class="col-md-2 col-xs-12 text-right">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 text-right"><i class="fa fa-plane"></i> Mar 31 2015</div>
+                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
+                <div class="col-md-2 col-xs-12 ">22 at arrival</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
               </div>
             </div>
           </div>
