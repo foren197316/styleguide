@@ -7218,8 +7218,10 @@ code, pre {
   color: #555555; }
 
 .exampleOutput {
-  padding: 50px 4%;
-  border: 1px solid #5bc0de;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  padding: 50px 30px 30px;
+  border: 1px solid #eeeeee;
   position: relative;
   width: 100%;
   overflow-y: auto;
@@ -7230,22 +7232,23 @@ code, pre {
     position: absolute;
     top: 0;
     left: 0;
-    color: #555555;
-    border-right: 1px solid #5bc0de;
-    border-bottom: 1px solid #5bc0de;
+    color: #999999;
+    border-right: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
     border-bottom-right-radius: 4px;
     padding: 5px 8px;
     display: inline-block;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 .codeBlock {
-  padding: 50px 4%;
-  background: #1e221d;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 50px 30px 30px;
+  background: #222222;
   color: #fff;
   font-size: 15px;
   line-height: 1.6em;
   overflow-x: auto;
-  margin-bottom: 20px;
   position: relative;
   width: auto; }
   .codeBlock:after {
@@ -7273,16 +7276,12 @@ code, pre {
     body-bg-space: pre;
     margin: 0px;
     padding: 0px;
-    padding-left: 15px;
     font-size: 14px;
     position: relative;
     line-height: 1.6em;
     color: #fff;
     border: 1px solid  #1e221d;
     overflow: visible; }
-  @media only screen and (max-width: 900px) {
-    .codeBlock {
-      padding: 50px 10px; } }
 
 .codeBlock {
   /* Comment */
@@ -8356,7 +8355,7 @@ category: Components - Badges
 ---
 
 ```html_example
-<a href="#">Inbox <span class="badge">42</span></a>
+<a href="#">Inbox</a> <span class="badge">42</span>
 ```
 */
 /*doc
@@ -9146,8 +9145,8 @@ category: Components - Navbar
   position: absolute;
   top: 0;
   width: 300px;
-  margin: 0;
-  padding: 50px 0;
+  margin: 50px 0;
+  padding: 0;
   list-style: none; }
 
 .sidebar-nav li {
