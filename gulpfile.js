@@ -72,7 +72,7 @@ gulp.task("styleguide", function () {
     .pipe($.hologram());
 });
 
-gulp.task("build", ["styleguide", "vendors", "fonts", "images", "styles", "scripts"]);
+gulp.task("build", ["vendors", "fonts", "images", "styles", "scripts", "styleguide"]);
 
 gulp.task("serve", ["build"], function () {
   browserSync({
