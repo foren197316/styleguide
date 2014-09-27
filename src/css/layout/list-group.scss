@@ -1,10 +1,16 @@
 @charset "UTF-8";
 
+@media (min-width: $screen-md-min) {
+  .media-body .align-middle {
+    padding-top: 40px;
+  }
+}
+
 /*doc
 ---
 title: List Group
 name: a-list-group
-category: Layout - List Groups
+category: Layout - List Group
 ---
 
 ```html_example
@@ -13,14 +19,21 @@ category: Layout - List Groups
     <li class="list-group-item">
       <div class="media">
         <a class="pull-left" href="#">
-          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
+          <img class="media-object img-circle" src="http://placehold.it/100x100" alt="...">
         </a>
         <div class="media-body">
-          <h4 class="media-heading">Draco Malfoy</h4>
-          <div>
-            <strong>United Kingdom</strong></br>
-            Male, 22 at Arrival<br/>
-            Dec 07 2014 - March 31 2015
+          <div class="row align-middle">
+            <div class="col-md-3 col-xs-12">
+              <h4 class="media-heading">Marcus Flint</h4>
+            </div>
+            <div class="col-md-9 col-xs-12">
+              <div class="row">
+                <div class="col-md-3 col-xs-12"><strong>United Kingdom</strong></div>
+                <div class="col-md-3 col-xs-12">Male, 22 at Arrival</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane"></i> Mar 31 2015</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -28,14 +41,21 @@ category: Layout - List Groups
     <li class="list-group-item">
       <div class="media">
         <a class="pull-left" href="#">
-          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
+          <img class="media-object img-circle" src="http://placehold.it/100x100" alt="...">
         </a>
         <div class="media-body">
-          <h4 class="media-heading">Pansy Parkinson</h4>
-          <div>
-            <strong>United Kingdom</strong></br>
-            Female, 24 at Arrival<br/>
-            Dec 07 2014 - March 31 2015
+          <div class="row align-middle">
+            <div class="col-md-3 col-xs-12">
+              <h4 class="media-heading">Pansy Parkinson</h4>
+            </div>
+            <div class="col-md-9 col-xs-12">
+              <div class="row">
+                <div class="col-md-3 col-xs-12"><strong>United Kingdom</strong></div>
+                <div class="col-md-3 col-xs-12">Female, 22 at Arrival</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane"></i> Mar 31 2015</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -50,38 +70,60 @@ category: Layout - List Groups
 <div class="panel panel-default">
   <ul class="list-group">
     <li class="list-group-item">
-      <div class="media">
+      <div class="media align-middle">
         <a class="pull-left" href="#">
-          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
+          <img class="media-object img-circle" src="http://placehold.it/100x100" alt="...">
         </a>
         <div class="media-body">
-          <h4 class="media-heading">Draco Malfoy</h4>
-          <div>
-            <strong>United Kingdom</strong></br>
-            Male, 22 at Arrival<br/>
-            Dec 07 2014 - March 31 2015
-          </div>
-        </div>
-      </div>
-    </li>
-    <li class="list-group-item">
-      <div class="media">
-        <a class="pull-left" href="#">
-          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">Pansy Parkinson</h4>
-          <div>
-            <strong>United Kingdom</strong></br>
-            Female, 24 at Arrival<br/>
-            Dec 07 2014 - March 31 2015
+          <div class="row align-middle">
+            <div class="col-md-3 col-xs-12">
+              <h4 class="media-heading">Vincent Crabe</h4>
+            </div>
+            <div class="col-md-9 col-xs-12">
+              <div class="row">
+                <div class="col-md-3 col-xs-12"><strong>United Kingdom</strong></div>
+                <div class="col-md-3 col-xs-12">Male, 22 at Arrival</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane fa-flip-vertical"></i> Dec 12 2014</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane"></i> Apr 03 2015</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </li>
   </ul>
   <div class="panel-footer clearfix">
-    <span>Travelling as a <strong>Couple</strong></span>
+    <span>Travelling with <strong>Friends</strong></span>
+    <button class="btn btn-success btn-xs pull-right">Put on Review</button>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="media align-middle">
+        <a class="pull-left" href="#">
+          <img class="media-object img-circle" src="http://placehold.it/100x100" alt="...">
+        </a>
+        <div class="media-body">
+          <div class="row align-middle">
+            <div class="col-md-3 col-xs-12">
+              <h4 class="media-heading">Draco Malfoy</h4>
+            </div>
+            <div class="col-md-9 col-xs-12">
+              <div class="row">
+                <div class="col-md-3 col-xs-12"><strong>United Kingdom</strong></div>
+                <div class="col-md-3 col-xs-12">Male, 22 at Arrival</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
+                <div class="col-md-3 col-xs-12"><i class="fa fa-plane"></i> Mar 31 2015</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div class="panel-footer clearfix">
     <button class="btn btn-success btn-xs pull-right">Put on Review</button>
   </div>
 </div>
