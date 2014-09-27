@@ -61,9 +61,9 @@ code, pre {
 }
 
 .codeBlock {
-  border-bottom-right-radius: $border-radius-base;
-  border-bottom-left-radius: $border-radius-base;
+  border-radius: $border-radius-base;
   padding: 50px 30px 30px;
+  margin-top: 20px;
   background: $gray-darker;
   color: $body-bg;
   font-size: 15px;

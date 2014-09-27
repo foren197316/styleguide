@@ -1,7 +1,24 @@
 @charset "UTF-8";
 
-.navbar {
+body.navbar-padded {
+  padding: $navbar-height + $navbar-margin-bottom 0;
+}
+
+.navbar-default {
   margin-bottom: 0;
+  background-color: $body-bg;
+  border-bottom-color: $gray-darker;
+
+ .navbar-nav > li > a {
+    color: $gray-darker;
+  }
+
+  .navbar-header {
+    .navbar-brand {
+      color: #3D628B;
+      font-weight: bold;
+    }
+  }
 }
 
 /*doc
