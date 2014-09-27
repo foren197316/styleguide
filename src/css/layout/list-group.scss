@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: List Group
+name: a-list-group
+category: Layout - List Groups
+---
+
+```html_example
+<div class="panel panel-default">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Draco Malfoy</h4>
+          <div>
+            <strong>United Kingdom</strong></br>
+            Male, 22 at Arrival<br/>
+            Dec 07 2014 - March 31 2015
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Pansy Parkinson</h4>
+          <div>
+            <strong>United Kingdom</strong></br>
+            Female, 24 at Arrival<br/>
+            Dec 07 2014 - March 31 2015
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div class="panel-footer clearfix">
+    <span>Travelling as a <strong>Couple</strong></span>
+    <button class="btn btn-success btn-xs pull-right">Put on Review</button>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Draco Malfoy</h4>
+          <div>
+            <strong>United Kingdom</strong></br>
+            Male, 22 at Arrival<br/>
+            Dec 07 2014 - March 31 2015
+          </div>
+        </div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object img-circle" src="http://placehold.it/80x80" alt="...">
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Pansy Parkinson</h4>
+          <div>
+            <strong>United Kingdom</strong></br>
+            Female, 24 at Arrival<br/>
+            Dec 07 2014 - March 31 2015
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div class="panel-footer clearfix">
+    <span>Travelling as a <strong>Couple</strong></span>
+    <button class="btn btn-success btn-xs pull-right">Put on Review</button>
+  </div>
+</div>
+```
+*/
