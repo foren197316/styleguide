@@ -5,7 +5,7 @@
 <link href="http://styleguide.interexchange.io/css/interexchange.css" rel="stylesheet" />
 
 <!-- Include InterExchange Javascript -->
-<script src="http://styleguide.interexchange.io/js/interexchange.js" />
+<script src="http://styleguide.interexchange.io/js/interexchange.js" type="text/javascript"></script>
 ```
 
 # Usage
