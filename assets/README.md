@@ -4,14 +4,6 @@
 
 # Installation
 
-<div class="row">
-  <div class="col-md-10 col-md-offset-1">
-    <div class="alert alert-danger">
-      <strong>Javascript Broken</strong> We're working on it :)
-    </div>
-  </div>
-</div>
-
 ```html
 <!-- Include InterExchange Stylesheet -->
 <link href="http://styleguide.interexchange.io/css/interexchange.css" rel="stylesheet" />
