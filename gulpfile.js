@@ -31,9 +31,14 @@ gulp.task('vendors', function() {
 gulp.task('fonts', function() {
   gulp.src([
       'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
-      'assets/fonts/*'
+      'src/fonts/*'
     ])
     .pipe(gulp.dest('build/fonts'));
+});
+
+gulp.task('images', function() {
+  gulp.src(['src/images/*'])
+    .pipe(gulp.dest('build/images'));
 });
 
 gulp.task('styles', function() {
@@ -67,7 +72,7 @@ gulp.task('styleguide', function () {
     .pipe($.hologram());
 });
 
-gulp.task('build', ['styleguide', 'vendors', 'fonts', 'styles', 'scripts']);
+gulp.task('build', ['styleguide', 'vendors', 'fonts', 'images', 'styles', 'scripts']);
 
 gulp.task('serve', ['build'], function () {
   browserSync({
