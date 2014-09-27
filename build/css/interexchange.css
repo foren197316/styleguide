@@ -7195,8 +7195,284 @@ category: Layout - Code
 <pre>&lt;p&gt;Paragraph content...&lt;/p&gt;</pre>
 ```
 */
-.hello {
-  color: red; }
+/* ==========================================================
+ * code.scss
+ * Code highlight colors scheme
+ *
+ * Author: Yann Gouffon, hello@yago.io
+ *
+ * Copyright 2014 Yann Gouffon
+ * Licensed under MIT
+ ========================================================== */
+code, pre {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 14px;
+  border: 1px solid #999999;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background: #fff;
+  margin: 0;
+  word-break: keep-all;
+  word-wrap: normal;
+  body-bg-space: pre;
+  color: #555555; }
+
+.exampleOutput {
+  padding: 50px 4%;
+  border: 1px solid #5bc0de;
+  position: relative;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+  .exampleOutput:after {
+    content: 'Example';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #555555;
+    border-right: 1px solid #5bc0de;
+    border-bottom: 1px solid #5bc0de;
+    border-bottom-right-radius: 4px;
+    padding: 5px 8px;
+    display: inline-block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+.codeBlock {
+  padding: 50px 4%;
+  background: #1e221d;
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.6em;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  position: relative;
+  width: auto; }
+  .codeBlock:after {
+    content: 'HTML';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #eeeeee;
+    border-right: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+    border-bottom-right-radius: 4px;
+    padding: 5px 8px;
+    display: inline-block;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  .codeBlock.jsExample:after {
+    content: 'JavaScript'; }
+  .codeBlock .highlight {
+    background: #1e221d; }
+  .codeBlock pre {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    width: auto;
+    background: #1e221d;
+    word-break: keep-all;
+    word-wrap: normal;
+    body-bg-space: pre;
+    margin: 0px;
+    padding: 0px;
+    padding-left: 15px;
+    font-size: 14px;
+    position: relative;
+    line-height: 1.6em;
+    color: #fff;
+    border: 1px solid  #1e221d;
+    overflow: visible; }
+  @media only screen and (max-width: 900px) {
+    .codeBlock {
+      padding: 50px 10px; } }
+
+.codeBlock {
+  /* Comment */
+  /* Error */
+  /* Keyword */
+  /* Operator */
+  /* Comment.Multiline */
+  /* Comment.Preproc */
+  /* Comment.Single */
+  /* Comment.Special */
+  /* Generic.Deleted */
+  /* Generic.Emph */
+  /* Generic.Error */
+  /* Generic.Heading */
+  /* Generic.Inserted */
+  /* Generic.Output */
+  /* Generic.Prompt */
+  /* Generic.Strong */
+  /* Generic.Subheading */
+  /* Generic.Traceback */
+  /* Keyword.Constant */
+  /* Keyword.Declaration */
+  /* Keyword.Namespace */
+  /* Keyword.Pseudo */
+  /* Keyword.Reserved */
+  /* Keyword.Type */
+  /* Literal.Number */
+  /* Literal.String */
+  /* Name.Attribute */
+  /* Name.Builtin */
+  /* Name.Class */
+  /* Name.Constant */
+  /* Name.Decorator */
+  /* Name.Entity */
+  /* Name.Exception */
+  /* Name.Function */
+  /* Name.Label */
+  /* Name.Namespace */
+  /* Name.Tag */
+  /* Name.Variable */
+  /* Operator.Word */
+  /* Text.Whitespace */
+  /* Literal.Number.Float */
+  /* Literal.Number.Hex */
+  /* Literal.Number.Integer */
+  /* Literal.Number.Oct */
+  /* Literal.String.Backtick */
+  /* Literal.String.Char */
+  /* Literal.String.Doc */
+  /* Literal.String.Double */
+  /* Literal.String.Escape */
+  /* Literal.String.Heredoc */
+  /* Literal.String.Interpol */
+  /* Literal.String.Other */
+  /* Literal.String.Regex */
+  /* Literal.String.Single */
+  /* Literal.String.Symbol */
+  /* Name.Builtin.Pseudo */
+  /* Name.Variable.Class */
+  /* Name.Variable.Global */
+  /* Name.Variable.Instance */
+  /* Literal.Number.Integer.Long */ }
+  .codeBlock hll {
+    background-color: #ffffcc; }
+  .codeBlock .c {
+    color: #999988;
+    font-style: italic; }
+  .codeBlock .err {
+    color: #a61717; }
+  .codeBlock .k {
+    color: #ffffff; }
+  .codeBlock .o {
+    color: #ffffff; }
+  .codeBlock .cm {
+    color: #999988;
+    font-style: italic; }
+  .codeBlock .cp {
+    color: #999999;
+    font-style: italic; }
+  .codeBlock .c1 {
+    color: #999988;
+    font-style: italic; }
+  .codeBlock .cs {
+    color: #999999;
+    font-style: italic; }
+  .codeBlock .gd {
+    color: #ffffff;
+    background-color: #ffdddd; }
+  .codeBlock .ge {
+    color: #ffffff;
+    font-style: italic; }
+  .codeBlock .gr {
+    color: #aa0000; }
+  .codeBlock .gh {
+    color: #999999; }
+  .codeBlock .gi {
+    color: #ffffff;
+    background-color: #ddffdd; }
+  .codeBlock .go {
+    color: #888888; }
+  .codeBlock .gp {
+    color: #555555; }
+  .codeBlock .gu {
+    color: #aaaaaa; }
+  .codeBlock .gt {
+    color: #aa0000; }
+  .codeBlock .kc {
+    color: #ffffff; }
+  .codeBlock .kd {
+    color: #ffffff; }
+  .codeBlock .kn {
+    color: #ffffff; }
+  .codeBlock .kp {
+    color: #ffffff; }
+  .codeBlock .kr {
+    color: #ffffff; }
+  .codeBlock .kt {
+    color: #445588; }
+  .codeBlock .m {
+    color: #009999; }
+  .codeBlock .s {
+    color: #E6DB74; }
+  .codeBlock .na {
+    color: #A6E22E; }
+  .codeBlock .nb {
+    color: #66D9EF; }
+  .codeBlock .nc {
+    color: #445588; }
+  .codeBlock .no {
+    color: #A6E22E; }
+  .codeBlock .nd {
+    color: #3c5d5d; }
+  .codeBlock .ni {
+    color: #AE81FF; }
+  .codeBlock .ne {
+    color: #990000; }
+  .codeBlock .nf {
+    color: #990000; }
+  .codeBlock .nl {
+    color: #990000; }
+  .codeBlock .nn {
+    color: #555555; }
+  .codeBlock .nt {
+    color: #F92672; }
+  .codeBlock .nv {
+    color: #A6E22E; }
+  .codeBlock .ow {
+    color: #ffffff; }
+  .codeBlock .w {
+    color: #bbbbbb; }
+  .codeBlock .mf {
+    color: #009999; }
+  .codeBlock .mh {
+    color: #009999; }
+  .codeBlock .mi {
+    color: #009999; }
+  .codeBlock .mo {
+    color: #009999; }
+  .codeBlock .sb {
+    color: #E6DB74; }
+  .codeBlock .sc {
+    color: #E6DB74; }
+  .codeBlock .sd {
+    color: #E6DB74; }
+  .codeBlock .s2 {
+    color: #E6DB74; }
+  .codeBlock .se {
+    color: #E6DB74; }
+  .codeBlock .sh {
+    color: #E6DB74; }
+  .codeBlock .si {
+    color: #E6DB74; }
+  .codeBlock .sx {
+    color: #E6DB74; }
+  .codeBlock .sr {
+    color: #009926; }
+  .codeBlock .s1 {
+    color: #E6DB74; }
+  .codeBlock .ss {
+    color: #990073; }
+  .codeBlock .bp {
+    color: #999999; }
+  .codeBlock .vc {
+    color: #A6E22E; }
+  .codeBlock .vg {
+    color: #A6E22E; }
+  .codeBlock .vi {
+    color: #A6E22E; }
+  .codeBlock .il {
+    color: #009999; }
 
 /*doc
 ---
