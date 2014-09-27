@@ -96,11 +96,13 @@
     background: none;
 }
 
-@media(min-width:768px) {
+@media(min-width:992px) {
     #wrapper {
         padding-left: 300px;
     }
+}
 
+@media(min-width:768px) {
     #wrapper.toggled {
         padding-left: 0;
     }
