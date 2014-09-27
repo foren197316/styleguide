@@ -1,7 +1,3 @@
-# What To Expect
-
-<img src="/images/index.gif" class="img-responsive" />
-
 # Installation
 
 ```html
@@ -11,3 +7,7 @@
 <!-- Include InterExchange Javascript -->
 <script src="http://styleguide.interexchange.io/js/interexchange.js" />
 ```
+
+# Usage
+
+<img src="/images/index.gif" class="img-responsive" />
