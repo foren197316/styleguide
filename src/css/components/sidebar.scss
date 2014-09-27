@@ -6,6 +6,10 @@
 
 /* Toggle Styles */
 
+#menu-toggle {
+  font-size: 24px;
+}
+
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
@@ -19,7 +23,6 @@
 }
 
 #sidebar-wrapper {
-    z-index: 1000;
     position: fixed;
     left: 300px;
     width: 0;
@@ -55,7 +58,7 @@
     top: 0;
     width: 300px;
     margin: 0;
-    padding: 0;
+    padding: 50px 0;
     list-style: none;
 }
 
@@ -116,7 +119,7 @@
     }
 
     #page-content-wrapper {
-        padding: 20px;
+        padding: 15px 20px;
     }
 
     #wrapper.toggled #page-content-wrapper {

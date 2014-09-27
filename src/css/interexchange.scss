@@ -4,6 +4,7 @@
 @import 'interexchange-mixins';
 @import 'interexchange-variables';
 @import 'bootstrap';
+@import 'font-awesome';
 
 // LAYOUT ----------------------------------
 @import 'layout/buttons.scss';
@@ -26,6 +27,7 @@
 @import 'components/media.scss';
 @import 'components/nav.scss';
 @import 'components/navbar.scss';
+@import 'components/sidebar.scss';
 @import 'components/pager.scss';
 @import 'components/paginations.scss';
 @import 'components/panels.scss';

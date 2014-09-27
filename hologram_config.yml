@@ -1,7 +1,7 @@
 source: src
 destination: build
-documentation_assets: doc_assets
-custom_markdown: doc_assets/CortanaMarkdownRenderer.rb
+documentation_assets: layout
+custom_markdown: layout/CortanaMarkdownRenderer.rb
 index: README
 css_include:
   - '/css/interexchange.css'

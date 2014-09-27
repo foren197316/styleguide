@@ -21,21 +21,22 @@
     <% end %>
   </head>
     <body>
-    <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
-    <div id="wrapper">
+      <div id="wrapper" class="toggled">
+          <!-- Sidebar -->
+          <div id="sidebar-wrapper">
+              <ul class="sidebar-nav">
+              <% @categories.each do |category, file_name| %>
+                <li><a href="<%= file_name %>"><%= category %></a></li>
+              <% end %>
+              </ul>
+          </div>
+          <!-- /#sidebar-wrapper -->
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-            <% @categories.each do |category, file_name| %>
-              <li><a href="<%= file_name %>"><%= category %></a></li>
-            <% end %>
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
+          <!-- Page Content -->
+          <div id="page-content-wrapper">
+              <a id="menu-toggle" href="#menu-toggle">
+                <i class="fa fa-bars"></i>
+              </a>
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-lg-12">

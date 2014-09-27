@@ -31,6 +31,7 @@ gulp.task("vendors", function() {
 gulp.task("fonts", function() {
   gulp.src([
       "bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*",
+      "bower_components/components-font-awesome/fonts/*",
       "src/fonts/*"
     ])
     .pipe(gulp.dest("build/fonts"));
@@ -82,7 +83,7 @@ gulp.task("serve", ["build"], function () {
     open: false
   });
   gulp.watch(["**/*.html"], reload);
-  gulp.watch(["src/css/**/*.scss", "src/js/**/*.js"], function() {
+  gulp.watch(["src/css/**/*.scss", "src/js/**/*.js", "layout/*.html", "layout/theme/css/**/*.css", "layout/theme/js/**/*.js"], function() {
     runSequence("build", reload);
   });
 });

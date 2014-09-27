@@ -1,6 +1,7 @@
 {
   "name": "stylez",
   "devDependencies": {
-    "bootstrap-sass-official": "v3.2.0+2"
+    "bootstrap-sass-official": "v3.2.0+2",
+    "components-font-awesome": "v4.2.0"
   }
 }
