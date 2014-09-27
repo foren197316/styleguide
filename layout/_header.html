@@ -20,11 +20,32 @@
   <% end %>
   </head>
   <body>
+    <% name_scope = @config['name_scope'] %>
+    <% @wrappers = Set.new %>
+    <% @categories.each do |name, location| %>
+      <% wrapper = name.split(name_scope).first %>
+      <% @wrappers.add wrapper %>
+    <% end %>
+
     <div id="wrapper" class="toggled">
       <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-        <% @categories.each do |category, file_name| %>
-          <li><a href="<%= file_name %>"><%= category %></a></li>
+        <% @wrappers.sort.each do |wrapper| %>
+          <li>
+            <h3><%= wrapper %></h3>
+            <ul>
+              <% @categories.each do |name, location| %>
+                <% if name.include?(wrapper) %>
+                  <% category = name.split(name_scope).last %>
+                  <% if category == title.split(name_scope).last %>
+                    <li><a class="active" href="<%= location %>"><%= category %></a></li>
+                  <% else %>
+                    <li><a href="<%= location %>"><%= category %></a></li>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </ul>
+          </li>
         <% end %>
         </ul>
       </div>
