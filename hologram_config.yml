@@ -1,29 +1,11 @@
-# Directory to parse
-source: assets
-
-# Directory to build the styleguide
-destination: styleguide
-
-# Hologram theme
+source: src
+destination: build
 documentation_assets: doc_assets
 custom_markdown: doc_assets/CortanaMarkdownRenderer.rb
-
-# To have a custom index page build with your README.md
 index: README
-
-dependencies:
-  - ./assets/js
-  - ./assets/fonts
-  - ./assets/images
-  - ./build/css
-
-# List all css to include for the styleguide render examples (path from styleguide directory)
 css_include:
   - '/css/interexchange.css'
-
-# List all js to include for the styleguide render examples (path from styleguide directory)
 js_include:
+  - '/js/vendors.js'
   - '/js/interexchange.js'
-
-# String who is used to split the category name and create category wrapper
 name_scope: ' - '

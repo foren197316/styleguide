@@ -1,8 +1,5 @@
 'use strict';
 
-/**
- * Import plugins
- */
 var gulp = require('gulp'),
     $ = require('gulp-load-plugins')(),
     browserSync = require('browser-sync'),
@@ -11,26 +8,7 @@ var gulp = require('gulp'),
     argv = require('yargs').argv,
     del = require('del');
 
-/**
- * Build vendors dependencies
- */
 gulp.task('vendors', function() {
-
-  /**
-   * CSS VENDORS
-   */
-  gulp.src([
-        ''
-      ])
-      .pipe($.concat('vendors.css'))
-      .pipe($.minifyCss())
-      .pipe(gulp.dest('build/css'));
-
-  /**
-   * JS VENDORS
-   * (with jQuery and Bootstrap dependencies first)
-   */
-
   gulp.src([
       'bower_components/jquery/dist/jquery.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
@@ -46,15 +24,11 @@ gulp.task('vendors', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js'
     ])
-    .pipe($.concat('vendors.min.js'))
-    .pipe($.uglify())
+    .pipe($.concat('vendors.js'))
     .pipe(gulp.dest('build/js'));
+});
 
-
-  /**
-   * FONTS SOURCES
-   * Important to add the bootstrap fonts to avoid issues with the fonts include path
-   */
+gulp.task('fonts', function() {
   gulp.src([
       'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
       'assets/fonts/*'
@@ -62,12 +36,8 @@ gulp.task('vendors', function() {
     .pipe(gulp.dest('build/fonts'));
 });
 
-/**
- * Build styles from SCSS files
- * With error reporting on compiling (so that there's no crash)
- */
 gulp.task('styles', function() {
-  return gulp.src('assets/sass/interexchange.scss')
+  return gulp.src('src/css/interexchange.scss')
     .pipe($.rubySass())
       .on('error', $.notify.onError(function (error) {
          console.log(error.message);
@@ -79,72 +49,40 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('build/css'));
 });
 
-/**
- * Build JS
- * With error reporting on compiling (so that there's no crash)
- */
 gulp.task('scripts', function() {
-  return gulp.src('assets/js/*.js')
-    .pipe($.concat('main.js'))
+  return gulp.src('src/js/*.js')
+    .pipe($.concat('interexchange.js'))
     .pipe(gulp.dest('build/js'))
-    .pipe($.rename({ suffix: '.min' }))
-    .pipe($.uglify())
-    .pipe(gulp.dest('build/js'));
 });
 
-/**
- * Lint JS
- */
+gulp.task('jshint', function () {
+  return gulp.src('build/js/*js')
+    .pipe($.jshint())
+    .pipe($.jshint.reporter('jshint-stylish'))
+    .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+});
 
- gulp.task('jshint', function () {
-   return gulp.src('assets/js/*js')
-     .pipe($.jshint())
-     .pipe($.jshint.reporter('jshint-stylish'))
-     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
- });
-
-/**
- * Build Hologram Styleguide
- */
 gulp.task('styleguide', function () {
   return gulp.src('hologram_config.yml')
     .pipe($.hologram());
 });
 
-/**
- * Clean output directories
- */
-gulp.task('clean', del.bind(null, ['build', 'styleguide']));
+gulp.task('build', ['styleguide', 'vendors', 'fonts', 'styles', 'scripts']);
 
-/**
- * Serve
- */
-gulp.task('serve', ['styles', 'styleguide'], function () {
+gulp.task('serve', ['build'], function () {
   browserSync({
     server: {
-      baseDir: ['styleguide'],
+      baseDir: ['build'],
     },
     open: false
   });
   gulp.watch(['**/*.html'], reload);
-  gulp.watch(['assets/sass/**/*.scss'], function() {
-    runSequence('styles', 'styleguide', reload);
+  gulp.watch(['src/css/**/*.scss', 'src/js/**/*.js'], function() {
+    runSequence('build', reload);
   });
 });
-
-/**
- * Deploy to GH pages
- */
 
 gulp.task('deploy', function () {
   gulp.src("styleguide/**/*")
     .pipe($.ghPages());
 });
-
-/**
- * Default task
- */
-gulp.task('default', ['clean'], function(cb) {
-  runSequence('vendors', 'styles', 'jshint', 'scripts', 'styleguide', cb);
-});
-
