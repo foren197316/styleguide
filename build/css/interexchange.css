@@ -8859,7 +8859,7 @@ category: Components - Navbar
 
 #page-content-wrapper {
   width: 100%;
-  padding: 15px; }
+  padding-top: 10px; }
 
 #wrapper.toggled #page-content-wrapper {
   position: absolute;
@@ -8916,9 +8916,6 @@ category: Components - Navbar
 
   #wrapper.toggled #sidebar-wrapper {
     width: 0; }
-
-  #page-content-wrapper {
-    padding: 15px 20px; }
 
   #wrapper.toggled #page-content-wrapper {
     position: relative;
