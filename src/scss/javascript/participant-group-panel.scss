@@ -84,7 +84,7 @@ var ParticipantGroupApplication = React.createClass({
     var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
 
     return (
-      <a className={listItemClass} href={"#/participants/" + this.props.data.id }>
+      <div className={listItemClass}>
         <div className="media">
           <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
@@ -109,7 +109,7 @@ var ParticipantGroupApplication = React.createClass({
             </div>
           </div>
         </div>
-      </a>
+      </div>
     )
   }
 });
