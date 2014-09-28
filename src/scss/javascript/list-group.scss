@@ -57,9 +57,11 @@ var ParticipantGroup = React.createClass({
 
 var ParticipantGroupApplication = React.createClass({
   render: function() {
+    var panelClass = this.props.data.gender == 'Female' ? 'media text-danger' : 'media text-primary';
+
     return (
       <a className="list-group-item" href={"#/participants/" + this.props.data.id }>
-        <div className="media text-primary">
+        <div className={panelClass}>
           <img className="media-object img-circle pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
             <div className="row">
@@ -97,6 +99,7 @@ window.participantGroups = [
       {
         "id": 10,
         "name": "Marcus Flint",
+        "gender": "Male",
         "country": "Australia",
         "photo_url": "/images/participants/flint.jpg",
         "date_of_birth": "1988-01-02",
@@ -106,6 +109,7 @@ window.participantGroups = [
       {
         "id": 11,
         "name": "Pansy Parkinson",
+        "gender": "Female",
         "country": "New Zealand",
         "photo_url": "/images/participants/parkinson.jpg",
         "date_of_birth": "1987-01-02",
@@ -121,6 +125,7 @@ window.participantGroups = [
       {
         "id": 12,
         "name": "Vincent Crabbe",
+        "gender": "Male",
         "country": "Ireland",
         "photo_url": "/images/participants/crabbe.jpg",
         "date_of_birth": "1989-05-15",
@@ -136,6 +141,7 @@ window.participantGroups = [
       {
         "id": 13,
         "name": "Draco Malfoy",
+        "gender": "Male",
         "country": "United Kingdom",
         "photo_url": "/images/participants/malfoy.jpg",
         "date_of_birth": "1989-12-15",
