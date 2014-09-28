@@ -150,6 +150,22 @@ window.participantGroups = [
   },
   {
     "id": 2,
+    "name": "Individual",
+    "applications": [
+      {
+        "id": 13,
+        "name": "Draco Malfoy",
+        "gender": "Male",
+        "country": "United Kingdom",
+        "photo_url": "/images/participants/malfoy.jpg",
+        "date_of_birth": "1989-12-15",
+        "arrival_date": "2014-11-15",
+        "departure_date": "2015-02-03"
+      }
+    ]
+  },
+  {
+    "id": 3,
     "name": "Friends",
     "applications": [
       {
@@ -171,22 +187,6 @@ window.participantGroups = [
         "date_of_birth": "1989-05-15",
         "arrival_date": "2014-12-15",
         "departure_date": "2015-04-03"
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "name": "",
-    "applications": [
-      {
-        "id": 13,
-        "name": "Draco Malfoy",
-        "gender": "Male",
-        "country": "United Kingdom",
-        "photo_url": "/images/participants/malfoy.jpg",
-        "date_of_birth": "1989-12-15",
-        "arrival_date": "2014-11-15",
-        "departure_date": "2015-02-03"
       }
     ]
   }
