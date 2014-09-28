@@ -42,7 +42,12 @@ var ParticipantGroup = React.createClass({
           {applicationNodes}
         </div>
         <div className="panel-footer clearfix">
-          <span>Travelling with <strong>Friends</strong></span>
+          <span>
+            {this.props.data.name == 'Couple' ? 'Travelling as ' : ''}
+            {this.props.data.name == 'Friends' ? 'Travelling with ' : ''}
+            {this.props.data.name == 'Siblings' ? 'Travelling with ' : ''}
+            <strong>{this.props.data.name}</strong>
+          </span>
           <button className="btn btn-success btn-xs pull-right">Put on Review</button>
         </div>
       </div>
