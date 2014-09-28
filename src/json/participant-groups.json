@@ -1,0 +1,70 @@
+[
+  {
+    "id": 1,
+    "name": "Couple",
+    "applications": [
+      {
+        "id": 10,
+        "name": "Marcus Flint",
+        "gender": "Male",
+        "country": "Australia",
+        "photo_url": "/images/participants/flint.jpg",
+        "date_of_birth": "1988-01-02",
+        "arrival_date": "2014-12-01",
+        "departure_date": "2015-03-01"
+      },
+      {
+        "id": 11,
+        "name": "Pansy Parkinson",
+        "gender": "Female",
+        "country": "New Zealand",
+        "photo_url": "/images/participants/parkinson.jpg",
+        "date_of_birth": "1987-01-02",
+        "arrival_date": "2014-12-01",
+        "departure_date": "2015-03-01"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Individual",
+    "applications": [
+      {
+        "id": 13,
+        "name": "Draco Malfoy",
+        "gender": "Male",
+        "country": "United Kingdom",
+        "photo_url": "/images/participants/malfoy.jpg",
+        "date_of_birth": "1989-12-15",
+        "arrival_date": "2014-11-15",
+        "departure_date": "2015-02-03"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Friends",
+    "applications": [
+      {
+        "id": 12,
+        "name": "Vincent McNameLong Crabbe",
+        "gender": "Male",
+        "country": "The Republic of Ireland",
+        "photo_url": "/images/participants/crabbe.jpg",
+        "date_of_birth": "1989-05-15",
+        "arrival_date": "2014-12-15",
+        "departure_date": "2015-04-03"
+      },
+      {
+        "id": 12,
+        "name": "Gregory Goyle",
+        "gender": "Male",
+        "country": "The Republic of Ireland",
+        "photo_url": "/images/participants/goyle.jpg",
+        "date_of_birth": "1989-05-15",
+        "arrival_date": "2014-12-15",
+        "departure_date": "2015-04-03"
+      }
+    ]
+  }
+]

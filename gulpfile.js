@@ -49,6 +49,11 @@ gulp.task('images', function() {
     .pipe(gulp.dest('build/images'));
 });
 
+gulp.task('json', function() {
+  gulp.src(['src/json/**/*'])
+    .pipe(gulp.dest('build/json'));
+});
+
 gulp.task('styles', function() {
   return gulp.src('src/scss/interexchange.scss')
         .pipe(sass({keepSpecialComments: 0}))
@@ -78,7 +83,7 @@ gulp.task('styleguide', function () {
     .pipe($.hologram());
 });
 
-gulp.task('build', ['vendors', 'fonts', 'images', 'styles', 'scripts', 'styleguide']);
+gulp.task('build', ['vendors', 'fonts', 'images', 'json', 'styles', 'scripts', 'styleguide']);
 
 gulp.task('serve', ['build'], function () {
   browserSync({

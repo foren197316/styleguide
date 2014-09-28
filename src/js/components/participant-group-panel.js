@@ -1,14 +1,30 @@
 /** @jsx React.DOM */
 
-console.log('participant-group-panels.js - booted');
-
 var ParticipantGroupPanels = React.createClass({
+  getInitialState: function() {
+    return {
+      data: null
+    };
+  },
+
+  componentDidMount: function() {
+    $.get(this.props.source, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          data: data
+        });
+      }
+    }.bind(this));
+  },
+
   render: function() {
-    var participantGroupNodes = this.props.data.map(function (participantGroup) {
-      return (
-        <ParticipantGroup data={participantGroup} />
-      );
-    });
+    if (this.isMounted()) {
+      var participantGroupNodes = this.state.data.map(function (participantGroup) {
+        return (
+          <ParticipantGroup data={participantGroup} />
+        );
+      });
+    };
 
     return (
       <div id="participant-group-panels">
