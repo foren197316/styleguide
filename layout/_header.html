@@ -18,6 +18,9 @@
   <% @config['js_include'].each do |js| %>
     <script type="text/javascript" src="<%= js %>"></script>
   <% end %>
+  <% @config['jsx_include'].each do |js| %>
+    <script type="text/jsx" src="<%= js %>"></script>
+  <% end %>
   </head>
   <body>
     <% name_scope = @config['name_scope'] %>

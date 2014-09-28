@@ -6,6 +6,7 @@ index: README
 css_include:
   - '/css/interexchange.css'
 js_include:
-  - '/js/vendors.js'
   - '/js/interexchange.js'
+jsx_include:
+  - '/js/interexchange-components.js'
 name_scope: ' - '

@@ -31,7 +31,7 @@ gulp.task('vendors', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js'
     ])
-    .pipe($.concat('vendors.js'))
+    .pipe($.concat('interexchange.js'))
     .pipe(gulp.dest('build/js'));
 });
 
@@ -61,8 +61,8 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('src/js/*.js')
-    .pipe($.concat('interexchange.js'))
+  return gulp.src('src/js/components/*.js')
+    .pipe($.concat('interexchange-components.js'))
     .pipe(gulp.dest('build/js'))
 });
 
