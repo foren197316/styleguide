@@ -3935,18 +3935,18 @@ a.list-group-item-danger {
     .panel-group .panel-footer + .panel-collapse .panel-body {
       border-bottom: 1px solid #ddd; }
 
-.panel-default {
+.panel-default, .participant-group-panel {
   border-color: #ddd; }
-  .panel-default > .panel-heading {
+  .panel-default > .panel-heading, .panel-default > .participant-group-panel {
     color: #333333;
     background-color: #f5f5f5;
     border-color: #ddd; }
-    .panel-default > .panel-heading + .panel-collapse > .panel-body {
+    .panel-default > .panel-heading + .panel-collapse > .panel-body, .panel-default > .panel-heading + .panel-collapse > .participant-group-panel {
       border-top-color: #ddd; }
-    .panel-default > .panel-heading .badge {
+    .panel-default > .panel-heading .badge, .panel-default > .panel-heading .participant-group-panel {
       color: #f5f5f5;
       background-color: #333333; }
-  .panel-default > .panel-footer + .panel-collapse > .panel-body {
+  .panel-default > .panel-footer + .panel-collapse > .panel-body, .panel-default > .panel-footer + .panel-collapse > .participant-group-panel {
     border-bottom-color: #ddd; }
 
 .panel-primary {
@@ -9466,3 +9466,217 @@ category: JavaScript - Tooltips
 $('button').tooltip();
 ```
 */
+/*doc
+---
+title: Participant Group Panel
+name: a-participant-group-panel
+category: JavaScript - Participant Group Panel
+---
+
+```html_example
+<div id="participant-groups-example"></div>
+```
+
+```jsx_example
+var ParticipantGroups = React.createClass({
+  render: function() {
+    var participantGroupNodes = this.props.data.map(function (participantGroup) {
+      return (
+        <ParticipantGroup data={participantGroup} />
+      );
+    });
+
+    return (
+      <div>
+        {participantGroupNodes}
+      </div>
+    );
+  }
+});
+
+var ParticipantGroup = React.createClass({
+  render: function() {
+    var applicationNodes = this.props.data.applications.map(function (application) {
+      return (
+        <ParticipantGroupApplication data={application} />
+      )
+    });
+
+    return (
+      <div className="panel participant-group-panel">
+        <div className="list-group">
+          {applicationNodes}
+        </div>
+        <div className="panel-footer clearfix">
+          <div className="row">
+            <div className="col-xs-12 visible-xs">
+              <div className="btn-group btn-group-justified">
+                <a className="btn btn-text active">Basics</a>
+                <a className="btn btn-text">Positions</a>
+                <a className="btn btn-text">Locations</a>
+              </div>
+              <hr/>
+            </div>
+            <div className="col-xs-12 visible-xs">
+              <div className="row">
+                <div className="col-xs-6">
+                  <div className="panel-title">{this.props.data.name}</div>
+                </div>
+                <div className="col-xs-6">
+                  <button className="btn btn-success pull-right">Put on Review</button>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-2 hidden-xs">
+              <div className="panel-title">{this.props.data.name}</div>
+            </div>
+            <div className="col-sm-6 hidden-xs">
+              <div className="btn-group btn-group-justified">
+                <a className="btn btn-text active">Basics</a>
+                <a className="btn btn-text">Positions</a>
+                <a className="btn btn-text">Locations</a>
+              </div>
+            </div>
+            <div className="col-sm-4 hidden-xs">
+              <button className="btn btn-success pull-right">Put on Review</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupApplication = React.createClass({
+  render: function() {
+    var panelClass = this.props.data.gender == 'Female' ? 'media text-danger' : 'media text-primary';
+
+    return (
+      <a className="list-group-item" href={"#/participants/" + this.props.data.id }>
+        <div className={panelClass}>
+          <img className="media-object img-circle pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <div className="media-body">
+            <div className="row">
+              <div className="col-xs-12">
+                <h4 className="media-heading">{this.props.data.name}</h4>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-xs-12 col-sm-3">
+                <strong>{this.props.data.country}</strong>
+              </div>
+              <div className="col-xs-12 col-sm-3">
+                22 at arrival
+              </div>
+              <div className="col-xs-12 col-sm-3">
+                <i className="fa fa-plane fa-flip-vertical"></i> {this.props.data.arrival_date}
+              </div>
+              <div className="col-xs-12 col-sm-3">
+                <i className="fa fa-plane"></i> {this.props.data.departure_date}
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    )
+  }
+});
+
+React.renderComponent(
+  <ParticipantGroups data={window.participantGroups} />,
+  document.getElementById('participant-groups-example')
+);
+```
+
+```json_example
+window.participantGroups = [
+  {
+    "id": 1,
+    "name": "Couple",
+    "applications": [
+      {
+        "id": 10,
+        "name": "Marcus Flint",
+        "gender": "Male",
+        "country": "Australia",
+        "photo_url": "/images/participants/flint.jpg",
+        "date_of_birth": "1988-01-02",
+        "arrival_date": "2014-12-01",
+        "departure_date": "2015-03-01"
+      },
+      {
+        "id": 11,
+        "name": "Pansy Parkinson",
+        "gender": "Female",
+        "country": "New Zealand",
+        "photo_url": "/images/participants/parkinson.jpg",
+        "date_of_birth": "1987-01-02",
+        "arrival_date": "2014-12-01",
+        "departure_date": "2015-03-01"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Friends",
+    "applications": [
+      {
+        "id": 12,
+        "name": "Vincent Crabbe",
+        "gender": "Male",
+        "country": "Ireland",
+        "photo_url": "/images/participants/crabbe.jpg",
+        "date_of_birth": "1989-05-15",
+        "arrival_date": "2014-12-15",
+        "departure_date": "2015-04-03"
+      },
+      {
+        "id": 12,
+        "name": "Gregory Goyle",
+        "gender": "Male",
+        "country": "Ireland",
+        "photo_url": "/images/participants/goyle.jpg",
+        "date_of_birth": "1989-05-15",
+        "arrival_date": "2014-12-15",
+        "departure_date": "2015-04-03"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "",
+    "applications": [
+      {
+        "id": 13,
+        "name": "Draco Malfoy",
+        "gender": "Male",
+        "country": "United Kingdom",
+        "photo_url": "/images/participants/malfoy.jpg",
+        "date_of_birth": "1989-12-15",
+        "arrival_date": "2014-11-15",
+        "departure_date": "2015-02-03"
+      }
+    ]
+  }
+]
+```
+*/
+.participant-group-panel {
+  background-color: #5bc0de; }
+
+.panel .panel-footer .panel-title {
+  font-size: 18px;
+  margin-top: 3px; }
+.panel .panel-footer hr {
+  margin: 5px 0 10px; }
+.panel .panel-footer .btn-text {
+  text-align: left; }
+  .panel .panel-footer .btn-text.active, .panel .panel-footer .btn-text:active {
+    color: #333333;
+    text-decoration: underline;
+    -webkit-box-shadow: none;
+    box-shadow: none; }
+
+@media (min-width: 768px) {
+  .participant-group-panel .media-heading {
+    margin-top: 30px; } }

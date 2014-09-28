@@ -2,9 +2,9 @@
 
 /*doc
 ---
-title: List Group
-name: a-list-group
-category: JavaScript - List Group
+title: Participant Group Panel
+name: a-participant-group-panel
+category: JavaScript - Participant Group Panel
 ---
 
 ```html_example
@@ -37,19 +37,44 @@ var ParticipantGroup = React.createClass({
     });
 
     return (
-      <div className="panel panel-default">
+      <div className="panel participant-group-panel">
         <div className="list-group">
           {applicationNodes}
         </div>
         <div className="panel-footer clearfix">
-          <span>
-            {this.props.data.name == 'Couple' ? 'Travelling as ' : ''}
-            {this.props.data.name == 'Friends' ? 'Travelling with ' : ''}
-            {this.props.data.name == 'Siblings' ? 'Travelling with ' : ''}
-            {this.props.data.name == 'Cousins' ? 'Travelling with ' : ''}
-            <strong>{this.props.data.name}</strong>
-          </span>
-          <button className="btn btn-success btn-xs pull-right">Put on Review</button>
+          <div className="row">
+            <div className="col-xs-12 visible-xs">
+              <div className="btn-group btn-group-justified">
+                <a className="btn btn-text active">Basics</a>
+                <a className="btn btn-text">Positions</a>
+                <a className="btn btn-text">Locations</a>
+              </div>
+              <hr/>
+            </div>
+            <div className="col-xs-12 visible-xs">
+              <div className="row">
+                <div className="col-xs-6">
+                  <div className="panel-title">{this.props.data.name}</div>
+                </div>
+                <div className="col-xs-6">
+                  <button className="btn btn-success pull-right">Put on Review</button>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-2 hidden-xs">
+              <div className="panel-title">{this.props.data.name}</div>
+            </div>
+            <div className="col-sm-6 hidden-xs">
+              <div className="btn-group btn-group-justified">
+                <a className="btn btn-text active">Basics</a>
+                <a className="btn btn-text">Positions</a>
+                <a className="btn btn-text">Locations</a>
+              </div>
+            </div>
+            <div className="col-sm-4 hidden-xs">
+              <button className="btn btn-success pull-right">Put on Review</button>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -66,16 +91,22 @@ var ParticipantGroupApplication = React.createClass({
           <img className="media-object img-circle pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
             <div className="row">
-              <div className="col-md-3 col-xs-12">
+              <div className="col-xs-12">
                 <h4 className="media-heading">{this.props.data.name}</h4>
               </div>
-              <div className="col-md-9 col-xs-12">
-                <div className="row">
-                  <div className="col-md-3 col-xs-12 "><strong>{this.props.data.country}</strong></div>
-                  <div className="col-md-3 col-xs-12 ">22 at arrival</div>
-                  <div className="col-md-3 col-xs-12 "><i className="fa fa-plane fa-flip-vertical"></i> {this.props.data.arrival_date}</div>
-                  <div className="col-md-3 col-xs-12 "><i className="fa fa-plane"></i> {this.props.data.departure_date}</div>
-                </div>
+            </div>
+            <div className="row">
+              <div className="col-xs-12 col-sm-3">
+                <strong>{this.props.data.country}</strong>
+              </div>
+              <div className="col-xs-12 col-sm-3">
+                22 at arrival
+              </div>
+              <div className="col-xs-12 col-sm-3">
+                <i className="fa fa-plane fa-flip-vertical"></i> {this.props.data.arrival_date}
+              </div>
+              <div className="col-xs-12 col-sm-3">
+                <i className="fa fa-plane"></i> {this.props.data.departure_date}
               </div>
             </div>
           </div>
@@ -91,7 +122,7 @@ React.renderComponent(
 );
 ```
 
-```js_example
+```json_example
 window.participantGroups = [
   {
     "id": 1,
@@ -132,6 +163,16 @@ window.participantGroups = [
         "date_of_birth": "1989-05-15",
         "arrival_date": "2014-12-15",
         "departure_date": "2015-04-03"
+      },
+      {
+        "id": 12,
+        "name": "Gregory Goyle",
+        "gender": "Male",
+        "country": "Ireland",
+        "photo_url": "/images/participants/goyle.jpg",
+        "date_of_birth": "1989-05-15",
+        "arrival_date": "2014-12-15",
+        "departure_date": "2015-04-03"
       }
     ]
   },
@@ -154,3 +195,40 @@ window.participantGroups = [
 ]
 ```
 */
+
+.participant-group-panel {
+  @extend .panel-default;
+  background-color: $brand-info;
+}
+
+.panel {
+  .panel-footer {
+    .panel-title {
+      font-size: $font-size-h4;
+      margin-top: 3px;
+    }
+
+    hr {
+      margin: 5px 0 10px;
+    }
+
+    .btn-text {
+      text-align: left;
+
+      &.active, &:active {
+        color: $gray-dark;
+        text-decoration: underline;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .participant-group-panel {
+    .media-heading {
+      margin-top: 30px;
+    }
+  }
+}
