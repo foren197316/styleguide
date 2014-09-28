@@ -1,25 +1,5 @@
 @charset "UTF-8";
 
-body.navbar-padded {
-  padding: $navbar-height + $navbar-margin-bottom 0;
-}
-
-.navbar-default {
-  .navbar-header {
-    img.navbar-brand {
-      padding: 0;
-      margin: 10px;
-      width: 30px;
-      height: 30px;
-    }
-
-    .navbar-brand {
-      color: $interexchange-primary;
-      font-weight: 800;
-    }
-  }
-}
-
 /*doc
 ---
 title: Navbar
@@ -198,3 +178,24 @@ category: Components - Navbar
 </nav>
 ```
 */
+
+body.navbar-padded {
+  padding: $navbar-height + $navbar-margin-bottom 0;
+}
+
+.navbar-default {
+  .navbar-header {
+    img.navbar-brand {
+      padding: 0;
+      margin: 10px;
+      width: 30px;
+      height: 30px;
+    }
+
+    .navbar-brand {
+      color: $interexchange-primary;
+      font-weight: 800;
+    }
+  }
+}
+

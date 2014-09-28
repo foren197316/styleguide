@@ -81,11 +81,11 @@ var ParticipantGroup = React.createClass({
 
 var ParticipantGroupApplication = React.createClass({
   render: function() {
-    var panelClass = this.props.data.gender == 'Female' ? 'media text-danger' : 'media text-primary';
+    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
 
     return (
-      <a className="list-group-item" href={"#/participants/" + this.props.data.id }>
-        <div className={panelClass}>
+      <a className={listItemClass} href={"#/participants/" + this.props.data.id }>
+        <div className="media">
           <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
             <div className="row">
