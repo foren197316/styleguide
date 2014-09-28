@@ -63,11 +63,11 @@ var ParticipantGroup = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="col-sm-8 hidden-xs">
+            <div className="col-sm-9 hidden-xs">
               <div className="panel-title pull-left">{this.props.data.name}</div>
               <ParticipantGroupBtnGroup />
             </div>
-            <div className="col-sm-4 hidden-xs">
+            <div className="col-sm-3 hidden-xs">
               <button className="btn btn-success pull-right">Put on Review</button>
             </div>
           </div>
@@ -82,8 +82,8 @@ var ParticipantGroupBtnGroup = React.createClass({
     return (
       <div className={this.props.className}>
         <a className="btn btn-text active">Basics</a>
+        <a className="btn btn-text">Skills</a>
         <a className="btn btn-text">Positions</a>
-        <a className="btn btn-text">Jobs</a>
         <a className="btn btn-text">Places</a>
       </div>
     )
@@ -106,6 +106,7 @@ var ParticipantGroupApplication = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12 col-sm-4 col-md-6">
+                <i className="fa fa-globe"></i>
                 <strong>{this.props.data.country}</strong>&nbsp;
               </div>
               <div className="col-xs-12 col-sm-2 text-right">

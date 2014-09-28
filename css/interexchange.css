@@ -9815,7 +9815,51 @@ category: JavaScript Components - Participant Group Panel
 ---
 
 ```html_example
-<div id="example"></div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="list-group">
+        <label class="list-group-item">
+          <input type="checkbox" name="gender[]" value="Male" />
+          <i class="fa fa-male"></i>
+          Male
+          <span class="badge">27</span>
+        </label>
+        <label class="list-group-item">
+          <input type="checkbox" name="gender[]" value="Female" />
+          <i class="fa fa-female"></i>
+          Female
+          <span class="badge">52</span>
+        </label>
+      </div>
+      <div class="list-group">
+        <label class="list-group-item">
+          <input type="checkbox" name="country[]" value="Australia" />
+          <i class="fa fa-globe"></i>
+          Australia
+          <span class="badge">23</span>
+        </label>
+        <label class="list-group-item">
+          <input type="checkbox" name="country[]" value="New Zealand" />
+          <i class="fa fa-globe"></i>
+          New Zealand
+          <span class="badge">19</span>
+        </label>
+        <label class="list-group-item">
+          <input type="checkbox" name="country[]" value="Argentina" />
+          <i class="fa fa-globe"></i>
+          Argentina
+          <span class="badge">15</span>
+        </label>
+        <label class="list-group-item">
+          <input type="checkbox" name="country[]" value="Chile" />
+          <i class="fa fa-globe"></i>
+          Chile
+          <span class="badge">12</span>
+        </label>
+      </div>
+    </div>
+    <div id="example" class="col-md-9"></div>
+  </div>
 ```
 
 ```jsx_example
