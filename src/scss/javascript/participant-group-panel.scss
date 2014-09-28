@@ -76,7 +76,7 @@ var ParticipantGroupBtnGroup = React.createClass({
     return (
       <div className={this.props.className}>
         <a className="btn btn-text active">Basics</a>
-        <a className="btn btn-text">Skills</a>
+        <a className="btn btn-text">Positions</a>
         <a className="btn btn-text">Jobs</a>
         <a className="btn btn-text">Places</a>
       </div>
