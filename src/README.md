@@ -2,10 +2,11 @@
 
 ```html
 <!-- Include InterExchange Stylesheet -->
-<link href="http://styleguide.interexchange.io/css/interexchange.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="http://styleguide.interexchange.io/css/interexchange.min.css"/>
 
 <!-- Include InterExchange Javascript -->
-<script src="http://styleguide.interexchange.io/js/interexchange.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://styleguide.interexchange.io/js/interexchange.js"></script>
+<script type="text/jsx" src="http://styleguide.interexchange.io/js/interexchange-components.js"></script>
 ```
 
 # Usage
