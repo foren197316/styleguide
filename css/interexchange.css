@@ -9552,7 +9552,7 @@ var ParticipantGroupApplication = React.createClass({
     return (
       <a className="list-group-item" href={"#/participants/" + this.props.data.id }>
         <div className={panelClass}>
-          <img className="media-object img-circle pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
@@ -9661,6 +9661,9 @@ window.participantGroups = [
 */
 .participant-group-panel {
   background-color: #5bc0de; }
+  .participant-group-panel .media-object {
+    width: 100px;
+    height: 100px; }
   .participant-group-panel .panel-footer .panel-title {
     display: inline-block;
     font-size: 18px;
