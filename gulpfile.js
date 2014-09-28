@@ -93,7 +93,7 @@ gulp.task('serve', ['build'], function () {
     open: false
   });
   gulp.watch(['**/*.html'], reload);
-  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
+  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
     runSequence('build', reload);
   });
 });
