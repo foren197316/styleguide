@@ -179,10 +179,6 @@ category: Components - Navbar
 ```
 */
 
-body.navbar-padded {
-  padding: $navbar-height + $navbar-margin-bottom 0;
-}
-
 .navbar-default {
   .navbar-header {
     img.navbar-brand {

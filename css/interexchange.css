@@ -8767,9 +8767,6 @@ category: Components - Navbar
 </nav>
 ```
 */
-body.navbar-padded {
-  padding: 70px 0; }
-
 .navbar-default .navbar-header img.navbar-brand {
   padding: 0;
   margin: 10px;

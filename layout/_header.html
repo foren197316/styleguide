@@ -19,7 +19,7 @@
     <script type="text/javascript" src="<%= js %>"></script>
   <% end %>
   </head>
-  <body class="navbar-padded">
+  <body>
     <% name_scope = @config['name_scope'] %>
     <% @wrappers = Set.new %>
     <% @categories.each do |name, location| %>
@@ -27,7 +27,7 @@
       <% @wrappers.add wrapper %>
     <% end %>
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#primary-navigation">
