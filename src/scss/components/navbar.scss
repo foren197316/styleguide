@@ -5,14 +5,14 @@ body.navbar-padded {
 }
 
 .navbar-default {
-  background-color: $body-bg;
-  border-bottom-color: $gray-darker;
-
- .navbar-nav > li > a {
-    color: $gray-darker;
-  }
-
   .navbar-header {
+    img.navbar-brand {
+      padding: 0;
+      margin: 10px;
+      width: 30px;
+      height: 30px;
+    }
+
     .navbar-brand {
       color: $interexchange-primary;
       font-weight: 800;
