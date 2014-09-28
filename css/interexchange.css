@@ -9527,11 +9527,9 @@ var ParticipantGroup = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="col-sm-2 hidden-xs">
-              <div className="panel-title">{this.props.data.name}</div>
-            </div>
-            <div className="col-sm-6 hidden-xs">
-              <div className="btn-group btn-group-justified">
+            <div className="col-sm-8 hidden-xs">
+              <div className="panel-title pull-left">{this.props.data.name}</div>
+              <div className="btn-group pull-left">
                 <a className="btn btn-text active">Basics</a>
                 <a className="btn btn-text">Positions</a>
                 <a className="btn btn-text">Locations</a>
@@ -9663,15 +9661,13 @@ window.participantGroups = [
 */
 .participant-group-panel {
   background-color: #5bc0de; }
-
-.panel .panel-footer .panel-title {
-  font-size: 18px;
-  margin-top: 3px; }
-.panel .panel-footer hr {
-  margin: 5px 0 10px; }
-.panel .panel-footer .btn-text {
-  text-align: left; }
-  .panel .panel-footer .btn-text.active, .panel .panel-footer .btn-text:active {
+  .participant-group-panel .panel-footer .panel-title {
+    display: inline-block;
+    font-size: 18px;
+    margin-top: 3px; }
+  .participant-group-panel .panel-footer hr {
+    margin: 5px 0 10px; }
+  .participant-group-panel .panel-footer .btn-text.active, .participant-group-panel .panel-footer .btn-text:active {
     color: #333333;
     text-decoration: underline;
     -webkit-box-shadow: none;
@@ -9679,4 +9675,9 @@ window.participantGroups = [
 
 @media (min-width: 768px) {
   .participant-group-panel .media-heading {
-    margin-top: 30px; } }
+    margin-top: 30px; }
+  .participant-group-panel .panel-footer .btn-text {
+    padding: 6px 48px 6px 0;
+    text-align: left; }
+  .participant-group-panel .panel-footer .panel-title {
+    width: 110px; } }
