@@ -90,6 +90,10 @@ code, pre {
     content: 'JavaScript';
   }
 
+  &.jsxExample:after {
+    content: 'JavaScript';
+  }
+
   .highlight {
     background: #1e221d;
   }

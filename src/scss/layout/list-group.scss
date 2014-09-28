@@ -2,7 +2,7 @@
 
 /*doc
 ---
-title: List Group
+title: List Group with Action
 name: a-list-group
 category: Layout - List Group
 ---
@@ -113,5 +113,29 @@ category: Layout - List Group
     <button class="btn btn-success btn-xs pull-right">Put on Review</button>
   </div>
 </div>
+```
+
+```html_example
+<div id="example"></div>
+```
+
+```jsx_example
+var HelloWorld = React.createClass({
+  render: function() {
+    return (
+      <p>
+        Hello, <input type="text" placeholder="Your name here" />!
+        It is {this.props.date.toTimeString()}
+      </p>
+    );
+  }
+});
+
+setInterval(function() {
+  React.renderComponent(
+    <HelloWorld date={new Date()} />,
+    document.getElementById('example')
+  );
+}, 500);
 ```
 */
