@@ -1,0 +1,144 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: List Group
+name: a-list-group
+category: JavaScript - List Group
+---
+
+```html_example
+<div id="participant-groups-example"></div>
+```
+
+```jsx_example
+var ParticipantGroups = React.createClass({
+  render: function() {
+    var participantGroupNodes = this.props.data.map(function (participantGroup) {
+      return (
+        <ParticipantGroup data={participantGroup} />
+      );
+    });
+
+    return (
+      <div>
+        {participantGroupNodes}
+      </div>
+    );
+  }
+});
+
+var ParticipantGroup = React.createClass({
+  render: function() {
+    var applicationNodes = this.props.data.applications.map(function (application) {
+      return (
+        <ParticipantGroupApplication data={application} />
+      )
+    });
+
+    return (
+      <div className="panel panel-default">
+        <div className="list-group">
+          {applicationNodes}
+        </div>
+        <div className="panel-footer clearfix">
+          <span>Travelling with <strong>Friends</strong></span>
+          <button className="btn btn-success btn-xs pull-right">Put on Review</button>
+        </div>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupApplication = React.createClass({
+  render: function() {
+    return (
+      <a className="list-group-item" href="#/participants/malfoy">
+        <div className="media text-primary">
+          <img className="media-object img-circle pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <div className="media-body">
+            <div className="row">
+              <div className="col-md-3 col-xs-12">
+                <h4 className="media-heading">Draco Malfo</h4>
+              </div>
+              <div className="col-md-9 col-xs-12">
+                <div className="row">
+                  <div className="col-md-3 col-xs-12 "><strong>{this.props.data.country}</strong></div>
+                  <div className="col-md-2 col-xs-12 ">22 at arrival</div>
+                  <div className="col-md-3 col-xs-12 "><i className="fa fa-plane fa-flip-vertical"></i> {this.props.data.arrival_date}</div>
+                  <div className="col-md-3 col-xs-12 "><i className="fa fa-plane"></i> {this.props.data.departure_date}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    )
+  }
+});
+
+React.renderComponent(
+  <ParticipantGroups data={window.participantGroups} />,
+  document.getElementById('participant-groups-example')
+);
+```
+
+```js_example
+window.participantGroups = [
+  {
+    "id": 1,
+    "name": "Couple",
+    "applications": [
+      {
+        "id": 10,
+        "name": "Marcus Flint",
+        "country": "Australia",
+        "photo_url": "/images/participants/flint.jpg",
+        "date_of_birth": "1988-01-02",
+        "arrival_date": "2014-12-01",
+        "departure_date": "2015-03-01"
+      },
+      {
+        "id": 11,
+        "name": "Pansy Parkinson",
+        "country": "New Zealand",
+        "photo_url": "/images/participants/parkinson.jpg",
+        "date_of_birth": "1987-01-02",
+        "arrival_date": "2014-12-01",
+        "departure_date": "2015-03-01"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Friends",
+    "applications": [
+      {
+        "id": 12,
+        "name": "Vincent Crabbe",
+        "country": "Ireland",
+        "photo_url": "/images/participants/crabbe.jpg",
+        "date_of_birth": "1989-05-15",
+        "arrival_date": "2014-12-15",
+        "departure_date": "2015-04-03"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "",
+    "applications": [
+      {
+        "id": 13,
+        "name": "Draco Malfoy",
+        "country": "United Kingdom",
+        "photo_url": "/images/participants/malfoy.jpg",
+        "date_of_birth": "1989-12-15",
+        "arrival_date": "2014-11-15",
+        "departure_date": "2015-02-03"
+      }
+    ]
+  }
+]
+```
+*/

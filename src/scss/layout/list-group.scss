@@ -2,7 +2,7 @@
 
 /*doc
 ---
-title: List Group with Action
+title: List Group
 name: a-list-group
 category: Layout - List Group
 ---
@@ -12,7 +12,7 @@ category: Layout - List Group
   <div class="list-group">
     <a class="list-group-item" href="#/participants/flint">
       <div class="media text-primary">
-        <img class="media-object img-circle pull-left" src="/images/participants/flint.jpg" alt="...">
+        <img class="media-object img-circle pull-left" src="/images/participants/flint.jpg" alt="Marcus Flint" />
         <div class="media-body">
           <div class="row">
             <div class="col-md-3 col-xs-12">
@@ -32,7 +32,7 @@ category: Layout - List Group
     </a>
     <a class="list-group-item" href="#/participants/parkinson">
       <div class="media text-danger">
-        <img class="media-object img-circle pull-left" src="/images/participants/parkinson.jpg" alt="...">
+        <img class="media-object img-circle pull-left" src="/images/participants/parkinson.jpg" alt="Pansy Parkinson" />
         <div class="media-body">
           <div class="row">
             <div class="col-md-3 col-xs-12">
@@ -61,11 +61,11 @@ category: Layout - List Group
   <div class="list-group">
     <a class="list-group-item" href="#/participants/crabbe">
       <div class="media text-primary">
-        <img class="media-object img-circle pull-left" src="/images/participants/crabbe.jpg" alt="...">
+        <img class="media-object img-circle pull-left" src="/images/participants/crabbe.jpg" alt="Vincent Crabbe" />
         <div class="media-body">
           <div class="row">
             <div class="col-md-3 col-xs-12">
-              <h4 class="media-heading">Vincent Crabe</h4>
+              <h4 class="media-heading">Vincent Crabbe</h4>
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
@@ -81,7 +81,7 @@ category: Layout - List Group
     </a>
   </div>
   <div class="panel-footer clearfix">
-    <span>Travelling with <strong>Friends</strong></span>
+    <span>Travelling as <strong>Friends</strong></span>
     <button class="btn btn-success btn-xs pull-right">Put on Review</button>
   </div>
 </div>
@@ -90,11 +90,11 @@ category: Layout - List Group
   <div class="list-group">
     <a class="list-group-item" href="#/participants/malfoy">
       <div class="media text-primary">
-        <img class="media-object img-circle pull-left" src="/images/participants/malfoy.jpg" alt="...">
+        <img class="media-object img-circle pull-left" src="/images/participants/malfoy.jpg" alt="Draco Malfoy" />
         <div class="media-body">
           <div class="row">
             <div class="col-md-3 col-xs-12">
-              <h4 class="media-heading">Draco Malfo</h4>
+              <h4 class="media-heading">Draco Malfoy</h4>
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="row">
@@ -113,26 +113,5 @@ category: Layout - List Group
     <button class="btn btn-success btn-xs pull-right">Put on Review</button>
   </div>
 </div>
-<div id="example"></div>
-```
-
-```jsx_example
-var HelloWorld = React.createClass({
-  render: function() {
-    return (
-      <p>
-        Hello, <input type="text" placeholder="Your name here" />!
-        It is {this.props.date.toTimeString()}
-      </p>
-    );
-  }
-});
-
-setInterval(function() {
-  React.renderComponent(
-    <HelloWorld date={new Date()} />,
-    document.getElementById('example')
-  );
-}, 500);
 ```
 */
