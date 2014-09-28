@@ -58,7 +58,7 @@ var ParticipantGroup = React.createClass({
 var ParticipantGroupApplication = React.createClass({
   render: function() {
     return (
-      <a className="list-group-item" href="#/participants/malfoy">
+      <a className="list-group-item" href={"#/participants/" + this.props.data.id }>
         <div className="media text-primary">
           <img className="media-object img-circle pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
@@ -69,7 +69,7 @@ var ParticipantGroupApplication = React.createClass({
               <div className="col-md-9 col-xs-12">
                 <div className="row">
                   <div className="col-md-3 col-xs-12 "><strong>{this.props.data.country}</strong></div>
-                  <div className="col-md-2 col-xs-12 ">22 at arrival</div>
+                  <div className="col-md-3 col-xs-12 ">22 at arrival</div>
                   <div className="col-md-3 col-xs-12 "><i className="fa fa-plane fa-flip-vertical"></i> {this.props.data.arrival_date}</div>
                   <div className="col-md-3 col-xs-12 "><i className="fa fa-plane"></i> {this.props.data.departure_date}</div>
                 </div>
