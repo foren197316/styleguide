@@ -7146,12 +7146,6 @@ Just use the `glyphicon` class followed by the specific icon class.
 |  <span class="glyphicon glyphicon-tree-conifer"></span>            |  <pre>glyphicon glyphicon-tree-conifer</pre>           |
 |  <span class="glyphicon glyphicon-tree-deciduous"></span>          |  <pre>glyphicon glyphicon-tree-deciduous</pre>         |
 */
-@media (min-width: 992px) {
-  .media-body {
-    padding-left: 5px; }
-    .media-body .align-middle {
-      padding-top: 40px; } }
-
 /*doc
 ---
 title: List Group
@@ -7166,7 +7160,7 @@ category: Layout - List Group
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
-          <div class="row align-middle">
+          <div class="row">
             <div class="col-md-3 col-xs-12">
               <h4 class="media-heading">Marcus Flint</h4>
             </div>
@@ -7186,7 +7180,7 @@ category: Layout - List Group
       <div class="media text-danger">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
-          <div class="row align-middle">
+          <div class="row">
             <div class="col-md-3 col-xs-12">
               <h4 class="media-heading">Pansy Parkinson</h4>
             </div>
@@ -7204,7 +7198,7 @@ category: Layout - List Group
     </a>
   </div>
   <div class="panel-footer clearfix">
-    <span>Travelling as a <strong>Couple</strong></span>
+    <span>Travelling as <strong>Couple</strong></span>
     <button class="btn btn-success btn-xs pull-right">Put on Review</button>
   </div>
 </div>
@@ -7215,7 +7209,7 @@ category: Layout - List Group
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
-          <div class="row align-middle">
+          <div class="row">
             <div class="col-md-3 col-xs-12">
               <h4 class="media-heading">Vincent Crabe</h4>
             </div>
@@ -7233,7 +7227,7 @@ category: Layout - List Group
     </a>
   </div>
   <div class="panel-footer clearfix">
-    <span>Travelling with <strong>Friends</strong></span>
+    <span>Travelling as <strong>Friends</strong></span>
     <button class="btn btn-success btn-xs pull-right">Put on Review</button>
   </div>
 </div>
@@ -7244,7 +7238,7 @@ category: Layout - List Group
       <div class="media text-primary">
         <img class="media-object img-circle pull-left" src="http://placehold.it/100x100" alt="...">
         <div class="media-body">
-          <div class="row align-middle">
+          <div class="row">
             <div class="col-md-3 col-xs-12">
               <h4 class="media-heading">Draco Malfo</h4>
             </div>
