@@ -52,34 +52,34 @@
   </script>
 ```
 
-<img src="/images/example/1-Navigation.gif" class="img-responsive" />
-
 ## Create a Structure
 
-```html
+```html_example
 <div class="row">
-  <div class="col-xs-4">
-    <h1>Example</h1>
-  </div>
-  <div class="col-xs-8">
-    <!-- Continue From Here -->
+  <div class="col-xs-12">
+    <h3>Participant Group Panels</h3>
   </div>
 </div>
 ```
 
-<img src="/images/example/2-Structure.gif" class="img-responsive" />
-
 ## Embed some Participants
 
 ```html_example
-  <script type="text/jsx">
-    /** @jsx React.DOM */
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Participant Group Panels</h3>
 
-    React.renderComponent(
-      <ParticipantGroupPanels source="/json/participant-groups.json" />,
-      document.getElementById('example')
-    );
-  </script>
+      <div id="participant-group-panels" />
+      <script type="text/jsx">
+        /** @jsx React.DOM */
+
+        React.renderComponent(
+          <ParticipantGroupPanels source="/json/participant-groups.json" />,
+          document.getElementById('participant-group-panels')
+        );
+      </script>
+    </div>
+  </div>
 ```
 # Usage
 
