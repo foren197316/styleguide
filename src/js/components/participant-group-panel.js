@@ -105,7 +105,7 @@ var ParticipantGroupApplication = React.createClass({
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-12 col-sm-4 col-md-6">
+              <div className="col-xs-12 col-sm-4 col-lg-6">
                 <i className="fa fa-globe"></i>
                 <strong>{this.props.data.country}</strong>&nbsp;
               </div>
@@ -113,11 +113,11 @@ var ParticipantGroupApplication = React.createClass({
                 <ParticipantGroupApplicationGenderIcon gender={this.props.data.gender} />
                 21+
               </div>
-              <div className="col-xs-12 col-sm-3 col-md-2 text-right">
+              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
                 <i className="fa fa-plane fa-flip-vertical"></i>
                 {this.props.data.arrival_date}
               </div>
-              <div className="col-xs-12 col-sm-3 col-md-2 text-right">
+              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
                 <i className="fa fa-plane"></i>
                 {this.props.data.departure_date}
               </div>
