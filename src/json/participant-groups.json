@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Couple",
-      "participants": [
+      "applications": [
         {
           "id": 10,
           "name": "Marcus Flint",
@@ -45,7 +45,7 @@
     {
       "id": 3,
       "name": "Friends",
-      "participants": [
+      "applications": [
         {
           "id": 12,
           "name": "Vincent McNameLong Crabbe",

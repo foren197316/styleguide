@@ -36,7 +36,7 @@ var ParticipantGroupPanels = React.createClass({
 
 var ParticipantGroup = React.createClass({
   render: function() {
-    var applicationNodes = this.props.data.participants.map(function (application) {
+    var applicationNodes = this.props.data.applications.map(function (application) {
       return (
         <ParticipantGroupApplication data={application} />
       )
