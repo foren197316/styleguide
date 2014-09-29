@@ -111,7 +111,7 @@ var ParticipantGroupApplication = React.createClass({
               </div>
               <div className="col-xs-12 col-sm-2 text-right">
                 <ParticipantGroupApplicationGenderIcon gender={this.props.data.gender} />
-                <abbr title={this.props.data.date_of_birth}>21+</abbr>
+                21+
               </div>
               <div className="col-xs-12 col-sm-3 col-md-2 text-right">
                 <i className="fa fa-plane fa-flip-vertical"></i>
