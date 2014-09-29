@@ -11,7 +11,7 @@ var ParticipantGroupPanels = React.createClass({
     $.get(this.props.source, function(data) {
       if (this.isMounted()) {
         this.setState({
-          data: data
+          data: data.participant_groups
         });
       }
     }.bind(this));
@@ -36,7 +36,7 @@ var ParticipantGroupPanels = React.createClass({
 
 var ParticipantGroup = React.createClass({
   render: function() {
-    var applicationNodes = this.props.data.applications.map(function (application) {
+    var applicationNodes = this.props.data.participants.map(function (application) {
       return (
         <ParticipantGroupApplication data={application} />
       )
