@@ -50,10 +50,6 @@ var ParticipantGroup = React.createClass({
         <div className="panel-footer clearfix">
           <div className="row">
             <div className="col-xs-12 visible-xs">
-              <ParticipantGroupBtnGroup className="btn-group btn-group-justified" />
-              <hr/>
-            </div>
-            <div className="col-xs-12 visible-xs">
               <div className="row">
                 <div className="col-xs-6">
                   <div className="panel-title">{this.props.data.name}</div>
@@ -65,10 +61,9 @@ var ParticipantGroup = React.createClass({
             </div>
             <div className="col-sm-9 hidden-xs">
               <div className="panel-title pull-left">{this.props.data.name}</div>
-              <ParticipantGroupBtnGroup />
             </div>
             <div className="col-sm-3 hidden-xs">
-              <button className="btn btn-success pull-right">Put on Review</button>
+              <ParticipantGroupPutOnReviewButton />
             </div>
           </div>
         </div>
@@ -77,18 +72,13 @@ var ParticipantGroup = React.createClass({
   }
 });
 
-var ParticipantGroupBtnGroup = React.createClass({
+var ParticipantGroupPutOnReviewButton = React.createClass({
   render: function() {
     return (
-      <div className={this.props.className}>
-        <a className="btn btn-text active">Basics</a>
-        <a className="btn btn-text">Skills</a>
-        <a className="btn btn-text">Positions</a>
-        <a className="btn btn-text">Places</a>
-      </div>
+      <button className="btn btn-success pull-right">Put on Review</button>
     )
   }
-});
+})
 
 var ParticipantGroupApplication = React.createClass({
   render: function() {
