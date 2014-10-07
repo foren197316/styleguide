@@ -8957,9 +8957,9 @@ category: Components - Panels
 */
 /*doc
 ---
-title: Participant Group Panel
+title: List Group
 name: a-list-group
-category: Components - Participant Group Panel
+category: Layout - List Group
 ---
 
 ```html_example
@@ -9070,6 +9070,29 @@ category: Components - Participant Group Panel
 </div>
 ```
 */
+.participant-group-panel {
+  background-color: #5bc0de; }
+  .participant-group-panel .media-object {
+    width: 100px;
+    height: 100px; }
+  .participant-group-panel i.fa {
+    padding-right: 5px; }
+  .participant-group-panel .panel-footer .panel-text {
+    display: inline-block;
+    margin: 5px 0; }
+  .participant-group-panel .panel-footer .panel-title {
+    display: inline-block;
+    font-size: 18px;
+    margin-top: 3px; }
+  .participant-group-panel .panel-footer hr {
+    margin: 10px 0; }
+
+@media (min-width: 768px) {
+  .participant-group-panel .media-heading {
+    margin-top: 30px; }
+  .participant-group-panel .panel-footer .panel-title {
+    width: 110px; } }
+
 /*doc
 ---
 title: Basic progress bar
@@ -9830,30 +9853,3 @@ React.renderComponent(
 );
 ```
 */
-.participant-group-panel {
-  background-color: #5bc0de; }
-  .participant-group-panel .media-object {
-    width: 100px;
-    height: 100px; }
-  .participant-group-panel i.fa {
-    padding-right: 5px; }
-  .participant-group-panel .panel-footer .panel-title {
-    display: inline-block;
-    font-size: 18px;
-    margin-top: 3px; }
-  .participant-group-panel .panel-footer hr {
-    margin: 5px 0 10px; }
-  .participant-group-panel .panel-footer .btn-text.active, .participant-group-panel .panel-footer .btn-text:active {
-    color: #333333;
-    text-decoration: underline;
-    -webkit-box-shadow: none;
-    box-shadow: none; }
-
-@media (min-width: 768px) {
-  .participant-group-panel .media-heading {
-    margin-top: 30px; }
-  .participant-group-panel .panel-footer .btn-text {
-    padding: 6px 48px 6px 0;
-    text-align: left; }
-  .participant-group-panel .panel-footer .panel-title {
-    width: 110px; } }

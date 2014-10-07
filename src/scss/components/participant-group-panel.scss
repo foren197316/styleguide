@@ -115,3 +115,47 @@ category: Layout - List Group
 </div>
 ```
 */
+
+.participant-group-panel {
+  @extend .panel-default;
+  background-color: $brand-info;
+  .media-object {
+    width: 100px;
+    height: 100px;
+  }
+
+  i.fa {
+    padding-right: 5px;
+  }
+
+  .panel-footer {
+    .panel-text {
+      display: inline-block;
+      margin: 5px 0;
+    }
+
+    .panel-title {
+      display: inline-block;
+      font-size: $font-size-h4;
+      margin-top: 3px;
+    }
+
+    hr {
+      margin: 10px 0;
+    }
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  .participant-group-panel {
+    .media-heading {
+      margin-top: 30px;
+    }
+
+    .panel-footer {
+      .panel-title {
+        width: 110px;
+      }
+    }
+  }
+}

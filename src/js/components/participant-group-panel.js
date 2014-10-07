@@ -21,7 +21,7 @@ var ParticipantGroupPanels = React.createClass({
     if (this.isMounted()) {
       var participantGroupNodes = this.state.data.map(function (participantGroup) {
         return (
-          <ParticipantGroup data={participantGroup} />
+          <ParticipantGroup key={participantGroup.id} data={participantGroup} />
         );
       });
     };
@@ -35,50 +35,68 @@ var ParticipantGroupPanels = React.createClass({
 });
 
 var ParticipantGroup = React.createClass({
-  render: function() {
-    var applicationNodes = this.props.data.applications.map(function (application) {
-      return (
-        <ParticipantGroupApplication data={application} />
-      )
-    });
+  getInitialState: function() {
+    return { puttingOnReview: false };
+  },
 
-    return (
-      <div className="panel participant-group-panel">
-        <div className="list-group">
+  handlePutOnReview: function(event) {
+    this.setState({ puttingOnReview: true });
+  },
+
+  handleCancel: function(event) {
+    this.setState({ puttingOnReview: false });
+  },
+
+  render: function() {
+    var actionRow,
+        putOnReviewEndDate = Date.today().add(3).days().toString('yyyy-MM-dd'),
+        participantPluralized = this.props.data.applications.length > 1 ? 'participants' : 'participant';
+        applicationNodes = this.props.data.applications.map(function (application) {
+        return (
+          <ParticipantGroupApplication key={application.id} data={application} />
+        )
+      });
+
+    if (this.state.puttingOnReview) {
+      actionRow = <div className="row">
+        <div className="col-xs-6 col-sm-3">
+          <div className="panel-title pull-left">{this.props.data.name}</div>
+        </div>
+        <div className="col-xs-6 col-sm-9">
+          <div className="btn-group pull-right clearfix">
+            <button className="btn btn-success" onClick={this.handleConfirm}>Confirm</button>
+            <span className="btn btn-default" onClick={this.handleCancel}>Cancel</span>
+          </div>
+        </div>
+        <div className="col-xs-12">
+          <hr />
+          <p className="panel-text">You will have until <strong>{putOnReviewEndDate}</strong> to offer a position or decline the {participantPluralized}.</p>
+          <p className="panel-text">If you take no action by <strong>{putOnReviewEndDate}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
+        </div>
+      </div>
+    } else {
+      actionRow = <div className="row">
+        <div className="col-xs-6 col-sm-3">
+          <div className="panel-title pull-left">{this.props.data.name}</div>
+        </div>
+        <div className="col-xs-6 col-sm-9">
+          <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>
+        </div>
+      </div>
+  }
+
+  return (
+    <div className="panel participant-group-panel">
+      <div className="list-group">
           {applicationNodes}
         </div>
         <div className="panel-footer clearfix">
-          <div className="row">
-            <div className="col-xs-12 visible-xs">
-              <div className="row">
-                <div className="col-xs-6">
-                  <div className="panel-title">{this.props.data.name}</div>
-                </div>
-                <div className="col-xs-6">
-                  <button className="btn btn-success pull-right">Put on Review</button>
-                </div>
-              </div>
-            </div>
-            <div className="col-sm-9 hidden-xs">
-              <div className="panel-title pull-left">{this.props.data.name}</div>
-            </div>
-            <div className="col-sm-3 hidden-xs">
-              <ParticipantGroupPutOnReviewButton />
-            </div>
-          </div>
+          {actionRow}
         </div>
       </div>
     )
   }
 });
-
-var ParticipantGroupPutOnReviewButton = React.createClass({
-  render: function() {
-    return (
-      <button className="btn btn-success pull-right">Put on Review</button>
-    )
-  }
-})
 
 var ParticipantGroupApplication = React.createClass({
   render: function() {
