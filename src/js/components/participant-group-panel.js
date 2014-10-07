@@ -3,7 +3,8 @@
 var ParticipantGroupPanels = React.createClass({
   getInitialState: function() {
     return {
-      data: null
+      employer: null,
+      participant_groups: null
     };
   },
 
@@ -11,7 +12,8 @@ var ParticipantGroupPanels = React.createClass({
     $.get(this.props.source, function(data) {
       if (this.isMounted()) {
         this.setState({
-          data: data.participant_groups
+          employer: data.employer,
+          participant_groups: data.participant_groups
         });
       }
     }.bind(this));
@@ -19,9 +21,10 @@ var ParticipantGroupPanels = React.createClass({
 
   render: function() {
     if (this.isMounted()) {
-      var participantGroupNodes = this.state.data.map(function (participantGroup) {
+      var employer = this.state.employer,
+          participantGroupNodes = this.state.participant_groups.map(function (participantGroup) {
         return (
-          <ParticipantGroup key={participantGroup.id} data={participantGroup} />
+          <ParticipantGroup key={participantGroup.id} data={participantGroup} employer={employer} />
         );
       });
     };
@@ -45,6 +48,16 @@ var ParticipantGroup = React.createClass({
 
   handleCancel: function(event) {
     this.setState({ puttingOnReview: false });
+  },
+
+  handleConfirm: function(event) {
+    $.post("/employers/" + this.props.employer.id + "/participant_groups/on_review", function(data) {
+    })
+      .success(function() {
+        var node = this.getDOMNode();
+        React.unmountComponentAtNode(node);
+        $(node).remove();
+      });
   },
 
   render: function() {

@@ -1,4 +1,7 @@
 {
+  "employer": {
+    "id": 99
+  },
   "participant_groups": [
     {
       "id": 1,
