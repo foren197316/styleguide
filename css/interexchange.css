@@ -978,10 +978,10 @@ input, button, select, textarea {
   line-height: inherit; }
 
 a {
-  color: #428bca;
+  color: #003856;
   text-decoration: none; }
   a:hover, a:focus {
-    color: #2a6596;
+    color: #00060a;
     text-decoration: underline; }
   a:focus {
     outline: thin dotted;
@@ -1134,10 +1134,10 @@ mark, .mark {
   color: #999999; }
 
 .text-primary {
-  color: #428bca; }
+  color: #003856; }
 
 a.text-primary:hover {
-  color: #3073a9; }
+  color: #001723; }
 
 .text-success {
   color: #3c763d; }
@@ -1167,10 +1167,10 @@ a.text-danger:hover {
   color: #fff; }
 
 .bg-primary {
-  background-color: #428bca; }
+  background-color: #003856; }
 
 a.bg-primary:hover {
-  background-color: #3073a9; }
+  background-color: #001723; }
 
 .bg-success {
   background-color: #dff0d8; }
@@ -2346,19 +2346,19 @@ textarea.input-lg, .form-horizontal .form-group-lg textarea.form-control, .input
 
 .btn-primary {
   color: #fff;
-  background-color: #428bca;
-  border-color: #3580bd; }
+  background-color: #003856;
+  border-color: #00283d; }
   .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #3073a9;
-    border-color: #28608e; }
+    background-color: #001723;
+    border-color: black; }
   .btn-primary:active, .btn-primary.active, .open > .btn-primary.dropdown-toggle {
     background-image: none; }
   .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
-    background-color: #428bca;
-    border-color: #3580bd; }
+    background-color: #003856;
+    border-color: #00283d; }
   .btn-primary .badge {
-    color: #428bca;
+    color: #003856;
     background-color: #fff; }
 
 .btn-success {
@@ -2430,7 +2430,7 @@ textarea.input-lg, .form-horizontal .form-group-lg textarea.form-control, .input
     background-color: #fff; }
 
 .btn-link {
-  color: #428bca;
+  color: #003856;
   font-weight: normal;
   cursor: pointer;
   border-radius: 0; }
@@ -2441,7 +2441,7 @@ textarea.input-lg, .form-horizontal .form-group-lg textarea.form-control, .input
   .btn-link, .btn-link:hover, .btn-link:focus, .btn-link:active {
     border-color: transparent; }
   .btn-link:hover, .btn-link:focus {
-    color: #2a6596;
+    color: #00060a;
     text-decoration: underline;
     background-color: transparent; }
   .btn-link[disabled]:hover, .btn-link[disabled]:focus, fieldset[disabled] .btn-link:hover, fieldset[disabled] .btn-link:focus {
@@ -2565,7 +2565,7 @@ tbody.collapse.in {
   color: #fff;
   text-decoration: none;
   outline: 0;
-  background-color: #428bca; }
+  background-color: #003856; }
 
 .dropdown-menu > .disabled > a, .dropdown-menu > .disabled > a:hover, .dropdown-menu > .disabled > a:focus {
   color: #999999; }
@@ -2870,7 +2870,7 @@ tbody.collapse.in {
         cursor: not-allowed; }
   .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
     background-color: #eeeeee;
-    border-color: #428bca; }
+    border-color: #003856; }
   .nav .nav-divider {
     height: 1px;
     margin: 9px 0;
@@ -2906,7 +2906,7 @@ tbody.collapse.in {
     margin-left: 2px; }
   .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
     color: #fff;
-    background-color: #428bca; }
+    background-color: #003856; }
 
 .nav-stacked > li {
   float: none; }
@@ -3322,7 +3322,7 @@ tbody.collapse.in {
       padding: 6px 12px;
       line-height: 1.42857;
       text-decoration: none;
-      color: #428bca;
+      color: #003856;
       background-color: #fff;
       border: 1px solid #ddd;
       margin-left: -1px; }
@@ -3334,14 +3334,14 @@ tbody.collapse.in {
       border-bottom-right-radius: 4px;
       border-top-right-radius: 4px; }
   .pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
-    color: #2a6596;
+    color: #00060a;
     background-color: #eeeeee;
     border-color: #ddd; }
   .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
     z-index: 2;
     color: #fff;
-    background-color: #428bca;
-    border-color: #428bca;
+    background-color: #003856;
+    border-color: #003856;
     cursor: default; }
   .pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
     color: #999999;
@@ -3427,9 +3427,9 @@ a.label:hover, a.label:focus {
     background-color: #808080; }
 
 .label-primary {
-  background-color: #428bca; }
+  background-color: #003856; }
   .label-primary[href]:hover, .label-primary[href]:focus {
-    background-color: #3073a9; }
+    background-color: #001723; }
 
 .label-success {
   background-color: #5cb85c; }
@@ -3473,7 +3473,7 @@ a.label:hover, a.label:focus {
     top: 0;
     padding: 1px 5px; }
   a.list-group-item.active > .badge, .nav-pills > .active > a > .badge {
-    color: #428bca;
+    color: #003856;
     background-color: #fff; }
   .nav-pills > li > a > .badge {
     margin-left: 3px; }
@@ -3533,7 +3533,7 @@ a.badge:hover, a.badge:focus {
     color: #333333; }
 
 a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
-  border-color: #428bca; }
+  border-color: #003856; }
 
 .alert {
   padding: 15px;
@@ -3625,7 +3625,7 @@ a.thumbnail:hover, a.thumbnail:focus, a.thumbnail.active {
   line-height: 20px;
   color: #fff;
   text-align: center;
-  background-color: #428bca;
+  background-color: #003856;
   -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   -webkit-transition: width 0.6s ease;
@@ -3747,12 +3747,12 @@ a.list-group-item {
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
   z-index: 2;
   color: #fff;
-  background-color: #428bca;
-  border-color: #428bca; }
+  background-color: #003856;
+  border-color: #003856; }
   .list-group-item.active .list-group-item-heading, .list-group-item.active .list-group-item-heading > small, .list-group-item.active .list-group-item-heading > .small, .list-group-item.active:hover .list-group-item-heading, .list-group-item.active:hover .list-group-item-heading > small, .list-group-item.active:hover .list-group-item-heading > .small, .list-group-item.active:focus .list-group-item-heading, .list-group-item.active:focus .list-group-item-heading > small, .list-group-item.active:focus .list-group-item-heading > .small {
     color: inherit; }
   .list-group-item.active .list-group-item-text, .list-group-item.active:hover .list-group-item-text, .list-group-item.active:focus .list-group-item-text {
-    color: #e1edf7; }
+    color: #23b6ff; }
 
 .list-group-item-success {
   color: #3c763d;
@@ -3950,18 +3950,18 @@ a.list-group-item-danger {
     border-bottom-color: #ddd; }
 
 .panel-primary {
-  border-color: #428bca; }
+  border-color: #003856; }
   .panel-primary > .panel-heading {
     color: #fff;
-    background-color: #428bca;
-    border-color: #428bca; }
+    background-color: #003856;
+    border-color: #003856; }
     .panel-primary > .panel-heading + .panel-collapse > .panel-body {
-      border-top-color: #428bca; }
+      border-top-color: #003856; }
     .panel-primary > .panel-heading .badge {
-      color: #428bca;
+      color: #003856;
       background-color: #fff; }
   .panel-primary > .panel-footer + .panel-collapse > .panel-body {
-    border-bottom-color: #428bca; }
+    border-bottom-color: #003856; }
 
 .panel-success {
   border-color: #d7e9c6; }
@@ -4761,22 +4761,22 @@ button.close {
     background-image: none; }
 
 .btn-primary {
-  background-image: -webkit-linear-gradient(top, #428bca 0%, #2d6da2 100%);
-  background-image: -o-linear-gradient(top, #428bca 0%, #2d6da2 100%);
-  background-image: linear-gradient(to bottom, #428bca 0%, #2d6da2 100%);
+  background-image: -webkit-linear-gradient(top, #003856 0%, #001119 100%);
+  background-image: -o-linear-gradient(top, #003856 0%, #001119 100%);
+  background-image: linear-gradient(to bottom, #003856 0%, #001119 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF428BCA', endColorstr='#FF2D6DA2', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF003856', endColorstr='#FF001119', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background-repeat: repeat-x;
-  border-color: #2b689a; }
+  border-color: #000a0f; }
   .btn-primary:hover, .btn-primary:focus {
-    background-color: #2d6da2;
+    background-color: #001119;
     background-position: 0 -15px; }
   .btn-primary:active, .btn-primary.active {
-    background-color: #2d6da2;
-    border-color: #2b689a; }
+    background-color: #001119;
+    border-color: #000a0f; }
   .btn-primary:disabled, .btn-primary[disabled] {
-    background-color: #2d6da2;
+    background-color: #001119;
     background-image: none; }
 
 .btn-success {
@@ -4868,12 +4868,12 @@ button.close {
   background-color: #e8e8e8; }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
-  background-image: -webkit-linear-gradient(top, #428bca 0%, #3580bd 100%);
-  background-image: -o-linear-gradient(top, #428bca 0%, #3580bd 100%);
-  background-image: linear-gradient(to bottom, #428bca 0%, #3580bd 100%);
+  background-image: -webkit-linear-gradient(top, #003856 0%, #00283d 100%);
+  background-image: -o-linear-gradient(top, #003856 0%, #00283d 100%);
+  background-image: linear-gradient(to bottom, #003856 0%, #00283d 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF428BCA', endColorstr='#FF3580BD', GradientType=0);
-  background-color: #3580bd; }
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF003856', endColorstr='#FF00283D', GradientType=0);
+  background-color: #00283d; }
 
 .navbar-default {
   background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
@@ -4963,11 +4963,11 @@ button.close {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFEBEBEB', endColorstr='#FFF5F5F5', GradientType=0); }
 
 .progress-bar {
-  background-image: -webkit-linear-gradient(top, #428bca 0%, #3073a9 100%);
-  background-image: -o-linear-gradient(top, #428bca 0%, #3073a9 100%);
-  background-image: linear-gradient(to bottom, #428bca 0%, #3073a9 100%);
+  background-image: -webkit-linear-gradient(top, #003856 0%, #001723 100%);
+  background-image: -o-linear-gradient(top, #003856 0%, #001723 100%);
+  background-image: linear-gradient(to bottom, #003856 0%, #001723 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF428BCA', endColorstr='#FF3073A9', GradientType=0); }
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF003856', endColorstr='#FF001723', GradientType=0); }
 
 .progress-bar-success {
   background-image: -webkit-linear-gradient(top, #5cb85c 0%, #469d44 100%);
@@ -5008,13 +5008,13 @@ button.close {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.075); }
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
-  text-shadow: 0 -1px 0 #3073a9;
-  background-image: -webkit-linear-gradient(top, #428bca 0%, #3279b3 100%);
-  background-image: -o-linear-gradient(top, #428bca 0%, #3279b3 100%);
-  background-image: linear-gradient(to bottom, #428bca 0%, #3279b3 100%);
+  text-shadow: 0 -1px 0 #001723;
+  background-image: -webkit-linear-gradient(top, #003856 0%, #002030 100%);
+  background-image: -o-linear-gradient(top, #003856 0%, #002030 100%);
+  background-image: linear-gradient(to bottom, #003856 0%, #002030 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF428BCA', endColorstr='#FF3279B3', GradientType=0);
-  border-color: #3279b3; }
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF003856', endColorstr='#FF002030', GradientType=0);
+  border-color: #002030; }
 
 .panel {
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -5028,11 +5028,11 @@ button.close {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF5F5F5', endColorstr='#FFE8E8E8', GradientType=0); }
 
 .panel-primary > .panel-heading {
-  background-image: -webkit-linear-gradient(top, #428bca 0%, #3580bd 100%);
-  background-image: -o-linear-gradient(top, #428bca 0%, #3580bd 100%);
-  background-image: linear-gradient(to bottom, #428bca 0%, #3580bd 100%);
+  background-image: -webkit-linear-gradient(top, #003856 0%, #00283d 100%);
+  background-image: -o-linear-gradient(top, #003856 0%, #00283d 100%);
+  background-image: linear-gradient(to bottom, #003856 0%, #00283d 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF428BCA', endColorstr='#FF3580BD', GradientType=0); }
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF003856', endColorstr='#FF00283D', GradientType=0); }
 
 .panel-success > .panel-heading {
   background-image: -webkit-linear-gradient(top, #dff0d8 0%, #d0e9c6 100%);
@@ -6691,7 +6691,7 @@ button.close {
 ---
 title: In Matching Participant Group Panels
 name: in-matching-participant-group-panels
-category: Components - In Matching Participant Group Panels
+category: Components - Participant Group Panel
 ---
 
 ```html_example
@@ -6709,7 +6709,7 @@ React.renderComponent(
 ---
 title: On Review Participant Group Panels
 name: on-review-participant-group-panels
-category: Components - On Review Participant Group Panels
+category: Components - Participant Group Panel
 ---
 
 ```html_example
@@ -6723,91 +6723,11 @@ React.renderComponent(
 );
 ```
 */
-label.list-group {
-  width: 100%; }
-  label.list-group input.list-group-item {
-    width: 100%; }
-
-/*doc
----
-title: Buttons
-name: a-buttons
-category: Layout - Buttons
----
-
-```html_example
-<button type="button" class="btn btn-primary">Primary</button>
-```
-
-
-| Preview                                                        | Class                      |
-|----------------------------------------------------------------|----------------------------|
-| <button type="button" class="btn btn-default">Default</button> | <pre>btn btn-default</pre> |
-| <button type="button" class="btn btn-primary">Primary</button> | <pre>btn btn-primary</pre> |
-| <button type="button" class="btn btn-success">Success</button> | <pre>btn btn-success</pre> |
-| <button type="button" class="btn btn-info">Info</button>       | <pre>btn btn-info</pre>    |
-| <button type="button" class="btn btn-warning">Warning</button> | <pre>btn btn-warning</pre> |
-| <button type="button" class="btn btn-danger">Danger</button>   | <pre>btn btn-danger</pre>  |
-| <button type="button" class="btn btn-link">Link</button>       | <pre>btn btn-link</pre>    |
-*/
-/*doc
----
-title: Sizes
-name: b-size
-category: Layout - Buttons
----
-
-```html_example
-<p>
-  <button type="button" class="btn btn-primary btn-lg">Large button</button>
-  <button type="button" class="btn btn-default btn-lg">Large button</button>
-</p>
-<p>
-  <button type="button" class="btn btn-primary">Default button</button>
-  <button type="button" class="btn btn-default">Default button</button>
-</p>
-<p>
-  <button type="button" class="btn btn-primary btn-sm">Small button</button>
-  <button type="button" class="btn btn-default btn-sm">Small button</button>
-</p>
-<p>
-  <button type="button" class="btn btn-primary btn-xs">Extra small button</button>
-  <button type="button" class="btn btn-default btn-xs">Extra small button</button>
-</p>
-```
-
-## Block buttons
-
-```html_example
-<p>
-  <button type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>
-  <button type="button" class="btn btn-default btn-lg btn-block">Block level button</button>
-</p>
-```
-*/
-/*doc
----
-title: Active / Disabled
-name: c-active-disabled
-category: Layout - Buttons
----
-
-```html_example
-<p>
-  <button type="button" class="btn btn-primary btn-lg active">Primary button</button>
-  <button type="button" class="btn btn-default btn-lg active">Button</button>
-</p>
-<p>
-  <button type="button" class="btn btn-lg btn-primary" disabled="disabled">Primary button</button>
-  <button type="button" class="btn btn-default btn-lg" disabled="disabled">Button</button>
-</p>
-```
-*/
 /*doc
 ---
 title: Inline code
 name: a-inline-code
-category: Layout - Code
+category: CSS - Code
 ---
 
 ```html_example
@@ -7093,1316 +7013,25 @@ code, pre {
   .codeBlock .il {
     color: #009999; }
 
-/*doc
----
-title: Input
-name: a-input
-category: Layout - Form
----
+label.list-group {
+  width: 100%; }
+  label.list-group input.list-group-item {
+    width: 100%; }
+
+.navbar > .container img.navbar-brand, .navbar > .container-fluid img.navbar-brand {
+  margin-left: 0; }
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: #001723; }
+.navbar-default a.navbar-brand {
+  font-weight: bold;
+  color: #003856; }
+  .navbar-default a.navbar-brand:hover {
+    color: #005b89; }
+.navbar-default img.navbar-brand {
+  padding: 10px;
+  margin: 0; }
 
-```html_example
-<input type="text" class="form-control input-lg" placeholder="Text input"><br>
-<input type="text" class="form-control" placeholder="Text input"><br>
-<input type="text" class="form-control input-sm" placeholder="Text input"><br>
-<input type="text" class="form-control" placeholder="Text input" disabled>
-```
-*/
-/*doc
----
-title: Textarea
-name: a-textarea
-category: Layout - Form
----
-
-```html_example
-<textarea class="form-control" rows="3"></textarea>
-```
-*/
-/*doc
----
-title: Checkboxes and radios
-name: b-checkbox-radio
-category: Layout - Form
----
-
-```html_example
-<div class="checkbox">
-  <label>
-    <input type="checkbox" value="">
-    Option one is this and that&mdash;be sure to include why it's great
-  </label>
-</div>
-
-<div class="radio">
-  <label>
-    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-    Option one is this and that&mdash;be sure to include why it's great
-  </label>
-</div>
-<div class="radio">
-  <label>
-    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-    Option two can be something else and selecting it will deselect option one
-  </label>
-</div>
-```
-*/
-/*doc
----
-title: Inline checkboxes
-name: c-inline-checkbox
-category: Layout - Form
----
-
-```html_example
-<label class="checkbox-inline">
-  <input type="checkbox" id="inlineCheckbox1" value="option1"> 1
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" id="inlineCheckbox2" value="option2"> 2
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" id="inlineCheckbox3" value="option3"> 3
-</label>
-```
-*/
-/*doc
----
-title: Selects
-name: d-select
-category: Layout - Form
----
-
-```html_example
-<select class="form-control">
-  <option>1</option>
-  <option>2</option>
-  <option>3</option>
-  <option>4</option>
-  <option>5</option>
-</select>
-
-<br>
-
-<select multiple class="form-control">
-  <option>1</option>
-  <option>2</option>
-  <option>3</option>
-  <option>4</option>
-  <option>5</option>
-</select>
-```
-*/
-/*doc
----
-title: Static control
-name: e-static
-category: Layout - Form
----
-
-```html_example
-<form class="form-horizontal" role="form">
-  <div class="form-group">
-    <label class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-10">
-      <p class="form-control-static">email@example.com</p>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-    </div>
-  </div>
-</form>
-```
-*/
-/*doc
----
-title: Basic form
-name: i-basic-form
-category: Layout - Form
----
-
-```html_example
-<form role="form">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-  </div>
-  <div class="form-group">
-    <label for="exampleInputFile">File input</label>
-    <input type="file" id="exampleInputFile">
-    <p class="help-block">Example block-level help text here.</p>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Check me out
-    </label>
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>
-```
-*/
-/*doc
----
-title: Inline form
-name: j-inline-form
-category: Layout - Form
----
-
-```html_example
-<form class="form-inline" role="form">
-  <div class="form-group">
-    <label class="sr-only" for="exampleInputEmail2">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-  </div>
-  <div class="form-group">
-    <label class="sr-only" for="exampleInputPassword2">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password">
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Remember me
-    </label>
-  </div>
-  <button type="submit" class="btn btn-default">Sign in</button>
-</form>
-```
-*/
-/*doc
----
-title: Horizontal form
-name: k-horizontal-form
-category: Layout - Form
----
-
-```html_example
-<form class="form-horizontal" role="form">
-  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <div class="checkbox">
-        <label>
-          <input type="checkbox"> Remember me
-        </label>
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-default">Sign in</button>
-    </div>
-  </div>
-</form>
-```
-*/
-/*doc
----
-title: Validations
-name: l-validation
-category: Layout - Form
----
-
-```html_example
-<div class="form-group has-success has-feedback">
-  <label class="control-label" for="inputSuccess2">Input with success</label>
-  <input type="text" class="form-control" id="inputSuccess2">
-  <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-</div>
-<div class="form-group has-warning has-feedback">
-  <label class="control-label" for="inputWarning2">Input with warning</label>
-  <input type="text" class="form-control" id="inputWarning2">
-  <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
-</div>
-<div class="form-group has-error has-feedback">
-  <label class="control-label" for="inputError2">Input with error</label>
-  <input type="text" class="form-control" id="inputError2">
-  <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-</div>
-```
-*/
-/*doc
----
-title: Icons
-name: a-icons
-category: Layout - Icons
----
-
-Just use the `glyphicon` class followed by the specific icon class.
-
-```html_example
-<a href="#">
-  <span class="glyphicon glyphicon-map-marker"></span> Check on the map
-</a>
-```
-
-
-|  Icon                                                              |  Class                                                 |
-|--------------------------------------------------------------------|--------------------------------------------------------|
-|  <span class="glyphicon glyphicon-asterisk"></span>                |  <pre>glyphicon glyphicon-asterisk</pre>               |
-|  <span class="glyphicon glyphicon-plus"></span>                    |  <pre>glyphicon glyphicon-plus</pre>                   |
-|  <span class="glyphicon glyphicon-euro"></span>                    |  <pre>glyphicon glyphicon-euro</pre>                   |
-|  <span class="glyphicon glyphicon-minus"></span>                   |  <pre>glyphicon glyphicon-minus</pre>                  |
-|  <span class="glyphicon glyphicon-cloud"></span>                   |  <pre>glyphicon glyphicon-cloud</pre>                  |
-|  <span class="glyphicon glyphicon-envelope"></span>                |  <pre>glyphicon glyphicon-envelope</pre>               |
-|  <span class="glyphicon glyphicon-pencil"></span>                  |  <pre>glyphicon glyphicon-pencil</pre>                 |
-|  <span class="glyphicon glyphicon-glass"></span>                   |  <pre>glyphicon glyphicon-glass</pre>                  |
-|  <span class="glyphicon glyphicon-music"></span>                   |  <pre>glyphicon glyphicon-music</pre>                  |
-|  <span class="glyphicon glyphicon-search"></span>                  |  <pre>glyphicon glyphicon-search</pre>                 |
-|  <span class="glyphicon glyphicon-heart"></span>                   |  <pre>glyphicon glyphicon-heart</pre>                  |
-|  <span class="glyphicon glyphicon-star"></span>                    |  <pre>glyphicon glyphicon-star</pre>                   |
-|  <span class="glyphicon glyphicon-star-empty"></span>              |  <pre>glyphicon glyphicon-star-empty</pre>             |
-|  <span class="glyphicon glyphicon-user"></span>                    |  <pre>glyphicon glyphicon-user</pre>                   |
-|  <span class="glyphicon glyphicon-film"></span>                    |  <pre>glyphicon glyphicon-film</pre>                   |
-|  <span class="glyphicon glyphicon-th-large"></span>                |  <pre>glyphicon glyphicon-th-large</pre>               |
-|  <span class="glyphicon glyphicon-th"></span>                      |  <pre>glyphicon glyphicon-th</pre>                     |
-|  <span class="glyphicon glyphicon-th-list"></span>                 |  <pre>glyphicon glyphicon-th-list</pre>                |
-|  <span class="glyphicon glyphicon-ok"></span>                      |  <pre>glyphicon glyphicon-ok</pre>                     |
-|  <span class="glyphicon glyphicon-remove"></span>                  |  <pre>glyphicon glyphicon-remove</pre>                 |
-|  <span class="glyphicon glyphicon-zoom-in"></span>                 |  <pre>glyphicon glyphicon-zoom-in</pre>                |
-|  <span class="glyphicon glyphicon-zoom-out"></span>                |  <pre>glyphicon glyphicon-zoom-out</pre>               |
-|  <span class="glyphicon glyphicon-off"></span>                     |  <pre>glyphicon glyphicon-off</pre>                    |
-|  <span class="glyphicon glyphicon-signal"></span>                  |  <pre>glyphicon glyphicon-signal</pre>                 |
-|  <span class="glyphicon glyphicon-cog"></span>                     |  <pre>glyphicon glyphicon-cog</pre>                    |
-|  <span class="glyphicon glyphicon-trash"></span>                   |  <pre>glyphicon glyphicon-trash</pre>                  |
-|  <span class="glyphicon glyphicon-home"></span>                    |  <pre>glyphicon glyphicon-home</pre>                   |
-|  <span class="glyphicon glyphicon-file"></span>                    |  <pre>glyphicon glyphicon-file</pre>                   |
-|  <span class="glyphicon glyphicon-time"></span>                    |  <pre>glyphicon glyphicon-time</pre>                   |
-|  <span class="glyphicon glyphicon-road"></span>                    |  <pre>glyphicon glyphicon-road</pre>                   |
-|  <span class="glyphicon glyphicon-download-alt"></span>            |  <pre>glyphicon glyphicon-download-alt</pre>           |
-|  <span class="glyphicon glyphicon-download"></span>                |  <pre>glyphicon glyphicon-download</pre>               |
-|  <span class="glyphicon glyphicon-upload"></span>                  |  <pre>glyphicon glyphicon-upload</pre>                 |
-|  <span class="glyphicon glyphicon-inbox"></span>                   |  <pre>glyphicon glyphicon-inbox</pre>                  |
-|  <span class="glyphicon glyphicon-play-circle"></span>             |  <pre>glyphicon glyphicon-play-circle</pre>            |
-|  <span class="glyphicon glyphicon-repeat"></span>                  |  <pre>glyphicon glyphicon-repeat</pre>                 |
-|  <span class="glyphicon glyphicon-refresh"></span>                 |  <pre>glyphicon glyphicon-refresh</pre>                |
-|  <span class="glyphicon glyphicon-list-alt"></span>                |  <pre>glyphicon glyphicon-list-alt</pre>               |
-|  <span class="glyphicon glyphicon-lock"></span>                    |  <pre>glyphicon glyphicon-lock</pre>                   |
-|  <span class="glyphicon glyphicon-flag"></span>                    |  <pre>glyphicon glyphicon-flag</pre>                   |
-|  <span class="glyphicon glyphicon-headphones"></span>              |  <pre>glyphicon glyphicon-headphones</pre>             |
-|  <span class="glyphicon glyphicon-volume-off"></span>              |  <pre>glyphicon glyphicon-volume-off</pre>             |
-|  <span class="glyphicon glyphicon-volume-down"></span>             |  <pre>glyphicon glyphicon-volume-down</pre>            |
-|  <span class="glyphicon glyphicon-volume-up"></span>               |  <pre>glyphicon glyphicon-volume-up</pre>              |
-|  <span class="glyphicon glyphicon-qrcode"></span>                  |  <pre>glyphicon glyphicon-qrcode</pre>                 |
-|  <span class="glyphicon glyphicon-barcode"></span>                 |  <pre>glyphicon glyphicon-barcode</pre>                |
-|  <span class="glyphicon glyphicon-tag"></span>                     |  <pre>glyphicon glyphicon-tag</pre>                    |
-|  <span class="glyphicon glyphicon-tags"></span>                    |  <pre>glyphicon glyphicon-tags</pre>                   |
-|  <span class="glyphicon glyphicon-book"></span>                    |  <pre>glyphicon glyphicon-book</pre>                   |
-|  <span class="glyphicon glyphicon-bookmark"></span>                |  <pre>glyphicon glyphicon-bookmark</pre>               |
-|  <span class="glyphicon glyphicon-print"></span>                   |  <pre>glyphicon glyphicon-print</pre>                  |
-|  <span class="glyphicon glyphicon-camera"></span>                  |  <pre>glyphicon glyphicon-camera</pre>                 |
-|  <span class="glyphicon glyphicon-font"></span>                    |  <pre>glyphicon glyphicon-font</pre>                   |
-|  <span class="glyphicon glyphicon-bold"></span>                    |  <pre>glyphicon glyphicon-bold</pre>                   |
-|  <span class="glyphicon glyphicon-italic"></span>                  |  <pre>glyphicon glyphicon-italic</pre>                 |
-|  <span class="glyphicon glyphicon-text-height"></span>             |  <pre>glyphicon glyphicon-text-height</pre>            |
-|  <span class="glyphicon glyphicon-text-width"></span>              |  <pre>glyphicon glyphicon-text-width</pre>             |
-|  <span class="glyphicon glyphicon-align-left"></span>              |  <pre>glyphicon glyphicon-align-left</pre>             |
-|  <span class="glyphicon glyphicon-align-center"></span>            |  <pre>glyphicon glyphicon-align-center</pre>           |
-|  <span class="glyphicon glyphicon-align-right"></span>             |  <pre>glyphicon glyphicon-align-right</pre>            |
-|  <span class="glyphicon glyphicon-align-justify"></span>           |  <pre>glyphicon glyphicon-align-justify</pre>          |
-|  <span class="glyphicon glyphicon-list"></span>                    |  <pre>glyphicon glyphicon-list</pre>                   |
-|  <span class="glyphicon glyphicon-indent-left"></span>             |  <pre>glyphicon glyphicon-indent-left</pre>            |
-|  <span class="glyphicon glyphicon-indent-right"></span>            |  <pre>glyphicon glyphicon-indent-right</pre>           |
-|  <span class="glyphicon glyphicon-facetime-video"></span>          |  <pre>glyphicon glyphicon-facetime-video</pre>         |
-|  <span class="glyphicon glyphicon-picture"></span>                 |  <pre>glyphicon glyphicon-picture</pre>                |
-|  <span class="glyphicon glyphicon-map-marker"></span>              |  <pre>glyphicon glyphicon-map-marker</pre>             |
-|  <span class="glyphicon glyphicon-adjust"></span>                  |  <pre>glyphicon glyphicon-adjust</pre>                 |
-|  <span class="glyphicon glyphicon-tint"></span>                    |  <pre>glyphicon glyphicon-tint</pre>                   |
-|  <span class="glyphicon glyphicon-edit"></span>                    |  <pre>glyphicon glyphicon-edit</pre>                   |
-|  <span class="glyphicon glyphicon-share"></span>                   |  <pre>glyphicon glyphicon-share</pre>                  |
-|  <span class="glyphicon glyphicon-check"></span>                   |  <pre>glyphicon glyphicon-check</pre>                  |
-|  <span class="glyphicon glyphicon-move"></span>                    |  <pre>glyphicon glyphicon-move</pre>                   |
-|  <span class="glyphicon glyphicon-step-backward"></span>           |  <pre>glyphicon glyphicon-step-backward</pre>          |
-|  <span class="glyphicon glyphicon-fast-backward"></span>           |  <pre>glyphicon glyphicon-fast-backward</pre>          |
-|  <span class="glyphicon glyphicon-backward"></span>                |  <pre>glyphicon glyphicon-backward</pre>               |
-|  <span class="glyphicon glyphicon-play"></span>                    |  <pre>glyphicon glyphicon-play</pre>                   |
-|  <span class="glyphicon glyphicon-pause"></span>                   |  <pre>glyphicon glyphicon-pause</pre>                  |
-|  <span class="glyphicon glyphicon-stop"></span>                    |  <pre>glyphicon glyphicon-stop</pre>                   |
-|  <span class="glyphicon glyphicon-forward"></span>                 |  <pre>glyphicon glyphicon-forward</pre>                |
-|  <span class="glyphicon glyphicon-fast-forward"></span>            |  <pre>glyphicon glyphicon-fast-forward</pre>           |
-|  <span class="glyphicon glyphicon-step-forward"></span>            |  <pre>glyphicon glyphicon-step-forward</pre>           |
-|  <span class="glyphicon glyphicon-eject"></span>                   |  <pre>glyphicon glyphicon-eject</pre>                  |
-|  <span class="glyphicon glyphicon-chevron-left"></span>            |  <pre>glyphicon glyphicon-chevron-left</pre>           |
-|  <span class="glyphicon glyphicon-chevron-right"></span>           |  <pre>glyphicon glyphicon-chevron-right</pre>          |
-|  <span class="glyphicon glyphicon-plus-sign"></span>               |  <pre>glyphicon glyphicon-plus-sign</pre>              |
-|  <span class="glyphicon glyphicon-minus-sign"></span>              |  <pre>glyphicon glyphicon-minus-sign</pre>             |
-|  <span class="glyphicon glyphicon-remove-sign"></span>             |  <pre>glyphicon glyphicon-remove-sign</pre>            |
-|  <span class="glyphicon glyphicon-ok-sign"></span>                 |  <pre>glyphicon glyphicon-ok-sign</pre>                |
-|  <span class="glyphicon glyphicon-question-sign"></span>           |  <pre>glyphicon glyphicon-question-sign</pre>          |
-|  <span class="glyphicon glyphicon-info-sign"></span>               |  <pre>glyphicon glyphicon-info-sign</pre>              |
-|  <span class="glyphicon glyphicon-screenshot"></span>              |  <pre>glyphicon glyphicon-screenshot</pre>             |
-|  <span class="glyphicon glyphicon-remove-circle"></span>           |  <pre>glyphicon glyphicon-remove-circle</pre>          |
-|  <span class="glyphicon glyphicon-ok-circle"></span>               |  <pre>glyphicon glyphicon-ok-circle</pre>              |
-|  <span class="glyphicon glyphicon-ban-circle"></span>              |  <pre>glyphicon glyphicon-ban-circle</pre>             |
-|  <span class="glyphicon glyphicon-arrow-left"></span>              |  <pre>glyphicon glyphicon-arrow-left</pre>             |
-|  <span class="glyphicon glyphicon-arrow-right"></span>             |  <pre>glyphicon glyphicon-arrow-right</pre>            |
-|  <span class="glyphicon glyphicon-arrow-up"></span>                |  <pre>glyphicon glyphicon-arrow-up</pre>               |
-|  <span class="glyphicon glyphicon-arrow-down"></span>              |  <pre>glyphicon glyphicon-arrow-down</pre>             |
-|  <span class="glyphicon glyphicon-share-alt"></span>               |  <pre>glyphicon glyphicon-share-alt</pre>              |
-|  <span class="glyphicon glyphicon-resize-full"></span>             |  <pre>glyphicon glyphicon-resize-full</pre>            |
-|  <span class="glyphicon glyphicon-resize-small"></span>            |  <pre>glyphicon glyphicon-resize-small</pre>           |
-|  <span class="glyphicon glyphicon-exclamation-sign"></span>        |  <pre>glyphicon glyphicon-exclamation-sign</pre>       |
-|  <span class="glyphicon glyphicon-gift"></span>                    |  <pre>glyphicon glyphicon-gift</pre>                   |
-|  <span class="glyphicon glyphicon-leaf"></span>                    |  <pre>glyphicon glyphicon-leaf</pre>                   |
-|  <span class="glyphicon glyphicon-fire"></span>                    |  <pre>glyphicon glyphicon-fire</pre>                   |
-|  <span class="glyphicon glyphicon-eye-open"></span>                |  <pre>glyphicon glyphicon-eye-open</pre>               |
-|  <span class="glyphicon glyphicon-eye-close"></span>               |  <pre>glyphicon glyphicon-eye-close</pre>              |
-|  <span class="glyphicon glyphicon-warning-sign"></span>            |  <pre>glyphicon glyphicon-warning-sign</pre>           |
-|  <span class="glyphicon glyphicon-plane"></span>                   |  <pre>glyphicon glyphicon-plane</pre>                  |
-|  <span class="glyphicon glyphicon-calendar"></span>                |  <pre>glyphicon glyphicon-calendar</pre>               |
-|  <span class="glyphicon glyphicon-random"></span>                  |  <pre>glyphicon glyphicon-random</pre>                 |
-|  <span class="glyphicon glyphicon-comment"></span>                 |  <pre>glyphicon glyphicon-comment</pre>                |
-|  <span class="glyphicon glyphicon-magnet"></span>                  |  <pre>glyphicon glyphicon-magnet</pre>                 |
-|  <span class="glyphicon glyphicon-chevron-up"></span>              |  <pre>glyphicon glyphicon-chevron-up</pre>             |
-|  <span class="glyphicon glyphicon-chevron-down"></span>            |  <pre>glyphicon glyphicon-chevron-down</pre>           |
-|  <span class="glyphicon glyphicon-retweet"></span>                 |  <pre>glyphicon glyphicon-retweet</pre>                |
-|  <span class="glyphicon glyphicon-shopping-cart"></span>           |  <pre>glyphicon glyphicon-shopping-cart</pre>          |
-|  <span class="glyphicon glyphicon-folder-close"></span>            |  <pre>glyphicon glyphicon-folder-close</pre>           |
-|  <span class="glyphicon glyphicon-folder-open"></span>             |  <pre>glyphicon glyphicon-folder-open</pre>            |
-|  <span class="glyphicon glyphicon-resize-vertical"></span>         |  <pre>glyphicon glyphicon-resize-vertical</pre>        |
-|  <span class="glyphicon glyphicon-resize-horizontal"></span>       |  <pre>glyphicon glyphicon-resize-horizontal</pre>      |
-|  <span class="glyphicon glyphicon-hdd"></span>                     |  <pre>glyphicon glyphicon-hdd</pre>                    |
-|  <span class="glyphicon glyphicon-bullhorn"></span>                |  <pre>glyphicon glyphicon-bullhorn</pre>               |
-|  <span class="glyphicon glyphicon-bell"></span>                    |  <pre>glyphicon glyphicon-bell</pre>                   |
-|  <span class="glyphicon glyphicon-certificate"></span>             |  <pre>glyphicon glyphicon-certificate</pre>            |
-|  <span class="glyphicon glyphicon-thumbs-up"></span>               |  <pre>glyphicon glyphicon-thumbs-up</pre>              |
-|  <span class="glyphicon glyphicon-thumbs-down"></span>             |  <pre>glyphicon glyphicon-thumbs-down</pre>            |
-|  <span class="glyphicon glyphicon-hand-right"></span>              |  <pre>glyphicon glyphicon-hand-right</pre>             |
-|  <span class="glyphicon glyphicon-hand-left"></span>               |  <pre>glyphicon glyphicon-hand-left</pre>              |
-|  <span class="glyphicon glyphicon-hand-up"></span>                 |  <pre>glyphicon glyphicon-hand-up</pre>                |
-|  <span class="glyphicon glyphicon-hand-down"></span>               |  <pre>glyphicon glyphicon-hand-down</pre>              |
-|  <span class="glyphicon glyphicon-circle-arrow-right"></span>      |  <pre>glyphicon glyphicon-circle-arrow-right</pre>     |
-|  <span class="glyphicon glyphicon-circle-arrow-left"></span>       |  <pre>glyphicon glyphicon-circle-arrow-left</pre>      |
-|  <span class="glyphicon glyphicon-circle-arrow-up"></span>         |  <pre>glyphicon glyphicon-circle-arrow-up</pre>        |
-|  <span class="glyphicon glyphicon-circle-arrow-down"></span>       |  <pre>glyphicon glyphicon-circle-arrow-down</pre>      |
-|  <span class="glyphicon glyphicon-globe"></span>                   |  <pre>glyphicon glyphicon-globe</pre>                  |
-|  <span class="glyphicon glyphicon-wrench"></span>                  |  <pre>glyphicon glyphicon-wrench</pre>                 |
-|  <span class="glyphicon glyphicon-tasks"></span>                   |  <pre>glyphicon glyphicon-tasks</pre>                  |
-|  <span class="glyphicon glyphicon-filter"></span>                  |  <pre>glyphicon glyphicon-filter</pre>                 |
-|  <span class="glyphicon glyphicon-briefcase"></span>               |  <pre>glyphicon glyphicon-briefcase</pre>              |
-|  <span class="glyphicon glyphicon-fullscreen"></span>              |  <pre>glyphicon glyphicon-fullscreen</pre>             |
-|  <span class="glyphicon glyphicon-dashboard"></span>               |  <pre>glyphicon glyphicon-dashboard</pre>              |
-|  <span class="glyphicon glyphicon-paperclip"></span>               |  <pre>glyphicon glyphicon-paperclip</pre>              |
-|  <span class="glyphicon glyphicon-heart-empty"></span>             |  <pre>glyphicon glyphicon-heart-empty</pre>            |
-|  <span class="glyphicon glyphicon-link"></span>                    |  <pre>glyphicon glyphicon-link</pre>                   |
-|  <span class="glyphicon glyphicon-phone"></span>                   |  <pre>glyphicon glyphicon-phone</pre>                  |
-|  <span class="glyphicon glyphicon-pushpin"></span>                 |  <pre>glyphicon glyphicon-pushpin</pre>                |
-|  <span class="glyphicon glyphicon-usd"></span>                     |  <pre>glyphicon glyphicon-usd</pre>                    |
-|  <span class="glyphicon glyphicon-gbp"></span>                     |  <pre>glyphicon glyphicon-gbp</pre>                    |
-|  <span class="glyphicon glyphicon-sort"></span>                    |  <pre>glyphicon glyphicon-sort</pre>                   |
-|  <span class="glyphicon glyphicon-sort-by-alphabet"></span>        |  <pre>glyphicon glyphicon-sort-by-alphabet</pre>       |
-|  <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>    |  <pre>glyphicon glyphicon-sort-by-alphabet-alt</pre>   |
-|  <span class="glyphicon glyphicon-sort-by-order"></span>           |  <pre>glyphicon glyphicon-sort-by-order</pre>          |
-|  <span class="glyphicon glyphicon-sort-by-order-alt"></span>       |  <pre>glyphicon glyphicon-sort-by-order-alt</pre>      |
-|  <span class="glyphicon glyphicon-sort-by-attributes"></span>      |  <pre>glyphicon glyphicon-sort-by-attributes</pre>     |
-|  <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>  |  <pre>glyphicon glyphicon-sort-by-attributes-alt</pre> |
-|  <span class="glyphicon glyphicon-unchecked"></span>               |  <pre>glyphicon glyphicon-unchecked</pre>              |
-|  <span class="glyphicon glyphicon-expand"></span>                  |  <pre>glyphicon glyphicon-expand</pre>                 |
-|  <span class="glyphicon glyphicon-collapse-down"></span>           |  <pre>glyphicon glyphicon-collapse-down</pre>          |
-|  <span class="glyphicon glyphicon-collapse-up"></span>             |  <pre>glyphicon glyphicon-collapse-up</pre>            |
-|  <span class="glyphicon glyphicon-log-in"></span>                  |  <pre>glyphicon glyphicon-log-in</pre>                 |
-|  <span class="glyphicon glyphicon-flash"></span>                   |  <pre>glyphicon glyphicon-flash</pre>                  |
-|  <span class="glyphicon glyphicon-log-out"></span>                 |  <pre>glyphicon glyphicon-log-out</pre>                |
-|  <span class="glyphicon glyphicon-new-window"></span>              |  <pre>glyphicon glyphicon-new-window</pre>             |
-|  <span class="glyphicon glyphicon-record"></span>                  |  <pre>glyphicon glyphicon-record</pre>                 |
-|  <span class="glyphicon glyphicon-save"></span>                    |  <pre>glyphicon glyphicon-save</pre>                   |
-|  <span class="glyphicon glyphicon-open"></span>                    |  <pre>glyphicon glyphicon-open</pre>                   |
-|  <span class="glyphicon glyphicon-saved"></span>                   |  <pre>glyphicon glyphicon-saved</pre>                  |
-|  <span class="glyphicon glyphicon-import"></span>                  |  <pre>glyphicon glyphicon-import</pre>                 |
-|  <span class="glyphicon glyphicon-export"></span>                  |  <pre>glyphicon glyphicon-export</pre>                 |
-|  <span class="glyphicon glyphicon-send"></span>                    |  <pre>glyphicon glyphicon-send</pre>                   |
-|  <span class="glyphicon glyphicon-floppy-disk"></span>             |  <pre>glyphicon glyphicon-floppy-disk</pre>            |
-|  <span class="glyphicon glyphicon-floppy-saved"></span>            |  <pre>glyphicon glyphicon-floppy-saved</pre>           |
-|  <span class="glyphicon glyphicon-floppy-remove"></span>           |  <pre>glyphicon glyphicon-floppy-remove</pre>          |
-|  <span class="glyphicon glyphicon-floppy-save"></span>             |  <pre>glyphicon glyphicon-floppy-save</pre>            |
-|  <span class="glyphicon glyphicon-floppy-open"></span>             |  <pre>glyphicon glyphicon-floppy-open</pre>            |
-|  <span class="glyphicon glyphicon-credit-card"></span>             |  <pre>glyphicon glyphicon-credit-card</pre>            |
-|  <span class="glyphicon glyphicon-transfer"></span>                |  <pre>glyphicon glyphicon-transfer</pre>               |
-|  <span class="glyphicon glyphicon-cutlery"></span>                 |  <pre>glyphicon glyphicon-cutlery</pre>                |
-|  <span class="glyphicon glyphicon-header"></span>                  |  <pre>glyphicon glyphicon-header</pre>                 |
-|  <span class="glyphicon glyphicon-compressed"></span>              |  <pre>glyphicon glyphicon-compressed</pre>             |
-|  <span class="glyphicon glyphicon-earphone"></span>                |  <pre>glyphicon glyphicon-earphone</pre>               |
-|  <span class="glyphicon glyphicon-phone-alt"></span>               |  <pre>glyphicon glyphicon-phone-alt</pre>              |
-|  <span class="glyphicon glyphicon-tower"></span>                   |  <pre>glyphicon glyphicon-tower</pre>                  |
-|  <span class="glyphicon glyphicon-stats"></span>                   |  <pre>glyphicon glyphicon-stats</pre>                  |
-|  <span class="glyphicon glyphicon-sd-video"></span>                |  <pre>glyphicon glyphicon-sd-video</pre>               |
-|  <span class="glyphicon glyphicon-hd-video"></span>                |  <pre>glyphicon glyphicon-hd-video</pre>               |
-|  <span class="glyphicon glyphicon-subtitles"></span>               |  <pre>glyphicon glyphicon-subtitles</pre>              |
-|  <span class="glyphicon glyphicon-sound-stereo"></span>            |  <pre>glyphicon glyphicon-sound-stereo</pre>           |
-|  <span class="glyphicon glyphicon-sound-dolby"></span>             |  <pre>glyphicon glyphicon-sound-dolby</pre>            |
-|  <span class="glyphicon glyphicon-sound-5-1"></span>               |  <pre>glyphicon glyphicon-sound-5-1</pre>              |
-|  <span class="glyphicon glyphicon-sound-6-1"></span>               |  <pre>glyphicon glyphicon-sound-6-1</pre>              |
-|  <span class="glyphicon glyphicon-sound-7-1"></span>               |  <pre>glyphicon glyphicon-sound-7-1</pre>              |
-|  <span class="glyphicon glyphicon-copyright-mark"></span>          |  <pre>glyphicon glyphicon-copyright-mark</pre>         |
-|  <span class="glyphicon glyphicon-registration-mark"></span>       |  <pre>glyphicon glyphicon-registration-mark</pre>      |
-|  <span class="glyphicon glyphicon-cloud-download"></span>          |  <pre>glyphicon glyphicon-cloud-download</pre>         |
-|  <span class="glyphicon glyphicon-cloud-upload"></span>            |  <pre>glyphicon glyphicon-cloud-upload</pre>           |
-|  <span class="glyphicon glyphicon-tree-conifer"></span>            |  <pre>glyphicon glyphicon-tree-conifer</pre>           |
-|  <span class="glyphicon glyphicon-tree-deciduous"></span>          |  <pre>glyphicon glyphicon-tree-deciduous</pre>         |
-*/
-/*doc
----
-title: Images
-name: a-images
-category: Layout - Images
----
-
-
-```html_example
-<img src="http://lorempixel.com/700/400/cats" alt="Some cats image" class="img-responsive">
-```
-*/
-/*doc
----
-title: Figure
-name: b-figure
-category: Layout - Images
----
-
-
-```html_example
-<figure>
-  <img src="http://lorempixel.com/700/400/cats" alt="Some cats image" class="img-responsive">
-  <figcaption>Note : Lorem ipsum dolor sit amet, consectetur adipiscing elit.</figcaption>
-</figure>
-```
-*/
-/*doc
----
-title: Images shapes
-name: c-images-shape
-category: Layout - Images
----
-
-```html_example
-<img src="http://lorempixel.com/150/150/cats" alt="Some cats image" class="img-rounded img-responsive">
-<img src="http://lorempixel.com/150/150/cats" alt="Some cats image" class="img-circle img-responsive">
-<img src="http://lorempixel.com/150/150/cats" alt="Some cats image" class="img-thumbnail img-responsive">
-```
-*/
-/*doc
----
-title: Table
-name: a-table
-category: Layout - Table
----
-
-```html_example
-<div class="table-responsive">
-  <table id="job-offers" class="table table-striped table-hover">
-    <thead>
-      <tr>
-        <th>Participant</th>
-        <th colspan="2">Employer</th>
-        <th colspan="2">Position</th>
-        <th class="text-right">Status</th>
-        <th class="text-right">Updated</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="text-strong"><a href="#/participants/123">Draco Malfoy</a></td>
-        <td>E-123</td>
-        <td><a href="#/employers/123">Bob's Burgers</a></td>
-        <td><a href="#/job-offers/123">Fry Cook</a></td>
-        <td class="text-right">$7.50 <small>/ hour</small></td>
-        <td class="text-right"><span class="label label-success">Accepted</span></td>
-        <td class="text-right">2014-05-12</td>
-      </tr>
-      <tr>
-        <td><a href="#/participants/456">Pansy Parkinson</a></td>
-        <td>E-456</td>
-        <td><a href="#/employers/456">Linda's BnB</a></td>
-        <td><a href="#/job-offers/456">Front Desk</a></td>
-        <td class="text-right">$9.75 <small>/ hour</small></td>
-        <td class="text-right"><span class="label label-info">New</span></td>
-        <td class="text-right">2014-05-11</td>
-      </tr>
-      <tr>
-        <td><a href="#/participants/456">Pansy Parkinson</a></td>
-        <td>E-456</td>
-        <td><a href="#/employers/456">Linda's BnB</a></td>
-        <td><a href="#/job-offers/345">Front Desk</a></td>
-        <td class="text-right">$6.50 <small>/ hour</small></td>
-        <td class="text-right"><span class="label label-danger">Rejected</span></td>
-        <td class="text-right">2014-05-10</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-```
-*/
-/*doc
----
-title: Titles
-name: a-titles
-category: Layout - Typography
----
-
-```html_example
-<h1>My title level 1</h1>
-<h2>My title level 2</h2>
-<h3>My title level 3</h3>
-<h4>My title level 4</h4>
-<h5>My title level 5</h5>
-<h6>My title level 6</h6>
-```
-*/
-/*doc
----
-title: Lead
-name: b-lead
-category: Layout - Typography
----
-
-```html_example
-<p class="lead">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ita separantur, ut disiuncta sint, quo nihil potest esse perversius.
-</p>
-```
-*/
-/*doc
----
-title: Paragraphs
-name: c-paragraphs
-category: Layout - Typography
----
-
-```html_example
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ita separantur, ut disiuncta sint, quo nihil potest esse perversius. An est aliquid, quod te sua sponte delectet? Verum tamen cum de rebus grandioribus dicas, ipsae res verba rapiunt; Re mihi non aeque satisfacit, et quidem locis pluribus. Neque solum ea communia, verum etiam paria esse dixerunt. Sed haec omittamus; Quarum ambarum rerum cum medicinam pollicetur, luxuriae licentiam pollicetur. Duo Reges: constructio interrete. Re mihi non aeque satisfacit, et quidem locis pluribus.
-</p>
-```
-*/
-/*doc
----
-title: Contextual color
-name: d-context-color
-category: Layout - Typography
----
-
-```html_example
-<p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="text-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="text-success">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="text-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="text-warning">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="text-danger">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-```
-*/
-/*doc
----
-title: Contextual background
-name: e-context-background
-category: Layout - Typography
----
-
-```html_example
-<p class="bg-primary">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="bg-success">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="bg-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="bg-warning">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-<p class="bg-danger">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-```
-*/
-/*doc
----
-title: Blockquote
-name: f-blockquote
-category: Layout - Typography
----
-
-```html_example
-<blockquote>
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ita separantur, ut disiuncta sint, quo nihil potest esse perversius. An est aliquid, quod te sua sponte delectet? Verum tamen cum de rebus grandioribus dicas, ipsae res verba rapiunt; Re mihi non aeque satisfacit, et quidem locis pluribus.
-  </p>
-  <small>
-    Eddard Stark, lord of Winterfel
-  </small>
-</blockquote>
-```
-
-##Inverse
-
-```html_example
-<blockquote class="blockquote-reverse">
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ita separantur, ut disiuncta sint, quo nihil potest esse perversius. An est aliquid, quod te sua sponte delectet? Verum tamen cum de rebus grandioribus dicas, ipsae res verba rapiunt; Re mihi non aeque satisfacit, et quidem locis pluribus.
-  </p>
-  <small>
-    Eddard Stark, lord of Winterfel
-  </small>
-</blockquote>
-```
-*/
-/*doc
----
-title: Small
-name: g-small
-category: Layout - Typography
----
-
-```html_example
-<small>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ita separantur, ut disiuncta sint, quo nihil potest esse perversius. An est aliquid, quod te sua sponte delectet? Verum tamen cum de rebus grandioribus dicas, ipsae res verba rapiunt; Re mihi non aeque satisfacit, et quidem locis pluribus.
-</small>
-```
-*/
-/*doc
----
-title: Text elements
-name: h-text-element
-category: Layout - Typography
----
-
-```html_example
-<p>
-   The <a href="#">link element</a> example<br>
-   The <abbr>abbreviation element</abbr> and <abbr title="Title text">abbr element with title</abbr> examples<br>
-   The <b>bold element</b> example<br>
-   The <cite>citation element</cite> example<br>
-   The <code>code element</code> example<br>
-   The <del>deleted element</del> example<br>
-   The <dfn>definition element</dfn> and <dfn title="Title text">dfn element with title</dfn> examples<br>
-   The <em>em element</em> example<br>
-   The <i>italic element</i> example<br>
-   The image element <img src="http://placehold.it/120x25" alt="image description"> example<br>
-   The <ins>insert element</ins> example<br>
-   The <kbd>keyboard element</kbd> example<br>
-   The <mark>marked element</mark> example<br>
-   The <q>quote element <q>inside</q> a q element</q> example<br>
-   The <s>strikethrough element</s> example<br>
-   The <samp>sample element</samp> example<br>
-   The <small>small element</small> example<br>
-   The <span>span element</span> example<br>
-   The <strong>strong element</strong> example<br>
-   The <sub>sub element</sub> example<br>
-   The <sup>sup element</sup> example<br>
-   The <var>variable element</var> example<br>
-   The <u>underline element</u> example
- </p>
-```
-*/
-/*doc
----
-title: Address
-name: i-address
-category: Layout - Typography
----
-
-```html_example
-<address>
-  <strong>Twitter, Inc.</strong><br>
-  795 Folsom Ave, Suite 600<br>
-  San Francisco, CA 94107<br>
-  <abbr title="Phone">P:</abbr> (123) 456-7890
-</address>
-
-<address>
-  <strong>Full Name</strong><br>
-  <a href="mailto:#">first.last@example.com</a>
-</address>
-```
-*/
-/*doc
----
-title: List
-name: j-list
-category: Layout - Typography
----
-
-```html_example
-<ul>
-  <li>Lorem ipsum dolor sit amet</li>
-  <li>Consectetur adipiscing elit</li>
-  <li>
-    Integer molestie lorem at massa
-    <ul>
-      <li>Facilisis in pretium nisl aliquet</li>
-      <li>Nulla volutpat aliquam velit</li>
-    </ul>
-  </li>
-  <li>Vestibulum laoreet porttitor sem</li>
-</ul>
-```
-
-##Ordered
-
-```html_example
-<ol>
-  <li>Lorem ipsum dolor sit amet</li>
-  <li>Consectetur adipiscing elit</li>
-  <li>
-    Integer molestie lorem at massa
-    <ol>
-      <li>Facilisis in pretium nisl aliquet</li>
-      <li>Nulla volutpat aliquam velit</li>
-    </ol>
-  </li>
-  <li>Vestibulum laoreet porttitor sem</li>
-</ol>
-```
-
-##Unstyled
-
-```html_example
-<ul class="list-unstyled">
-  <li>Lorem ipsum dolor sit amet</li>
-  <li>Consectetur adipiscing elit</li>
-  <li>
-    Integer molestie lorem at massa
-    <ul>
-      <li>Facilisis in pretium nisl aliquet</li>
-      <li>Nulla volutpat aliquam velit</li>
-    </ul>
-  </li>
-  <li>Vestibulum laoreet porttitor sem</li>
-</ul>
-```
-
-##Inline
-
-```html_example
-<ul class="list-inline">
-  <li>Lorem</li>
-  <li>Consectetur</li>
-  <li>Vestibulum</li>
-</ul>
-```
-*/
-/*doc
----
-title: Description
-name: k-description
-category: Layout - Typography
----
-
-```html_example
-<dl>
-  <dt>Lorem</dt>
-  <dd>Ipsum dolor sit amet, consectetur adipiscing elit.</dd>
-</dl>
-<dl>
-  <dt>Sit sane ista voluptas</dt>
-  <dd>Itaque primos congressus copulationesque.</dd>
-</dl>
-<dl>
-  <dt>Praeclare hoc quidem</dt>
-  <dd>Sit sane ista voluptas. Itaque primos congressus copulationesque et consuetudinum.</dd>
-  <dd>Praeclare hoc quidem. Quis enim potest ea, quae probabilia videantur ei.</dd>
-</dl>
-```
-
-##Horizontal description
-
-```html_example
-<dl class="dl-horizontal">
-  <dt>Lorem</dt>
-  <dd>Ipsum dolor sit amet, consectetur adipiscing elit.</dd>
-</dl>
-<dl class="dl-horizontal">
-  <dt>Sit sane ista voluptas</dt>
-  <dd>Itaque primos congressus copulationesque.</dd>
-</dl>
-<dl class="dl-horizontal">
-  <dt>Praeclare hoc quidem</dt>
-  <dd>Sit sane ista voluptas. Itaque primos congressus copulationesque et consuetudinum.</dd>
-  <dd>Praeclare hoc quidem. Quis enim potest ea, quae probabilia videantur ei.</dd>
-</dl>
-```
-
-*/
-/*doc
----
-title: Alert message
-name: a-alert-message
-category: JavaScript - Alert
----
-
-```html_example
-<div class="alert alert-warning fade in">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-  <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
-</div>
-<div class="alert alert-danger fade in">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-  <h4>Oh snap! You got an error!</h4>
-  <p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
-  <p>
-    <button type="button" class="btn btn-danger">Take this action</button>
-    <button type="button" class="btn btn-default">Or do this</button>
-  </p>
-</div>
-```
-*/
-/*doc
----
-title: Buttons
-name: a-buttons
-category: JavaScript - Buttons JS
----
-
-```html_example
-<button type="button" data-loading-text="Loading..." class="btn btn-primary">
-  Loading state
-</button>
-```
-
-```js_example
-$('button').click(function () {
-  var btn = $(this);
-
-  btn.button('loading');
-
-  setInterval(function() {
-    btn.button('reset');
-  }, 1500);
-});
-```
-*/
-/*doc
----
-title: Single toggle
-name: b-single-toggle
-category: JavaScript - Buttons JS
----
-
-```html_example
-<button type="button" class="btn btn-primary" data-toggle="button">Single toggle</button>
-```
-*/
-/*doc
----
-title: Checkbox
-name: c-checkbox
-category: JavaScript - Buttons JS
----
-
-```html_example
-<div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-primary">
-    <input type="checkbox"> Option 1
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox"> Option 2
-  </label>
-  <label class="btn btn-primary">
-    <input type="checkbox"> Option 3
-  </label>
-</div>
-```
-*/
-/*doc
----
-title: Radio
-name: d-radio
-category: JavaScript - Buttons JS
----
-
-```html_example
-<div class="btn-group" data-toggle="buttons">
-  <label class="btn btn-primary">
-    <input type="radio"> Option 1
-  </label>
-  <label class="btn btn-primary">
-    <input type="radio"> Option 2
-  </label>
-  <label class="btn btn-primary">
-    <input type="radio"> Option 3
-  </label>
-</div>
-```
-*/
-/*doc
----
-title: Carousel
-name: a-carousel
-category: JavaScript - Carousel
----
-
-```html_example
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="item active">
-      <img src="http://lorempixel.com/900/500/cats">
-    </div>
-    <div class="item">
-      <img src="http://lorempixel.com/900/500/people">
-    </div>
-    <div class="item">
-      <img src="http://lorempixel.com/900/500/animals">
-    </div>
-  </div>
-  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
-</div>
-```
-*/
-/*doc
----
-title: Accordion
-name: a-accordion
-category: JavaScript - Collapse
----
-
-```html_example
-<div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-          Collapsible Group Item #1
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in">
-      <div class="panel-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ergo id est convenienter naturae vivere, a natura discedere. Partim cursu et peragratione laetantur, congregatione aliae coetum quodam modo civitatis imitantur; Cum id fugiunt, re eadem defendunt, quae Peripatetici, verba. Duo Reges: constructio interrete.
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-          Collapsible Group Item #2
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse">
-      <div class="panel-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ergo id est convenienter naturae vivere, a natura discedere. Partim cursu et peragratione laetantur, congregatione aliae coetum quodam modo civitatis imitantur; Cum id fugiunt, re eadem defendunt, quae Peripatetici, verba. Duo Reges: constructio interrete.
-      </div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-          Collapsible Group Item #3
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse">
-      <div class="panel-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ergo id est convenienter naturae vivere, a natura discedere. Partim cursu et peragratione laetantur, congregatione aliae coetum quodam modo civitatis imitantur; Cum id fugiunt, re eadem defendunt, quae Peripatetici, verba. Duo Reges: constructio interrete.
-      </div>
-    </div>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Collapse button
-name: b-collapse-button
-category: JavaScript - Collapse
----
-
-```html_example
-<button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#demo">
-  Collapse
-</button>
-
-<br><br>
-
-<div id="demo" class="collapse">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quae enim adhuc protulisti, popularia sunt, ego autem a te elegantiora desidero. Non est igitur voluptas bonum. Teneo, inquit, finem illi videri nihil dolere. Non quam nostram quidem, inquit Pomponius iocans; Non igitur potestis voluptate omnia dirigentes aut tueri aut retinere virtutem. Duo Reges: constructio interrete. Ex ea difficultate illae fallaciloquae, ut ait Accius, malitiae natae sunt.
-</div>
-```
-*/
-/*doc
----
-title: Dropdown button
-name: a-dropdown-button
-category: JavaScript - Dropdown
----
-
-```html_example
-<div class="btn-group">
-  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-    Action <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
-```
-*/
-/*doc
----
-title: Split dropdown button
-name: b-split-dropdown-button
-category: JavaScript - Dropdown
----
-
-```html_example
-<div class="btn-group">
-  <button type="button" class="btn btn-primary">Action</button>
-  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-    <span class="caret"></span>
-    <span class="sr-only">Toggle Dropdown</span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
-```
-*/
-/*doc
----
-title: Sizes
-name: c-size
-category: JavaScript - Dropdown
----
-
-```html_example
-<div class="btn-group">
-  <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
-    Large button <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
-
-<br><br>
-
-<div class="btn-group">
-  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-    Small button <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
-
-<br><br>
-
-<div class="btn-group">
-  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-    Extra small button <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-    <li class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
-</div>
-```
-*/
-/*doc
----
-title: Modal
-name: a-modal
-category: JavaScript - Modal
----
-
-```html_example
-<!-- Button trigger modal -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Demo
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quid ergo attinet gloriose loqui, nisi constanter loquare ?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Sizes
-name: b-sizes
-category: JavaScript - Modal
----
-
-```html_example
-<!-- Large modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
-
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="myLargeModalLabel">Modal title</h4>
-        </div>
-        <div class="modal-body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quid ergo attinet gloriose loqui, nisi constanter loquare ?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Small modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button>
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" id="mySmallModalLabel">Modal title</h4>
-        </div>
-        <div class="modal-body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quid ergo attinet gloriose loqui, nisi constanter loquare ?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Popover
-name: a-popover
-category: JavaScript - Popover
----
-
-```html_example
-<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on top
-</button>
-<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="right" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on right
-</button>
-<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus
-sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on bottom
-</button>
-<button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="left" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-  Popover on left
-</button>
-
-```
-
-```js_example
-$('button').popover();
-```
-*/
-/*doc
----
-title: ScrollSpy
-name: a-scrollspy
-category: JavaScript - ScrollSpy
----
-
-```html_example
-<nav id="navbar-example2" class="navbar navbar-default navbar-static" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-example-js-navbar-scrollspy">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Project Name</a>
-    </div>
-    <div class="collapse navbar-collapse bs-example-js-navbar-scrollspy">
-      <ul class="nav navbar-nav">
-        <li class=""><a href="#fat">@fat</a></li>
-        <li class="active"><a href="#mdo">@mdo</a></li>
-        <li class="dropdown">
-          <a href="#" id="navbarDrop1" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="navbarDrop1">
-            <li class=""><a href="#one" tabindex="-1">one</a></li>
-            <li class=""><a href="#two" tabindex="-1">two</a></li>
-            <li class="divider"></li>
-            <li><a href="#three" tabindex="-1">three</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-<div data-spy="scroll" data-target="#navbar-example2" data-offset="0" style="height:200px;overflow:auto;">
-  <h4 id="fat">@fat</h4>
-  <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
-  <h4 id="mdo">@mdo</h4>
-  <p>Veniam marfa mustache skateboard, adipisicing fugiat velit pitchfork beard. Freegan beard aliqua cupidatat mcsweeney's vero. Cupidatat four loko nisi, ea helvetica nulla carles. Tattooed cosby sweater food truck, mcsweeney's quis non freegan vinyl. Lo-fi wes anderson +1 sartorial. Carles non aesthetic exercitation quis gentrify. Brooklyn adipisicing craft beer vice keytar deserunt.</p>
-  <h4 id="one">one</h4>
-  <p>Occaecat commodo aliqua delectus. Fap craft beer deserunt skateboard ea. Lomo bicycle rights adipisicing banh mi, velit ea sunt next level locavore single-origin coffee in magna veniam. High life id vinyl, echo park consequat quis aliquip banh mi pitchfork. Vero VHS est adipisicing. Consectetur nisi DIY minim messenger bag. Cred ex in, sustainable delectus consectetur fanny pack iphone.</p>
-  <h4 id="two">two</h4>
-  <p>In incididunt echo park, officia deserunt mcsweeney's proident master cleanse thundercats sapiente veniam. Excepteur VHS elit, proident shoreditch +1 biodiesel laborum craft beer. Single-origin coffee wayfarers irure four loko, cupidatat terry richardson master cleanse. Assumenda you probably haven't heard of them art party fanny pack, tattooed nulla cardigan tempor ad. Proident wolf nesciunt sartorial keffiyeh eu banh mi sustainable. Elit wolf voluptate, lo-fi ea portland before they sold out four loko. Locavore enim nostrud mlkshk brooklyn nesciunt.</p>
-  <h4 id="three">three</h4>
-  <p>Ad leggings keytar, brunch id art party dolor labore. Pitchfork yr enim lo-fi before they sold out qui. Tumblr farm-to-table bicycle rights whatever. Anim keffiyeh carles cardigan. Velit seitan mcsweeney's photo booth 3 wolf moon irure. Cosby sweater lomo jean shorts, williamsburg hoodie minim qui you probably haven't heard of them et cardigan trust fund culpa biodiesel wes anderson aesthetic. Nihil tattooed accusamus, cred irony biodiesel keffiyeh artisan ullamco consequat.</p>
-  <p>Keytar twee blog, culpa messenger bag marfa whatever delectus food truck. Sapiente synth id assumenda. Locavore sed helvetica cliche irony, thundercats you probably haven't heard of them consequat hoodie gluten-free lo-fi fap aliquip. Labore elit placeat before they sold out, terry richardson proident brunch nesciunt quis cosby sweater pariatur keffiyeh ut helvetica artisan. Cardigan craft beer seitan readymade velit. VHS chambray laboris tempor veniam. Anim mollit minim commodo ullamco thundercats.
-  </p>
-</div>
-```
-*/
 /*doc
 ---
 title: Tabs
@@ -8505,22 +7134,3 @@ category: JavaScript - Tabs
 */
 .nav-tabs + .tab-content {
   padding-top: 15px; }
-
-/*doc
----
-title: Tooltips
-name: a-tooltips
-category: JavaScript - Tooltips
----
-
-```html_example
-<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">Tooltip on top</button>
-<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="" data-original-title="Tooltip on right">Tooltip on right</button>
-<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom">Tooltip on bottom</button>
-<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tooltip on left">Tooltip on left</button>
-```
-
-```js_example
-$('button').tooltip();
-```
-*/

@@ -1,0 +1,26 @@
+.navbar > .container img.navbar-brand,
+.navbar > .container-fluid img.navbar-brand {
+  margin-left: 0;
+}
+
+.navbar-default {
+  .navbar-nav > li > a {
+    &:hover {
+      color: darken($brand-primary, 10%);
+    }
+  }
+
+  a.navbar-brand {
+    font-weight: bold;
+    color: $brand-primary;
+
+    &:hover {
+      color: lighten($brand-primary, 10%);
+    }
+  }
+
+  img.navbar-brand {
+    padding: 10px;
+    margin: 0;
+  }
+}

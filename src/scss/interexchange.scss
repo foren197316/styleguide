@@ -12,25 +12,9 @@
 @import 'components/on-review-participant-group-panel.scss';
 
 // CSS -------------------------------------
+@import 'css/code.scss';
 @import 'css/list-group.scss';
-
-// LAYOUT ----------------------------------
-@import 'layout/buttons.scss';
-@import 'layout/code.scss';
-@import 'layout/form.scss';
-@import 'layout/icons.scss';
-@import 'layout/images.scss';
-@import 'layout/table.scss';
-@import 'layout/typography.scss';
+@import 'css/navbar.scss';
 
 // JAVASCRIPT WIDGET -----------------------
-@import 'javascript/alert.scss';
-@import 'javascript/buttons.scss';
-@import 'javascript/carousel.scss';
-@import 'javascript/collapse.scss';
-@import 'javascript/dropdown.scss';
-@import 'javascript/modal.scss';
-@import 'javascript/popover.scss';
-@import 'javascript/scrollspy.scss';
 @import 'javascript/tab.scss';
-@import 'javascript/tooltips.scss';
