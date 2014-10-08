@@ -1,152 +1,3 @@
-/*doc
----
-title: Colors
-name: a-colors
-category: Layout - Colors
----
-
-<div class="container-fluid">
-  <div class="row">
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#222;"><br><br><br><br><br></div>
-      <pre class="text-center">$gray-darker</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#333;"><br><br><br><br><br></div>
-      <pre class="text-center">$gray-dark</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#555;"><br><br><br><br><br></div>
-      <pre class="text-center">$gray</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#999;"><br><br><br><br><br></div>
-      <pre class="text-center">$gray-light</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#eee;"><br><br><br><br><br></div>
-      <pre class="text-center">$gray-lighter</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#428bca;"><br><br><br><br><br></div>
-      <pre class="text-center">$brand-primary</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#5cb85c;"><br><br><br><br><br></div>
-      <pre class="text-center">$brand-success</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#5bc0de;"><br><br><br><br><br></div>
-      <pre class="text-center">$brand-info</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#f0ad4e;"><br><br><br><br><br></div>
-      <pre class="text-center">$brand-warning</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#d9534f;"><br><br><br><br><br></div>
-      <pre class="text-center">$brand-danger</pre>
-    </div>
-
-  </div>
-</div>
-*/
-/*doc
----
-title: Bootflat colors
-name: b-bootfalt-colors
-category: Layout - Colors
----
-
-All the colors are in `-light` or `-dark` variant.
-
-<div class="container-fluid">
-  <div class="row">
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#5D9CEC;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#4A89DC;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$bluejeans</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#4FC1E9;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#3BAFDA;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$aqua</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#48CFAD;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#37BC9B;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$mint</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#A0D468;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#8CC152;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$grass</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#FFCE54;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#F6BB42;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$sunflower</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#FC6E51;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#E9573F;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$bittersweet</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#ED5565;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#DA4453;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$grapefruit</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#AC92EC;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#967ADC;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$lavender</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#EC87C0;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#D770AD;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$pinkrose</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#F5F7FA;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#E6E9ED;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$lightgray</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#CCD1D9;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#AAB2BD;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$mediumgray</pre>
-    </div>
-
-    <div class="col-sm-3 col-xs-6">
-      <div style="background:#656D78;width:50%;float:left;"><br><br><br><br><br></div>
-      <div style="background:#434A54;width:50%;float:left;"><br><br><br><br><br></div>
-      <pre class="text-center">$darkgray</pre>
-    </div>
-  </div>
-</div>
-*/
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -6689,12 +6540,19 @@ button.close {
 
 /*doc
 ---
-title: In Matching Participant Group Panels
-name: in-matching-participant-group-panels
-category: Components - Participant Group Panel
+title: In Matching Participant Groups
+name: in-matching-participant-groups
+category: Components - Participant Group
 ---
 
 ```html_example
+<div class="alert alert-info">
+  <i class="fa fa-rebel"></i>
+  <strong>Careful Padawan!</strong>
+  <span>These React Components are in <strong>heavy flux</strong> right now whilst we build them out
+  for <strong>2015 Winter Work Travel</strong> Self Service!</span>
+</div>
+
 <div id="InMatchingParticipantGroupPanel"></div>
 ```
 
@@ -6707,9 +6565,9 @@ React.renderComponent(
 */
 /*doc
 ---
-title: On Review Participant Group Panels
-name: on-review-participant-group-panels
-category: Components - Participant Group Panel
+title: On Review Participant Groups
+name: on-review-participant-groups
+category: Components - Participant Group
 ---
 
 ```html_example
@@ -6721,39 +6579,6 @@ React.renderComponent(
   <OnReviewParticipantGroupPanels source="/json/participant-groups.json" />,
   document.getElementById("OnReviewParticipantGroupPanel")
 );
-```
-*/
-/*doc
----
-title: Inline code
-name: a-inline-code
-category: CSS - Code
----
-
-```html_example
-For example, <code>&lt;section&gt;</code> should be wrapped as inline.
-```
-*/
-/*doc
----
-title: User input
-name: b-user-input
-category: Layout - Code
----
-
-```html_example
-To switch directories, type <kbd>cd</kbd> followed by the name of the directory.
-```
-*/
-/*doc
----
-title: Code block
-name: c-code-block
-category: Layout - Code
----
-
-```html_example
-<pre>&lt;p&gt;Paragraph content...&lt;/p&gt;</pre>
 ```
 */
 /* ==========================================================
@@ -7031,6 +6856,16 @@ label.list-group {
 .navbar-default img.navbar-brand {
   padding: 10px;
   margin: 0; }
+
+.site-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 54px;
+  color: #003856;
+  margin: 100px 0 150px; }
+  .site-title img {
+    width: 125px;
+    margin-top: -15px; }
 
 /*doc
 ---

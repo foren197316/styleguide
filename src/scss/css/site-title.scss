@@ -1,0 +1,12 @@
+.site-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: $font-size-large * 3;
+  color: $brand-primary;
+  margin: 100px 0 150px;
+
+  img {
+    width: 125px;
+    margin-top: -15px;
+  }
+}
