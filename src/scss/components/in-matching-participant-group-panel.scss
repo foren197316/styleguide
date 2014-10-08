@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: In Matching Participant Group Panels
+name: in-matching-participant-group-panels
+category: Components - In Matching Participant Group Panels
+---
+
+```html_example
+<div id="InMatchingParticipantGroupPanel"></div>
+```
+
+```jsx_example
+React.renderComponent(
+  <InMatchingParticipantGroupPanels source="/json/participant-groups.json" />,
+  document.getElementById("InMatchingParticipantGroupPanel")
+);
+```
+*/

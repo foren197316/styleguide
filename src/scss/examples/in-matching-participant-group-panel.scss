@@ -2,9 +2,9 @@
 
 /*doc
 ---
-title: Participant Group Index
-name: a-participant-group-panel
-category: Examples - Participant Group Index
+title: In Matching Participant Group Index
+name: in-matching-participant-group-panel
+category: Examples - In Matching Participant Group Index
 ---
 
 ```html_example
@@ -62,14 +62,14 @@ category: Examples - Participant Group Index
         </label>
       </div>
     </div>
-    <div id="ParticipantGroupPanel" class="col-md-9"></div>
+    <div id="InMatchingParticipantGroupPanel" class="col-md-9"></div>
   </div>
 ```
 
 ```jsx_example
 React.renderComponent(
-  <ParticipantGroupPanels source="/json/participant-groups.json" />,
-  document.getElementById('ParticipantGroupPanel')
+  <InMatchingParticipantGroupPanels source="/json/participant-groups.json" />,
+  document.getElementById("InMatchingParticipantGroupPanel")
 );
 ```
 */

@@ -1,0 +1,20 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: On Review Participant Group Panels
+name: on-review-participant-group-panels
+category: Components - On Review Participant Group Panels
+---
+
+```html_example
+<div id="OnReviewParticipantGroupPanel"></div>
+```
+
+```jsx_example
+React.renderComponent(
+  <OnReviewParticipantGroupPanels source="/json/participant-groups.json" />,
+  document.getElementById("OnReviewParticipantGroupPanel")
+);
+```
+*/

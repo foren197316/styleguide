@@ -8,30 +8,99 @@ category: JavaScript - Tabs
 ---
 
 ```html_example
-<ul id="myTab" class="nav nav-tabs">
-  <li class=""><a href="#home" data-toggle="tab">Home</a></li>
-  <li><a href="#profile" data-toggle="tab">Profile</a></li>
-  <li class="dropdown active">
-    <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-      <li class="active"><a href="#dropdown1" tabindex="-1" data-toggle="tab">@fat</a></li>
-      <li class=""><a href="#dropdown2" tabindex="-1" data-toggle="tab">@mdo</a></li>
-    </ul>
-  </li>
+<ul id="program-details-navigation" class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#about" role="tab" data-toggle="tab">About The Job</a></li>
+  <li><a href="#locations" role="tab" data-toggle="tab">Locations</a></li>
+  <li><a href="#dates" role="tab" data-toggle="tab">Key Dates</a></li>
 </ul>
-<div id="myTabContent" class="tab-content">
-  <div class="tab-pane fade" id="home">
-    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+<div id="program-details-content" class="tab-content">
+  <div class="tab-pane active" id="about">
+    <p>
+      Being an au pair abroad is a serious job.
+      You'll need to be patient, kind, loving and extremely responsible as you care for your host children.
+      You'll also need to communicate well with your host parents regularly about how things are going.
+    </p>
+
+    <p><strong>Think you're ready to become an au pair abroad?</strong></p>
+
+    <p class="text-center">
+      <a href="#quiz" class="btn btn-success">Take Our Au Pair Quiz!</a>
+    </p>
+
+    <p>
+      Au pairs' responsibilities vary, but most contribute to their host family households by:
+    </p>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <i class="fa fa-car"></i>
+        Dropping the children off and picking them up from school or after-school activities
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-futbol-o"></i>
+        Taking children to lessons, play groups, parks and other fun outings
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-pencil"></i>
+        Helping children with homework
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-puzzle-piece"></i>
+        Assisting in keeping the children's rooms and play areas clean
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-cutlery"></i>
+        Preparing snacks and meals for the children
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-calendar-o"></i>
+        Staying home during school vacations, when a child is sick or on other unexpected days off
+      </li>
+    </ul>
+
+    <p>
+      Your responsibilities as an au pair are only related to child care. As a member of the household, you might contribute to small, everyday tasks like washing dinner dishes or taking the dog for a walk, but only in a way that is equal to the contributions of other members of the family.
+    </p>
   </div>
-  <div class="tab-pane fade" id="profile">
-    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+  <div class="tab-pane" id="locations">
+    <div class="list-group">
+      <a class="list-group-item" href="#locations-australia">
+        <i class="fa fa-globe"></i>
+        Australia
+      </a>
+      <a class="list-group-item" href="#locations-france">
+        <i class="fa fa-globe"></i>
+        France
+      </a>
+      <a class="list-group-item" href="#locations-germany">
+        <i class="fa fa-globe"></i>
+        Germany
+      </a>
+      <a class="list-group-item" href="#locations-netherlands">
+        <i class="fa fa-globe"></i>
+        Netherlands
+      </a>
+      <a class="list-group-item" href="#locations-new-zealand">
+        <i class="fa fa-globe"></i>
+        New Zealand
+      </a>
+    </div>
   </div>
-  <div class="tab-pane fade active in" id="dropdown1">
-    <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-  </div>
-  <div class="tab-pane fade" id="dropdown2">
-    <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+  <div class="tab-pane" id="dates">
+    <h5>Program Length</h5>
+    <p>
+      Most au pair abroad placements last nine to 12 months. We also have a limited number of six-month and summer positions available.
+    </p>
+
+    <h5>Start Dates</h5>
+    <p>
+      For the nine- to 12-month and six-month placements, start dates are rolling. Most families prefer au pairs to start in May/June for the summer programs.
+    </p>
   </div>
 </div>
 ```
 */
+
+.nav-tabs + .tab-content {
+  padding-top: 15px;
+}

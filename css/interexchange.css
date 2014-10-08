@@ -6664,6 +6664,70 @@ button.close {
 .fa-meanpath:before {
   content: "\f20c"; }
 
+.participant-group-panel {
+  background-color: #5bc0de; }
+  .participant-group-panel .media-object {
+    width: 100px;
+    height: 100px; }
+  .participant-group-panel i.fa {
+    padding-right: 5px; }
+  .participant-group-panel .panel-footer .panel-text {
+    display: inline-block;
+    margin: 5px 0; }
+  .participant-group-panel .panel-footer .panel-title {
+    display: inline-block;
+    font-size: 18px;
+    margin-top: 3px; }
+  .participant-group-panel .panel-footer hr {
+    margin: 10px 0; }
+
+@media (min-width: 768px) {
+  .participant-group-panel .media-heading {
+    margin-top: 30px; }
+  .participant-group-panel .panel-footer .panel-title {
+    width: 110px; } }
+
+/*doc
+---
+title: In Matching Participant Group Panels
+name: in-matching-participant-group-panels
+category: Components - In Matching Participant Group Panels
+---
+
+```html_example
+<div id="InMatchingParticipantGroupPanel"></div>
+```
+
+```jsx_example
+React.renderComponent(
+  <InMatchingParticipantGroupPanels source="/json/participant-groups.json" />,
+  document.getElementById("InMatchingParticipantGroupPanel")
+);
+```
+*/
+/*doc
+---
+title: On Review Participant Group Panels
+name: on-review-participant-group-panels
+category: Components - On Review Participant Group Panels
+---
+
+```html_example
+<div id="OnReviewParticipantGroupPanel"></div>
+```
+
+```jsx_example
+React.renderComponent(
+  <OnReviewParticipantGroupPanels source="/json/participant-groups.json" />,
+  document.getElementById("OnReviewParticipantGroupPanel")
+);
+```
+*/
+label.list-group {
+  width: 100%; }
+  label.list-group input.list-group-item {
+    width: 100%; }
+
 /*doc
 ---
 title: Buttons
@@ -7867,1449 +7931,6 @@ category: Layout - Typography
 */
 /*doc
 ---
-title: Alerts
-name: a-alerts
-category: Components - Alerts
----
-
-```html_example
-<div class="alert alert-success">
-  <strong>Well done!</strong> You successfully read this important alert message.
-</div>
-<div class="alert alert-info">
-  <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
-</div>
-<div class="alert alert-warning">
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-</div>
-<div class="alert alert-danger">
-  <strong>Oh snap!</strong> Change a few things up and try submitting again.
-</div>
-```
-*/
-/*doc
----
-title: Dismissable alerts
-name: b-dismissable-alerts
-
-category: Components - Alerts
----
-
-```html_example
-<div class="alert alert-warning alert-dismissable">
-  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-  <strong>Warning!</strong> Better check yourself, you're not looking too good.
-</div>
-```
-*/
-/*doc
----
-title: Default badge
-name: a-badge
-category: Components - Badges
----
-
-```html_example
-<a href="#">Inbox</a> <span class="badge">42</span>
-```
-*/
-/*doc
----
-title: Nav states
-name: b-nav-states
-category: Components - Badges
----
-
-```html_example
-<ul class="nav nav-pills">
-  <li class="active"><a href="#">Home <span class="badge">42</span></a></li>
-  <li><a href="#">Profile</a></li>
-  <li><a href="#">Messages <span class="badge">3</span></a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Breadcrumb
-name: a-breadcrumb
-category: Components - Breadcrumb
----
-
-```html_example
-<ol class="breadcrumb">
-  <li><a href="#">Home</a></li>
-  <li><a href="#">Library</a></li>
-  <li class="active">Data</li>
-</ol>
-```
-*/
-/*doc
----
-title: Group
-name: a-group
-category: Components - Button Groups
----
-
-```html_example
-<div class="btn-group">
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-left"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-center"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-right"></i></button>
-</div>
-```
-
-## Vertical group
-
-```html_example
-<div class="btn-group-vertical">
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-home"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-user"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-comment"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-cog"></i></button>
-</div>
-```
-
-## Justified group
-```html_example
-<div class="btn-group btn-group-justified">
-  <a href="#" class="btn btn-primary"><i class="glyphicon glyphicon-align-left"></i></a>
-  <a href="#" class="btn btn-primary"><i class="glyphicon glyphicon-align-center"></i></a>
-  <a href="#" class="btn btn-primary"><i class="glyphicon glyphicon-align-right"></i></a>
-</div>
-```
-
-*/
-/*doc
----
-title: Sizes
-name: b-sizes
-category: Components - Button Groups
----
-
-```html_example
-<!-- Horizontal group -->
-<div class="btn-group btn-group-lg">
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-left"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-center"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-right"></i></button>
-</div>
-
-<br><br>
-
-<div class="btn-group">
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-left"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-center"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-right"></i></button>
-</div>
-
-<br><br>
-
-<div class="btn-group btn-group-sm">
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-left"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-center"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-right"></i></button>
-</div>
-
-<br><br>
-
-<div class="btn-group btn-group-xs">
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-left"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-center"></i></button>
-  <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-align-right"></i></button>
-</div>
-```
-*/
-/*doc
----
-title: With dropdown
-name: c-with-dropdown
-category: Components - Button Groups
----
-
-```html_example
-<div class="btn-group">
-  <button type="button" class="btn btn-primary">1</button>
-  <button type="button" class="btn btn-primary">2</button>
-
-  <div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-      Dropdown
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu">
-      <li><a href="#">Dropdown link</a></li>
-      <li><a href="#">Dropdown link</a></li>
-    </ul>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Input groups
-name: a-input-groups
-category: Components - Input groups
----
-
-```html_example
-<div class="input-group">
-  <span class="input-group-addon">@</span>
-  <input type="text" class="form-control" placeholder="Username">
-</div>
-
-<br>
-
-<div class="input-group">
-  <input type="text" class="form-control">
-  <span class="input-group-addon">.00</span>
-</div>
-
-<br>
-
-<div class="input-group">
-  <span class="input-group-addon">$</span>
-  <input type="text" class="form-control">
-  <span class="input-group-addon">.00</span>
-</div>
-```
-*/
-/*doc
----
-title: Sizes
-name: c-sizes
-category: Components - Input groups
----
-
-```html_example
-<div class="input-group input-group-lg">
-  <span class="input-group-addon">@</span>
-  <input type="text" class="form-control" placeholder="Username">
-</div>
-
-<br>
-
-<div class="input-group">
-  <span class="input-group-addon">@</span>
-  <input type="text" class="form-control" placeholder="Username">
-</div>
-
-<br>
-
-<div class="input-group input-group-sm">
-  <span class="input-group-addon">@</span>
-  <input type="text" class="form-control" placeholder="Username">
-</div>
-```
-*/
-/*doc
----
-title: Checkbox-Radio addon
-name: d-checkbox-addon
-category: Components - Input groups
----
-
-```html_example
-<div class="input-group">
-  <span class="input-group-addon">
-    <input type="checkbox">
-  </span>
-  <input type="text" class="form-control">
-</div>
-```
-*/
-/*doc
----
-title: Button addon
-name: e-button-addon
-category: Components - Input groups
----
-
-```html_example
-<div class="input-group">
-  <span class="input-group-btn">
-    <button class="btn btn-primary" type="button">Go</button>
-  </span>
-  <input type="text" class="form-control">
-</div>
-```
-*/
-/*doc
----
-title: Dropdown addon
-name: f-dropdown-addon
-category: Components - Input groups
----
-
-```html_example
-<div class="input-group">
-  <input type="text" class="form-control">
-  <div class="input-group-btn">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action <span class="caret"></span></button>
-    <ul class="dropdown-menu pull-right">
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li class="divider"></li>
-      <li><a href="#">Separated link</a></li>
-    </ul>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Jumbotron
-name: a-jumbotron
-category: Components - Jumbotron
----
-
-```html_example
-<div class="jumbotron">
-  <h1>Hello, world!</h1>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non enim iam stirpis bonum quaeret, sed animalis. Nec vero alia sunt quaerenda.</p>
-  <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
-</div>
-```
-*/
-/*doc
----
-title: Default label
-name: a-labels
-category: Components - Labels
----
-
-```html_example
-<h1>Example heading <span class="label label-default">New</span></h1>
-<h2>Example heading <span class="label label-default">New</span></h2>
-<h3>Example heading <span class="label label-default">New</span></h3>
-<h4>Example heading <span class="label label-default">New</span></h4>
-<h5>Example heading <span class="label label-default">New</span></h5>
-<h6>Example heading <span class="label label-default">New</span></h6>
-```
-*/
-/*doc
----
-title: Variations
-name: b-variations
-category: Components - Labels
----
-
-```html_example
-<span class="label label-default">Default</span>
-<span class="label label-primary">Primary</span>
-<span class="label label-success">Success</span>
-<span class="label label-info">Info</span>
-<span class="label label-warning">Warning</span>
-<span class="label label-danger">Danger</span>
-```
-*/
-/*doc
----
-title: List group
-name: a-list-group
-category: Components - List group
----
-
-```html_example
-<ul class="list-group">
-  <li class="list-group-item">Cras justo odio</li>
-  <li class="list-group-item">Dapibus ac facilisis in</li>
-  <li class="list-group-item">Morbi leo risus</li>
-  <li class="list-group-item">Porta ac consectetur ac</li>
-  <li class="list-group-item">Vestibulum at eros</li>
-</ul>
-```
-*/
-/*doc
----
-title: Badge
-name: b-badge
-category: Components - List group
----
-
-```html_example
-<ul class="list-group">
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">2</span>
-    Dapibus ac facilisis in
-  </li>
-  <li class="list-group-item">
-    <span class="badge">1</span>
-    Morbi leo risus
-  </li>
-</ul>
-```
-*/
-/*doc
----
-title: Linked items
-name: c-linked-item
-category: Components - List group
----
-
-```html_example
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    Cras justo odio
-  </a>
-  <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-  <a href="#" class="list-group-item">Morbi leo risus</a>
-  <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-  <a href="#" class="list-group-item">Vestibulum at eros</a>
-</div>
-```
-*/
-/*doc
----
-title: Contextual
-name: d-contextual
-category: Components - List group
----
-
-```html_example
-<ul class="list-group">
-  <li class="list-group-item list-group-item-success">Dapibus ac facilisis in</li>
-  <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
-  <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
-  <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
-</ul>
-```
-*/
-/*doc
----
-title: Custom content
-name: e-custom-content
-category: Components - List group
----
-
-```html_example
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Serpere anguiculos, nare anaticulas.</p>
-  </a>
-  <a href="#" class="list-group-item">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Serpere anguiculos, nare anaticulas.</p>
-  </a>
-  <a href="#" class="list-group-item">
-    <h4 class="list-group-item-heading">List group item heading</h4>
-    <p class="list-group-item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Serpere anguiculos, nare anaticulas.</p>
-  </a>
-</div>
-```
-*/
-label.list-group {
-  width: 100%; }
-  label.list-group input.list-group-item {
-    width: 100%; }
-
-/*doc
----
-title: Default media
-name: a-media
-category: Components - Media
----
-
-```html_example
-<div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4>
-    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-  </div>
-</div>
-<div class="media">
-  <a class="pull-left" href="#">
-    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-  </a>
-  <div class="media-body">
-    <h4 class="media-heading">Media heading</h4>
-    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-    <div class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">Nested media heading</h4>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-      </div>
-    </div>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Media list
-name: b-media-list
-category: Components - Media
----
-
-```html_example
-  <ul class="media-list">
-    <li class="media">
-      <a class="pull-left" href="#">
-        <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">Media heading</h4>
-        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
-        <!-- Nested media object -->
-        <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading">Nested media heading</h4>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-            <!-- Nested media object -->
-            <div class="media">
-              <a class="pull-left" href="#">
-                <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">Nested media heading</h4>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Nested media object -->
-        <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading">Nested media heading</h4>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-          </div>
-        </div>
-      </div>
-    </li>
-    <li class="media">
-      <a class="pull-right" href="#">
-        <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="http://lorempixel.com/64/64/cats" style="width: 64px; height: 64px;">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">Media heading</h4>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
-      </div>
-    </li>
-  </ul>
-```
-*/
-/*doc
----
-title: Tabs
-name: a-tabs
-category: Components - Nav
----
-
-```html_example
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a href="#">Profile</a></li>
-  <li><a href="#">Messages</a></li>
-</ul>
-```
-
-## Justified
-
-```html_example
-<ul class="nav nav-tabs nav-justified">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a href="#">Profile</a></li>
-  <li><a href="#">Messages</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Pills
-name: b-pills
-category: Components - Nav
----
-
-```html_example
-<ul class="nav nav-pills">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a href="#">Profile</a></li>
-  <li class="disabled"><a href="#">Messages</a></li>
-</ul>
-```
-
-## Staked
-
-```html_example
-<ul class="nav nav-pills nav-stacked">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a href="#">Profile</a></li>
-  <li><a href="#">Messages</a></li>
-</ul>
-```
-
-## Justified
-
-```html_example
-<ul class="nav nav-pills nav-justified">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a href="#">Profile</a></li>
-  <li><a href="#">Messages</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: With dropdown
-name: c-with-dropdown
-category: Components - Nav
----
-
-```html_example
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#">Home</a></li>
-  <li><a href="#">Help</a></li>
-  <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-      Dropdown <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li class="divider"></li>
-      <li><a href="#">Separated link</a></li>
-    </ul>
-  </li>
-</ul>
-```
-*/
-/*doc
----
-title: Navbar
-name: a-navbar
-category: Components - Navbar
----
-
-```html_example
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
-
-    <!-- Collect the nav links -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-```
-*/
-/*doc
----
-title: Inverted navbar
-name: b-inverted-navbar
-category: Components - Navbar
----
-
-```html_example
-<nav class="navbar navbar-inverse" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
-
-    <!-- Collect the nav links -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-```
-*/
-/*doc
----
-title: Form
-name: c-form
-category: Components - Navbar
----
-
-```html_example
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-      <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-    </div>
-  </div>
-</nav>
-```
-*/
-/*doc
----
-title: Text
-name: d-text
-category: Components - Navbar
----
-
-```html_example
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-4">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-4">
-      <p class="navbar-text">Signed in as Mark Otto</p>
-    </div>
-  </div>
-</nav>
-```
-*/
-/*doc
----
-title: Dropdown
-name: e-dropdown
-category: Components - Navbar
----
-
-```html_example
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-4">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Brand</a>
-    </div>
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-4">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-```
-*/
-.navbar-default .navbar-header img.navbar-brand {
-  padding: 0;
-  margin: 10px;
-  width: 30px;
-  height: 30px; }
-.navbar-default .navbar-header .navbar-brand {
-  color: #003856;
-  font-weight: 800; }
-
-/*doc
----
-title: Default pager
-name: a-default-pager
-category: Components - Pager
----
-
-```html_example
-<ul class="pager">
-  <li><a href="#">Previous</a></li>
-  <li><a href="#">Next</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Align links
-name: b-align-link
-category: Components - Pager
----
-
-```html_example
-<ul class="pager">
-  <li class="previous"><a href="#">&larr; Older</a></li>
-  <li class="next"><a href="#">Newer &rarr;</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Disabled
-name: c-disabled
-category: Components - Pager
----
-
-```html_example
-<ul class="pager">
-  <li class="previous disabled"><a href="#">&larr; Older</a></li>
-  <li class="next"><a href="#">Newer &rarr;</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Default pagination
-name: a-default-pagination
-category: Components - Pagination
----
-
-```html_example
-<ul class="pagination">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Active - Disabled
-name: b-active-disabled
-category: Components - Pagination
----
-
-```html_example
-<ul class="pagination">
-  <li class="disabled"><a href="#">&laquo;</a></li>
-  <li class="active"><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Sizes
-name: c-sizes
-category: Components - Pagination
----
-
-```html_example
-<ul class="pagination pagination-lg">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
-
-<br>
-
-<ul class="pagination">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
-
-<br>
-
-<ul class="pagination pagination-sm">
-  <li><a href="#">&laquo;</a></li>
-  <li><a href="#">1</a></li>
-  <li><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
-  <li><a href="#">&raquo;</a></li>
-</ul>
-```
-*/
-/*doc
----
-title: Basic panel
-name: a-panel
-category: Components - Panels
----
-
-```html_example
-<div class="panel panel-default">
-  <div class="panel-body">
-    Basic panel example
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Panel with heading
-name: b-panel-heading
-category: Components - Panels
----
-
-```html_example
-<div class="panel panel-default">
-  <div class="panel-heading">Panel heading without title</div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Panel title</h3>
-  </div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Panel with footer
-name: c-panel-footer
-category: Components - Panels
----
-
-```html_example
-<div class="panel panel-default">
-  <div class="panel-body">
-    Panel content
-  </div>
-  <div class="panel-footer">Panel footer</div>
-</div>
-```
-*/
-/*doc
----
-title: Contextual
-name: d-contextual
-category: Components - Panels
----
-
-```html_example
-<div class="panel panel-primary">
-  <div class="panel-heading">Panel heading without title</div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-
-<div class="panel panel-success">
-  <div class="panel-heading">Panel heading without title</div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-
-<div class="panel panel-info">
-  <div class="panel-heading">Panel heading without title</div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-
-<div class="panel panel-warning">
-  <div class="panel-heading">Panel heading without title</div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-
-<div class="panel panel-danger">
-  <div class="panel-heading">Panel heading without title</div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Panel with table
-name: e-panel-table
-category: Components - Panels
----
-
-```html_example
-<div class="panel panel-default">
-  <div class="panel-heading">Panel heading</div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Username</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-```
-*/
-/*doc
----
-title: Panel with list
-name: f-panel-list
-category: Components - Panels
----
-
-```html_example
-<div class="panel panel-default">
-  <div class="panel-heading">Panel heading</div>
-  <div class="panel-body">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quid igitur, inquit, eos responsuros putas? Sed residamus.</p>
-  </div>
-  <ul class="list-group">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Morbi leo risus</li>
-    <li class="list-group-item">Porta ac consectetur ac</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-</div>
-```
-*/
-/*doc
----
-title: List Group
-name: a-list-group
-category: Layout - List Group
----
-
-```html_example
-<div class="panel panel-default">
-  <div class="list-group">
-    <a class="list-group-item" href="#/participants/flint">
-      <div class="media text-primary">
-        <img class="media-object img-circle pull-left" src="/images/participants/flint.jpg" alt="Marcus Flint" />
-        <div class="media-body">
-          <div class="row">
-            <div class="col-md-3 col-xs-12">
-              <h4 class="media-heading">Marcus Flint</h4>
-            </div>
-            <div class="col-md-9 col-xs-12">
-              <div class="row">
-                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
-                <div class="col-md-3 col-xs-12 ">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-    <a class="list-group-item" href="#/participants/parkinson">
-      <div class="media text-danger">
-        <img class="media-object img-circle pull-left" src="/images/participants/parkinson.jpg" alt="Pansy Parkinson" />
-        <div class="media-body">
-          <div class="row">
-            <div class="col-md-3 col-xs-12">
-              <h4 class="media-heading">Pansy Parkinson</h4>
-            </div>
-            <div class="col-md-9 col-xs-12">
-              <div class="row">
-                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
-                <div class="col-md-3 col-xs-12 ">23 at arrival</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="panel-footer clearfix">
-    <span>Travelling as <strong>Couple</strong></span>
-    <button class="btn btn-success btn-xs pull-right">Put on Review</button>
-  </div>
-</div>
-
-<div class="panel panel-default">
-  <div class="list-group">
-    <a class="list-group-item" href="#/participants/crabbe">
-      <div class="media text-primary">
-        <img class="media-object img-circle pull-left" src="/images/participants/crabbe.jpg" alt="Vincent Crabbe" />
-        <div class="media-body">
-          <div class="row">
-            <div class="col-md-3 col-xs-12">
-              <h4 class="media-heading">Vincent Crabbe</h4>
-            </div>
-            <div class="col-md-9 col-xs-12">
-              <div class="row">
-                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
-                <div class="col-md-3 col-xs-12 ">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 12 2014</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Apr 03 2015</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="panel-footer clearfix">
-    <span>Travelling with <strong>Friends</strong></span>
-    <button class="btn btn-success btn-xs pull-right">Put on Review</button>
-  </div>
-</div>
-
-<div class="panel panel-default">
-  <div class="list-group">
-    <a class="list-group-item" href="#/participants/malfoy">
-      <div class="media text-primary">
-        <img class="media-object img-circle pull-left" src="/images/participants/malfoy.jpg" alt="Draco Malfoy" />
-        <div class="media-body">
-          <div class="row">
-            <div class="col-md-3 col-xs-12">
-              <h4 class="media-heading">Draco Malfoy</h4>
-            </div>
-            <div class="col-md-9 col-xs-12">
-              <div class="row">
-                <div class="col-md-3 col-xs-12 "><strong>United Kingdom</strong></div>
-                <div class="col-md-3 col-xs-12 ">22 at arrival</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane fa-flip-vertical"></i> Dec 07 2014</div>
-                <div class="col-md-3 col-xs-12 "><i class="fa fa-plane"></i> Mar 31 2015</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="panel-footer clearfix">
-    <button class="btn btn-success btn-xs pull-right">Put on Review</button>
-  </div>
-</div>
-```
-*/
-.participant-group-panel {
-  background-color: #5bc0de; }
-  .participant-group-panel .media-object {
-    width: 100px;
-    height: 100px; }
-  .participant-group-panel i.fa {
-    padding-right: 5px; }
-  .participant-group-panel .panel-footer .panel-text {
-    display: inline-block;
-    margin: 5px 0; }
-  .participant-group-panel .panel-footer .panel-title {
-    display: inline-block;
-    font-size: 18px;
-    margin-top: 3px; }
-  .participant-group-panel .panel-footer hr {
-    margin: 10px 0; }
-
-@media (min-width: 768px) {
-  .participant-group-panel .media-heading {
-    margin-top: 30px; }
-  .participant-group-panel .panel-footer .panel-title {
-    width: 110px; } }
-
-/*doc
----
-title: Basic progress bar
-name: a-basic-bar
-category: Components - Progress bar
----
-
-```html_example
-<div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-    <span class="sr-only">60% Complete</span>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: With label
-name: b-with-label
-category: Components - Progress bar
----
-
-```html_example
-<div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-    60%
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Contextual
-name: c-contextual
-category: Components - Progress bar
----
-
-```html_example
-<div class="progress">
-  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-    <span class="sr-only">40% Complete (success)</span>
-  </div>
-</div>
-
-<div class="progress">
-  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-    <span class="sr-only">20% Complete</span>
-  </div>
-</div>
-
-<div class="progress">
-  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-    <span class="sr-only">60% Complete (warning)</span>
-  </div>
-</div>
-
-<div class="progress">
-  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-    <span class="sr-only">80% Complete</span>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Striped
-name: c-striped
-category: Components - Progress bar
----
-
-```html_example
-<div class="progress progress-striped">
-  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-    <span class="sr-only">40% Complete (success)</span>
-  </div>
-</div>
-
-<div class="progress progress-striped">
-  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-    <span class="sr-only">20% Complete</span>
-  </div>
-</div>
-
-<div class="progress progress-striped">
-  <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-    <span class="sr-only">60% Complete (warning)</span>
-  </div>
-</div>
-
-<div class="progress progress-striped">
-  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-    <span class="sr-only">80% Complete</span>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Animated
-name: d-animated
-category: Components - Progress bar
----
-
-```html_example
-<div class="progress progress-striped active">
-  <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-    <span class="sr-only">45% Complete</span>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Stacked
-name: e-stacked
-category: Components - Progress bar
----
-
-```html_example
-<div class="progress">
-  <div class="progress-bar progress-bar-success" style="width: 35%">
-    <span class="sr-only">35% Complete (success)</span>
-  </div>
-  <div class="progress-bar progress-bar-warning" style="width: 20%">
-    <span class="sr-only">20% Complete (warning)</span>
-  </div>
-  <div class="progress-bar progress-bar-danger" style="width: 10%">
-    <span class="sr-only">10% Complete (danger)</span>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Default thumbnail
-name: a-thumbnail
-category: Components - Thumbnails
----
-
-```html_example
-<div class="row">
-  <div class="col-xs-6 col-md-3">
-    <a href="#" class="thumbnail">
-      <img src="http://lorempixel.com/300/300/cats" alt="Some cats image">
-    </a>
-  </div>
-  <div class="col-xs-6 col-md-3">
-    <a href="#" class="thumbnail">
-      <img src="http://lorempixel.com/300/300/cats" alt="Some cats image">
-    </a>
-  </div>
-  <div class="col-xs-6 col-md-3">
-    <a href="#" class="thumbnail">
-      <img src="http://lorempixel.com/300/300/cats" alt="Some cats image">
-    </a>
-  </div>
-  <div class="col-xs-6 col-md-3">
-    <a href="#" class="thumbnail">
-      <img src="http://lorempixel.com/300/300/cats" alt="Some cats image">
-    </a>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Custom content
-name: b-custom-content
-category: Components - Thumbnails
----
-
-```html_example
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail">
-      <img src="http://lorempixel.com/300/300/cats" alt="Some cats image">
-      <div class="caption">
-        <h3>Thumbnail label</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quid enim tanto opus est instrumento in optimis.</p>
-        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
-      </div>
-    </div>
-  </div>
-</div>
-```
-*/
-/*doc
----
-title: Default well
-name: a-well
-category: Components - Well
----
-
-```html_example
-<div class="well">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</div>
-```
-*/
-/*doc
----
-title: Sizes
-name: b-sizes
-category: Components - Well
----
-
-```html_example
-<div class="well well-lg">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</div>
-<div class="well well-sm">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</div>
-```
-*/
-/*doc
----
 title: Alert message
 name: a-alert-message
 category: JavaScript - Alert
@@ -9790,33 +8411,101 @@ category: JavaScript - Tabs
 ---
 
 ```html_example
-<ul id="myTab" class="nav nav-tabs">
-  <li class=""><a href="#home" data-toggle="tab">Home</a></li>
-  <li><a href="#profile" data-toggle="tab">Profile</a></li>
-  <li class="dropdown active">
-    <a href="#" id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
-      <li class="active"><a href="#dropdown1" tabindex="-1" data-toggle="tab">@fat</a></li>
-      <li class=""><a href="#dropdown2" tabindex="-1" data-toggle="tab">@mdo</a></li>
-    </ul>
-  </li>
+<ul id="program-details-navigation" class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#about" role="tab" data-toggle="tab">About The Job</a></li>
+  <li><a href="#locations" role="tab" data-toggle="tab">Locations</a></li>
+  <li><a href="#dates" role="tab" data-toggle="tab">Key Dates</a></li>
 </ul>
-<div id="myTabContent" class="tab-content">
-  <div class="tab-pane fade" id="home">
-    <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+<div id="program-details-content" class="tab-content">
+  <div class="tab-pane active" id="about">
+    <p>
+      Being an au pair abroad is a serious job.
+      You'll need to be patient, kind, loving and extremely responsible as you care for your host children.
+      You'll also need to communicate well with your host parents regularly about how things are going.
+    </p>
+
+    <p><strong>Think you're ready to become an au pair abroad?</strong></p>
+
+    <p class="text-center">
+      <a href="#quiz" class="btn btn-success">Take Our Au Pair Quiz!</a>
+    </p>
+
+    <p>
+      Au pairs' responsibilities vary, but most contribute to their host family households by:
+    </p>
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <i class="fa fa-car"></i>
+        Dropping the children off and picking them up from school or after-school activities
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-futbol-o"></i>
+        Taking children to lessons, play groups, parks and other fun outings
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-pencil"></i>
+        Helping children with homework
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-puzzle-piece"></i>
+        Assisting in keeping the children's rooms and play areas clean
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-cutlery"></i>
+        Preparing snacks and meals for the children
+      </li>
+      <li class="list-group-item">
+        <i class="fa fa-calendar-o"></i>
+        Staying home during school vacations, when a child is sick or on other unexpected days off
+      </li>
+    </ul>
+
+    <p>
+      Your responsibilities as an au pair are only related to child care. As a member of the household, you might contribute to small, everyday tasks like washing dinner dishes or taking the dog for a walk, but only in a way that is equal to the contributions of other members of the family.
+    </p>
   </div>
-  <div class="tab-pane fade" id="profile">
-    <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson 8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+  <div class="tab-pane" id="locations">
+    <div class="list-group">
+      <a class="list-group-item" href="#locations-australia">
+        <i class="fa fa-globe"></i>
+        Australia
+      </a>
+      <a class="list-group-item" href="#locations-france">
+        <i class="fa fa-globe"></i>
+        France
+      </a>
+      <a class="list-group-item" href="#locations-germany">
+        <i class="fa fa-globe"></i>
+        Germany
+      </a>
+      <a class="list-group-item" href="#locations-netherlands">
+        <i class="fa fa-globe"></i>
+        Netherlands
+      </a>
+      <a class="list-group-item" href="#locations-new-zealand">
+        <i class="fa fa-globe"></i>
+        New Zealand
+      </a>
+    </div>
   </div>
-  <div class="tab-pane fade active in" id="dropdown1">
-    <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
-  </div>
-  <div class="tab-pane fade" id="dropdown2">
-    <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+  <div class="tab-pane" id="dates">
+    <h5>Program Length</h5>
+    <p>
+      Most au pair abroad placements last nine to 12 months. We also have a limited number of six-month and summer positions available.
+    </p>
+
+    <h5>Start Dates</h5>
+    <p>
+      For the nine- to 12-month and six-month placements, start dates are rolling. Most families prefer au pairs to start in May/June for the summer programs.
+    </p>
   </div>
 </div>
 ```
 */
+.nav-tabs + .tab-content {
+  padding-top: 15px; }
+
 /*doc
 ---
 title: Tooltips
@@ -9833,23 +8522,5 @@ category: JavaScript - Tooltips
 
 ```js_example
 $('button').tooltip();
-```
-*/
-/*doc
----
-title: Participant Group Panel
-name: a-participant-group-panel
-category: JavaScript Components - Participant Group Panel
----
-
-```html_example
-<div id="ParticipantGroupPanel"></div>
-```
-
-```jsx_example
-React.renderComponent(
-  <ParticipantGroupPanels source="/json/participant-groups.json" />,
-  document.getElementById('ParticipantGroupPanel')
-);
 ```
 */

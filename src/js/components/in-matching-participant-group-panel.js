@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var ParticipantGroupPanels = React.createClass({
+var InMatchingParticipantGroupPanels = React.createClass({
   getInitialState: function() {
     return {
       employer: null,
@@ -24,20 +24,22 @@ var ParticipantGroupPanels = React.createClass({
       var employer = this.state.employer,
           participantGroupNodes = this.state.participant_groups.map(function (participantGroup) {
         return (
-          <ParticipantGroup key={participantGroup.id} data={participantGroup} employer={employer} />
+          <InMatchingParticipantGroup key={participantGroup.id} data={participantGroup} employer={employer} />
         );
       });
-    };
 
-    return (
-      <div id="participant-group-panels">
-        {participantGroupNodes}
-      </div>
-    );
+      return (
+        <div id="participant-group-panels">
+          {participantGroupNodes}
+        </div>
+      );
+    } else {
+      return <Spinner />
+    };
   }
 });
 
-var ParticipantGroup = React.createClass({
+var InMatchingParticipantGroup = React.createClass({
   getInitialState: function() {
     return { puttingOnReview: false };
   },
@@ -51,13 +53,18 @@ var ParticipantGroup = React.createClass({
   },
 
   handleConfirm: function(event) {
-    $.post("/employers/" + this.props.employer.id + "/participant_groups/on_review", function(data) {
-    })
-      .success(function() {
-        var node = this.getDOMNode();
-        React.unmountComponentAtNode(node);
-        $(node).remove();
-      });
+    var node = this.getDOMNode(),
+        data = {
+          on_review_participant_group: {
+            employer_id: this.props.employer.id,
+            participant_group_id: this.props.data.participant_group_id
+          }
+        };
+
+    $.post("/on_review_participant_groups.json", data, function(data) {
+      React.unmountComponentAtNode(node);
+      $(node).remove();
+    });
   },
 
   render: function() {
@@ -131,7 +138,7 @@ var ParticipantGroupApplication = React.createClass({
                 <strong>{this.props.data.country}</strong>&nbsp;
               </div>
               <div className="col-xs-12 col-sm-2 text-right">
-                <ParticipantGroupApplicationGenderIcon gender={this.props.data.gender} />
+                <GenderIcon gender={this.props.data.gender} />
                 21+
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
@@ -150,12 +157,3 @@ var ParticipantGroupApplication = React.createClass({
   }
 });
 
-var ParticipantGroupApplicationGenderIcon = React.createClass({
-  render: function() {
-    var genderIconClass = "fa fa-" + this.props.gender.toLowerCase();
-
-    return (
-      <i className={genderIconClass}></i>
-    )
-  }
-});
