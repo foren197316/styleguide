@@ -6843,6 +6843,9 @@ label.list-group {
   label.list-group input.list-group-item {
     width: 100%; }
 
+.navbar {
+  margin-bottom: 0; }
+
 .navbar > .container img.navbar-brand, .navbar > .container-fluid img.navbar-brand {
   margin-left: 0; }
 
@@ -6866,6 +6869,9 @@ label.list-group {
   .site-title img {
     width: 125px;
     margin-top: -15px; }
+
+.page-header {
+  margin-top: 0; }
 
 /*doc
 ---

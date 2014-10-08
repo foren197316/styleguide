@@ -41,7 +41,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
 var InMatchingParticipantGroup = React.createClass({
   getInitialState: function() {
-    return { puttingOnReview: false };
+    return { sending: false, puttingOnReview: false };
   },
 
   handlePutOnReview: function(event) {
@@ -53,17 +53,27 @@ var InMatchingParticipantGroup = React.createClass({
   },
 
   handleConfirm: function(event) {
+    this.setState({ sending: true });
+
     var node = this.getDOMNode(),
         data = {
           on_review_participant_group: {
             employer_id: this.props.employer.id,
-            participant_group_id: this.props.data.participant_group_id
+            in_matching_participant_group_id: this.props.data.id
           }
         };
 
-    $.post("/on_review_participant_groups.json", data, function(data) {
-      React.unmountComponentAtNode(node);
-      $(node).remove();
+    $.ajax({
+        url: "/on_review_participant_groups.json",
+        type: "POST",
+        data: data,
+        success: function(data) {
+          React.unmountComponentAtNode(node);
+          $(node).remove();
+        },
+        error: function(data) {
+          window.location = window.location;
+        }
     });
   },
 
@@ -79,12 +89,12 @@ var InMatchingParticipantGroup = React.createClass({
 
     if (this.state.puttingOnReview) {
       actionRow = <div className="row">
-        <div className="col-xs-6 col-sm-3">
+        <div className="col-xs-3 col-sm-3">
           <div className="panel-title pull-left">{this.props.data.name}</div>
         </div>
-        <div className="col-xs-6 col-sm-9">
+        <div className="col-xs-9 col-sm-9">
           <div className="btn-group pull-right clearfix">
-            <button className="btn btn-success" onClick={this.handleConfirm}>Confirm</button>
+            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
             <span className="btn btn-default" onClick={this.handleCancel}>Cancel</span>
           </div>
         </div>
@@ -103,17 +113,17 @@ var InMatchingParticipantGroup = React.createClass({
           <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>
         </div>
       </div>
-  }
+    }
 
-  return (
-    <div className="panel participant-group-panel">
-      <div className="list-group">
-          {applicationNodes}
+    return (
+      <div className="panel participant-group-panel">
+        <div className="list-group">
+            {applicationNodes}
+          </div>
+          <div className="panel-footer clearfix">
+            {actionRow}
+          </div>
         </div>
-        <div className="panel-footer clearfix">
-          {actionRow}
-        </div>
-      </div>
     )
   }
 });
