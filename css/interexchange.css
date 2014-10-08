@@ -6870,6 +6870,9 @@ label.list-group {
     width: 125px;
     margin-top: -15px; }
 
+.tooltip {
+  white-space: nowrap; }
+
 .page-header {
   margin-top: 0; }
 
