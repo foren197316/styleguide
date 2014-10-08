@@ -6545,7 +6545,6 @@ name: in-matching-participant-groups
 category: Components - Participant Group
 ---
 
-```html_example
 <div class="alert alert-info">
   <i class="fa fa-rebel"></i>
   <strong>Careful Padawan!</strong>
@@ -6553,6 +6552,7 @@ category: Components - Participant Group
   for <strong>2015 Winter Work Travel</strong> Self Service!</span>
 </div>
 
+```html_example
 <div id="InMatchingParticipantGroupPanel"></div>
 ```
 
