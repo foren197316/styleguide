@@ -20,7 +20,7 @@ category: Components - Participant Group
 
 ```jsx_example
 React.renderComponent(
-  <InMatchingParticipantGroupPanels source="/json/in-matching-participant-groups.json" employerId=1 />,
+  <InMatchingParticipantGroupPanels source="/json/in-matching-participant-groups.json" employerId="1" />,
   document.getElementById("InMatchingParticipantGroupPanel")
 );
 ```
