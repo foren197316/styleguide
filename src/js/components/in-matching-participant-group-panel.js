@@ -97,10 +97,10 @@ var InMatchingParticipantGroupPanel = React.createClass({
         <div className="col-xs-9 col-sm-9">
           <div className="btn-group pull-right clearfix">
             <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-            <span className="btn btn-default" onClick={this.handleCancel}>Cancel</span>
+            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
           </div>
         </div>
-        <div className="col-xs-12">
+        <div className="col-xs-12 text-right">
           <hr />
           <p className="panel-text">You will have until <strong>{this.props.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
           <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
@@ -108,10 +108,10 @@ var InMatchingParticipantGroupPanel = React.createClass({
       </div>
     } else {
       actionRow = <div className="row">
-        <div className="col-xs-6 col-sm-3">
+        <div className="col-xs-3 col-sm-3">
           <div className="panel-title pull-left">{this.props.data.name}</div>
         </div>
-        <div className="col-xs-6 col-sm-9">
+        <div className="col-xs-9 col-sm-9">
           <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>
         </div>
       </div>

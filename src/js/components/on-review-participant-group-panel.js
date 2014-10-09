@@ -65,10 +65,20 @@ var OnReviewParticipantGroupPanel = React.createClass({
       });
 
     actionRow = <div className="row">
-      <div className="col-xs-6 col-sm-3">
+      <div className="col-xs-3 col-sm-3">
         <div className="panel-title pull-left">{this.props.data.name}</div>
       </div>
-      <div className="col-xs-6 col-sm-9">
+      <div className="col-xs-9 col-sm-9">
+        <div className="pull-right">
+          <div className="btn-group clearfix">
+            <button className="btn btn-success">Offer</button>
+            <button className="btn btn-default">Decline</button>
+          </div>
+        </div>
+      </div>
+      <div className="col-xs-12 text-right">
+        <hr />
+        <p className="panel-text">You have until <strong>{this.props.data.expires_on}</strong> to make a choice.</p>
       </div>
     </div>
 

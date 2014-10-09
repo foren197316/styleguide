@@ -74,7 +74,7 @@ category: Examples - Search Panels
 
 ```jsx_example
 React.renderComponent(
-  <InMatchingParticipantGroupPanels source="/json/participant-groups.json" />,
+  <InMatchingParticipantGroupPanels source="/json/in-matching-participant-groups.json" />,
   document.getElementById("InMatchingParticipantGroupPanel")
 );
 ```
