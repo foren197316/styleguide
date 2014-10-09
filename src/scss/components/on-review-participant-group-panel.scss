@@ -13,7 +13,7 @@ category: Components - Participant Group
 
 ```jsx_example
 React.renderComponent(
-  <OnReviewParticipantGroupPanels source="/json/participant-groups.json" />,
+  <OnReviewParticipantGroupPanels source="/json/on-review-participant-groups.json" />,
   document.getElementById("OnReviewParticipantGroupPanel")
 );
 ```

@@ -3,8 +3,7 @@
 var InMatchingParticipantGroupPanels = React.createClass({
   getInitialState: function() {
     return {
-      employer: null,
-      participant_groups: null
+      inMatchingParticipantGroups: null
     };
   },
 
@@ -12,8 +11,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
     $.get(this.props.source, function(data) {
       if (this.isMounted()) {
         this.setState({
-          employer: data.employer,
-          participant_groups: data.participant_groups
+          inMatchingParticipantGroups: data.in_matching_participant_groups
         });
       }
     }.bind(this));
@@ -21,16 +19,16 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
   render: function() {
     if (this.isMounted()) {
-      var employer = this.state.employer,
-          participantGroupNodes = this.state.participant_groups.map(function (participantGroup) {
+      var employerId = this.props.employerId,
+          inMatchingParticipantGroupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
         return (
-          <InMatchingParticipantGroup key={participantGroup.id} data={participantGroup} employer={employer} />
+          <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} data={inMatchingParticipantGroup} employerId={employerId} />
         );
       });
 
       return (
         <div id="participant-group-panels">
-          {participantGroupNodes}
+          {inMatchingParticipantGroupPanels}
         </div>
       );
     } else {
@@ -39,9 +37,13 @@ var InMatchingParticipantGroupPanels = React.createClass({
   }
 });
 
-var InMatchingParticipantGroup = React.createClass({
+var InMatchingParticipantGroupPanel = React.createClass({
   getInitialState: function() {
     return { sending: false, puttingOnReview: false };
+  },
+
+  componentWillMount: function() {
+    this.props.onReviewExpiresOn = Date.today().add(3).days().toString('yyyy-MM-dd');
   },
 
   handlePutOnReview: function(event) {
@@ -58,8 +60,9 @@ var InMatchingParticipantGroup = React.createClass({
     var node = this.getDOMNode(),
         data = {
           on_review_participant_group: {
-            employer_id: this.props.employer.id,
-            in_matching_participant_group_id: this.props.data.id
+            employer_id: this.props.employerId,
+            in_matching_participant_group_id: this.props.data.id,
+            expires_on: this.props.onReviewExpiresOn
           }
         };
 
@@ -79,7 +82,6 @@ var InMatchingParticipantGroup = React.createClass({
 
   render: function() {
     var actionRow,
-        putOnReviewEndDate = Date.today().add(3).days().toString('yyyy-MM-dd'),
         participantPluralized = this.props.data.applications.length > 1 ? 'participants' : 'participant';
         applicationNodes = this.props.data.applications.map(function (application) {
         return (
@@ -100,8 +102,8 @@ var InMatchingParticipantGroup = React.createClass({
         </div>
         <div className="col-xs-12">
           <hr />
-          <p className="panel-text">You will have until <strong>{putOnReviewEndDate}</strong> to offer a position or decline the {participantPluralized}.</p>
-          <p className="panel-text">If you take no action by <strong>{putOnReviewEndDate}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
+          <p className="panel-text">You will have until <strong>{this.props.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
+          <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
         </div>
       </div>
     } else {
@@ -118,12 +120,12 @@ var InMatchingParticipantGroup = React.createClass({
     return (
       <div className="panel participant-group-panel">
         <div className="list-group">
-            {applicationNodes}
-          </div>
-          <div className="panel-footer clearfix">
-            {actionRow}
-          </div>
+          {applicationNodes}
         </div>
+        <div className="panel-footer clearfix">
+          {actionRow}
+        </div>
+      </div>
     )
   }
 });

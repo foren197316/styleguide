@@ -1,10 +1,8 @@
 {
-  "employer": {
-    "id": 99
-  },
-  "participant_groups": [
+  "in_matching_participant_groups": [
     {
       "id": 1,
+      "participant_group_id": 2,
       "name": "Couple",
       "applications": [
         {
@@ -31,6 +29,7 @@
     },
     {
       "id": 2,
+      "participant_group_id": 3,
       "name": "Individual",
       "applications": [
         {
@@ -47,6 +46,7 @@
     },
     {
       "id": 3,
+      "participant_group_id": 4,
       "name": "Friends",
       "applications": [
         {

@@ -10,16 +10,16 @@
 .navbar-default {
   .navbar-nav > li > a {
     &:hover {
-      color: darken($brand-primary, 10%);
+      color: darken($interexchange-primary, 10%);
     }
   }
 
   a.navbar-brand {
     font-weight: bold;
-    color: $brand-primary;
+    color: $interexchange-primary;
 
     &:hover {
-      color: lighten($brand-primary, 10%);
+      color: lighten($interexchange-primary, 10%);
     }
   }
 
