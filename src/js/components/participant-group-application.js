@@ -34,3 +34,29 @@ var ParticipantGroupApplication = React.createClass({
     )
   }
 });
+
+var ParticipantGroupApplicationOffering = React.createClass({
+  render: function() {
+    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
+
+    return (
+      <div className={listItemClass}>
+        <div className="media">
+          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <div className="media-body">
+            <div className="row">
+              <div className="col-xs-12">
+                <h4 className="media-heading">{this.props.data.name}</h4>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-xs-12">
+                Ima make you an offer
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+});

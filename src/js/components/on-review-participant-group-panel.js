@@ -40,56 +40,129 @@ var OnReviewParticipantGroupPanels = React.createClass({
 });
 
 var OnReviewParticipantGroupPanel = React.createClass({
-  handleConfirm: function(event) {
-    var node = this.getDOMNode(),
-        data = {
-          on_review_participant_group: {
-            employer_id: this.props.employer.id,
-            participant_group_id: this.props.data.participant_group_id
-          }
-        };
+  getInitialState: function() {
+    return { isOffering: false };
+  },
 
-    $.post("/on_review_participant_groups.json", data, function(data) {
-      React.unmountComponentAtNode(node);
-      $(node).remove();
-    });
+  handleDoOffer: function(event) {
+    this.setState({ isOffering: true });
+  },
+
+  handleCancelOffer: function(event) {
+    this.setState({ isOffering: false });
   },
 
   render: function() {
-    var actionRow,
-        participantPluralized = this.props.data.applications.length > 1 ? 'participants' : 'participant';
-        applicationNodes = this.props.data.applications.map(function (application) {
-        return (
-          <ParticipantGroupApplication key={application.id} data={application} />
-        )
-      });
-
-    actionRow = <div className="row">
-      <div className="col-xs-3 col-sm-3">
-        <div className="panel-title pull-left">{this.props.data.name}</div>
+    return (
+      <div className="panel panel-default participant-group-panel">
+        <OnReviewParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
+        <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} />
+        <OnReviewParticipantGroupPanelFooter data={this.props.data} isOffering={this.state.isOffering} handleDoOffer={this.handleDoOffer} handleCancelOffer={this.handleCancelOffer} />
       </div>
-      <div className="col-xs-9 col-sm-9">
-        <div className="pull-right">
-          <div className="btn-group clearfix">
-            <button className="btn btn-success">Offer</button>
-            <button className="btn btn-default">Decline</button>
+    )
+  }
+});
+
+var OnReviewParticipantGroupPanelHeading = React.createClass({
+  render: function() {
+    return (
+      <div className="panel-heading text-right">
+        <h1 className="panel-title">On Review until <strong>{this.props.data.expires_on}</strong></h1>
+      </div>
+    )
+  }
+});
+
+var OnReviewParticipantGroupPanelListGroup = React.createClass({
+  render: function() {
+    var isOffering = this.props.isOffering,
+        applicationNodes = this.props.data.applications.map(function (application) {
+          if (!isOffering) {
+            return (
+              <ParticipantGroupApplication key={application.id} data={application} />
+            )
+          } else {
+            return (
+              <ParticipantGroupApplicationOffering key={application.id} data={application} />
+            )
+          }
+        });
+
+    return (
+      <div className="list-group">
+        {applicationNodes}
+      </div>
+    )
+  }
+});
+
+var OnReviewParticipantGroupPanelFooter = React.createClass({
+  propogateDoOffer: function () {
+    this.props.handleDoOffer(this);
+  },
+
+  propogateCancelOffer: function () {
+    this.props.handleCancelOffer(this);
+  },
+
+  render: function() {
+    var isOffering = this.props.isOffering,
+        propogateDoOffer = this.propogateDoOffer,
+        propogateCancelOffer = this.propogateCancelOffer,
+        buttonGroup = (function (application) {
+          if (!isOffering) {
+            return (
+              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={application} handleDoOffer={propogateDoOffer} />
+            )
+          } else {
+            return (
+              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={application} handleCancelOffer={propogateCancelOffer} />
+            )
+          }
+        })();
+
+    return (
+      <div className="panel-footer clearfix">
+        <div className="row">
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.props.data.name}</div>
+          </div>
+          <div className="col-xs-9 col-sm-9">
+            <div className="pull-right">
+              {buttonGroup}
+            </div>
           </div>
         </div>
       </div>
-      <div className="col-xs-12 text-right">
-        <hr />
-        <p className="panel-text">You have until <strong>{this.props.data.expires_on}</strong> to make a choice.</p>
-      </div>
-    </div>
+    )
+  }
+});
 
+var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
+  propogateDoOffer: function () {
+    this.props.handleDoOffer(this);
+  },
+
+  render: function() {
     return (
-      <div className="panel participant-group-panel">
-        <div className="list-group">
-          {applicationNodes}
-        </div>
-        <div className="panel-footer clearfix">
-          {actionRow}
-        </div>
+      <div className="btn-group clearfix">
+        <button className="btn btn-success" onClick={this.propogateDoOffer}>Offer</button>
+        <button className="btn btn-danger">Decline</button>
+      </div>
+    )
+  }
+});
+
+var OnReviewParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass({
+  propogateCancelOffer: function () {
+    this.props.handleCancelOffer(this);
+  },
+
+  render: function() {
+    return (
+      <div className="btn-group clearfix">
+        <button className="btn btn-success">Confirm</button>
+        <button className="btn btn-default" onClick={this.propogateCancelOffer}>Cancel</button>
       </div>
     )
   }

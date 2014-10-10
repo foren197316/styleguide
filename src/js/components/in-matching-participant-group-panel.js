@@ -118,7 +118,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
     }
 
     return (
-      <div className="panel participant-group-panel">
+      <div className="panel panel-default participant-group-panel">
         <div className="list-group">
           {applicationNodes}
         </div>
