@@ -21,3 +21,7 @@ You still have to save twice before the page reloads. I can't figure out how to 
 ```bash
 $ gulp deploy
 ```
+
+### TODO
+
+AWS Publish https://www.npmjs.org/package/gulp-awspublish
