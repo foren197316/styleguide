@@ -46,6 +46,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
 
   toggleIsOffering: function(event) {
     this.setState({ isOffering: !this.state.isOffering });
+    event.preventDefault();
   },
 
   render: function() {
