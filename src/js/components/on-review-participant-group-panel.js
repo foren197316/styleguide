@@ -44,12 +44,8 @@ var OnReviewParticipantGroupPanel = React.createClass({
     return { isOffering: false };
   },
 
-  handleDoOffer: function(event) {
-    this.setState({ isOffering: true });
-  },
-
-  handleCancelOffer: function(event) {
-    this.setState({ isOffering: false });
+  toggleIsOffering: function(event) {
+    this.setState({ isOffering: !this.state.isOffering });
   },
 
   render: function() {
@@ -57,7 +53,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
       <div className="panel panel-default participant-group-panel">
         <OnReviewParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
         <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} />
-        <OnReviewParticipantGroupPanelFooter data={this.props.data} isOffering={this.state.isOffering} handleDoOffer={this.handleDoOffer} handleCancelOffer={this.handleCancelOffer} />
+        <OnReviewParticipantGroupPanelFooter data={this.props.data} isOffering={this.state.isOffering} toggleIsOffering={this.toggleIsOffering} />
       </div>
     )
   }
@@ -97,26 +93,21 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
 });
 
 var OnReviewParticipantGroupPanelFooter = React.createClass({
-  propogateDoOffer: function () {
-    this.props.handleDoOffer(this);
-  },
-
-  propogateCancelOffer: function () {
-    this.props.handleCancelOffer(this);
+  propogateToggleIsOffering: function () {
+    this.props.toggleIsOffering(this);
   },
 
   render: function() {
     var isOffering = this.props.isOffering,
-        propogateDoOffer = this.propogateDoOffer,
-        propogateCancelOffer = this.propogateCancelOffer,
+        propogateToggleIsOffering = this.props.toggleIsOffering,
         buttonGroup = (function (application) {
           if (!isOffering) {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={application} handleDoOffer={propogateDoOffer} />
+              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={application} toggleIsOffering={propogateToggleIsOffering} />
             )
           } else {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={application} handleCancelOffer={propogateCancelOffer} />
+              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={application} toggleIsOffering={propogateToggleIsOffering} />
             )
           }
         })();
@@ -139,14 +130,14 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
 });
 
 var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
-  propogateDoOffer: function () {
-    this.props.handleDoOffer(this);
+  propogateToggleIsOffering: function () {
+    this.props.toggleIsOffering(this);
   },
 
   render: function() {
     return (
       <div className="btn-group clearfix">
-        <button className="btn btn-success" onClick={this.propogateDoOffer}>Offer</button>
+        <button className="btn btn-success" onClick={this.propogateToggleIsOffering}>Offer</button>
         <button className="btn btn-danger">Decline</button>
       </div>
     )
@@ -154,15 +145,15 @@ var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
 });
 
 var OnReviewParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass({
-  propogateCancelOffer: function () {
-    this.props.handleCancelOffer(this);
+  propogateToggleIsOffering: function () {
+    this.props.toggleIsOffering(this);
   },
 
   render: function() {
     return (
       <div className="btn-group clearfix">
         <button className="btn btn-success">Confirm</button>
-        <button className="btn btn-default" onClick={this.propogateCancelOffer}>Cancel</button>
+        <button className="btn btn-default" onClick={this.propogateToggleIsOffering}>Cancel</button>
       </div>
     )
   }
