@@ -1,4 +1,4 @@
-var ParticipantGroupApplication = React.createClass({
+var ParticipantGroupParticipant = React.createClass({
   render: function() {
     var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
 
@@ -35,7 +35,7 @@ var ParticipantGroupApplication = React.createClass({
   }
 });
 
-var ParticipantGroupApplicationOffering = React.createClass({
+var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
     var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
 
@@ -51,7 +51,6 @@ var ParticipantGroupApplicationOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                Ima make you an offer
               </div>
             </div>
           </div>

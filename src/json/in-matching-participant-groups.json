@@ -4,7 +4,7 @@
       "id": 1,
       "participant_group_id": 2,
       "name": "Couple",
-      "applications": [
+      "participants": [
         {
           "id": 10,
           "name": "Marcus Flint",
@@ -31,7 +31,7 @@
       "id": 2,
       "participant_group_id": 3,
       "name": "Individual",
-      "applications": [
+      "participants": [
         {
           "id": 13,
           "name": "Draco Malfoy",
@@ -48,7 +48,7 @@
       "id": 3,
       "participant_group_id": 4,
       "name": "Friends",
-      "applications": [
+      "participants": [
         {
           "id": 12,
           "name": "Vincent McNameLong Crabbe",

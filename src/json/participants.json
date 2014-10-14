@@ -1,0 +1,24 @@
+{
+  "participants": [
+    {
+      "id": 1,
+      "name": "Marcus Flint",
+      "gender": "male",
+      "country": "Australia",
+      "photo_url": "/images/participants/flint.jpg",
+      "date_of_birth": "1988-01-02",
+      "arrival": {
+        "date": "2014-07-01T19:48:00Z",
+        "airport_code": "JFK",
+        "airline_code": "AAL",
+        "flight_number": "6142"
+      },
+      "departure": {
+        "date": "2014-11-01T13:15:00Z",
+        "airport_code": "JFK",
+        "airline_code": "AAL",
+        "flight_number": "6142"
+      }
+    }
+  ]
+}

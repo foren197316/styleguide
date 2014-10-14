@@ -75,11 +75,11 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
         applicationNodes = this.props.data.applications.map(function (application) {
           if (!isOffering) {
             return (
-              <ParticipantGroupApplication key={application.id} data={application} />
+              <ParticipantGroupParticipant key={application.id} data={application} />
             )
           } else {
             return (
-              <ParticipantGroupApplicationOffering key={application.id} data={application} />
+              <ParticipantGroupParticipantOffering key={application.id} data={application} />
             )
           }
         });

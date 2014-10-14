@@ -82,10 +82,10 @@ var InMatchingParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actionRow,
-        participantPluralized = this.props.data.applications.length > 1 ? 'participants' : 'participant';
-        applicationNodes = this.props.data.applications.map(function (application) {
+        participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
+        participantNodes = this.props.data.participants.map(function (participant) {
         return (
-          <ParticipantGroupApplication key={application.id} data={application} />
+          <ParticipantGroupParticipant key={participant.id} data={participant} />
         )
       });
 
@@ -120,7 +120,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
     return (
       <div className="panel panel-default participant-group-panel">
         <div className="list-group">
-          {applicationNodes}
+          {participantNodes}
         </div>
         <div className="panel-footer clearfix">
           {actionRow}
