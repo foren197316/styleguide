@@ -15,7 +15,7 @@ var ParticipantGroupParticipant = React.createClass({
             <div className="row">
               <div className="col-xs-12 col-sm-4 col-lg-6">
                 <i className="fa fa-globe"></i>
-                <strong>{this.props.data.country}</strong>&nbsp;
+                <strong>{this.props.data.country_name}</strong>&nbsp;
               </div>
               <div className="col-xs-12 col-sm-2 text-right">
                 <GenderIcon gender={this.props.data.gender} />
