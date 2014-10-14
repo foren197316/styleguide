@@ -51,6 +51,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
+                Ima offer you
               </div>
             </div>
           </div>

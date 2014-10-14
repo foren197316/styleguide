@@ -72,21 +72,21 @@ var OnReviewParticipantGroupPanelHeading = React.createClass({
 var OnReviewParticipantGroupPanelListGroup = React.createClass({
   render: function() {
     var isOffering = this.props.isOffering,
-        applicationNodes = this.props.data.applications.map(function (application) {
+        participantNodes = this.props.data.participants.map(function (participant) {
           if (!isOffering) {
             return (
-              <ParticipantGroupParticipant key={application.id} data={application} />
+              <ParticipantGroupParticipant key={participant.id} data={participant} />
             )
           } else {
             return (
-              <ParticipantGroupParticipantOffering key={application.id} data={application} />
+              <ParticipantGroupParticipantOffering key={participant.id} data={participant} />
             )
           }
         });
 
     return (
       <div className="list-group">
-        {applicationNodes}
+        {participantNodes}
       </div>
     )
   }
@@ -100,14 +100,14 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
   render: function() {
     var isOffering = this.props.isOffering,
         propogateToggleIsOffering = this.props.toggleIsOffering,
-        buttonGroup = (function (application) {
+        buttonGroup = (function (participant) {
           if (!isOffering) {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={application} toggleIsOffering={propogateToggleIsOffering} />
+              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} toggleIsOffering={propogateToggleIsOffering} />
             )
           } else {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={application} toggleIsOffering={propogateToggleIsOffering} />
+              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} toggleIsOffering={propogateToggleIsOffering} />
             )
           }
         })();
