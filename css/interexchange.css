@@ -6844,7 +6844,7 @@ label.list-group {
     width: 100%; }
 
 .navbar {
-  margin-bottom: 0; }
+  margin-bottom: 20px; }
 
 .navbar > .container img.navbar-brand, .navbar > .container-fluid img.navbar-brand {
   margin-left: 0; }
