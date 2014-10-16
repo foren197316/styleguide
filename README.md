@@ -5,7 +5,12 @@ This is a Yeoman generated styleguide for InterExchange.
 ### How to build the styleguide
 
 ```bash
-$ gulp
+$ sudo gem install hologram # may need to resource to make sure hologram is in path
+$ brew install npm
+$ npm install -g gulp
+$ npm install -g bower
+$ npm install
+$ bower install
 ```
 
 ### How to watch and compile files as you go
