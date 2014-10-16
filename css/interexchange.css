@@ -6865,6 +6865,19 @@ label.list-group {
   .page-header h1, .page-header h1 a {
     color: #003856; }
 
+.pagination-wrapper {
+  margin-bottom: 10px; }
+  .pagination-wrapper .pagination {
+    margin: 0;
+    float: left; }
+  .pagination-wrapper .pagination-total-count {
+    float: right;
+    margin: 8px 0 0 0;
+    text-align: right; }
+
+.panel.panel-primary .panel-heading a, .panel.panel-primary .panel-heading small {
+  color: #fff; }
+
 .site-title {
   text-align: center;
   font-weight: bold;

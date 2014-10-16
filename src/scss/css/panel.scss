@@ -1,0 +1,9 @@
+.panel {
+  &.panel-primary {
+    .panel-heading {
+      a, small {
+        color: $component-active-color;
+      }
+    }
+  }
+}
