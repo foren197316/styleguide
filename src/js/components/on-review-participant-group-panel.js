@@ -85,9 +85,9 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
         });
 
     return (
-      <div className="list-group">
+      <form className="list-group form-inline" role="form">
         {participantNodes}
-      </div>
+      </form>
     )
   }
 });
