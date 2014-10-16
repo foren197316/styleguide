@@ -50,8 +50,10 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           if (overtimeAvailable === 'yes') {
             return (
               <div className="form-group">
-                <label className="sr-only" htmlFor="overtimeRatePerHour">Overtime rate per hour</label>
-                <input type="number" step="0.01" name="overtimeRatePerHour" />
+                <label className="col-sm-2 control-label" htmlFor="overtimeRatePerHour">Overtime rate per hour</label>
+                <div className="col-sm-10">
+                  <input className="form-control" placeholder="Overtime rate per hour" type="number" step="0.01" name="overtimeRatePerHour" />
+                </div>
               </div>
             );
           }
@@ -60,32 +62,46 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     return (
       <div>
         <div className="form-group">
-          <label className="sr-only" htmlFor="jobTitle">Job Title</label>
-          <select className="form-control" name="jobTitle">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
+          <label className="col-sm-2 control-label" htmlFor="jobTitle">Job Title</label>
+          <div className="col-sm-10">
+            <select className="form-control" name="jobTitle">
+              <option value="" selected="selected" disabled="disabled">Job Title</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
         </div>
         <div className="form-group">
-          <label className="sr-only" htmlFor="wagePerHour">Wage per hour</label>
-          <input type="number" step="0.01" name="wagePerHour" />
+          <label className="col-sm-2 control-label" htmlFor="wagePerHour">Wage per hour</label>
+          <div className="col-sm-10">
+            <input className="form-control" placeholder="Wage per hour" type="number" step="0.01" name="wagePerHour" />
+          </div>
         </div>
         <div className="form-group">
-          <label>
-            <input type="checkbox" /> Tipped Position
-          </label>
+          <label className="col-sm-2 control-label">Tipped Position</label>
+          <div className="col-sm-10">
+            <RadioGroup name="tippedPosition">
+              <input type="radio" value="yes" /> Yes
+              <input type="radio" value="no" /> No
+            </RadioGroup>
+          </div>
         </div>
         <div className="form-group">
-          <label className="sr-only" htmlFor="averageHoursPerWeek">Average hours per week</label>
-          <input type="number" step="1" name="averageHoursPerWeek" />
+          <label className="col-sm-2 control-label" htmlFor="averageHoursPerWeek">Average hours per week</label>
+          <div className="col-sm-10">
+            <input className="form-control" placeholder="Average hours per week" type="number" step="1" name="averageHoursPerWeek" />
+          </div>
         </div>
         <div className="form-group">
-          <RadioGroup name="overtimeAvailable" onChange={this.handleChange}>
-            <input type="radio" value="yes" />Yes
-            <input type="radio" value="no" />No
-            <input type="radio" value="maybe" />Maybe
-          </RadioGroup>
+          <label className="col-sm-2 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
+          <div className="col-sm-10">
+            <RadioGroup name="overtimeAvailable" onChange={this.handleChange}>
+              <input type="radio" value="yes" /> Yes
+              <input type="radio" value="no" /> No
+              <input type="radio" value="maybe" /> Maybe
+            </RadioGroup>
+          </div>
         </div>
         {overtimeRate}
       </div>
