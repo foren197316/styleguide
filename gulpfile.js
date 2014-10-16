@@ -66,10 +66,16 @@ gulp.task('styles', function() {
         .pipe(gulp.dest('build/css'));
 });
 
-gulp.task('scripts', function() {
+gulp.task('javascript-components', function() {
   return gulp.src('src/js/components/*.js')
     .pipe($.concat('interexchange-components.js'))
-    .pipe(gulp.dest('build/js'))
+    .pipe(gulp.dest('build/js'));
+});
+
+gulp.task('javascript-app', function() {
+  return gulp.src('src/js/app/*.js')
+    .pipe($.concat('interexchange-app.js'))
+    .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('jshint', function () {
@@ -84,7 +90,7 @@ gulp.task('styleguide', function () {
     .pipe($.hologram());
 });
 
-gulp.task('build', ['vendors', 'fonts', 'images', 'json', 'styles', 'scripts', 'styleguide']);
+gulp.task('build', ['vendors', 'fonts', 'images', 'json', 'styles', 'javascript-components', 'javascript-app', 'styleguide']);
 
 gulp.task('serve', ['build'], function () {
   browserSync({

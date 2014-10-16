@@ -6888,6 +6888,9 @@ label.list-group {
     width: 125px;
     margin-top: -15px; }
 
+.table th, .table td {
+  white-space: nowrap; }
+
 .tooltip {
   white-space: nowrap; }
 
