@@ -41,6 +41,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   },
 
   handleChange: function(event) {
+    console.log(event.target);
     this.setState({overtimeAvailable: event.target.value});
   },
 
@@ -80,14 +81,14 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="col-xs-12 col-sm-2 control-label">Tipped Position</label>
-          <div className=" btn-group col-sm-10" data-toggle="buttons">
+          <RadioGroup name="tippedPosition" className="col-sm-10 btn-group">
             <label className="btn btn-default">
-              <input type="radio" value="yes" name="tippedPosition" /> Yes
+              <input type="radio" value="yes" /> Yes
             </label>
             <label className="btn btn-default">
-              <input type="radio" value="no" name="tippedPosition" /> No
+              <input type="radio" value="no" /> No
             </label>
-          </div>
+          </RadioGroup>
         </div>
         <div className="form-group">
           <label className="col-sm-2 control-label" htmlFor="averageHoursPerWeek">Average hours per week</label>
@@ -97,11 +98,17 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="col-sm-2 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
-          <ReactBootstrap.ButtonGroup className="col-sm-10">
-            <ReactBootstrap.Button onClick={this.handleChange} value="yes">Yes</ReactBootstrap.Button>
-            <ReactBootstrap.Button onClick={this.handleChange} value="no">No</ReactBootstrap.Button>
-            <ReactBootstrap.Button onClick={this.handleChange} value="maybe">Maybe</ReactBootstrap.Button>
-          </ReactBootstrap.ButtonGroup>
+          <RadioGroup name="overtimeAvailable" className="col-sm-10 btn-group" onChange={this.handleChange}>
+            <label className="btn btn-default">
+              <input type="radio" value="yes"/> Yes
+            </label>
+            <label className="btn btn-default">
+              <input type="radio" value="no"/> No
+            </label>
+            <label className="btn btn-default">
+              <input type="radio" value="maybe"/> Maybe
+            </label>
+          </RadioGroup>
         </div>
         {overtimeRate}
       </div>
