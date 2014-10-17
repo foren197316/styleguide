@@ -35,6 +35,80 @@ var ParticipantGroupParticipant = React.createClass({
   }
 });
 
+var ParticipantGroupParticipantOfferingForm = React.createClass({
+  getInitialState: function() {
+    return {overtimeAvailable: null};
+  },
+
+  handleChange: function(event) {
+    this.setState({overtimeAvailable: event.target.value});
+  },
+
+  render: function() {
+    var overtimeAvailable = this.state.overtimeAvailable,
+        overtimeRate = function() {
+          if (overtimeAvailable === 'yes') {
+            return (
+              <div className="form-group">
+                <label className="col-sm-2 control-label" htmlFor="overtimeRatePerHour">Overtime rate per hour</label>
+                <div className="col-sm-10">
+                  <input className="form-control" placeholder="Overtime rate per hour" type="number" step="0.01" name="overtimeRatePerHour" />
+                </div>
+              </div>
+            );
+          }
+        }();
+
+    return (
+      <div>
+        <div className="form-group">
+          <label className="col-sm-2 control-label" htmlFor="jobTitle">Job Title</label>
+          <div className="col-sm-10">
+            <select className="form-control" name="jobTitle">
+              <option value="" selected="selected" disabled="disabled">Job Title</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="col-sm-2 control-label" htmlFor="wagePerHour">Wage per hour</label>
+          <div className="col-sm-10">
+            <input className="form-control" placeholder="Wage per hour" type="number" step="0.01" name="wagePerHour" />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="col-xs-12 col-sm-2 control-label">Tipped Position</label>
+          <div className=" btn-group col-sm-10" data-toggle="buttons">
+            <label className="btn btn-default">
+              <input type="radio" value="yes" name="tippedPosition" /> Yes
+            </label>
+            <label className="btn btn-default">
+              <input type="radio" value="no" name="tippedPosition" /> No
+            </label>
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="col-sm-2 control-label" htmlFor="averageHoursPerWeek">Average hours per week</label>
+          <div className="col-sm-10">
+            <input className="form-control" placeholder="Average hours per week" type="number" step="1" name="averageHoursPerWeek" />
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="col-sm-2 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
+          <ReactBootstrap.ButtonGroup className="col-sm-10">
+            <ReactBootstrap.Button onClick={this.handleChange} value="yes">Yes</ReactBootstrap.Button>
+            <ReactBootstrap.Button onClick={this.handleChange} value="no">No</ReactBootstrap.Button>
+            <ReactBootstrap.Button onClick={this.handleChange} value="maybe">Maybe</ReactBootstrap.Button>
+          </ReactBootstrap.ButtonGroup>
+        </div>
+        {overtimeRate}
+      </div>
+    )
+  }
+});
+
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
     var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
@@ -51,7 +125,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                Ima offer you
+                <ParticipantGroupParticipantOfferingForm />
               </div>
             </div>
           </div>

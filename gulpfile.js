@@ -30,7 +30,8 @@ gulp.task('vendors', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js'
+      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
+      'bower_components/react-bootstrap/react-bootstrap.js'
     ])
     .pipe($.concat('interexchange.js'))
     .pipe(gulp.dest('build/js'));
