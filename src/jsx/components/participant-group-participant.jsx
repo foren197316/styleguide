@@ -44,8 +44,22 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     this.setState({overtimeAvailable: event.target.value});
   },
 
-  validationState: function() {
-    console.log(this.state);
+  updateValues: function(event) {
+    console.log(event.target);
+    this.setState({
+      wagePerHourValue: this.refs.wagePerHour.getValue()
+    });
+  },
+
+  validationMoney: function() {
+    if (this.state.wagePerHourValue) {
+      if (!/\d([\.,]\d\d)?/.test(this.state.wagePerHourValue)) {
+        return "error";
+      }
+      else {
+        return "success";
+      }
+    }
   },
 
   render: function() {
@@ -53,7 +67,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         overtimeRate = function() {
           if (overtimeAvailable === 'yes') {
             return (
-              <ReactBootstrap.Input label="Overtime rate per hour" addonBefore="$" type="number" step="0.01" labelClassName="col-sm-2" wrapperClassName="col-sm-10" />
+              <ReactBootstrap.Input type="text" label="Overtime rate per hour" addonBefore="$" type="number" step="0.01" labelClassName="col-sm-2" wrapperClassName="col-sm-10" />
             );
           }
         }();
@@ -66,7 +80,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           <option value="2">2</option>
           <option value="3">3</option>
         </ReactBootstrap.Input>
-        <ReactBootstrap.Input label="Wage per hour" labelClassName="col-sm-2" type="number" step="0.01" addonBefore="$" wrapperClassName="col-sm-10" />
+        <ReactBootstrap.Input type="text" onChange={this.updateValues} ref="wagePerHour" bsStyle={this.validationMoney()} hasFeedback label="Wage per hour" labelClassName="col-sm-2" type="number" step="0.01" addonBefore="$" wrapperClassName="col-sm-10" />
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Tipped Position</label>
           <div className="col-sm-8">
@@ -76,7 +90,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
             </RadioGroup>
           </div>
         </div>
-        <ReactBootstrap.Input  label="Average hours per week" labelClassName="col-sm-2" type="number" step="1" wrapperClassName="col-sm-10" />
+        <ReactBootstrap.Input type="text" label="Average hours per week" labelClassName="col-sm-2" type="number" step="1" wrapperClassName="col-sm-10" />
         <div className="form-group">
           <label className="col-sm-4 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
           <div className="col-sm-8">
