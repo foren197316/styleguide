@@ -40,6 +40,10 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     return {overtimeAvailable: null};
   },
 
+  getInputName: function(key, name) {
+    return "offered_participant_groups[draft_job_offers][" + key + "][" + name + "]";
+  },
+
   handleChange: function(event) {
     this.setState({overtimeAvailable: event.target.value});
   },
@@ -64,37 +68,39 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
   render: function() {
     var overtimeAvailable = this.state.overtimeAvailable,
+        key = this.props.key,
+        getInputName = this.getInputName,
         overtimeRate = function() {
           if (overtimeAvailable === 'yes') {
             return (
-              <ReactBootstrap.Input type="text" label="Overtime rate per hour" addonBefore="$" type="number" step="0.01" labelClassName="col-sm-2" wrapperClassName="col-sm-10" />
+              <ReactBootstrap.Input name={getInputName(key, "overtime_wage_per_hour")} label="Overtime rate per hour" addonBefore="$" type="number" labelClassName="col-sm-2" wrapperClassName="col-sm-10" />
             );
           }
         }();
 
     return (
       <div>
-        <ReactBootstrap.Input type="select" defaultValue="" labelClassName="col-sm-2" wrapperClassName="col-sm-10" label="Job Title">
+        <ReactBootstrap.Input name={getInputName(key, "position_id")} label="Job Title" type="select" defaultValue="" labelClassName="col-sm-2" wrapperClassName="col-sm-10">
           <option value="" disabled="disabled">Job Title</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
         </ReactBootstrap.Input>
-        <ReactBootstrap.Input type="text" onChange={this.updateValues} ref="wagePerHour" bsStyle={this.validationMoney()} hasFeedback label="Wage per hour" labelClassName="col-sm-2" type="number" step="0.01" addonBefore="$" wrapperClassName="col-sm-10" />
+        <ReactBootstrap.Input name={getInputName(key, "wage_per_hour")} label="Wage per hour" type="number" labelClassName="col-sm-2" addonBefore="$" type="text" wrapperClassName="col-sm-10" />
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Tipped Position</label>
           <div className="col-sm-8">
-            <RadioGroup name="tippedPosition" className="btn-group btn-group-justified">
+            <RadioGroup name={getInputName(key, "tipped_position")} className="btn-group btn-group-justified">
               <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
               <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
             </RadioGroup>
           </div>
         </div>
-        <ReactBootstrap.Input type="text" label="Average hours per week" labelClassName="col-sm-2" type="number" step="1" wrapperClassName="col-sm-10" />
+        <ReactBootstrap.Input name={getInputName(key, "average_hours_per_week")}  label="Average hours per week" labelClassName="col-sm-2" type="number" step="1" wrapperClassName="col-sm-10" />
         <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
+          <label className="col-sm-2 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
           <div className="col-sm-8">
-            <RadioGroup name="overtimeAvailable" className="btn-group btn-group-justified" onChange={this.handleChange}>
+            <RadioGroup name={getInputName(key, "overtime_available")} className="btn-group btn-group-justified" onChange={this.handleChange}>
               <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
               <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
               <RadioGroupButton title="Maybe" inputValue="maybe" iconClass="fa fa-question text-danger" />
@@ -123,7 +129,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantOfferingForm />
+                <ParticipantGroupParticipantOfferingForm key={this.props.key} />
               </div>
             </div>
           </div>
