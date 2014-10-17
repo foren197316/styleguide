@@ -18,7 +18,6 @@ gulp.task('vendors', function() {
       'bower_components/jquery/dist/jquery.js',
       'bower_components/react/react.js',
       'bower_components/react/JSXTransformer.js',
-      'bower_components/react-radio-group/react-radiogroup.js',
       'bower_components/datejs/build/date.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
@@ -31,7 +30,8 @@ gulp.task('vendors', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js'
+      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
+      'bower_components/react-bootstrap/react-bootstrap.js'
     ])
     .pipe($.concat('interexchange.js'))
     .pipe(gulp.dest('build/js'));

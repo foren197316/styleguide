@@ -79,12 +79,14 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label className="col-sm-2 control-label">Tipped Position</label>
-          <div className="col-sm-10">
-            <RadioGroup name="tippedPosition">
-              <input type="radio" value="yes" /> Yes
-              <input type="radio" value="no" /> No
-            </RadioGroup>
+          <label className="col-xs-12 col-sm-2 control-label">Tipped Position</label>
+          <div className=" btn-group col-sm-10" data-toggle="buttons">
+            <label className="btn btn-default">
+              <input type="radio" value="yes" name="tippedPosition" /> Yes
+            </label>
+            <label className="btn btn-default">
+              <input type="radio" value="no" name="tippedPosition" /> No
+            </label>
           </div>
         </div>
         <div className="form-group">
@@ -95,13 +97,11 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         </div>
         <div className="form-group">
           <label className="col-sm-2 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
-          <div className="col-sm-10">
-            <RadioGroup name="overtimeAvailable" onChange={this.handleChange}>
-              <input type="radio" value="yes" /> Yes
-              <input type="radio" value="no" /> No
-              <input type="radio" value="maybe" /> Maybe
-            </RadioGroup>
-          </div>
+          <ReactBootstrap.ButtonGroup className="col-sm-10">
+            <ReactBootstrap.Button onClick={this.handleChange} value="yes">Yes</ReactBootstrap.Button>
+            <ReactBootstrap.Button onClick={this.handleChange} value="no">No</ReactBootstrap.Button>
+            <ReactBootstrap.Button onClick={this.handleChange} value="maybe">Maybe</ReactBootstrap.Button>
+          </ReactBootstrap.ButtonGroup>
         </div>
         {overtimeRate}
       </div>
