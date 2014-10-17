@@ -44,40 +44,29 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     this.setState({overtimeAvailable: event.target.value});
   },
 
+  validationState: function() {
+    console.log(this.state);
+  },
+
   render: function() {
     var overtimeAvailable = this.state.overtimeAvailable,
         overtimeRate = function() {
           if (overtimeAvailable === 'yes') {
             return (
-              <div className="form-group">
-                <label className="col-sm-4 control-label" htmlFor="overtimeRatePerHour">Overtime rate per hour</label>
-                <div className="col-sm-8">
-                  <input className="form-control" placeholder="Overtime rate per hour" type="number" step="0.01" name="overtimeRatePerHour" />
-                </div>
-              </div>
+              <ReactBootstrap.Input label="Overtime rate per hour" addonBefore="$" type="number" step="0.01" labelClassName="col-sm-2" wrapperClassName="col-sm-10" />
             );
           }
         }();
 
     return (
       <div>
-        <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor="jobTitle">Job Title</label>
-          <div className="col-sm-8">
-            <select className="form-control" name="jobTitle">
-              <option value="" selected="selected" disabled="disabled">Job Title</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </div>
-        </div>
-        <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor="wagePerHour">Wage per hour</label>
-          <div className="col-sm-8">
-            <input className="form-control" placeholder="Wage per hour" type="number" step="0.01" name="wagePerHour" />
-          </div>
-        </div>
+        <ReactBootstrap.Input type="select" defaultValue="" labelClassName="col-sm-2" wrapperClassName="col-sm-10" label="Job Title">
+          <option value="" disabled="disabled">Job Title</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </ReactBootstrap.Input>
+        <ReactBootstrap.Input label="Wage per hour" labelClassName="col-sm-2" type="number" step="0.01" addonBefore="$" wrapperClassName="col-sm-10" />
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Tipped Position</label>
           <div className="col-sm-8">
@@ -87,12 +76,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
             </RadioGroup>
           </div>
         </div>
-        <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor="averageHoursPerWeek">Average hours per week</label>
-          <div className="col-sm-8">
-            <input className="form-control" placeholder="Average hours per week" type="number" step="1" name="averageHoursPerWeek" />
-          </div>
-        </div>
+        <ReactBootstrap.Input  label="Average hours per week" labelClassName="col-sm-2" type="number" step="1" wrapperClassName="col-sm-10" />
         <div className="form-group">
           <label className="col-sm-4 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
           <div className="col-sm-8">
