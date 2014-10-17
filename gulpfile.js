@@ -2,11 +2,12 @@
 
 var gulp      = require('gulp'),
     $         = require('gulp-load-plugins')(),
+    argv      = require('yargs').argv,
+    concat    = require('gulp-concat'),
+    deploy    = require('gulp-gh-pages'),
     minifyCSS = require('gulp-minify-css'),
     rename    = require('gulp-rename'),
     sass      = require('gulp-sass'),
-    concat    = require('gulp-concat'),
-    argv      = require('yargs').argv,
     del       = require('del');
 
 var browserSync = require('browser-sync'),
@@ -108,6 +109,6 @@ gulp.task('serve', ['build'], function () {
 });
 
 gulp.task('deploy', function () {
-  gulp.src('build/**/*')
-    .pipe($.ghPages());
+  return gulp.src('./build/**/*')
+    .pipe(deploy());
 });
