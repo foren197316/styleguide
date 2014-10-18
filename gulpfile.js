@@ -1,11 +1,12 @@
 'use strict';
 
 var gulp      = require('gulp'),
-    $         = require('gulp-load-plugins')(),
     argv      = require('yargs').argv,
     concat    = require('gulp-concat'),
     deploy    = require('gulp-gh-pages'),
     hologram  = require('gulp-hologram'),
+    _if       = require('gulp-if'),
+    jshit     = require('gulp-jshint'),
     minifyCSS = require('gulp-minify-css'),
     rename    = require('gulp-rename'),
     react     = require('gulp-react'),
@@ -38,10 +39,10 @@ gulp.task('vendors', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
       'bower_components/react-bootstrap/react-bootstrap.js'
     ])
-    .pipe($.concat('interexchange.js'))
+    .pipe(concat('interexchange.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(uglify())
-    .pipe($.concat('interexchange.min.js'))
+    .pipe(concat('interexchange.min.js'))
     .pipe(gulp.dest('build/js'))
 });
 
@@ -77,30 +78,30 @@ gulp.task('styles', function() {
 
 gulp.task('javascript-components', function() {
   return gulp.src('src/js/components/*.js')
-    .pipe($.concat('interexchange-components.jsx'))
+    .pipe(concat('interexchange-components.jsx'))
     .pipe(gulp.dest('build/jsx'))
     .pipe(react())
-    .pipe($.concat('interexchange-components.js'))
+    .pipe(concat('interexchange-components.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(uglify())
-    .pipe($.concat('interexchange-components.min.js'))
+    .pipe(concat('interexchange-components.min.js'))
     .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('javascript-app', function() {
   return gulp.src('src/js/app/*.js')
-    .pipe($.concat('interexchange-app.js'))
+    .pipe(concat('interexchange-app.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(uglify())
-    .pipe($.concat('interexchange-app.min.js'))
+    .pipe(concat('interexchange-app.min.js'))
     .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('jshint', function () {
   return gulp.src('build/js/*js')
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'))
-    .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(_if(!browserSync.active, jshint.reporter('fail')));
 });
 
 gulp.task('styleguide', function () {
