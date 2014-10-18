@@ -5,10 +5,12 @@ var gulp      = require('gulp'),
     argv      = require('yargs').argv,
     concat    = require('gulp-concat'),
     deploy    = require('gulp-gh-pages'),
+    hologram  = require('gulp-hologram'),
     minifyCSS = require('gulp-minify-css'),
     rename    = require('gulp-rename'),
     react     = require('gulp-react'),
     sass      = require('gulp-sass'),
+    uglify    = require('gulp-uglify'),
     del       = require('del');
 
 var browserSync = require('browser-sync'),
@@ -37,7 +39,10 @@ gulp.task('vendors', function() {
       'bower_components/react-bootstrap/react-bootstrap.js'
     ])
     .pipe($.concat('interexchange.js'))
-    .pipe(gulp.dest('build/js'));
+    .pipe(gulp.dest('build/js'))
+    .pipe(uglify())
+    .pipe($.concat('interexchange.min.js'))
+    .pipe(gulp.dest('build/js'))
 });
 
 gulp.task('fonts', function() {
@@ -76,12 +81,18 @@ gulp.task('javascript-components', function() {
     .pipe(gulp.dest('build/jsx'))
     .pipe(react())
     .pipe($.concat('interexchange-components.js'))
+    .pipe(gulp.dest('build/js'))
+    .pipe(uglify())
+    .pipe($.concat('interexchange-components.min.js'))
     .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('javascript-app', function() {
   return gulp.src('src/js/app/*.js')
     .pipe($.concat('interexchange-app.js'))
+    .pipe(gulp.dest('build/js'))
+    .pipe(uglify())
+    .pipe($.concat('interexchange-app.min.js'))
     .pipe(gulp.dest('build/js'));
 });
 
@@ -94,7 +105,7 @@ gulp.task('jshint', function () {
 
 gulp.task('styleguide', function () {
   return gulp.src('hologram_config.yml')
-    .pipe($.hologram());
+    .pipe(hologram());
 });
 
 gulp.task('build', ['vendors', 'fonts', 'images', 'json', 'styles', 'javascript-components', 'javascript-app', 'styleguide']);
