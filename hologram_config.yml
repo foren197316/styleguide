@@ -1,12 +1,6 @@
 source: src
 destination: build
 documentation_assets: layout
-custom_markdown: layout/CortanaMarkdownRenderer.rb
+custom_markdown: lib/CortanaMarkdownRenderer.rb
 index: README
-css_include:
-  - '/css/interexchange.css'
-js_include:
-  - '/js/interexchange.js'
-jsx_include:
-  - '/js/interexchange-components.js'
 name_scope: ' - '

@@ -8,7 +8,7 @@ class Cortanamarkdownrenderer < Redcarpet::Render::HTML
         '<div class="codeBlock jsxExample"><div class="highlight"><pre>/** @jsx React.DOM */' + "\n\n" + formatter.format(lexer.lex(code)) + '</pre></div></div>'
       elsif language.include?('js')
         lexer = Rouge::Lexer.find('js')
-        '<script>' + code + '</script>' +
+        '<script type="text/javascript">' + code + '</script>' +
         '<div class="codeBlock jsExample"><div class="highlight"><pre>' + formatter.format(lexer.lex(code)) + '</pre></div></div>'
       else
         lexer = Rouge::Lexer.find(get_lexer(language))
