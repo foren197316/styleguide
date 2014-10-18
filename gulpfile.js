@@ -68,7 +68,6 @@ gulp.task('json', function() {
 gulp.task('styles', function() {
   return gulp.src('src/scss/interexchange.scss')
         .pipe(sass({keepSpecialComments: 0}))
-        .pipe(gulp.dest('css'))
         .pipe(concat('interexchange.css'))
         .pipe(gulp.dest('build/css'))
         .pipe(minifyCSS())
