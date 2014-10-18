@@ -24,7 +24,7 @@ copying and pasting the html code into the cms.
 
     <!-- Include InterExchange Javascript -->
     <script type="text/javascript" src="https://iex-assets.s3.amazonaws.com/styleguide/js/interexchange.js"></script>
-    <script type="text/jsx" src="https://iex-assets.s3.amazonaws.com/styleguide/js/interexchange-components.js"></script>
+    <script type="text/javascript" src="https://iex-assets.s3.amazonaws.com/styleguide/js/interexchange-components.js"></script>
   ...
 </head>
 ```

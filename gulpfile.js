@@ -7,6 +7,7 @@ var gulp      = require('gulp'),
     deploy    = require('gulp-gh-pages'),
     minifyCSS = require('gulp-minify-css'),
     rename    = require('gulp-rename'),
+    react     = require('gulp-react'),
     sass      = require('gulp-sass'),
     del       = require('del');
 
@@ -71,6 +72,9 @@ gulp.task('styles', function() {
 
 gulp.task('javascript-components', function() {
   return gulp.src('src/js/components/*.js')
+    .pipe($.concat('interexchange-components.jsx'))
+    .pipe(gulp.dest('build/jsx'))
+    .pipe(react())
     .pipe($.concat('interexchange-components.js'))
     .pipe(gulp.dest('build/js'));
 });

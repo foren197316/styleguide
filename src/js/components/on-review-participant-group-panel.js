@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var OnReviewParticipantGroupPanels = React.createClass({
   getInitialState: function() {
     return {

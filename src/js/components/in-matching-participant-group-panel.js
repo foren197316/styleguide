@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var InMatchingParticipantGroupPanels = React.createClass({
   getInitialState: function() {
     return {
