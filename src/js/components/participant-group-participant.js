@@ -17,7 +17,7 @@ var ParticipantGroupParticipant = React.createClass({
                 <i className="fa fa-globe"></i>
                 <strong>{this.props.data.country_name}</strong>&nbsp;
               </div>
-              <div className="col-xs-12 col-sm-2 text-right">
+              <div className="col-xs-12 col-sm-4 text-right">
                 <GenderIcon gender={this.props.data.gender} />
                 <TooltippedYearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} tooltipTitle="Age at Arrival" />
               </div>
@@ -51,8 +51,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           if (overtimeAvailable === 'yes') {
             return (
               <div className="form-group">
-                <label className="col-sm-2 control-label" htmlFor="overtimeRatePerHour">Overtime rate per hour</label>
-                <div className="col-sm-10">
+                <label className="col-sm-4 control-label" htmlFor="overtimeRatePerHour">Overtime rate per hour</label>
+                <div className="col-sm-8">
                   <input className="form-control" placeholder="Overtime rate per hour" type="number" step="0.01" name="overtimeRatePerHour" />
                 </div>
               </div>
@@ -63,8 +63,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     return (
       <div>
         <div className="form-group">
-          <label className="col-sm-2 control-label" htmlFor="jobTitle">Job Title</label>
-          <div className="col-sm-10">
+          <label className="col-sm-4 control-label" htmlFor="jobTitle">Job Title</label>
+          <div className="col-sm-8">
             <select className="form-control" name="jobTitle">
               <option value="" selected="selected" disabled="disabled">Job Title</option>
               <option value="1">1</option>
@@ -74,41 +74,45 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           </div>
         </div>
         <div className="form-group">
-          <label className="col-sm-2 control-label" htmlFor="wagePerHour">Wage per hour</label>
-          <div className="col-sm-10">
+          <label className="col-sm-4 control-label" htmlFor="wagePerHour">Wage per hour</label>
+          <div className="col-sm-8">
             <input className="form-control" placeholder="Wage per hour" type="number" step="0.01" name="wagePerHour" />
           </div>
         </div>
         <div className="form-group">
-          <label className="col-xs-12 col-sm-2 control-label">Tipped Position</label>
-          <RadioGroup name="tippedPosition" className="col-sm-10 btn-group">
-            <label className="btn btn-default">
-              <input type="radio" value="yes" /> Yes
-            </label>
-            <label className="btn btn-default">
-              <input type="radio" value="no" /> No
-            </label>
-          </RadioGroup>
+          <label className="col-xs-12 col-sm-4 control-label">Tipped Position</label>
+          <div className="col-sm-8">
+            <RadioGroup name="tippedPosition" className="btn-group btn-group-justified">
+              <label className="btn btn-default">
+                <input type="radio" value="yes" /> Yes
+              </label>
+              <label className="btn btn-default">
+                <input type="radio" value="no" /> No
+              </label>
+            </RadioGroup>
+          </div>
         </div>
         <div className="form-group">
-          <label className="col-sm-2 control-label" htmlFor="averageHoursPerWeek">Average hours per week</label>
-          <div className="col-sm-10">
+          <label className="col-sm-4 control-label" htmlFor="averageHoursPerWeek">Average hours per week</label>
+          <div className="col-sm-8">
             <input className="form-control" placeholder="Average hours per week" type="number" step="1" name="averageHoursPerWeek" />
           </div>
         </div>
         <div className="form-group">
-          <label className="col-sm-2 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
-          <RadioGroup name="overtimeAvailable" className="col-sm-10 btn-group" onChange={this.handleChange}>
-            <label className="btn btn-default">
-              <input type="radio" value="yes"/> Yes
-            </label>
-            <label className="btn btn-default">
-              <input type="radio" value="no"/> No
-            </label>
-            <label className="btn btn-default">
-              <input type="radio" value="maybe"/> Maybe
-            </label>
-          </RadioGroup>
+          <label className="col-sm-4 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
+          <div className="col-sm-8">
+            <RadioGroup name="overtimeAvailable" className="btn-group btn-group-justified" onChange={this.handleChange}>
+              <label className="btn btn-default">
+                <input type="radio" value="yes"/> Yes
+              </label>
+              <label className="btn btn-default">
+                <input type="radio" value="no"/> No
+              </label>
+              <label className="btn btn-default">
+                <input type="radio" value="maybe"/> Maybe
+              </label>
+            </RadioGroup>
+          </div>
         </div>
         {overtimeRate}
       </div>
