@@ -8,13 +8,16 @@ category: Components - Participant Group
 ---
 
 ```html_example
-<div id="OnReviewParticipantGroupPanel"></div>
+<div id="OnReviewParticipantGroups"></div>
 ```
 
-```jsx_example
+```js_example
 React.renderComponent(
-  <OnReviewParticipantGroupPanels source="/json/on-review-participant-groups.json" />,
-  document.getElementById("OnReviewParticipantGroupPanel")
+  OnReviewParticipantGroupPanels({
+    source:"/json/on-review-participant-groups.json",
+    employerId: "1"
+  }),
+  document.getElementById("OnReviewParticipantGroups")
 );
 ```
 */

@@ -15,13 +15,16 @@ category: Components - Participant Group
 </div>
 
 ```html_example
-<div id="InMatchingParticipantGroupPanel"></div>
+<div id="InMatchingParticipantGroups"></div>
 ```
 
-```jsx_example
+```js_example
 React.renderComponent(
-  <InMatchingParticipantGroupPanels source="/json/in-matching-participant-groups.json" employerId="1" />,
-  document.getElementById("InMatchingParticipantGroupPanel")
+  InMatchingParticipantGroupPanels({
+    source:"/json/in-matching-participant-groups.json",
+    employerId: "1"
+  }),
+  document.getElementById("InMatchingParticipantGroups")
 );
 ```
 */
