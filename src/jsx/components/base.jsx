@@ -36,6 +36,18 @@ var TooltippedYearCalculator = React.createClass({
   }
 });
 
+var TooltippedIcon = React.createClass({
+  componentDidMount: function() {
+    $(this.getDOMNode()).tooltip();
+  },
+
+  render: function() {
+    return (
+      <i className={this.props.iconClass}/>
+    )
+  }
+});
+
 var TooltippedIconSpan = React.createClass({
   componentDidMount: function() {
     $(this.getDOMNode()).tooltip();
@@ -47,6 +59,18 @@ var TooltippedIconSpan = React.createClass({
         <i className={this.props.iconClass}></i>
         {this.props.spanContent}
       </span>
+    )
+  }
+});
+
+var RadioGroupButton = React.createClass({
+  render: function() {
+    return (
+      <label className="btn btn-default btn-sm">
+        <input type="radio" value={this.props.inputValue} name={this.props.inputName} onChange={this.handleChange} />
+        <i className={this.props.iconClass}></i>
+        {this.props.title}
+      </label>
     )
   }
 });

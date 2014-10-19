@@ -41,7 +41,6 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   },
 
   handleChange: function(event) {
-    console.log(event.target);
     this.setState({overtimeAvailable: event.target.value});
   },
 
@@ -82,14 +81,10 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Tipped Position</label>
           <div className="col-sm-8">
-            <RadioGroup name="tippedPosition" className="btn-group btn-group-justified">
-              <label className="btn btn-default btn-sm">
-                <input type="radio" value="yes" /> Yes
-              </label>
-              <label className="btn btn-default btn-sm">
-                <input type="radio" value="no" /> No
-              </label>
-            </RadioGroup>
+            <div className="btn-group btn-group-justified" data-toggle="buttons">
+              <RadioGroupButton title="Yes" inputValue="yes" inputName="tippedPosition" iconClass="fa fa-check text-success" />
+              <RadioGroupButton title="No" inputValue="no" inputName="tippedPosition" iconClass="fa fa-close text-danger" />
+            </div>
           </div>
         </div>
         <div className="form-group">
@@ -101,17 +96,11 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         <div className="form-group">
           <label className="col-sm-4 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
           <div className="col-sm-8">
-            <RadioGroup name="overtimeAvailable" className="btn-group btn-group-justified" onChange={this.handleChange}>
-              <label className="btn btn-default btn-sm">
-                <input type="radio" value="yes"/> Yes
-              </label>
-              <label className="btn btn-default btn-sm">
-                <input type="radio" value="no"/> No
-              </label>
-              <label className="btn btn-default btn-sm">
-                <input type="radio" value="maybe"/> Maybe
-              </label>
-            </RadioGroup>
+            <div className="btn-group btn-group-justified" data-toggle="buttons" onChange={this.handleChange}>
+              <RadioGroupButton title="Yes" inputValue="yes" inputName="overtimeAvailable" iconClass="fa fa-check text-success" />
+              <RadioGroupButton title="No" inputValue="no" inputName="overtimeAvailable" iconClass="fa fa-close text-danger" />
+              <RadioGroupButton title="Maybe" inputValue="maybe" inputName="overtimeAvailable" iconClass="fa fa-question text-danger" />
+            </div>
           </div>
         </div>
         {overtimeRate}

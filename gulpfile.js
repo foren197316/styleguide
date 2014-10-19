@@ -24,7 +24,6 @@ gulp.task('vendors', function() {
       'bower_components/react/react.js',
       'bower_components/react/JSXTransformer.js',
       'bower_components/datejs/build/date.js',
-      'bower_components/react-radio-group/react-radiogroup.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js',
@@ -118,7 +117,7 @@ gulp.task('serve', ['build'], function () {
     open: false
   });
   gulp.watch(['**/*.html'], reload);
-  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
+  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/jsx/**/*.jsx', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
     runSequence('build', reload);
   });
 });
