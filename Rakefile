@@ -14,7 +14,7 @@ task :deploy => [:build] do
   Dir.mktmpdir do |tmp|
     system "cp -R build/* #{tmp}"
     system "git co gh-pages"
-    system "rm -rf *"
+    system "git rm * -r --ignore-unmatch"
     system "mv #{tmp}/* ."
     system "git add ."
     message = "Site updated at #{Time.now.utc}"
