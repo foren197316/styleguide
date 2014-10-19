@@ -83,10 +83,10 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           <label className="col-xs-12 col-sm-4 control-label">Tipped Position</label>
           <div className="col-sm-8">
             <RadioGroup name="tippedPosition" className="btn-group btn-group-justified">
-              <label className="btn btn-default">
+              <label className="btn btn-default btn-sm">
                 <input type="radio" value="yes" /> Yes
               </label>
-              <label className="btn btn-default">
+              <label className="btn btn-default btn-sm">
                 <input type="radio" value="no" /> No
               </label>
             </RadioGroup>
@@ -102,13 +102,13 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           <label className="col-sm-4 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
           <div className="col-sm-8">
             <RadioGroup name="overtimeAvailable" className="btn-group btn-group-justified" onChange={this.handleChange}>
-              <label className="btn btn-default">
+              <label className="btn btn-default btn-sm">
                 <input type="radio" value="yes"/> Yes
               </label>
-              <label className="btn btn-default">
+              <label className="btn btn-default btn-sm">
                 <input type="radio" value="no"/> No
               </label>
-              <label className="btn btn-default">
+              <label className="btn btn-default btn-sm">
                 <input type="radio" value="maybe"/> Maybe
               </label>
             </RadioGroup>

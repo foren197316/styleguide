@@ -76,7 +76,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('javascript-components', function() {
-  return gulp.src('src/js/components/*.js')
+  return gulp.src('src/jsx/components/*.jsx')
     .pipe(concat('interexchange-components.jsx'))
     .pipe(gulp.dest('build/jsx'))
     .pipe(react())
