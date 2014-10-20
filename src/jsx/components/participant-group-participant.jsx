@@ -1,6 +1,6 @@
 var ParticipantGroupParticipant = React.createClass({
   render: function() {
-    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
+    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-female' : 'list-group-item list-group-item-male';
 
     return (
       <div className={listItemClass}>
@@ -111,7 +111,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
-    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-danger' : 'list-group-item list-group-item-info';
+    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-female' : 'list-group-item list-group-item-male';
 
     return (
       <div className={listItemClass}>
