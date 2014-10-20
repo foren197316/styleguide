@@ -22,8 +22,6 @@ task :deploy => [:build] do
     system "git push origin gh-pages --force"
     system "git checkout master"
     system "echo yolo"
-    system "npm install"
-    system "bower install"
   end
 end
 
