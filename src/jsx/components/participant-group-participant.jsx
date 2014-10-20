@@ -49,7 +49,6 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   },
 
   updateValues: function(event) {
-    console.log(event.target);
     this.setState({
       wagePerHourValue: this.refs.wagePerHour.getValue()
     });
