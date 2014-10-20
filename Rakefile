@@ -4,7 +4,6 @@ require 'rdoc'
 require 'date'
 require 'yaml'
 require 'tmpdir'
-require 'jekyll'
 
 task :build do
   system "gulp build"
