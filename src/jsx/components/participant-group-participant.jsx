@@ -40,63 +40,66 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     return {overtimeAvailable: null};
   },
 
+  getInputName: function(key, name) {
+    return "offered_participant_groups[draft_job_offers][" + key + "][" + name + "]";
+  },
+
   handleChange: function(event) {
     this.setState({overtimeAvailable: event.target.value});
   },
 
+  updateValues: function(event) {
+    this.setState({
+      wagePerHourValue: this.refs.wagePerHour.getValue()
+    });
+  },
+
+  validationMoney: function() {
+    if (this.state.wagePerHourValue) {
+      if (!/\d([\.,]\d\d)?/.test(this.state.wagePerHourValue)) {
+        return "error";
+      }
+      else {
+        return "success";
+      }
+    }
+  },
+
   render: function() {
     var overtimeAvailable = this.state.overtimeAvailable,
+        key = this.props.key,
+        getInputName = this.getInputName,
         overtimeRate = function() {
           if (overtimeAvailable === 'yes') {
             return (
-              <div className="form-group">
-                <label className="col-sm-4 control-label" htmlFor="overtimeRatePerHour">Overtime rate per hour</label>
-                <div className="col-sm-8">
-                  <input className="form-control" placeholder="Overtime rate per hour" type="number" step="0.01" name="overtimeRatePerHour" />
-                </div>
-              </div>
+              <ReactBootstrap.Input name={getInputName(key, "overtime_wage_per_hour")} label="Overtime rate per hour" addonBefore="$" type="number" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
             );
           }
         }();
 
     return (
       <div>
-        <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor="jobTitle">Job Title</label>
-          <div className="col-sm-8">
-            <select className="form-control" name="jobTitle">
-              <option value="" selected="selected" disabled="disabled">Job Title</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </div>
-        </div>
-        <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor="wagePerHour">Wage per hour</label>
-          <div className="col-sm-8">
-            <input className="form-control" placeholder="Wage per hour" type="number" step="0.01" name="wagePerHour" />
-          </div>
-        </div>
+        <ReactBootstrap.Input name={getInputName(key, "position_id")} label="Job Title" type="select" defaultValue="" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
+          <option value="" disabled="disabled">Job Title</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </ReactBootstrap.Input>
+        <ReactBootstrap.Input name={getInputName(key, "wage_per_hour")} label="Wage per hour" type="number" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Tipped Position</label>
           <div className="col-sm-8">
-            <RadioGroup name="tippedPosition" className="btn-group btn-group-justified">
+            <RadioGroup name={getInputName(key, "tipped_position")} className="btn-group btn-group-justified">
               <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
               <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
             </RadioGroup>
           </div>
         </div>
-        <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor="averageHoursPerWeek">Average hours per week</label>
-          <div className="col-sm-8">
-            <input className="form-control" placeholder="Average hours per week" type="number" step="1" name="averageHoursPerWeek" />
-          </div>
-        </div>
+        <ReactBootstrap.Input name={getInputName(key, "average_hours_per_week")}  label="Average hours per week" labelClassName="col-sm-4" type="number" step="1" wrapperClassName="col-sm-8" />
         <div className="form-group">
           <label className="col-sm-4 control-label" htmlFor="overtimeAvailable">Are overtime hours available?</label>
           <div className="col-sm-8">
-            <RadioGroup name="overtimeAvailable" className="btn-group btn-group-justified" onChange={this.handleChange}>
+            <RadioGroup name={getInputName(key, "overtime_available")} className="btn-group btn-group-justified" onChange={this.handleChange}>
               <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
               <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
               <RadioGroupButton title="Maybe" inputValue="maybe" iconClass="fa fa-question text-danger" />
@@ -125,7 +128,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantOfferingForm />
+                <ParticipantGroupParticipantOfferingForm key={this.props.key} />
               </div>
             </div>
           </div>
