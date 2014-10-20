@@ -64,10 +64,27 @@ var TooltippedIconSpan = React.createClass({
 });
 
 var RadioGroupButton = React.createClass({
+  handleChange: function(event) {
+    var $buttonGroup = event.target.parentNode.parentNode,
+        $buttons = $buttonGroup.querySelectorAll('.btn'),
+        $radios = $buttonGroup.querySelectorAll('input[type="radio"]');
+
+    for (var i=0; i < $buttons.length; i++) {
+      var $button = $buttons[i],
+          $radio = $radios[i];
+
+      if ($radio.checked) {
+        $button.className = $button.className + " active";
+      } else {
+        $button.className = $button.className.replace("active", "");
+      }
+    }
+  },
+
   render: function() {
     return (
       <label className="btn btn-default btn-sm">
-        <input type="radio" value={this.props.inputValue} name={this.props.inputName} onChange={this.handleChange} />
+        <input type="radio" value={this.props.inputValue} onChange={this.handleChange} />
         <i className={this.props.iconClass}></i>
         {this.props.title}
       </label>
