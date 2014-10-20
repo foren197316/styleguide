@@ -48,11 +48,11 @@ var OnReviewParticipantGroupPanel = React.createClass({
 
   render: function() {
     return (
-      <div className="panel panel-default participant-group-panel">
+      <form className="list-group form-horizontal panel panel-default participant-group-panel" role="form">
         <OnReviewParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
         <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} />
         <OnReviewParticipantGroupPanelFooter data={this.props.data} isOffering={this.state.isOffering} toggleIsOffering={this.toggleIsOffering} />
-      </div>
+      </form>
     )
   }
 });
@@ -83,9 +83,9 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
         });
 
     return (
-      <form className="list-group form-horizontal" role="form">
+      <div>
         {participantNodes}
-      </form>
+      </div>
     )
   }
 });
@@ -147,10 +147,14 @@ var OnReviewParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass(
     this.props.toggleIsOffering(this);
   },
 
+  confirmJobOffer: function () {
+    debugger
+  },
+
   render: function() {
     return (
       <div className="btn-group clearfix">
-        <button className="btn btn-success">Confirm</button>
+        <button className="btn btn-success" onClick={this.confirmJobOffer}>Confirm</button>
         <button className="btn btn-default" onClick={this.propogateToggleIsOffering}>Cancel</button>
       </div>
     )
