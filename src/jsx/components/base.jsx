@@ -83,8 +83,8 @@ var RadioGroupButton = React.createClass({
 
   render: function() {
     return (
-      <label className="btn btn-default btn-sm">
-        <input type="radio" value={this.props.inputValue} onChange={this.handleChange} />
+      <label className="btn btn-default btn-sm" htmlFor={this.props.htmlFor}>
+        <input type="radio" id={this.props.id} value={this.props.inputValue} onChange={this.handleChange} />
         <i className={this.props.iconClass}></i>
         {this.props.title}
       </label>

@@ -123,8 +123,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           <label className="col-xs-12 col-sm-4 control-label" htmlFor={ref_names["tipped_position"]}>Tipped Position</label>
           <div className="col-sm-8">
             <RadioGroup name={ref_names["tipped_position"]} id={ref_ids["tipped_position"]} value={this.state[ref_names["tipped_position"]]} className="btn-group btn-group-justified">
-              <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
-              <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
+              <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={ref_ids["tipped_position"] + "_yes"} htmlFor={ref_ids["tipped_position"] + "_yes"} />
+              <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={ref_ids["tipped_position"] + "_no"} htmlFor={ref_ids["tipped_position"] + "_no"} />
             </RadioGroup>
           </div>
         </div>
@@ -133,9 +133,9 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
           <label className="col-sm-4 control-label" htmlFor={ref_ids["overtime_available"]}>Are overtime hours available?</label>
           <div className="col-sm-8">
             <RadioGroup name={ref_names["overtime_available"]} id={ref_ids["overtime_available"]} value={this.state[ref_names["overtime_available"]]} className="btn-group btn-group-justified" onChange={this.handleChange}>
-              <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
-              <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
-              <RadioGroupButton title="Maybe" inputValue="maybe" iconClass="fa fa-question text-danger" />
+              <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={ref_ids["overtime_available"] + "_yes"} htmlFor={ref_ids["overtime_available"] + "_yes"} />
+              <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={ref_ids["overtime_available"] + "_no"} htmlFor={ref_ids["overtime_available"] + "_no"} />
+              <RadioGroupButton title="Maybe" inputValue="maybe" iconClass="fa fa-question text-danger" id={ref_ids["overtime_available"] + "_maybe"} htmlFor={ref_ids["overtime_available"] + "_maybe"} />
             </RadioGroup>
           </div>
         </div>
