@@ -61,7 +61,7 @@ var ParticipantGroupParticipantOfferingFormWagePerHour = React.createClass({
 
   render: function () {
     return (
-      <ReactBootstrap.Input name={getJobOfferFormName(this.props.key, "wage_per_hour")} value={this.state.wagePerHour} hasFeedback bsStyle={validateMoney(this.state.wagePerHour)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" help="Must be a monetary value." />
+      <ReactBootstrap.Input name={getJobOfferFormName(this.props.key, "wage_per_hour")} value={this.state.wagePerHour} hasFeedback bsStyle={validateMoney(this.state.wagePerHour)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
     )
   }
 });
@@ -111,16 +111,16 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   render: function() {
     var refs = this.state.ref_names,
         overtimeRate = this.state[refs["overtime_available"]] === 'yes'
-          ? <ReactBootstrap.Input name={refs["overtime_wage_per_hour"]} value={this.state[refs["overtime_wage_per_hour"]]} hasFeedback bsStyle={validateMoney(this.state[refs["overtime_wage_per_hour"]])} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" help="Must be a monetary value." />
+          ? <ReactBootstrap.Input name={refs["overtime_wage_per_hour"]} value={this.state[refs["overtime_wage_per_hour"]]} hasFeedback bsStyle={validateMoney(this.state[refs["overtime_wage_per_hour"]])} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
           : null;
 
     return (
       <div>
-        <ReactBootstrap.Input name={refs["position_id"]} defaultValue={this.state[refs["position_id"]]} label="Job Title" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
-          <option value="" disabled="disabled">Job Title</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
+        <ReactBootstrap.Input name={refs["position_id"]} defaultValue={this.state[refs["position_id"]]} label="Position" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
+          <option></option>
+          <option value="1">Attractions Attendant</option>
+          <option value="2">Barista</option>
+          <option value="3">Bartender</option>
         </ReactBootstrap.Input>
         <ParticipantGroupParticipantOfferingFormWagePerHour key={this.props.key} />
         <div className="form-group">
@@ -132,7 +132,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
             </RadioGroup>
           </div>
         </div>
-        <ReactBootstrap.Input name={refs["average_hours_per_week"]} value={this.state[refs["average_hours_per_week"]]}  label="Average hours per week" hasFeedback bsStyle={this.validateNumber(refs["average_hours_per_week"])} help="Must be numeric." labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
+        <ReactBootstrap.Input name={refs["average_hours_per_week"]} value={this.state[refs["average_hours_per_week"]]}  label="Average hours per week" hasFeedback bsStyle={this.validateNumber(refs["average_hours_per_week"])} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
         <div className="form-group">
           <label className="col-sm-4 control-label" htmlFor={refs["overtime_available"]}>Are overtime hours available?</label>
           <div className="col-sm-8">
