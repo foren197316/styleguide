@@ -51,7 +51,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
         data = form.serialize();
 
     $.ajax({
-      url: "/on_review_participant_groups/" + this.props.key + "/confirm",
+      url: "/on_review_participant_groups/" + this.props.key + "/confirm.json",
       type: "POST",
       data: data,
       success: function(data) {
