@@ -7,6 +7,3 @@ label.list-group {
     width: 100%;
   }
 }
-
-@include list-group-item-variant(male, $state-info-bg, $state-info-text);
-@include list-group-item-variant(female, $state-danger-bg, $state-danger-text);

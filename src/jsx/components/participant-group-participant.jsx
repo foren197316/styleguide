@@ -3,22 +3,25 @@ var validateMoney = function (value) {
     if (!/^\d+([\.,]\d{1,2})?$/.test(value)) {
       return "error";
     }
-    else {
-      return "success";
+  }
+};
+
+var validateNumber = function (value) {
+  if (value) {
+    if (!/^\d+(\.\d+)?$/.test(value)) {
+     return "error";
     }
   }
 };
 
-var getJobOfferFormName = function (key, field) {
-  return "offered_participant_groups[draft_job_offers][" + key + "][" + field + "]";
+var confirmDraftJobOfferFormName = function (key, field) {
+  return "confirm[draft_job_offers][" + key + "][" + field + "]";
 };
 
 var ParticipantGroupParticipant = React.createClass({
   render: function() {
-    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-female' : 'list-group-item list-group-item-male';
-
     return (
-      <div className={listItemClass}>
+      <div className="list-group-item list-group-item-participant">
         <div className="media">
           <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
@@ -61,7 +64,7 @@ var ParticipantGroupParticipantOfferingFormWagePerHour = React.createClass({
 
   render: function () {
     return (
-      <ReactBootstrap.Input name={getJobOfferFormName(this.props.key, "wage_per_hour")} value={this.state.wagePerHour} hasFeedback bsStyle={validateMoney(this.state.wagePerHour)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.key, "wage_per_hour")} value={this.state.wagePerHour} hasFeedback bsStyle={validateMoney(this.state.wagePerHour)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
     )
   }
 });
@@ -71,11 +74,11 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   getInitialState: function() {
     return {
       ref_names: {
-        overtime_wage_per_hour: getJobOfferFormName(this.props.key, "overtime_wage_per_hour"),
-        position_id: getJobOfferFormName(this.props.key, "position_id"),
-        tipped_position: getJobOfferFormName(this.props.key, "tipped_position"),
-        average_hours_per_week: getJobOfferFormName(this.props.key, "average_hours_per_week"),
-        overtime_available: getJobOfferFormName(this.props.key, "overtime_available")
+        overtime_wage_per_hour: confirmDraftJobOfferFormName(this.props.key, "overtime_wage_per_hour"),
+        position_id: confirmDraftJobOfferFormName(this.props.key, "position_id"),
+        tipped_position: confirmDraftJobOfferFormName(this.props.key, "tipped_position"),
+        average_hours_per_week: confirmDraftJobOfferFormName(this.props.key, "average_hours_per_week"),
+        overtime_available: confirmDraftJobOfferFormName(this.props.key, "overtime_available")
       }
     };
   },
@@ -86,28 +89,6 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     this.setState(state);
   },
 
-  validateNumber: function(name) {
-    if (this.state[name]) {
-      if (!/^\d+(\.\d+)?$/.test(this.state[name])) {
-        return "error";
-      }
-      else {
-        return "success";
-      }
-    }
-  },
-
-  validateMoney: function(name) {
-    if (this.state[name]) {
-      if (!/^\d+([\.,]\d{1,2})?$/.test(this.state[name])) {
-        return "error";
-      }
-      else {
-        return "success";
-      }
-    }
-  },
-
   render: function() {
     var refs = this.state.ref_names,
         overtimeRate = this.state[refs["overtime_available"]] === 'yes'
@@ -116,6 +97,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
     return (
       <div>
+        <ReactBootstrap.Input name={refs["participant_id"]} defaultValue={this.state[refs["position_id"]]} type="hidden" />
         <ReactBootstrap.Input name={refs["position_id"]} defaultValue={this.state[refs["position_id"]]} label="Position" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
           <option></option>
           <option value="1">Attractions Attendant</option>
@@ -132,7 +114,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
             </RadioGroup>
           </div>
         </div>
-        <ReactBootstrap.Input name={refs["average_hours_per_week"]} value={this.state[refs["average_hours_per_week"]]}  label="Average hours per week" hasFeedback bsStyle={this.validateNumber(refs["average_hours_per_week"])} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
+        <ReactBootstrap.Input name={refs["average_hours_per_week"]} value={this.state[refs["average_hours_per_week"]]}  label="Average hours per week" hasFeedback bsStyle={validateNumber(this.state[refs["average_hours_per_week"]])} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
         <div className="form-group">
           <label className="col-sm-4 control-label" htmlFor={refs["overtime_available"]}>Are overtime hours available?</label>
           <div className="col-sm-8">
@@ -151,10 +133,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
-    var listItemClass = this.props.data.gender == 'Female' ? 'list-group-item list-group-item-female' : 'list-group-item list-group-item-male';
-
     return (
-      <div className={listItemClass}>
+      <div className="list-group-item list-group-item-participant">
         <div className="media">
           <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">

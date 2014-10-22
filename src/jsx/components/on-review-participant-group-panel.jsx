@@ -46,9 +46,27 @@ var OnReviewParticipantGroupPanel = React.createClass({
     this.setState({ isOffering: !this.state.isOffering });
   },
 
+  handleSubmit: function(event) {
+    var form = $(event.target),
+        data = form.serialize();
+
+    $.ajax({
+      url: "/on_review_participant_groups/" + this.props.key + "/confirm",
+      type: "POST",
+      data: data,
+      success: function(data) {
+        React.unmountComponentAtNode(node);
+        $(node).remove();
+      },
+      error: function(data) {
+        window.location = window.location;
+      }
+    });
+  },
+
   render: function() {
     return (
-      <form className="list-group form-horizontal panel panel-default participant-group-panel" role="form">
+      <form className="panel panel-default participant-group-panel form-horizontal" role="form" onSubmit={this.handleSubmit}>
         <OnReviewParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
         <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} />
         <OnReviewParticipantGroupPanelFooter data={this.props.data} isOffering={this.state.isOffering} toggleIsOffering={this.toggleIsOffering} />
@@ -147,14 +165,10 @@ var OnReviewParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass(
     this.props.toggleIsOffering(this);
   },
 
-  confirmJobOffer: function () {
-    debugger
-  },
-
   render: function() {
     return (
       <div className="btn-group clearfix">
-        <button className="btn btn-success" onClick={this.confirmJobOffer}>Confirm</button>
+        <input className="btn btn-success" type="submit" value="Confirm" />
         <button className="btn btn-default" onClick={this.propogateToggleIsOffering}>Cancel</button>
       </div>
     )

@@ -65,16 +65,16 @@ var InMatchingParticipantGroupPanel = React.createClass({
         };
 
     $.ajax({
-        url: "/on_review_participant_groups.json",
-        type: "POST",
-        data: data,
-        success: function(data) {
-          React.unmountComponentAtNode(node);
-          $(node).remove();
-        },
-        error: function(data) {
-          window.location = window.location;
-        }
+      url: "/on_review_participant_groups.json",
+      type: "POST",
+      data: data,
+      success: function(data) {
+        React.unmountComponentAtNode(node);
+        $(node).remove();
+      },
+      error: function(data) {
+        window.location = window.location;
+      }
     });
   },
 
