@@ -73,10 +73,10 @@ var RadioGroupButton = React.createClass({
       var $button = $buttons[i],
           $radio = $radios[i];
 
+      $button.className = $button.className.replace("active", "");
+
       if ($radio.checked) {
         $button.className = $button.className + " active";
-      } else {
-        $button.className = $button.className.replace("active", "");
       }
     }
   },
