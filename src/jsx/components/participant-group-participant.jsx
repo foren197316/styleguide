@@ -74,8 +74,9 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   getInitialState: function() {
     return {
       ref_names: {
-        overtime_wage_per_hour: confirmDraftJobOfferFormName(this.props.key, "overtime_wage_per_hour"),
+        participant_id: confirmDraftJobOfferFormName(this.props.key, "participant_id"),
         position_id: confirmDraftJobOfferFormName(this.props.key, "position_id"),
+        overtime_wage_per_hour: confirmDraftJobOfferFormName(this.props.key, "overtime_wage_per_hour"),
         tipped_position: confirmDraftJobOfferFormName(this.props.key, "tipped_position"),
         average_hours_per_week: confirmDraftJobOfferFormName(this.props.key, "average_hours_per_week"),
         overtime_available: confirmDraftJobOfferFormName(this.props.key, "overtime_available")
@@ -97,7 +98,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
     return (
       <div>
-        <ReactBootstrap.Input name={refs["participant_id"]} defaultValue={this.state[refs["position_id"]]} type="hidden" />
+        <ReactBootstrap.Input name={refs["participant_id"]} defaultValue={this.props.key} type="hidden" />
         <ReactBootstrap.Input name={refs["position_id"]} defaultValue={this.state[refs["position_id"]]} label="Position" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
           <option></option>
           <option value="1">Attractions Attendant</option>
