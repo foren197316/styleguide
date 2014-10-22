@@ -21,7 +21,7 @@ var confirmDraftJobOfferFormName = function (key, field) {
 var ParticipantGroupParticipant = React.createClass({
   render: function() {
     return (
-      <div className="list-group-item list-group-item-participant">
+      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
         <div className="media">
           <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
           <div className="media-body">
