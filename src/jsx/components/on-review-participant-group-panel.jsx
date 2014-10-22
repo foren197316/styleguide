@@ -47,6 +47,8 @@ var OnReviewParticipantGroupPanel = React.createClass({
   },
 
   handleSubmit: function(event) {
+    event.preventDefault();
+
     var form = $(event.target),
         data = form.serialize();
 
@@ -59,7 +61,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
         $(node).remove();
       },
       error: function(data) {
-        window.location = window.location;
+        console.log(data);
       }
     });
   },
