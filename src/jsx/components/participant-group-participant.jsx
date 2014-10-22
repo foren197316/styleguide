@@ -18,6 +18,10 @@ var confirmDraftJobOfferFormName = function (key, field) {
   return "confirm[draft_job_offers][" + key + "][" + field + "]";
 };
 
+var confirmDraftJobOfferFormId = function (key, field) {
+  return "confirm_draft_job_offers_" + key + "_" + field;
+};
+
 var ParticipantGroupParticipant = React.createClass({
   render: function() {
     return (
@@ -64,7 +68,7 @@ var ParticipantGroupParticipantOfferingFormWagePerHour = React.createClass({
 
   render: function () {
     return (
-      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.key, "wage_per_hour")} value={this.state.wagePerHour} hasFeedback bsStyle={validateMoney(this.state.wagePerHour)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.key, "wage_per_hour")} id={confirmDraftJobOfferFormId(this.props.key, "wage_per_hour")} value={this.state.wagePerHour} hasFeedback bsStyle={validateMoney(this.state.wagePerHour)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
     )
   }
 });
@@ -80,6 +84,14 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         tipped_position: confirmDraftJobOfferFormName(this.props.key, "tipped_position"),
         average_hours_per_week: confirmDraftJobOfferFormName(this.props.key, "average_hours_per_week"),
         overtime_available: confirmDraftJobOfferFormName(this.props.key, "overtime_available")
+      },
+      ref_ids: {
+        participant_id: confirmDraftJobOfferFormId(this.props.key, "participant_id"),
+        position_id: confirmDraftJobOfferFormId(this.props.key, "position_id"),
+        overtime_wage_per_hour: confirmDraftJobOfferFormId(this.props.key, "overtime_wage_per_hour"),
+        tipped_position: confirmDraftJobOfferFormId(this.props.key, "tipped_position"),
+        average_hours_per_week: confirmDraftJobOfferFormId(this.props.key, "average_hours_per_week"),
+        overtime_available: confirmDraftJobOfferFormId(this.props.key, "overtime_available")
       }
     };
   },
@@ -91,15 +103,16 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   },
 
   render: function() {
-    var refs = this.state.ref_names,
-        overtimeRate = this.state[refs["overtime_available"]] === 'yes'
-          ? <ReactBootstrap.Input name={refs["overtime_wage_per_hour"]} value={this.state[refs["overtime_wage_per_hour"]]} hasFeedback bsStyle={validateMoney(this.state[refs["overtime_wage_per_hour"]])} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
+    var ref_names = this.state.ref_names,
+        ref_ids = this.state.ref_ids,
+        overtimeRate = this.state[ref_names["overtime_available"]] === 'yes'
+          ? <ReactBootstrap.Input name={ref_names["overtime_wage_per_hour"]} id={ref_ids["overtime_wage_per_hour"]} value={this.state[ref_names["overtime_wage_per_hour"]]} hasFeedback bsStyle={validateMoney(this.state[ref_names["overtime_wage_per_hour"]])} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
           : null;
 
     return (
       <div>
-        <ReactBootstrap.Input name={refs["participant_id"]} defaultValue={this.props.key} type="hidden" />
-        <ReactBootstrap.Input name={refs["position_id"]} defaultValue={this.state[refs["position_id"]]} label="Position" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
+        <ReactBootstrap.Input name={ref_names["participant_id"]} id={ref_ids["participant_id"]} defaultValue={this.props.key} type="hidden" />
+        <ReactBootstrap.Input name={ref_names["position_id"]} id={ref_ids["position_id"]} defaultValue={this.state[ref_names["position_id"]]} label="Position" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
           <option></option>
           <option value="1">Attractions Attendant</option>
           <option value="2">Barista</option>
@@ -107,19 +120,19 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
         </ReactBootstrap.Input>
         <ParticipantGroupParticipantOfferingFormWagePerHour key={this.props.key} />
         <div className="form-group">
-          <label className="col-xs-12 col-sm-4 control-label" htmlFor={refs["tipped_position"]}>Tipped Position</label>
+          <label className="col-xs-12 col-sm-4 control-label" htmlFor={ref_names["tipped_position"]}>Tipped Position</label>
           <div className="col-sm-8">
-            <RadioGroup name={refs["tipped_position"]} value={this.state[refs["tipped_position"]]} className="btn-group btn-group-justified">
+            <RadioGroup name={ref_names["tipped_position"]} id={ref_ids["tipped_position"]} value={this.state[ref_names["tipped_position"]]} className="btn-group btn-group-justified">
               <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
               <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
             </RadioGroup>
           </div>
         </div>
-        <ReactBootstrap.Input name={refs["average_hours_per_week"]} value={this.state[refs["average_hours_per_week"]]}  label="Average hours per week" hasFeedback bsStyle={validateNumber(this.state[refs["average_hours_per_week"]])} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
+        <ReactBootstrap.Input name={ref_names["average_hours_per_week"]} id={ref_ids["average_hours_per_week"]} value={this.state[ref_names["average_hours_per_week"]]}  label="Average hours per week" hasFeedback bsStyle={validateNumber(this.state[ref_names["average_hours_per_week"]])} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
         <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor={refs["overtime_available"]}>Are overtime hours available?</label>
+          <label className="col-sm-4 control-label" htmlFor={ref_ids["overtime_available"]}>Are overtime hours available?</label>
           <div className="col-sm-8">
-            <RadioGroup name={refs["overtime_available"]} value={this.state[refs["overtime_available"]]} className="btn-group btn-group-justified" onChange={this.handleChange}>
+            <RadioGroup name={ref_names["overtime_available"]} id={ref_ids["overtime_available"]} value={this.state[ref_names["overtime_available"]]} className="btn-group btn-group-justified" onChange={this.handleChange}>
               <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" />
               <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" />
               <RadioGroupButton title="Maybe" inputValue="maybe" iconClass="fa fa-question text-danger" />
