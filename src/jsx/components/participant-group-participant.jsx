@@ -68,13 +68,37 @@ var ParticipantGroupParticipantOfferingFormWage = React.createClass({
 
   render: function () {
     return (
-      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.key, "wage")} id={confirmDraftJobOfferFormId(this.props.key, "wage")} value={this.state.wage} hasFeedback bsStyle={validateMoney(this.state.wage)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.participantKey, "wage")} id={confirmDraftJobOfferFormId(this.props.participantKey, "wage")} defaultValue={this.state.wage} hasFeedback bsStyle={validateMoney(this.state.wage)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
+    )
+  }
+});
+
+var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
+  getInitialState: function() {
+    return {position_id: null};
+  },
+
+  handleChange: function (event) {
+    this.setState({position_id: event.target.value});
+  },
+
+  render: function () {
+    var positionOptions = this.props.positions.map(function(position) {
+          return (
+            <option value={position.id}>{position.name}</option>
+          )
+        });
+
+    return (
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.participantKey, "position_id")} id={confirmDraftJobOfferFormId(this.props.participantKey, "position_id")} defaultValue={this.state.position_id} label="Position" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
+        <option disabled="disabled"></option>
+        {positionOptions}
+      </ReactBootstrap.Input>
     )
   }
 });
 
 var ParticipantGroupParticipantOfferingForm = React.createClass({
-
   getInitialState: function() {
     return {
       ref_names: {
@@ -112,13 +136,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
     return (
       <div>
         <ReactBootstrap.Input name={ref_names["participant_id"]} id={ref_ids["participant_id"]} defaultValue={this.props.key} type="hidden" />
-        <ReactBootstrap.Input name={ref_names["position_id"]} id={ref_ids["position_id"]} defaultValue={this.state[ref_names["position_id"]]} label="Position" type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
-          <option></option>
-          <option value="1">Attractions Attendant</option>
-          <option value="2">Barista</option>
-          <option value="3">Bartender</option>
-        </ReactBootstrap.Input>
-        <ParticipantGroupParticipantOfferingFormWage key={this.props.key} />
+        <ParticipantGroupParticipantOfferingFormPosition participantKey={this.props.key} positions={this.props.data.positions} />
+        <ParticipantGroupParticipantOfferingFormWage participantKey={this.props.key} />
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label" htmlFor={ref_names["tipped"]}>Tipped Position</label>
           <div className="col-sm-8">
@@ -159,7 +178,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantOfferingForm key={this.props.key} />
+                <ParticipantGroupParticipantOfferingForm key={this.props.key} data={this.props.data} />
               </div>
             </div>
           </div>

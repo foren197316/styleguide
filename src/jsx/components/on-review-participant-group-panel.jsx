@@ -21,10 +21,10 @@ var OnReviewParticipantGroupPanels = React.createClass({
     if (this.isMounted()) {
       var employer = this.state.employer,
           onReviewParticipantGroupPanels = this.state.onReviewParticipantGroups.map(function (onReviewParticipantGroup) {
-        return (
-          <OnReviewParticipantGroupPanel key={onReviewParticipantGroup.id} data={onReviewParticipantGroup} employer={employer} />
-        );
-      });
+            return (
+              <OnReviewParticipantGroupPanel key={onReviewParticipantGroup.id} data={onReviewParticipantGroup} employer={employer} />
+            );
+          });
 
       return (
         <div id="participant-group-panels">
@@ -49,7 +49,8 @@ var OnReviewParticipantGroupPanel = React.createClass({
   handleSubmit: function(event) {
     event.preventDefault();
 
-    var form = $(event.target),
+    var node = this.getDOMNode(),
+        form = $(event.target),
         data = form.serialize();
 
     $.ajax({
