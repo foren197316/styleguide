@@ -57,6 +57,97 @@ var ParticipantGroupParticipant = React.createClass({
   }
 });
 
+
+var ParticipantGroupParticipantOfferingFormTipped = React.createClass({
+  getInitialState: function() {
+    return {};
+  },
+
+  render: function () {
+    var key = this.props.participantKey;
+
+    return (
+      <div className="form-group">
+        <label className="col-xs-12 col-sm-4 control-label" htmlFor={confirmDraftJobOfferFormName(key, "tipped")}>Tipped Position</label>
+        <div className="col-sm-8">
+          <RadioGroup name={confirmDraftJobOfferFormName(key, "tipped")} id={confirmDraftJobOfferFormId(key, "tipped")} className="btn-group btn-group-justified">
+            <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={confirmDraftJobOfferFormId(key, "tipped") + "_yes"} htmlFor={confirmDraftJobOfferFormId(key, "tipped") + "_yes"} />
+            <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={confirmDraftJobOfferFormId(key, "tipped") + "_no"} htmlFor={confirmDraftJobOfferFormId(key, "tipped") + "_no"} />
+          </RadioGroup>
+        </div>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupParticipantOfferingFormHours = React.createClass({
+  getInitialState: function() {
+    return {hours: null};
+  },
+
+  handleChange: function (event) {
+    this.setState({hours: event.target.value});
+  },
+
+  render: function () {
+    var key = this.props.participantKey;
+
+    return (
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(key, "hours")} id={confirmDraftJobOfferFormId(key, "hours")} value={this.state.hours}  label="Average hours per week" hasFeedback bsStyle={validateNumber(this.state.hours)} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
+    )
+  }
+});
+
+var ParticipantGroupParticipantOfferingFormOvertime = React.createClass({
+  getInitialState: function () {
+    return {overtime: null};
+  },
+
+  handleChange: function (event) {
+    this.setState({overtime: event.target.value});
+  },
+
+  render: function () {
+    var key = this.props.participantKey,
+        overtimeRate = this.state.overtime === "yes"
+          ? <ParticipantGroupParticipantOfferingFormOvertimeRate participantKey={key} />
+          : null;
+
+    return (
+      <div>
+        <div className="form-group">
+          <label className="col-sm-4 control-label" htmlFor={confirmDraftJobOfferFormId(key, "overtime")}>Are overtime hours available?</label>
+          <div className="col-sm-8">
+            <RadioGroup name={confirmDraftJobOfferFormName(key, "overtime")} id={confirmDraftJobOfferFormId(key, "overtime")} value={this.state.overtime} className="btn-group btn-group-justified" onChange={this.handleChange}>
+              <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={confirmDraftJobOfferFormId(key, "overtime") + "_yes"} htmlFor={confirmDraftJobOfferFormId(key, "overtime") + "_yes"} />
+              <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={confirmDraftJobOfferFormId(key, "overtime") + "_no"} htmlFor={confirmDraftJobOfferFormId(key, "overtime") + "_no"} />
+              <RadioGroupButton title="Maybe" inputValue="maybe" iconClass="fa fa-question text-danger" id={confirmDraftJobOfferFormId(key, "overtime") + "_maybe"} htmlFor={confirmDraftJobOfferFormId(key, "overtime") + "_maybe"} />
+            </RadioGroup>
+          </div>
+        </div>
+        {overtimeRate}
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupParticipantOfferingFormOvertimeRate = React.createClass({
+  getInitialState: function() {
+    return {overtime_rate: null};
+  },
+
+  handleChange: function (event) {
+    this.setState({overtime_rate: event.target.value});
+  },
+
+  render: function () {
+    var key = this.props.key;
+
+    return (
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(key, "overtime_rate")} id={confirmDraftJobOfferFormId(key, "overtime_rate")} value={this.state.overtime_rate} hasFeedback bsStyle={validateMoney(this.state.overtime_rate)} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
+    )
+  }
+});
 var ParticipantGroupParticipantOfferingFormWage = React.createClass({
   getInitialState: function() {
     return {wage: null};
@@ -99,66 +190,19 @@ var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
 });
 
 var ParticipantGroupParticipantOfferingForm = React.createClass({
-  getInitialState: function() {
-    return {
-      ref_names: {
-        participant_id: confirmDraftJobOfferFormName(this.props.key, "participant_id"),
-        position_id: confirmDraftJobOfferFormName(this.props.key, "position_id"),
-        tipped: confirmDraftJobOfferFormName(this.props.key, "tipped"),
-        hours: confirmDraftJobOfferFormName(this.props.key, "hours"),
-        overtime: confirmDraftJobOfferFormName(this.props.key, "overtime"),
-        overtime_rate: confirmDraftJobOfferFormName(this.props.key, "overtime_rate")
-      },
-      ref_ids: {
-        participant_id: confirmDraftJobOfferFormId(this.props.key, "participant_id"),
-        position_id: confirmDraftJobOfferFormId(this.props.key, "position_id"),
-        tipped: confirmDraftJobOfferFormId(this.props.key, "tipped"),
-        hours: confirmDraftJobOfferFormId(this.props.key, "hours"),
-        overtime: confirmDraftJobOfferFormId(this.props.key, "overtime"),
-        overtime_rate: confirmDraftJobOfferFormId(this.props.key, "overtime_rate")
-      }
-    };
+  getInitialState: function () {
+    return {};
   },
 
-  handleChange: function(event) {
-    var state = this.state;
-    state[event.target.getAttribute("name")] = event.target.value;
-    this.setState(state);
-  },
-
-  render: function() {
-    var ref_names = this.state.ref_names,
-        ref_ids = this.state.ref_ids,
-        overtimeRate = this.state[ref_names["overtime"]] === 'yes'
-          ? <ReactBootstrap.Input name={ref_names["overtime_rate"]} id={ref_ids["overtime_rate"]} value={this.state[ref_names["overtime_rate"]]} hasFeedback bsStyle={validateMoney(this.state[ref_names["overtime_rate"]])} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
-          : null;
-
+  render: function () {
     return (
       <div>
-        <ReactBootstrap.Input name={ref_names["participant_id"]} id={ref_ids["participant_id"]} defaultValue={this.props.key} type="hidden" />
+        <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.key, "participant_id")} id={confirmDraftJobOfferFormId(this.props.key, "participant_id")} defaultValue={this.props.key} type="hidden" />
         <ParticipantGroupParticipantOfferingFormPosition participantKey={this.props.key} positions={this.props.data.positions} />
         <ParticipantGroupParticipantOfferingFormWage participantKey={this.props.key} />
-        <div className="form-group">
-          <label className="col-xs-12 col-sm-4 control-label" htmlFor={ref_names["tipped"]}>Tipped Position</label>
-          <div className="col-sm-8">
-            <RadioGroup name={ref_names["tipped"]} id={ref_ids["tipped"]} value={this.state[ref_names["tipped"]]} className="btn-group btn-group-justified">
-              <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={ref_ids["tipped"] + "_yes"} htmlFor={ref_ids["tipped"] + "_yes"} />
-              <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={ref_ids["tipped"] + "_no"} htmlFor={ref_ids["tipped"] + "_no"} />
-            </RadioGroup>
-          </div>
-        </div>
-        <ReactBootstrap.Input name={ref_names["hours"]} id={ref_ids["hours"]} value={this.state[ref_names["hours"]]}  label="Average hours per week" hasFeedback bsStyle={validateNumber(this.state[ref_names["hours"]])} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
-        <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor={ref_ids["overtime"]}>Are overtime hours available?</label>
-          <div className="col-sm-8">
-            <RadioGroup name={ref_names["overtime"]} id={ref_ids["overtime"]} value={this.state[ref_names["overtime"]]} className="btn-group btn-group-justified" onChange={this.handleChange}>
-              <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={ref_ids["overtime"] + "_yes"} htmlFor={ref_ids["overtime"] + "_yes"} />
-              <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={ref_ids["overtime"] + "_no"} htmlFor={ref_ids["overtime"] + "_no"} />
-              <RadioGroupButton title="Maybe" inputValue="maybe" iconClass="fa fa-question text-danger" id={ref_ids["overtime"] + "_maybe"} htmlFor={ref_ids["overtime"] + "_maybe"} />
-            </RadioGroup>
-          </div>
-        </div>
-        {overtimeRate}
+        <ParticipantGroupParticipantOfferingFormTipped participantKey={this.props.key} />
+        <ParticipantGroupParticipantOfferingFormHours participantKey={this.props.key} />
+        <ParticipantGroupParticipantOfferingFormOvertime participantKey={this.props.key} />
       </div>
     )
   }
