@@ -96,10 +96,40 @@ var OnReviewParticipantGroupPanelHeading = React.createClass({
 });
 
 var OnReviewParticipantGroupPanelListGroup = React.createClass({
+  getInitialState: function () {
+    var participantCount = this.props.data.participants.length,
+        participantValidationStatuses = [];
+
+    for (var i=0; i<participantCount; i++) {
+      participantValidationStatuses.push(false);
+    }
+
+    return { "participantValidationStatuses": participantValidationStatuses };
+  },
+
+  isFormValid: function () {
+    return this.state.participantValidationStatuses.reduce(function (prev, curr) {
+      return prev && curr;
+    });
+  },
+
+  updateNodeStatus: function (nodeNumber, isValid) {
+    var participantValidationStatuses = this.state.participantValidationStatuses,
+        oldStatus = this.isFormValid();
+
+    participantValidationStatuses[nodeNumber] = isValid;
+    this.setState({"participantValidationStatuses": participantValidationStatuses});
+
+    if (oldStatus !== this.isFormValid()) {
+      this.props.toggleDraftJobOfferValid();
+    }
+  },
+
   render: function() {
     var isOffering = this.props.isOffering,
+        nodeNumber = 0,
+        updateNodeStatus = this.updateNodeStatus,
         draftJobOfferValid = this.props.draftJobOfferValid,
-        toggleDraftJobOfferValid = this.props.toggleDraftJobOfferValid,
         participantNodes = this.props.data.participants.map(function (participant) {
           if (!isOffering) {
             return (
@@ -107,7 +137,7 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
             )
           } else {
             return (
-              <ParticipantGroupParticipantOffering draftJobOfferValid={draftJobOfferValid} toggleDraftJobOfferValid={toggleDraftJobOfferValid} key={participant.id} data={participant} />
+              <ParticipantGroupParticipantOffering draftJobOfferValid={draftJobOfferValid} updateNodeStatus={updateNodeStatus} nodeNumber={nodeNumber++} key={participant.id} data={participant} />
             )
           }
         });

@@ -281,8 +281,9 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
     this.setState({formValidity: valid});
 
-    if (this.props.draftJobOfferValid !== this.formIsValid()) {
-      this.props.toggleDraftJobOfferValid();
+    var isValid = this.formIsValid();
+    if (this.props.draftJobOfferValid !== isValid) {
+      this.props.updateNodeStatus(this.props.nodeNumber, isValid);
     }
   },
 
@@ -302,8 +303,7 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
-    var draftJobOfferValid = this.props.draftJobOfferValid,
-        toggleDraftJobOfferValid = this.props.toggleDraftJobOfferValid;
+    var draftJobOfferValid = this.props.draftJobOfferValid;
 
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
@@ -317,7 +317,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantOfferingForm key={this.props.key} draftJobOfferValid={draftJobOfferValid} toggleDraftJobOfferValid={toggleDraftJobOfferValid} data={this.props.data} />
+                <ParticipantGroupParticipantOfferingForm key={this.props.key} nodeNumber={this.props.nodeNumber} updateNodeStatus={this.props.updateNodeStatus} draftJobOfferValid={draftJobOfferValid} data={this.props.data} />
               </div>
             </div>
           </div>
