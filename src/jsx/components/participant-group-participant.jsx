@@ -178,10 +178,10 @@ var ParticipantGroupParticipantOfferingFormOvertimeRate = React.createClass({
   },
 
   render: function () {
-    var key = this.props.key;
+    var participantKey = this.props.participantKey;
 
     return (
-      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(key, "overtime_rate")} id={confirmDraftJobOfferFormId(key, "overtime_rate")} value={this.state.overtime_rate} hasFeedback bsStyle={validateMoney(this.state.overtime_rate)} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(participantKey, "overtime_rate")} id={confirmDraftJobOfferFormId(participantKey, "overtime_rate")} value={this.state.overtime_rate} hasFeedback bsStyle={validateMoney(this.state.overtime_rate)} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
     )
   }
 });
