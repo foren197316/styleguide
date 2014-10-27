@@ -169,6 +169,18 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
               <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValid={draftJobOfferValid} toggleIsOffering={propogateToggleIsOffering} />
             )
           }
+        })(),
+        legalize = (function (participant) {
+          if (isOffering) {
+            return (
+              <div className="row">
+                <hr/>
+                <small className="col-xs-12 text-right">
+                  By clicking offer I agree that the information entered is true and accurate to the best of my knowledge and that I will contact InterExchange if any information changes.
+                </small>
+              </div>
+            )
+          }
         })();
 
     return (
@@ -183,6 +195,7 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
             </div>
           </div>
         </div>
+        {legalize}
       </div>
     )
   }
