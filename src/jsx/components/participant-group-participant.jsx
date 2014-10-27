@@ -76,7 +76,7 @@ var ParticipantGroupParticipantOfferingFormTipped = React.createClass({
 
     return (
       <div className="form-group">
-        <label className="col-xs-12 col-sm-4 control-label" htmlFor={confirmDraftJobOfferFormName(key, "tipped")}>Tipped Position</label>
+        <label className="col-xs-12 col-sm-4 control-label" htmlFor={confirmDraftJobOfferFormName(key, "tipped")}>Tipped?</label>
         <div className="col-sm-8">
           <RadioGroup name={confirmDraftJobOfferFormName(key, "tipped")} id={confirmDraftJobOfferFormId(key, "tipped")} className="btn-group btn-group-justified" onChange={this.handleChange}>
             <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={confirmDraftJobOfferFormId(key, "tipped") + "_yes"} htmlFor={confirmDraftJobOfferFormId(key, "tipped") + "_yes"} />
@@ -112,7 +112,7 @@ var ParticipantGroupParticipantOfferingFormHours = React.createClass({
     var key = this.props.participantKey;
 
     return (
-      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(key, "hours")} id={confirmDraftJobOfferFormId(key, "hours")} value={this.state.hours}  label="Average hours per week" hasFeedback bsStyle={validateNumber(this.state.hours)} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(key, "hours")} id={confirmDraftJobOfferFormId(key, "hours")} value={this.state.hours}  label="Hours per week" hasFeedback bsStyle={validateNumber(this.state.hours)} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
     )
   }
 });
@@ -142,7 +142,7 @@ var ParticipantGroupParticipantOfferingFormOvertime = React.createClass({
     return (
       <div>
         <div className="form-group">
-          <label className="col-sm-4 control-label" htmlFor={confirmDraftJobOfferFormId(key, "overtime")}>Are overtime hours available?</label>
+          <label className="col-sm-4 control-label" htmlFor={confirmDraftJobOfferFormId(key, "overtime")}>Overtime?</label>
           <div className="col-sm-8">
             <RadioGroup name={confirmDraftJobOfferFormName(key, "overtime")} id={confirmDraftJobOfferFormId(key, "overtime")} value={this.state.overtime} className="btn-group btn-group-justified" onChange={this.handleChange}>
               <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={confirmDraftJobOfferFormId(key, "overtime") + "_yes"} htmlFor={confirmDraftJobOfferFormId(key, "overtime") + "_yes"} />
@@ -186,33 +186,6 @@ var ParticipantGroupParticipantOfferingFormOvertimeRate = React.createClass({
   }
 });
 
-var ParticipantGroupParticipantOfferingFormWage = React.createClass({
-  getInitialState: function() {
-    return {wage: null};
-  },
-
-  handleChange: function (event) {
-    var oldState = this.validate(this.state.wage),
-        newState = this.validate(event.target.value);
-
-    this.setState({wage: event.target.value});
-
-    if (oldState !== newState) {
-      this.props.propagateFormValidity({"wage": newState});
-    }
-  },
-
-  validate: function (value) {
-    return  value !== null && value.length > 0 && validateMoney(value) !== 'error';
-  },
-
-  render: function () {
-    return (
-      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.participantKey, "wage")} id={confirmDraftJobOfferFormId(this.props.participantKey, "wage")} defaultValue={this.state.wage} hasFeedback bsStyle={validateMoney(this.state.wage)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
-    )
-  }
-});
-
 var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
   getInitialState: function() {
     return {position_id: null};
@@ -245,6 +218,33 @@ var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
         <option disabled="disabled"></option>
         {positionOptions}
       </ReactBootstrap.Input>
+    )
+  }
+});
+
+var ParticipantGroupParticipantOfferingFormWage = React.createClass({
+  getInitialState: function() {
+    return {wage: null};
+  },
+
+  handleChange: function (event) {
+    var oldState = this.validate(this.state.wage),
+        newState = this.validate(event.target.value);
+
+    this.setState({wage: event.target.value});
+
+    if (oldState !== newState) {
+      this.props.propagateFormValidity({"wage": newState});
+    }
+  },
+
+  validate: function (value) {
+    return  value !== null && value.length > 0 && validateMoney(value) !== 'error';
+  },
+
+  render: function () {
+    return (
+      <ReactBootstrap.Input name={confirmDraftJobOfferFormName(this.props.participantKey, "wage")} id={confirmDraftJobOfferFormId(this.props.participantKey, "wage")} defaultValue={this.state.wage} hasFeedback bsStyle={validateMoney(this.state.wage)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
     )
   }
 });
