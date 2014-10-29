@@ -14,15 +14,6 @@
           "date_of_birth": "1988-01-02",
           "arrival_date": "2014-12-01",
           "departure_date": "2015-03-01",
-          "draft_job_offer": {
-            "id": 1,
-            "position": "Barista",
-            "tipped": true,
-            "wage": 5,
-            "hours": 35,
-            "overtime": "yes",
-            "overtime_rate": 6
-          },
           "positions": [
             {
               "id": 1,
@@ -43,21 +34,34 @@
           "date_of_birth": "1987-01-02",
           "arrival_date": "2014-12-01",
           "departure_date": "2015-03-01",
-          "draft_job_offer": {
-            "id": 1,
-            "position": "Barista",
-            "tipped": true,
-            "wage": 5,
-            "hours": 35,
-            "overtime": "yes",
-            "overtime_rate": 6
-          },
           "positions": [
             {
               "id": 3,
               "name": "Fast Food Crew"
             }
           ]
+        }
+      ],
+      "draft_job_offers": [
+        {
+          "id": 1,
+          "participant_id": 10,
+          "position": "Barista",
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
+        },
+        {
+          "id": 2,
+          "participant_id": 11,
+          "position": "Barista",
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
         }
       ]
     },
@@ -75,15 +79,6 @@
           "date_of_birth": "1989-12-15",
           "arrival_date": "2014-11-15",
           "departure_date": "2015-02-03",
-          "draft_job_offer": {
-            "id": 1,
-            "position": "Barista",
-            "tipped": true,
-            "wage": 5,
-            "hours": 35,
-            "overtime": "yes",
-            "overtime_rate": 6
-          },
           "positions": [
             {
               "id": 2,
@@ -95,6 +90,18 @@
             }
           ]
         }
+      ],
+      "draft_job_offers": [
+        {
+          "id": 3,
+          "participant_id": 13,
+          "position": "Barista",
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
+        }
       ]
     },
     {
@@ -103,7 +110,7 @@
       "name": "Friends",
       "participants": [
         {
-          "id": 12,
+          "id": 14,
           "name": "Vincent McNameLong Crabbe",
           "gender": "Male",
           "country_name": "The Republic of Ireland",
@@ -111,15 +118,6 @@
           "date_of_birth": "1989-05-15",
           "arrival_date": "2014-12-15",
           "departure_date": "2015-04-03",
-          "draft_job_offer": {
-            "id": 1,
-            "position": "Barista",
-            "tipped": true,
-            "wage": 5,
-            "hours": 35,
-            "overtime": "yes",
-            "overtime_rate": 6
-          },
           "positions": [
             {
               "id": 1,
@@ -132,7 +130,7 @@
           ]
         },
         {
-          "id": 13,
+          "id": 15,
           "name": "Gregory Goyle",
           "gender": "Male",
           "country_name": "The Republic of Ireland",
@@ -140,15 +138,6 @@
           "date_of_birth": "1989-05-15",
           "arrival_date": "2014-12-15",
           "departure_date": "2015-04-03",
-          "draft_job_offer": {
-            "id": 1,
-            "position": "Barista",
-            "tipped": true,
-            "wage": 5,
-            "hours": 35,
-            "overtime": "yes",
-            "overtime_rate": 6
-          },
           "positions": [
             {
               "id": 1,
@@ -159,6 +148,28 @@
               "name": "Games Attendant"
             }
           ]
+        }
+      ],
+      "draft_job_offers": [
+        {
+          "id": 4,
+          "participant_id": 14,
+          "position": "Barista",
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
+        },
+        {
+          "id": 5,
+          "participant_id": 15,
+          "position": "Barista",
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
         }
       ]
     }
