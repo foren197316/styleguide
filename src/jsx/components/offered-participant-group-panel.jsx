@@ -77,20 +77,9 @@ var OfferedParticipantGroupPanel = React.createClass({
   render: function() {
     return (
       <form className="panel panel-default participant-group-panel form-horizontal" role="form" onSubmit={this.handleSubmit}>
-        <OfferedParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
         <OfferedParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} draftJobOfferValid={this.state.draftJobOfferValid} toggleDraftJobOfferValid={this.toggleDraftJobOfferValid}  />
         <OfferedParticipantGroupPanelFooter data={this.props.data} draftJobOfferValid={this.state.draftJobOfferValid} isOffering={this.state.isOffering} toggleIsOffering={this.toggleIsOffering} />
       </form>
-    )
-  }
-});
-
-var OfferedParticipantGroupPanelHeading = React.createClass({
-  render: function() {
-    return (
-      <div className="panel-heading text-right">
-        <h1 className="panel-title">On Review until <strong>{this.props.data.expires_on}</strong></h1>
-      </div>
     )
   }
 });
@@ -159,17 +148,6 @@ var OfferedParticipantGroupPanelFooter = React.createClass({
     var isOffering = this.props.isOffering,
         propogateToggleIsOffering = this.props.toggleIsOffering,
         draftJobOfferValid = this.props.draftJobOfferValid,
-        buttonGroup = (function (participant) {
-          if (!isOffering) {
-            return (
-              <OfferedParticipantGroupPanelFooterButtonsOfferDecline data={participant} toggleIsOffering={propogateToggleIsOffering} />
-            )
-          } else {
-            return (
-              <OfferedParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValid={draftJobOfferValid} toggleIsOffering={propogateToggleIsOffering} />
-            )
-          }
-        })(),
         legalize = (function (participant) {
           if (isOffering) {
             return (
@@ -189,47 +167,8 @@ var OfferedParticipantGroupPanelFooter = React.createClass({
           <div className="col-xs-3 col-sm-3">
             <div className="panel-title pull-left">{this.props.data.name}</div>
           </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="pull-right">
-              {buttonGroup}
-            </div>
-          </div>
         </div>
         {legalize}
-      </div>
-    )
-  }
-});
-
-var OfferedParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
-  propogateToggleIsOffering: function () {
-    this.props.toggleIsOffering(this);
-  },
-
-  render: function() {
-    return (
-      <div className="btn-group clearfix">
-        <button className="btn btn-success" onClick={this.propogateToggleIsOffering}>Offer</button>
-        <button className="btn btn-danger">Decline</button>
-      </div>
-    )
-  }
-});
-
-var OfferedParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass({
-  propogateToggleIsOffering: function () {
-    this.props.toggleIsOffering(this);
-  },
-
-  render: function() {
-    var confirmButton = this.props.draftJobOfferValid
-      ? <input className="btn btn-success" type="submit" value="Confirm" />
-      : <input className="btn btn-success" type="submit" value="Confirm" disabled="disabled" />;
-
-    return (
-      <div className="btn-group clearfix">
-        {confirmButton}
-        <button className="btn btn-default" onClick={this.propogateToggleIsOffering}>Cancel</button>
       </div>
     )
   }
