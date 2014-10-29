@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: Reserved Participant Groups
+name: reserved-participant-groups
+category: Components - Participant Group
+---
+
+```html_example
+<div id="ReservedParticipantGroups"></div>
+```
+
+```js_example
+React.renderComponent(
+  ReservedParticipantGroupPanels({
+    source:"/json/reserved-participant-groups.json",
+    employerId: "1"
+  }),
+  document.getElementById("ReservedParticipantGroups")
+);
+```
+*/

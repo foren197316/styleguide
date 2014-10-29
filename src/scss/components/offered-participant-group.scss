@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: Offered Participant Groups
+name: offered-participant-groups
+category: Components - Participant Group
+---
+
+```html_example
+<div id="OfferedParticipantGroups"></div>
+```
+
+```js_example
+React.renderComponent(
+  OfferedParticipantGroupPanels({
+    source:"/json/offered-participant-groups.json",
+    employerId: "1"
+  }),
+  document.getElementById("OfferedParticipantGroups")
+);
+```
+*/

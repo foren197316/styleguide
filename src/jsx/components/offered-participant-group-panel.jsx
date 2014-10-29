@@ -1,7 +1,8 @@
-var OnReviewParticipantGroupPanels = React.createClass({
+var OfferedParticipantGroupPanels = React.createClass({
   getInitialState: function() {
     return {
-      onReviewParticipantGroups: null
+      employer: null,
+      offeredParticipantGroups: null
     };
   },
 
@@ -9,7 +10,8 @@ var OnReviewParticipantGroupPanels = React.createClass({
     $.get(this.props.source, function(data) {
       if (this.isMounted()) {
         this.setState({
-          onReviewParticipantGroups: data.on_review_participant_groups
+          employer: data.employer,
+          offeredParticipantGroups: data.offered_participant_groups
         });
       }
     }.bind(this));
@@ -17,16 +19,16 @@ var OnReviewParticipantGroupPanels = React.createClass({
 
   render: function() {
     if (this.isMounted()) {
-      var employerId = this.props.employerId,
-          onReviewParticipantGroupPanels = this.state.onReviewParticipantGroups.map(function (onReviewParticipantGroup) {
+      var employer = this.state.employer,
+          offeredParticipantGroupPanels = this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
             return (
-              <OnReviewParticipantGroupPanel key={onReviewParticipantGroup.id} data={onReviewParticipantGroup} employerId={employerId} />
+              <OfferedParticipantGroupPanel key={offeredParticipantGroup.id} data={offeredParticipantGroup} employer={employer} />
             );
           });
 
       return (
         <div id="participant-group-panels">
-          {onReviewParticipantGroupPanels}
+          {offeredParticipantGroupPanels}
         </div>
       );
     } else {
@@ -35,7 +37,7 @@ var OnReviewParticipantGroupPanels = React.createClass({
   }
 });
 
-var OnReviewParticipantGroupPanel = React.createClass({
+var OfferedParticipantGroupPanel = React.createClass({
   getInitialState: function() {
     return {
       isOffering: false,
@@ -56,15 +58,10 @@ var OnReviewParticipantGroupPanel = React.createClass({
 
     var node = this.getDOMNode(),
         form = $(event.target),
-        data = {
-          offered_participant_group: $.extend({
-            employer_id: this.props.employerId,
-            on_review_participant_group_id: this.props.data.id
-          }, form.serializeJSON())
-        };
+        data = form.serialize();
 
     $.ajax({
-      url: "/offered_participant_groups.json",
+      url: "/offered_participant_groups/" + this.props.key + "/confirm.json",
       type: "POST",
       data: data,
       success: function(data) {
@@ -80,15 +77,15 @@ var OnReviewParticipantGroupPanel = React.createClass({
   render: function() {
     return (
       <form className="panel panel-default participant-group-panel form-horizontal" role="form" onSubmit={this.handleSubmit}>
-        <OnReviewParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
-        <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} draftJobOfferValid={this.state.draftJobOfferValid} toggleDraftJobOfferValid={this.toggleDraftJobOfferValid}  />
-        <OnReviewParticipantGroupPanelFooter data={this.props.data} draftJobOfferValid={this.state.draftJobOfferValid} isOffering={this.state.isOffering} toggleIsOffering={this.toggleIsOffering} />
+        <OfferedParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
+        <OfferedParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} draftJobOfferValid={this.state.draftJobOfferValid} toggleDraftJobOfferValid={this.toggleDraftJobOfferValid}  />
+        <OfferedParticipantGroupPanelFooter data={this.props.data} draftJobOfferValid={this.state.draftJobOfferValid} isOffering={this.state.isOffering} toggleIsOffering={this.toggleIsOffering} />
       </form>
     )
   }
 });
 
-var OnReviewParticipantGroupPanelHeading = React.createClass({
+var OfferedParticipantGroupPanelHeading = React.createClass({
   render: function() {
     return (
       <div className="panel-heading text-right">
@@ -98,7 +95,7 @@ var OnReviewParticipantGroupPanelHeading = React.createClass({
   }
 });
 
-var OnReviewParticipantGroupPanelListGroup = React.createClass({
+var OfferedParticipantGroupPanelListGroup = React.createClass({
   getInitialState: function () {
     var participantCount = this.props.data.participants.length,
         participantValidationStatuses = [];
@@ -153,7 +150,7 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
   }
 });
 
-var OnReviewParticipantGroupPanelFooter = React.createClass({
+var OfferedParticipantGroupPanelFooter = React.createClass({
   propogateToggleIsOffering: function () {
     this.props.toggleIsOffering(this);
   },
@@ -165,11 +162,11 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
         buttonGroup = (function (participant) {
           if (!isOffering) {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} toggleIsOffering={propogateToggleIsOffering} />
+              <OfferedParticipantGroupPanelFooterButtonsOfferDecline data={participant} toggleIsOffering={propogateToggleIsOffering} />
             )
           } else {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValid={draftJobOfferValid} toggleIsOffering={propogateToggleIsOffering} />
+              <OfferedParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValid={draftJobOfferValid} toggleIsOffering={propogateToggleIsOffering} />
             )
           }
         })(),
@@ -204,7 +201,7 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
   }
 });
 
-var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
+var OfferedParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
   propogateToggleIsOffering: function () {
     this.props.toggleIsOffering(this);
   },
@@ -219,7 +216,7 @@ var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
   }
 });
 
-var OnReviewParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass({
+var OfferedParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass({
   propogateToggleIsOffering: function () {
     this.props.toggleIsOffering(this);
   },
