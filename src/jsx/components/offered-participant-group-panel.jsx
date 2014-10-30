@@ -94,6 +94,11 @@ var OfferedParticipantGroupParticipant = React.createClass({
             <div className="row">
               <div className="col-xs-12">
                 <div>{this.props.draftJobOffer.position}</div>
+                <div>{this.props.draftJobOffer.wage}</div>
+                <div>{this.props.draftJobOffer.tipped}</div>
+                <div>{this.props.draftJobOffer.hours}</div>
+                <div>{this.props.draftJobOffer.overtime}</div>
+                <div>{this.props.draftJobOffer.overtime_rate}</div>
               </div>
             </div>
           </div>
