@@ -77,7 +77,7 @@ var ParticipantGroupParticipantOfferingFormTipped = React.createClass({
     return (
       <div className="form-group">
         <label className="col-xs-12 col-sm-4 control-label" htmlFor={draftJobOfferFormName(key, "tipped")}>Tipped?</label>
-        <div className="col-sm-8">
+        <div className="col-xs-12 col-sm-8">
           <RadioGroup name={draftJobOfferFormName(key, "tipped")} id={draftJobOfferFormId(key, "tipped")} className="btn-group btn-group-justified" onChange={this.handleChange}>
             <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={draftJobOfferFormId(key, "tipped") + "_yes"} htmlFor={draftJobOfferFormId(key, "tipped") + "_yes"} />
             <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={draftJobOfferFormId(key, "tipped") + "_no"} htmlFor={draftJobOfferFormId(key, "tipped") + "_no"} />
@@ -301,6 +301,49 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   }
 });
 
+var ParticipantGroupParticipantDecliningForm = React.createClass({
+  getInitialState: function () {
+    return {
+      reason: "Unselected",
+      isOtherReason: false
+    };
+  },
+
+  handleChange: function (event) {
+    this.setState({
+      reason: event.target.value,
+      isOtherReason: event.target.value.length === 0
+    });
+  },
+
+  componentDidUpdate: function () {
+    if (this.state.isOtherReason) {
+      $(this.getDOMNode()).find('input[type="text"]').focus();
+    }
+
+    $(this.getDOMNode()).find('input[type="text"]').val(this.state.reason);
+  },
+
+  render: function () {
+    var visibility = this.state.isOtherReason ? "show" : "hidden";
+
+    return (
+      <div>
+        <div className="form-group">
+          <label className="col-xs-12 col-sm-4 control-label">Reason</label>
+          <RadioGroup className="col-xs-12 col-sm-8" defaultValue={this.state.reason} onChange={this.handleChange} name={"reject_reason_options[" + this.props.key + "]"}>
+            <div className="radio"><label><input type="radio" value="Filled this position" /> Filled this position</label></div>
+            <div className="radio"><label><input type="radio" value="Unsuitable work dates" /> Unsuitable work dates</label></div>
+            <div className="radio"><label><input type="radio" value="Unsuitable English" /> Unsuitable English</label></div>
+            <div className="radio"><label><input type="radio" value="" /> Other</label></div>
+          </RadioGroup>
+        </div>
+        <ReactBootstrap.Input name={"rejection_reason["+this.props.key+"]"} id={"rejection_reason_"+this.props.key} label="Please specify" labelClassName={"col-sm-4 " + visibility} type="text" wrapperClassName={"col-sm-8 " + visibility}/>
+      </div>
+    )
+  }
+});
+
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
     var draftJobOfferValid = this.props.draftJobOfferValid;
@@ -318,6 +361,30 @@ var ParticipantGroupParticipantOffering = React.createClass({
             <div className="row">
               <div className="col-xs-12">
                 <ParticipantGroupParticipantOfferingForm key={this.props.key} nodeNumber={this.props.nodeNumber} updateNodeStatus={this.props.updateNodeStatus} draftJobOfferValid={draftJobOfferValid} data={this.props.data} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupParticipantDeclining = React.createClass({
+  render: function () {
+    return (
+      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
+        <div className="media">
+          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <div className="media-body">
+            <div className="row">
+              <div className="col-xs-12">
+                <h4 className="media-heading">{this.props.data.name}</h4>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-xs-12">
+                <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} propogateToggleIsDeclining={this.props.propogateToggleIsDeclining} />
               </div>
             </div>
           </div>

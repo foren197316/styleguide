@@ -39,12 +39,17 @@ var OnReviewParticipantGroupPanel = React.createClass({
   getInitialState: function() {
     return {
       isOffering: false,
+      isDeclining: false,
       draftJobOfferValid: false
     };
   },
 
   toggleIsOffering: function(event) {
     this.setState({ isOffering: !this.state.isOffering });
+  },
+
+  toggleIsDeclining: function(event) {
+    this.setState({ isDeclining: !this.state.isDeclining });
   },
 
   toggleDraftJobOfferValid: function () {
@@ -81,8 +86,8 @@ var OnReviewParticipantGroupPanel = React.createClass({
     return (
       <form className="panel panel-default participant-group-panel form-horizontal" role="form" onSubmit={this.handleSubmit}>
         <OnReviewParticipantGroupPanelHeading data={this.props.data} isOffering={this.state.isOffering} />
-        <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} draftJobOfferValid={this.state.draftJobOfferValid} toggleDraftJobOfferValid={this.toggleDraftJobOfferValid}  />
-        <OnReviewParticipantGroupPanelFooter data={this.props.data} draftJobOfferValid={this.state.draftJobOfferValid} isOffering={this.state.isOffering} toggleIsOffering={this.toggleIsOffering} />
+        <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOffering={this.state.isOffering} isDeclining={this.state.isDeclining} propogateToggleIsDeclining={this.toggleIsDeclining} draftJobOfferValid={this.state.draftJobOfferValid} toggleDraftJobOfferValid={this.toggleDraftJobOfferValid}  />
+        <OnReviewParticipantGroupPanelFooter data={this.props.data} draftJobOfferValid={this.state.draftJobOfferValid} isOffering={this.state.isOffering} isDeclining={this.state.isDeclining} toggleIsOffering={this.toggleIsOffering} toggleIsDeclining={this.toggleIsDeclining} />
       </form>
     )
   }
@@ -130,17 +135,23 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
 
   render: function() {
     var isOffering = this.props.isOffering,
+        isDeclining = this.props.isDeclining,
+        propogateToggleIsDeclining = this.props.propogateToggleIsDeclining,
         nodeNumber = 0,
         updateNodeStatus = this.updateNodeStatus,
         draftJobOfferValid = this.props.draftJobOfferValid,
         participantNodes = this.props.data.participants.map(function (participant) {
-          if (!isOffering) {
+          if (isOffering) {
             return (
-              <ParticipantGroupParticipant key={participant.id} data={participant} />
+              <ParticipantGroupParticipantOffering draftJobOfferValid={draftJobOfferValid} updateNodeStatus={updateNodeStatus} nodeNumber={nodeNumber++} key={participant.id} data={participant} />
+            )
+          } else if (isDeclining) {
+            return (
+              <ParticipantGroupParticipantDeclining key={participant.id} propogateToggleIsDeclining={propogateToggleIsDeclining} data={participant} />
             )
           } else {
             return (
-              <ParticipantGroupParticipantOffering draftJobOfferValid={draftJobOfferValid} updateNodeStatus={updateNodeStatus} nodeNumber={nodeNumber++} key={participant.id} data={participant} />
+              <ParticipantGroupParticipant key={participant.id} data={participant} />
             )
           }
         });
@@ -154,22 +165,24 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
 });
 
 var OnReviewParticipantGroupPanelFooter = React.createClass({
-  propogateToggleIsOffering: function () {
-    this.props.toggleIsOffering(this);
-  },
-
   render: function() {
     var isOffering = this.props.isOffering,
+        isDeclining = this.props.isDeclining,
         propogateToggleIsOffering = this.props.toggleIsOffering,
+        propogateToggleIsDeclining = this.props.toggleIsDeclining,
         draftJobOfferValid = this.props.draftJobOfferValid,
         buttonGroup = (function (participant) {
-          if (!isOffering) {
+          if (isOffering) {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} toggleIsOffering={propogateToggleIsOffering} />
+              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValid={draftJobOfferValid} toggleIsOffering={propogateToggleIsOffering} />
+            )
+          } else if (isDeclining) {
+            return (
+              <OnReviewParticipantGroupPanelFooterButtonsDeclineCancel data={participant} toggleIsDeclining={propogateToggleIsDeclining} />
             )
           } else {
             return (
-              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValid={draftJobOfferValid} toggleIsOffering={propogateToggleIsOffering} />
+              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} toggleIsOffering={propogateToggleIsOffering} toggleIsDeclining={propogateToggleIsDeclining} />
             )
           }
         })(),
@@ -180,6 +193,15 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
                 <hr/>
                 <small className="col-xs-12 text-right">
                   By clicking offer I agree that the information entered is true and accurate to the best of my knowledge and that I will contact InterExchange if any information changes.
+                </small>
+              </div>
+            )
+          } else if (isDeclining) {
+            return (
+              <div className="row">
+                <hr/>
+                <small className="col-xs-12 text-right">
+                  Are you sure you wish to cancel this participant?
                 </small>
               </div>
             )
@@ -209,11 +231,15 @@ var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
     this.props.toggleIsOffering(this);
   },
 
+  propogateToggleIsDeclining: function () {
+    this.props.toggleIsDeclining(this);
+  },
+
   render: function() {
     return (
       <div className="btn-group clearfix">
         <button className="btn btn-success" onClick={this.propogateToggleIsOffering}>Offer</button>
-        <button className="btn btn-danger">Decline</button>
+        <button className="btn btn-danger" onClick={this.propogateToggleIsDeclining}>Decline</button>
       </div>
     )
   }
@@ -233,6 +259,21 @@ var OnReviewParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass(
       <div className="btn-group clearfix">
         {confirmButton}
         <button className="btn btn-default" onClick={this.propogateToggleIsOffering}>Cancel</button>
+      </div>
+    )
+  }
+});
+
+var OnReviewParticipantGroupPanelFooterButtonsDeclineCancel = React.createClass({
+  propogateToggleIsDeclining: function () {
+    this.props.toggleIsDeclining(this);
+  },
+
+  render: function () {
+    return (
+      <div className="btn-group clearfix">
+        <input className="btn btn-success" type="submit" value="Confirm" />
+        <button className="btn btn-default" onClick={this.propogateToggleIsDeclining}>Cancel</button>
       </div>
     )
   }
