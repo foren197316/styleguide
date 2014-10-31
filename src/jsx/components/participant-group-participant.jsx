@@ -37,17 +37,19 @@ var ParticipantGroupParticipant = React.createClass({
             <div className="row">
               <div className="col-xs-12 col-sm-3 col-lg-6">
                 <i className="fa fa-globe"></i>
-                <strong>{this.props.data.country_name}</strong>&nbsp;
+                <label>{this.props.data.country_name}</label>
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <GenderIcon gender={this.props.data.gender} />
-                <TooltippedYearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} tooltipTitle="Age at Arrival" />
+                <label>{this.props.data.gender.substring(0, 1).toUpperCase()}</label>
+                <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <TooltippedIconSpan iconClass="fa fa-plane fa-flip-vertical" spanContent={this.props.data.arrival_date} tooltipTitle="Arrival Date" />
+                <i className="fa-iex fa-iex-landing7"></i>
+                <span>{this.props.data.arrival_date}</span>
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <TooltippedIconSpan iconClass="fa fa-plane" spanContent={this.props.data.departure_date} tooltipTitle="Departure Date" />
+                <i className="fa fa-plane"></i>
+                <span>{this.props.data.departure_date}</span>
               </div>
             </div>
           </div>

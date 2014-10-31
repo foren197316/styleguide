@@ -8,17 +8,7 @@ var Spinner = React.createClass({
   }
 });
 
-var GenderIcon = React.createClass({
-  render: function() {
-    var genderIconClass = "fa fa-" + this.props.gender.toLowerCase();
-
-    return (
-      <i className={genderIconClass}></i>
-    )
-  }
-});
-
-var TooltippedYearCalculator = React.createClass({
+var YearCalculator = React.createClass({
   componentDidMount: function() {
     $(this.getDOMNode()).tooltip();
   },
@@ -29,36 +19,7 @@ var TooltippedYearCalculator = React.createClass({
         period = new TimePeriod(to, from);
 
     return (
-      <span data-toggle="tooltip" data-placement="top" title={this.props.tooltipTitle}>
-        {period.years}
-      </span>
-    )
-  }
-});
-
-var TooltippedIcon = React.createClass({
-  componentDidMount: function() {
-    $(this.getDOMNode()).tooltip();
-  },
-
-  render: function() {
-    return (
-      <i className={this.props.iconClass}/>
-    )
-  }
-});
-
-var TooltippedIconSpan = React.createClass({
-  componentDidMount: function() {
-    $(this.getDOMNode()).tooltip();
-  },
-
-  render: function() {
-    return (
-      <span data-toggle="tooltip" data-placement="top" title={this.props.tooltipTitle}>
-        <i className={this.props.iconClass}></i>
-        {this.props.spanContent}
-      </span>
+      <span>{period.years}</span>
     )
   }
 });

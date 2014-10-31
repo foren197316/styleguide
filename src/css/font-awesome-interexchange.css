@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "font-awesome-interexchange";
+  src: url('../fonts/font-awesome-interexchange.eot');
+  src: url('../fonts/font-awesome-interexchange.eot?#iefix') format('eot'),
+    url('../fonts/font-awesome-interexchange.woff') format('woff'),
+    url('../fonts/font-awesome-interexchange.ttf') format('truetype'),
+    url('../fonts/font-awesome-interexchange.svg#font-awesome-interexchange') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fa-iex:before {
+  display: inline-block;
+  font-family: "font-awesome-interexchange";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-iex-lg {
+  font-size: 1.3333333333333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+.fa-iex-2x { font-size: 2em; }
+.fa-iex-3x { font-size: 3em; }
+.fa-iex-4x { font-size: 4em; }
+.fa-iex-5x { font-size: 5em; }
+.fa-iex-fw {
+  width: 1.2857142857142858em;
+  text-align: center;
+}
+
+.fa-iex-landing7:before { content: "\E001" }

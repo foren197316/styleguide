@@ -1,18 +1,20 @@
 'use strict';
 
-var gulp      = require('gulp'),
-    argv      = require('yargs').argv,
-    concat    = require('gulp-concat'),
-    deploy    = require('gulp-gh-pages'),
-    hologram  = require('gulp-hologram'),
-    _if       = require('gulp-if'),
-    jshit     = require('gulp-jshint'),
-    minifyCSS = require('gulp-minify-css'),
-    rename    = require('gulp-rename'),
-    react     = require('gulp-react'),
-    sass      = require('gulp-sass'),
-    uglify    = require('gulp-uglify'),
-    del       = require('del');
+var gulp        = require('gulp'),
+    argv        = require('yargs').argv,
+    concat      = require('gulp-concat'),
+    consolidate = require('gulp-consolidate'),
+    deploy      = require('gulp-gh-pages'),
+    hologram    = require('gulp-hologram'),
+    iconfont    = require('gulp-iconfont'),
+    _if         = require('gulp-if'),
+    jshit       = require('gulp-jshint'),
+    minifyCSS   = require('gulp-minify-css'),
+    rename      = require('gulp-rename'),
+    react       = require('gulp-react'),
+    sass        = require('gulp-sass'),
+    uglify      = require('gulp-uglify'),
+    del         = require('del');
 
 var browserSync = require('browser-sync'),
     reload      = browserSync.reload,
@@ -47,11 +49,26 @@ gulp.task('vendors', function() {
     .pipe(gulp.dest('build/js'))
 });
 
-gulp.task('fonts', function() {
+gulp.task('font-awesome-interexchange', function() {
+  gulp.src(['src/vectors/*.svg'])
+    .pipe(iconfont({ fontName: 'font-awesome-interexchange' }))
+    .on('codepoints', function(codepoints, options) {
+      gulp.src('src/templates/font-awesome-interexchange.css')
+        .pipe(consolidate('lodash', {
+          glyphs: codepoints,
+          fontName: 'font-awesome-interexchange',
+          fontPath: '../fonts/',
+          className: 'fa-iex'
+        }))
+        .pipe(gulp.dest('src/css/'));
+    })
+    .pipe(gulp.dest('build/fonts/'));
+});
+
+gulp.task('fonts', ['font-awesome-interexchange'], function() {
   gulp.src([
       'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
-      'bower_components/components-font-awesome/fonts/*',
-      'src/fonts/*'
+      'bower_components/components-font-awesome/fonts/*'
     ])
     .pipe(gulp.dest('build/fonts'));
 });
@@ -66,8 +83,11 @@ gulp.task('json', function() {
     .pipe(gulp.dest('build/json'));
 });
 
-gulp.task('styles', function() {
-  return gulp.src('src/scss/interexchange.scss')
+gulp.task('styles', ['fonts'], function() {
+  return gulp.src([
+          'src/scss/interexchange.scss',
+          'src/css/*.css'
+        ])
         .pipe(sass({keepSpecialComments: 0}))
         .pipe(concat('interexchange.css'))
         .pipe(gulp.dest('build/css'))
