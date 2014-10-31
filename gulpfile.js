@@ -53,14 +53,14 @@ gulp.task('font-awesome-interexchange', function() {
   gulp.src(['src/vectors/*.svg'])
     .pipe(iconfont({ fontName: 'font-awesome-interexchange' }))
     .on('codepoints', function(codepoints, options) {
-      gulp.src('src/templates/font-awesome-interexchange.css')
+      gulp.src('src/templates/font-awesome-interexchange.scss')
         .pipe(consolidate('lodash', {
           glyphs: codepoints,
           fontName: 'font-awesome-interexchange',
           fontPath: '../fonts/',
           className: 'fa-iex'
         }))
-        .pipe(gulp.dest('src/css/'));
+        .pipe(gulp.dest('src/scss/'));
     })
     .pipe(gulp.dest('build/fonts/'));
 });
@@ -86,7 +86,7 @@ gulp.task('json', function() {
 gulp.task('styles', ['fonts'], function() {
   return gulp.src([
           'src/scss/interexchange.scss',
-          'src/css/*.css'
+          'src/scss/font-awesome-interexchange.scss'
         ])
         .pipe(sass({keepSpecialComments: 0}))
         .pipe(concat('interexchange.css'))
@@ -139,7 +139,7 @@ gulp.task('serve', ['build'], function () {
     open: false
   });
   gulp.watch(['**/*.html'], reload);
-  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/jsx/**/*.jsx', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
+  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/jsx/**/*.jsx', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
     runSequence('build', reload);
   });
 });

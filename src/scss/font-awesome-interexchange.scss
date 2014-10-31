@@ -11,10 +11,10 @@
 
 .fa-iex:before {
   display: inline-block;
-  font-family: "font-awesome-interexchange";
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
+  font: normal normal normal 14px/1 "font-awesome-interexchange";
+  display: inline-block;
+  font-size: inherit; // can't have font-size inherit on line above, so need to override
+  text-rendering: auto; // optimizelegibility throws things off #1094
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -33,4 +33,5 @@
   text-align: center;
 }
 
-.fa-iex-landing7:before { content: "\E001" }
+.fa-iex-arrival:before { content: "\E001" }
+.fa-iex-departure:before { content: "\E002" }
