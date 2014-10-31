@@ -214,7 +214,17 @@ var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
         });
 
     return (
-      <ReactBootstrap.Input name={draftJobOfferFormName(this.props.participantKey, "position_id")} id={draftJobOfferFormId(this.props.participantKey, "position_id")} defaultValue={this.state.position_id} label="Position" onChange={this.handleChange} type="select" labelClassName="col-sm-4" wrapperClassName="col-sm-8">
+      <ReactBootstrap.Input
+        name={draftJobOfferFormName(this.props.participantKey, "position_id")}
+        id={draftJobOfferFormId(this.props.participantKey, "position_id")}
+        defaultValue={this.state.position_id}
+        label="Position"
+        help="You can offer a participant any position they are interested in."
+        onChange={this.handleChange}
+        type="select"
+        labelClassName="col-sm-4"
+        wrapperClassName="col-sm-8"
+      >
         <option disabled="disabled"></option>
         {positionOptions}
       </ReactBootstrap.Input>
