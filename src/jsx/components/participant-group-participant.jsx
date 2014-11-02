@@ -44,11 +44,11 @@ var ParticipantGroupParticipant = React.createClass({
                 <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <i className="fa-iex fa-iex-arrival"></i>
+                <i className="fa fa-plane fa-flip-vertical"></i>
                 <span>{this.props.data.arrival_date}</span>
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <i className="fa-iex fa-iex-departure"></i>
+                <i className="fa fa-plane"></i>
                 <span>{this.props.data.departure_date}</span>
               </div>
             </div>

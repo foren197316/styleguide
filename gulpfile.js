@@ -12,13 +12,10 @@ var gulp        = require('gulp'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
     react       = require('gulp-react'),
+    runSequence = require('run-sequence'),
     sass        = require('gulp-sass'),
     uglify      = require('gulp-uglify'),
-    del         = require('del');
-
-var browserSync = require('browser-sync'),
-    reload      = browserSync.reload,
-    runSequence = require('run-sequence');
+    del         = require('del'),
 
 gulp.task('vendors', function() {
   gulp.src([
@@ -138,9 +135,8 @@ gulp.task('serve', ['build'], function () {
     },
     open: false
   });
-  gulp.watch(['**/*.html'], reload);
   gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/jsx/**/*.jsx', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build', reload);
+    runSequence('build');
   });
 });
 
