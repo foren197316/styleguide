@@ -157,7 +157,7 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
         });
 
     return (
-      <div>
+      <div className="list-group">
         {participantNodes}
       </div>
     )
