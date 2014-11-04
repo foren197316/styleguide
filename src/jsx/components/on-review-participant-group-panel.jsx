@@ -136,11 +136,11 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
     });
   },
 
-  updateNodeStatus: function (nodeNumber, isValid) {
+  toggleNodeStatus: function (i) {
     var participantValidationStatuses = this.state.participantValidationStatuses,
         oldStatus = this.isFormValid();
 
-    participantValidationStatuses[nodeNumber] = isValid;
+    participantValidationStatuses[i] = !participantValidationStatuses[i];
     this.setState({"participantValidationStatuses": participantValidationStatuses});
 
     if (oldStatus !== this.isFormValid()) {
@@ -152,13 +152,12 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
     var isOffering = this.props.isOffering,
         isDeclining = this.props.isDeclining,
         propogateToggleIsDeclining = this.props.propogateToggleIsDeclining,
-        nodeNumber = 0,
-        updateNodeStatus = this.updateNodeStatus,
+        toggleNodeStatus = this.toggleNodeStatus,
         draftJobOfferValid = this.props.draftJobOfferValid,
-        participantNodes = this.props.data.participants.map(function (participant) {
+        participantNodes = this.props.data.participants.map(function (participant, i) {
           if (isOffering) {
             return (
-              <ParticipantGroupParticipantOffering draftJobOfferValid={draftJobOfferValid} updateNodeStatus={updateNodeStatus} nodeNumber={nodeNumber++} key={participant.id} data={participant} />
+              <ParticipantGroupParticipantOffering draftJobOfferValid={draftJobOfferValid} toggleNodeStatus={toggleNodeStatus.bind(this, i)} key={participant.id} data={participant} />
             )
           } else if (isDeclining) {
             return (
