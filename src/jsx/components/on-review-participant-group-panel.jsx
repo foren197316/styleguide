@@ -215,9 +215,9 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
             return (
               <div className="row">
                 <hr/>
-                <small className="col-xs-12 text-right">
-                  Are you sure you wish to cancel this participant?
-                </small>
+                <span className="col-xs-12 text-right">
+                  Are you sure you want to decline this participant?
+                </span>
               </div>
             )
           }
