@@ -61,15 +61,30 @@ var OnReviewParticipantGroupPanel = React.createClass({
 
     var node = this.getDOMNode(),
         form = $(event.target),
-        data = {
-          offered_participant_group: $.extend({
-            employer_id: this.props.employerId,
-            on_review_participant_group_id: this.props.data.id
-          }, form.serializeJSON())
-        };
+        data = null,
+        url = null;
+
+    if (this.state.isOffering) {
+      url = "/offered_participant_groups.json",
+      data = {
+        offered_participant_group: $.extend({
+          employer_id: this.props.employerId,
+          on_review_participant_group_id: this.props.data.id
+        }, form.serializeJSON())
+      };
+    } else if (this.state.isDeclining) {
+      url = "/on_review_participant_groups/" + this.props.data.id + ".json",
+      data = {
+        "_method": "DELETE",
+        on_review_participant_group: form.serializeJSON()
+      };
+    } else {
+      console.log('no action');
+      return;
+    }
 
     $.ajax({
-      url: "/offered_participant_groups.json",
+      url: url,
       type: "POST",
       data: data,
       success: function(data) {
@@ -272,7 +287,7 @@ var OnReviewParticipantGroupPanelFooterButtonsDeclineCancel = React.createClass(
   render: function () {
     return (
       <div className="btn-group clearfix">
-        <input className="btn btn-success" type="submit" value="Confirm" />
+        <input className="btn btn-danger" type="submit" value="Decline" />
         <button className="btn btn-default" onClick={this.propogateToggleIsDeclining}>Cancel</button>
       </div>
     )
