@@ -96,7 +96,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
       <form className="panel panel-default participant-group-panel form-horizontal" role="form" onSubmit={this.handleSubmit}>
         <OnReviewParticipantGroupPanelHeading data={this.props.data} />
         <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOfferingState={isOfferingState} isDecliningState={isDecliningState} draftJobOfferValidState={draftJobOfferValidState} />
-        <OnReviewParticipantGroupPanelFooter data={this.props.data} draftJobOfferValidState={draftJobOfferValidState} isOfferingState={isOfferingState} isDecliningState={isDecliningState} />
+        <OnReviewParticipantGroupPanelFooter data={this.props.data} isOfferingState={isOfferingState} isDecliningState={isDecliningState} draftJobOfferValidState={draftJobOfferValidState} />
       </form>
     )
   }
