@@ -143,8 +143,6 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
   render: function() {
     var isOfferingState = this.props.isOfferingState,
         isDecliningState = this.props.isDecliningState,
-        propogateToggleIsOffering = this.props.toggleIsOffering,
-        propogateToggleIsDeclining = this.props.toggleIsDeclining,
         draftJobOfferValidState = this.props.draftJobOfferValidState,
         buttonGroup = (function (participant) {
           if (isOfferingState.value) {
