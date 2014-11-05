@@ -1,40 +1,3 @@
-var OfferedParticipantGroupPanels = React.createClass({
-  getInitialState: function() {
-    return {
-      offeredParticipantGroups: null
-    };
-  },
-
-  componentDidMount: function() {
-    $.get(this.props.source, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          offeredParticipantGroups: data.offered_participant_groups
-        });
-      }
-    }.bind(this));
-  },
-
-  render: function() {
-    if (this.isMounted()) {
-      var employerId = this.props.employerId,
-          offeredParticipantGroupPanels = this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
-        return (
-          <OfferedParticipantGroupPanel key={offeredParticipantGroup.id} data={offeredParticipantGroup} employerId={employerId} />
-        );
-      });
-
-      return (
-        <div id="participant-group-panels">
-          {offeredParticipantGroupPanels}
-        </div>
-      );
-    } else {
-      return <Spinner />
-    };
-  }
-});
-
 var OfferedParticipantGroupPanel = React.createClass({
   getInitialState: function() {
     return { sending: false, puttingOnReview: false };
@@ -73,6 +36,12 @@ var OfferedParticipantGroupPanel = React.createClass({
       </div>
     )
   }
+});
+
+var OfferedParticipantGroupPanels = React.createClass({
+  mixins: [GroupPanelsMixin],
+  resourceName: "offered_participant_groups",
+  participantGroupPanelType: OfferedParticipantGroupPanel
 });
 
 var OfferedParticipantGroupParticipant = React.createClass({

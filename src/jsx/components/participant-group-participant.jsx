@@ -285,7 +285,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   },
 
   propagateFormValidity: function (values) {
-    var valid = this.state.formValidity;
+    var valid    = this.state.formValidity,
+        oldState = this.formIsValid();
 
     for (prop in values) {
       valid[prop] = values[prop];
@@ -293,9 +294,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
     this.setState({formValidity: valid});
 
-    var isValid = this.formIsValid();
-    if (this.props.draftJobOfferValid !== isValid) {
-      this.props.updateNodeStatus(this.props.nodeNumber, isValid);
+    if (oldState !== this.formIsValid()) {
+      this.props.toggleNodeStatus();
     }
   },
 
@@ -358,8 +358,6 @@ var ParticipantGroupParticipantDecliningForm = React.createClass({
 
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
-    var draftJobOfferValid = this.props.draftJobOfferValid;
-
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
         <div className="media">
@@ -372,7 +370,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantOfferingForm key={this.props.key} nodeNumber={this.props.nodeNumber} updateNodeStatus={this.props.updateNodeStatus} draftJobOfferValid={draftJobOfferValid} data={this.props.data} />
+                <ParticipantGroupParticipantOfferingForm key={this.props.key} toggleNodeStatus={this.props.toggleNodeStatus} data={this.props.data} />
               </div>
             </div>
           </div>
@@ -396,7 +394,7 @@ var ParticipantGroupParticipantDeclining = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} propogateToggleIsDeclining={this.props.propogateToggleIsDeclining} />
+                <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} />
               </div>
             </div>
           </div>
