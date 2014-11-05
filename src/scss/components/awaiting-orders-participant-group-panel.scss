@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: Awaiting Orders Participant Groups
+name: awaiting-orders-participant-groups
+category: Components - Participant Group
+---
+
+<div class="alert alert-info">
+  <i class="fa fa-rebel"></i>
+  <strong>Careful Padawan!</strong>
+  <span>These React Components are in <strong>heavy flux</strong> right now whilst we build them out
+  for <strong>2015 Winter Work Travel</strong> Self Service!</span>
+</div>
+
+```html_example
+<div id="AwaitingOrdersParticipantGroups"></div>
+```
+
+```js_example
+React.renderComponent(
+  AwaitingOrdersParticipantGroupPanels({
+    source:"/json/awaiting-orders-participant-groups.json",
+    employerId: "1"
+  }),
+  document.getElementById("AwaitingOrdersParticipantGroups")
+);
+```
+*/
