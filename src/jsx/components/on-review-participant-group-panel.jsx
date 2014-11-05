@@ -1,40 +1,3 @@
-var OnReviewParticipantGroupPanels = React.createClass({
-  getInitialState: function() {
-    return {
-      onReviewParticipantGroups: null
-    };
-  },
-
-  componentDidMount: function() {
-    $.get(this.props.source, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          onReviewParticipantGroups: data.on_review_participant_groups
-        });
-      }
-    }.bind(this));
-  },
-
-  render: function() {
-    if (this.isMounted()) {
-      var employerId = this.props.employerId,
-          onReviewParticipantGroupPanels = this.state.onReviewParticipantGroups.map(function (onReviewParticipantGroup) {
-            return (
-              <OnReviewParticipantGroupPanel key={onReviewParticipantGroup.id} data={onReviewParticipantGroup} employerId={employerId} />
-            );
-          });
-
-      return (
-        <div id="participant-group-panels">
-          {onReviewParticipantGroupPanels}
-        </div>
-      );
-    } else {
-      return <Spinner />
-    };
-  }
-});
-
 var OnReviewParticipantGroupPanel = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
 
@@ -100,6 +63,12 @@ var OnReviewParticipantGroupPanel = React.createClass({
       </form>
     )
   }
+});
+
+var OnReviewParticipantGroupPanels = React.createClass({
+  mixins: [GroupPanelsMixin],
+  resourceName: "on_review_participant_groups",
+  participantGroupPanelType: OnReviewParticipantGroupPanel
 });
 
 var OnReviewParticipantGroupPanelHeading = React.createClass({
