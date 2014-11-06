@@ -1,7 +1,17 @@
 var AwaitingOrdersParticipantGroupPanel = React.createClass({
-  render: function () {
+  render: function() {
+    var participantNodes = this.props.data.participants.map(function (participant) {
+        return (
+          <ParticipantGroupParticipant key={participant.id} data={participant} />
+        )
+      });
+
     return (
-      <div>LOL</div>
+      <div className="panel panel-default participant-group-panel">
+        <div className="list-group">
+          {participantNodes}
+        </div>
+      </div>
     )
   }
 });
