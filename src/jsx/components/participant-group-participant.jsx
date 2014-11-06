@@ -285,7 +285,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
   },
 
   propagateFormValidity: function (values) {
-    var valid = this.state.formValidity;
+    var valid    = this.state.formValidity,
+        oldState = this.formIsValid();
 
     for (prop in values) {
       valid[prop] = values[prop];
@@ -293,9 +294,8 @@ var ParticipantGroupParticipantOfferingForm = React.createClass({
 
     this.setState({formValidity: valid});
 
-    var isValid = this.formIsValid();
-    if (this.props.draftJobOfferValid !== isValid) {
-      this.props.updateNodeStatus(this.props.nodeNumber, isValid);
+    if (oldState !== this.formIsValid()) {
+      this.props.toggleNodeStatus();
     }
   },
 
@@ -343,14 +343,14 @@ var ParticipantGroupParticipantDecliningForm = React.createClass({
       <div>
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Reason</label>
-          <RadioGroup className="col-xs-12 col-sm-8" defaultValue={this.state.reason} onChange={this.handleChange} name={"reject_reason_options[" + this.props.key + "]"}>
+          <RadioGroup className="col-xs-12 col-sm-8" defaultValue={this.state.reason} onChange={this.handleChange} name={"rejections[" + this.props.key + "][option]"}>
             <div className="radio"><label><input type="radio" value="Filled this position" /> Filled this position</label></div>
             <div className="radio"><label><input type="radio" value="Unsuitable work dates" /> Unsuitable work dates</label></div>
             <div className="radio"><label><input type="radio" value="Unsuitable English" /> Unsuitable English</label></div>
             <div className="radio"><label><input type="radio" value="" /> Other</label></div>
           </RadioGroup>
         </div>
-        <ReactBootstrap.Input name={"rejection_reason["+this.props.key+"]"} id={"rejection_reason_"+this.props.key} label="Please specify" labelClassName={"col-sm-4 " + visibility} type="text" wrapperClassName={"col-sm-8 " + visibility}/>
+        <ReactBootstrap.Input name={"rejections["+this.props.key+"][reason]"} id={"rejection_reason_"+this.props.key} label="Please specify" labelClassName={"col-sm-4 " + visibility} type="text" wrapperClassName={"col-sm-8 " + visibility}/>
       </div>
     )
   }
@@ -358,8 +358,6 @@ var ParticipantGroupParticipantDecliningForm = React.createClass({
 
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
-    var draftJobOfferValid = this.props.draftJobOfferValid;
-
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
         <div className="media">
@@ -372,7 +370,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantOfferingForm key={this.props.key} nodeNumber={this.props.nodeNumber} updateNodeStatus={this.props.updateNodeStatus} draftJobOfferValid={draftJobOfferValid} data={this.props.data} />
+                <ParticipantGroupParticipantOfferingForm key={this.props.key} toggleNodeStatus={this.props.toggleNodeStatus} data={this.props.data} />
               </div>
             </div>
           </div>
@@ -396,7 +394,7 @@ var ParticipantGroupParticipantDeclining = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} propogateToggleIsDeclining={this.props.propogateToggleIsDeclining} />
+                <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} />
               </div>
             </div>
           </div>

@@ -23,7 +23,7 @@ var browserSync = require('browser-sync'),
 gulp.task('vendors', function() {
   gulp.src([
       'bower_components/jquery/dist/jquery.js',
-      'bower_components/react/react.js',
+      'bower_components/react/react-with-addons.js',
       'bower_components/react/JSXTransformer.js',
       'bower_components/datejs/build/date.js',
       'bower_components/jquery.serializeJSON/jquery.serializejson.js',
