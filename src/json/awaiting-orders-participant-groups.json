@@ -7,6 +7,7 @@
       "participants": [
         {
           "id": 10,
+          "href": "#/participants/10",
           "name": "Marcus Flint",
           "gender": "Male",
           "country_name": "Australia",
@@ -17,6 +18,7 @@
         },
         {
           "id": 11,
+          "href": "#/participants/11",
           "name": "Pansy Parkinson",
           "gender": "Female",
           "country_name": "New Zealand",
@@ -33,7 +35,7 @@
       "name": "Individual",
       "participants": [
         {
-          "id": 13,
+          "id": 12,
           "name": "Draco Malfoy",
           "gender": "Female",
           "country_name": "United Kingdom",
@@ -50,7 +52,8 @@
       "name": "Friends",
       "participants": [
         {
-          "id": 12,
+          "id": 13,
+          "href": "#/participants/13",
           "name": "Vincent McNameLong Crabbe",
           "gender": "Male",
           "country_name": "The Republic of Ireland",
@@ -60,7 +63,8 @@
           "departure_date": "2015-04-03"
         },
         {
-          "id": 13,
+          "id": 14,
+          "href": "#/participants/14",
           "name": "Gregory Goyle",
           "gender": "Male",
           "country_name": "The Republic of Ireland",

@@ -24,6 +24,10 @@ var draftJobOfferFormId = function (key, field) {
 
 var ParticipantGroupParticipant = React.createClass({
   render: function() {
+    var participantName = this.props.data.href
+      ? <a href={this.props.data.href}>{this.props.data.name}</a>
+      : <span>{this.props.data.name}</span>;
+
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
         <div className="media">
@@ -31,7 +35,7 @@ var ParticipantGroupParticipant = React.createClass({
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
-                <h4 className="media-heading">{this.props.data.name}</h4>
+                <h4 className="media-heading">{participantName}</h4>
               </div>
             </div>
             <div className="row">
