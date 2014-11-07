@@ -44,7 +44,7 @@ var ParticipantGroupParticipant = React.createClass({
                 <label>{this.props.data.country_name}</label>
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <label>{this.props.data.gender.substring(0, 1).toUpperCase()}</label>
+                <label>{this.props.data.gender.substring(0, 1).toUpperCase()}</label>&nbsp;
                 <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
