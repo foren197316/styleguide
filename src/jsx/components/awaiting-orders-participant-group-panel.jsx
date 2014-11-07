@@ -15,6 +15,10 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
     this.setState({ puttingOnReserve: true });
   },
 
+  handleCancel: function(event) {
+    this.setState({ puttingOnReserve: false, puttingInMatching: false });
+  },
+
   handleConfirm: function(event) {
     this.setState({ sending: true });
 
@@ -68,6 +72,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
         <div className="col-xs-9 col-sm-9">
           <div className="btn-group pull-right clearfix">
             <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
           </div>
         </div>
       </div>;
@@ -79,7 +84,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
         <div className="col-xs-9 col-sm-9">
           <div className="btn-group pull-right clearfix">
             <button className="btn btn-primary" onClick={this.handlePutInMatching}>Put In Matching</button>
-            <button className="btn btn-primary" onClick={this.handlePutOnReserve}>Put On Reserve</button>
+            <button className="btn btn-warning" onClick={this.handlePutOnReserve}>Put On Reserve</button>
           </div>
         </div>
       </div>;
