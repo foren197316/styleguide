@@ -9,6 +9,7 @@ var OfferedParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actionRow,
+        createdAt = Date.parse(this.props.data.created_at).toString('yyyy-MM-dd'),
         draftJobOffers = this.props.data.draft_job_offers,
         participantNodes = this.props.data.participants.map(function (participant) {
           var draftJobOffer = draftJobOffers.filter(function (draft_job_offer) {
@@ -20,9 +21,8 @@ var OfferedParticipantGroupPanel = React.createClass({
         });
 
     actionRow = <div className="row">
-      <div className="col-xs-3 col-sm-3">
-        <div className="panel-title pull-left">{this.props.data.name}</div>
-      </div>
+      <div className="panel-title pull-left col-xs-3 col-sm-3">{this.props.data.name}</div>
+      <div className="pull-right text-right col-xs-9 col-sm-9"><strong>Created {createdAt}</strong></div>
     </div>
 
     return (
@@ -50,6 +50,17 @@ var OfferedParticipantGroupParticipant = React.createClass({
   },
 
   render: function () {
+    var overtimeRate = null;
+
+    if (this.props.draftJobOffer.overtime_rate) {
+      overtimeRate = (
+        <div>
+          <dt>Overtime rate per hour</dt>
+          <dd>${parseInt(this.props.draftJobOffer.overtime_rate).toFixed(2)}</dd>
+        </div>
+      );
+    }
+
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
         <div className="media">
@@ -60,16 +71,19 @@ var OfferedParticipantGroupParticipant = React.createClass({
                 <h4 className="media-heading">{this.props.data.name}</h4>
               </div>
             </div>
-            <div className="row">
-              <div className="col-xs-12">
-                <div>{this.props.draftJobOffer.position}</div>
-                <div>{this.props.draftJobOffer.wage}</div>
-                <div>{this.props.draftJobOffer.tipped}</div>
-                <div>{this.props.draftJobOffer.hours}</div>
-                <div>{this.props.draftJobOffer.overtime}</div>
-                <div>{this.props.draftJobOffer.overtime_rate}</div>
-              </div>
-            </div>
+            <dl className="dl-horizontal pull-right">
+              <dt>Position</dt>
+              <dd>{this.props.draftJobOffer.position}</dd>
+              <dt>Wage per hour</dt>
+              <dd>${parseInt(this.props.draftJobOffer.wage).toFixed(2)}</dd>
+              <dt>Tipped?</dt>
+              <dd>{this.props.draftJobOffer.tipped ? 'Yes' : 'No'}</dd>
+              <dt>Hours per week</dt>
+              <dd>{this.props.draftJobOffer.hours}</dd>
+              <dt>Overtime?</dt>
+              <dd>{this.props.draftJobOffer.overtime}</dd>
+              {overtimeRate}
+            </dl>
           </div>
         </div>
       </div>
