@@ -44,6 +44,20 @@ var OfferedParticipantGroupPanels = React.createClass({
   participantGroupPanelType: OfferedParticipantGroupPanel
 });
 
+var ReadOnlyFormGroup = React.createClass({
+  render: function () {
+    var label = this.props.label,
+        value = this.props.value
+
+    return (
+      <div className="form-group">
+        <label className="control-label col-sm-4">{label}</label>
+        <span className="control-label col-sm-8" style={{"text-align": "left", "text-transform": "capitalize"}}>{value}</span>
+      </div>
+    )
+  }
+});
+
 var OfferedParticipantGroupParticipant = React.createClass({
   getInitialState: function () {
     return {};
@@ -57,10 +71,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
 
     if (this.props.draftJobOffer.overtime === 'yes') {
       overtimeRate = (
-        <div>
-          <dt>Overtime rate per hour</dt>
-          <dd>${parseInt(this.props.draftJobOffer.overtime_rate).toFixed(2)}</dd>
-        </div>
+        <ReadOnlyFormGroup label="Overtime rate per hour" value={"$" + parseInt(this.props.draftJobOffer.overtime_rate).toFixed(2)} />
       );
     }
 
@@ -76,21 +87,15 @@ var OfferedParticipantGroupParticipant = React.createClass({
                 </h4>
               </div>
             </div>
-            <dl className="dl-horizontal pull-right">
-              <dt>Position</dt>
-              <dd>{this.props.draftJobOffer.position}</dd>
-              <dt>Wage per hour</dt>
-              <dd>${parseInt(this.props.draftJobOffer.wage).toFixed(2)}</dd>
-              <dt>Tipped?</dt>
-              <dd>{this.props.draftJobOffer.tipped ? 'Yes' : 'No'}</dd>
-              <dt>Hours per week</dt>
-              <dd>{this.props.draftJobOffer.hours}</dd>
-              <dt>Overtime?</dt>
-              <dd>{this.props.draftJobOffer.overtime}</dd>
+            <div className="form form-horizontal">
+              <ReadOnlyFormGroup label="Position" value={this.props.draftJobOffer.position} />
+              <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseInt(this.props.draftJobOffer.wage).toFixed(2)} />
+              <ReadOnlyFormGroup label="Tipped?" value={this.props.draftJobOffer.tipped ? 'Yes' : 'No'} />
+              <ReadOnlyFormGroup label="Hours per week" value={this.props.draftJobOffer.hours} />
+              <ReadOnlyFormGroup label="Overtime?" value={this.props.draftJobOffer.overtime} />
               {overtimeRate}
-              <dt></dt>
-              <dd>{jobOfferLink}</dd>
-            </dl>
+              <ReadOnlyFormGroup label="" value={jobOfferLink} />
+            </div>
           </div>
         </div>
       </div>
