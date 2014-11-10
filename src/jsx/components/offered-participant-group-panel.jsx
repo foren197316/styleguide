@@ -50,9 +50,12 @@ var OfferedParticipantGroupParticipant = React.createClass({
   },
 
   render: function () {
-    var overtimeRate = null;
+    var overtimeRate = null,
+        jobOfferLink = this.props.draftJobOffer.href
+          ? <a href={this.props.draftJobOffer.href}>preview</a>
+          : null;
 
-    if (this.props.draftJobOffer.overtime_rate) {
+    if (this.props.draftJobOffer.overtime === 'yes') {
       overtimeRate = (
         <div>
           <dt>Overtime rate per hour</dt>
@@ -68,7 +71,9 @@ var OfferedParticipantGroupParticipant = React.createClass({
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
-                <h4 className="media-heading">{this.props.data.name}</h4>
+                <h4 className="media-heading">
+                  <LinkToParticipantName data={this.props.data} />
+                </h4>
               </div>
             </div>
             <dl className="dl-horizontal pull-right">
@@ -83,6 +88,8 @@ var OfferedParticipantGroupParticipant = React.createClass({
               <dt>Overtime?</dt>
               <dd>{this.props.draftJobOffer.overtime}</dd>
               {overtimeRate}
+              <dt></dt>
+              <dd>{jobOfferLink}</dd>
             </dl>
           </div>
         </div>

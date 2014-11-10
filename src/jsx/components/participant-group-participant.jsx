@@ -22,12 +22,20 @@ var draftJobOfferFormId = function (key, field) {
   return "draft_job_offers_" + key + "_" + field;
 };
 
-var ParticipantGroupParticipant = React.createClass({
-  render: function() {
+var LinkToParticipantName = React.createClass({
+  render: function () {
     var participantName = this.props.data.href
       ? <a href={this.props.data.href}>{this.props.data.name}</a>
       : <span>{this.props.data.name}</span>;
 
+      return (
+        <span>{participantName}</span>
+      )
+  }
+});
+
+var ParticipantGroupParticipant = React.createClass({
+  render: function () {
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
         <div className="media">
@@ -35,7 +43,9 @@ var ParticipantGroupParticipant = React.createClass({
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
-                <h4 className="media-heading">{participantName}</h4>
+                <h4 className="media-heading">
+                  <LinkToParticipantName data={this.props.data} />
+                </h4>
               </div>
             </div>
             <div className="row">
