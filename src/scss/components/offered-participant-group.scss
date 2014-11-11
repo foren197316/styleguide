@@ -13,9 +13,8 @@ category: Components - Participant Group
 
 ```js_example
 React.renderComponent(
-  OfferedParticipantGroupPanels({
-    source:"/json/offered-participant-groups.json",
-    employerId: "1"
+  FilterableOfferedParticipantGroupPanels({
+    source: "/json/offered-participant-groups.json"
   }),
   document.getElementById("OfferedParticipantGroups")
 );

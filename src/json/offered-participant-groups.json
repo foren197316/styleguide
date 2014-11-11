@@ -64,7 +64,11 @@
           "hours": 35,
           "overtime": "no"
         }
-      ]
+      ],
+      "staff": {
+        "id": "1",
+        "name": "Leslie Knope"
+      }
     },
     {
       "id": 2,
@@ -104,7 +108,11 @@
           "overtime": "yes",
           "overtime_rate": 6
         }
-      ]
+      ],
+      "staff": {
+        "id": "2",
+        "name": "April Ludgate"
+      }
     },
     {
       "id": 3,
@@ -174,7 +182,11 @@
           "overtime": "yes",
           "overtime_rate": 6
         }
-      ]
+      ],
+      "staff": {
+        "id": "2",
+        "name": "April Ludgate"
+      }
     }
   ]
 }

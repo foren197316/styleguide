@@ -1,3 +1,40 @@
+var FilterableOfferedParticipantGroupPanels = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
+
+  getInitialState: function() {
+    return {
+      staffId: ""
+    }
+  },
+
+  render: function () {
+    var staffIdState = this.linkState('staffId');
+
+    return (
+      <div>
+        <SearchOfferedParticipantGroupPanels staffIdState={staffIdState} />
+        <OfferedParticipantGroupPanels source={this.props.source} staffIdState={staffIdState} />
+      </div>
+    )
+  }
+});
+
+var SearchOfferedParticipantGroupPanels = React.createClass({
+  handleChange: function (event) {
+    this.props.staffIdState.requestChange(event.target.value);
+  },
+
+  render: function () {
+    return (
+      <select defaultValue={this.props.staffIdState.value} onChange={this.handleChange} ref="staffId">
+        <option value="">All Staff</option>
+        <option value="1">Leslie Knope</option>
+        <option value="2">April Ludgate</option>
+      </select>
+    )
+  }
+});
+
 var OfferedParticipantGroupPanel = React.createClass({
   getInitialState: function() {
     return { sending: false, puttingOnReview: false };
@@ -39,9 +76,36 @@ var OfferedParticipantGroupPanel = React.createClass({
 });
 
 var OfferedParticipantGroupPanels = React.createClass({
-  mixins: [GroupPanelsMixin],
-  resourceName: "offered_participant_groups",
-  participantGroupPanelType: OfferedParticipantGroupPanel
+  componentDidMount: function() {
+    $.get(this.props.source, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          groups: data.offered_participant_groups
+        });
+      }
+    }.bind(this));
+  },
+
+  render: function() {
+    if (this.isMounted()) {
+      var staffIdState = this.props.staffIdState,
+          groupPanels = this.state.groups.filter(function (offeredParticipantGroup) {
+            return staffIdState.value === "" || offeredParticipantGroup.staff.id === staffIdState.value;
+          }).map(function (group) {
+            return (
+              <OfferedParticipantGroupPanel key={group.id} data={group} />
+            );
+          });
+
+      return (
+        <div id="participant-group-panels">
+          {groupPanels}
+        </div>
+      );
+    } else {
+      return <Spinner />
+    };
+  }
 });
 
 var ReadOnlyFormGroup = React.createClass({
