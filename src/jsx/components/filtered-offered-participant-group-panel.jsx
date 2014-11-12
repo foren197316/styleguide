@@ -6,7 +6,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
   },
 
   componentDidMount: function() {
-    if (! this.props.initialData) {
+    if (this.props.initialData == undefined) {
       $.get(this.props.source, function(data) {
         if (this.isMounted()) {
           this.setProps({
@@ -45,7 +45,7 @@ var OfferedParticipantGroups = React.createClass({
   render: function () {
     var groupPanels = this.props.dataState.value.map(function (group) {
       return (
-        <OfferedParticipantGroupPanel data={group} />
+        <OfferedParticipantGroupPanel data={group} key={group.id} />
       )
     });
 
