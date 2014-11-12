@@ -1,44 +1,51 @@
-var FilterableOfferedParticipantGroupPanels = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+var OfferedParticipantGroupPanels = React.createClass({
+  getInitialState: function () {
+    return { groups: null };
+  },
 
-  getInitialState: function() {
-    return {
-      staffId: ""
+  componentDidMount: function() {
+    if (! this.state.groups) {
+      $.get(this.props.source, function(data) {
+        if (this.isMounted()) {
+          this.setState({
+            groups: data.offered_participant_groups
+          });
+        }
+      }.bind(this));
     }
   },
 
-  render: function () {
-    var staffIdState = this.linkState('staffId');
+  render: function() {
+    if (this.isMounted()) {
+      var staffIdState = this.props.staffIdState,
+          groupPanels = this.state.groups.filter(function (offeredParticipantGroup) {
+            if (staffIdState === undefined) {
+              return true;
+            } else {
+              if (staffIdState.value === "") {
+                return true;
+              } else if (staffIdState.value === "-1" && offeredParticipantGroup.staff === null) {
+                return true;
+              } else if (offeredParticipantGroup.staff !== null && parseInt(offeredParticipantGroup.staff.id) === parseInt(staffIdState.value)) {
+                return true;
+              }
+            }
 
-    return (
-      <div>
-        <SearchOfferedParticipantGroupPanels staffIdState={staffIdState} staff={this.props.staff} />
-        <OfferedParticipantGroupPanels source={this.props.source} staffIdState={staffIdState} />
-      </div>
-    )
-  }
-});
+            return false;
+          }).map(function (group) {
+            return (
+              <OfferedParticipantGroupPanel key={group.id} data={group} />
+            );
+          });
 
-var SearchOfferedParticipantGroupPanels = React.createClass({
-  handleChange: function (event) {
-    this.props.staffIdState.requestChange(event.target.value);
-  },
-
-  render: function () {
-    var staffOptions = this.props.staff.map(function (staff) {
       return (
-        <option value={staff.id} key={staff.id}>{staff.name}</option>
-      )
-    });
-
-    return (
-      <div className="form-group">
-        <select defaultValue={this.props.staffIdState.value} onChange={this.handleChange} ref="staffId" id="placementCoordinator">
-          <option value="">All Staff</option>
-          {staffOptions}
-        </select>
-      </div>
-    )
+        <div id="participant-group-panels">
+          {groupPanels}
+        </div>
+      );
+    } else {
+      return <Spinner />
+    };
   }
 });
 
@@ -84,69 +91,6 @@ var OfferedParticipantGroupPanel = React.createClass({
         <div className="panel-footer clearfix">
           {actionRow}
         </div>
-      </div>
-    )
-  }
-});
-
-var OfferedParticipantGroupPanels = React.createClass({
-  getInitialState: function () {
-    return { groups: null };
-  },
-
-  componentDidMount: function() {
-    if (! this.state.groups) {
-      $.get(this.props.source, function(data) {
-        if (this.isMounted()) {
-          this.setState({
-            groups: data.offered_participant_groups
-          });
-        }
-      }.bind(this));
-    }
-  },
-
-  render: function() {
-    if (this.isMounted()) {
-      var staffIdState = this.props.staffIdState,
-          groupPanels = this.state.groups.filter(function (offeredParticipantGroup) {
-            if (staffIdState === undefined) {
-              return true;
-            } else {
-              if (staffIdState.value === "") {
-                return true;
-              } else if (offeredParticipantGroup.staff !== null && offeredParticipantGroup.staff.id === parseInt(staffIdState.value)) {
-                return true;
-              }
-            }
-
-            return false;
-          }).map(function (group) {
-            return (
-              <OfferedParticipantGroupPanel key={group.id} data={group} />
-            );
-          });
-
-      return (
-        <div id="participant-group-panels">
-          {groupPanels}
-        </div>
-      );
-    } else {
-      return <Spinner />
-    };
-  }
-});
-
-var ReadOnlyFormGroup = React.createClass({
-  render: function () {
-    var label = this.props.label,
-        value = this.props.value
-
-    return (
-      <div className="form-group">
-        <label className="control-label col-sm-4">{label}</label>
-        <span className="control-label col-sm-8" style={{"text-align": "left", "text-transform": "capitalize"}}>{value}</span>
       </div>
     )
   }

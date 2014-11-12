@@ -190,3 +190,18 @@ var GroupPanelsMixin = {
     };
   }
 };
+
+var ReadOnlyFormGroup = React.createClass({
+  render: function () {
+    var label = this.props.label,
+        value = this.props.value
+
+    return (
+      <div className="form-group">
+        <label className="control-label col-sm-4">{label}</label>
+        <span className="control-label col-sm-8" style={{"text-align": "left", "text-transform": "capitalize"}}>{value}</span>
+      </div>
+    )
+  }
+});
+

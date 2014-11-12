@@ -13,12 +13,8 @@ category: Components - Participant Group
 
 ```js_example
 React.renderComponent(
-  FilterableOfferedParticipantGroupPanels({
-    source: "/json/offered-participant-groups.json",
-    staff: [
-      { id: 1, name: 'Leslie Knope' },
-      { id: 2, name: 'April Ludgate' }
-    ]
+  OfferedParticipantGroupPanels({
+    source: "/json/offered-participant-groups.json"
   }),
   document.getElementById("OfferedParticipantGroups")
 );

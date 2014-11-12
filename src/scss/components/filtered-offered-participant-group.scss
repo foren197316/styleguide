@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: Filtered Offered Participant Groups
+name: filtered-offered-participant-groups
+category: Components - Filtered Particpant Group
+---
+
+```html_example
+<div id="FilteredOfferedParticipantGroups"></div>
+```
+
+```js_example
+React.renderComponent(
+  FilterableOfferedParticipantGroupPanels({
+    source: "/json/offered-participant-groups.json",
+    staff: [
+      { id: 1, name: 'Leslie Knope' },
+      { id: 2, name: 'April Ludgate' }
+    ]
+  }),
+  document.getElementById("FilteredOfferedParticipantGroups")
+);
+```
+*/

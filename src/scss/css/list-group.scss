@@ -7,3 +7,11 @@ label.list-group {
     width: 100%;
   }
 }
+
+.list-group {
+  label.list-group-item {
+    input[type="radio"] + *, input[type="checkbox"] + * {
+      padding-left: 10px;
+    }
+  }
+}
