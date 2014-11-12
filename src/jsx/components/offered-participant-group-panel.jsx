@@ -12,7 +12,7 @@ var FilterableOfferedParticipantGroupPanels = React.createClass({
 
     return (
       <div>
-        <SearchOfferedParticipantGroupPanels staffIdState={staffIdState} />
+        <SearchOfferedParticipantGroupPanels staffIdState={staffIdState} staff={this.props.staff} />
         <OfferedParticipantGroupPanels source={this.props.source} staffIdState={staffIdState} />
       </div>
     )
@@ -25,12 +25,19 @@ var SearchOfferedParticipantGroupPanels = React.createClass({
   },
 
   render: function () {
+    var staffOptions = this.props.staff.map(function (staff) {
+      return (
+        <option value={staff.id} key={staff.id}>{staff.name}</option>
+      )
+    });
+
     return (
-      <select defaultValue={this.props.staffIdState.value} onChange={this.handleChange} ref="staffId">
-        <option value="">All Staff</option>
-        <option value="1">Leslie Knope</option>
-        <option value="2">April Ludgate</option>
-      </select>
+      <div className="form-group">
+        <select defaultValue={this.props.staffIdState.value} onChange={this.handleChange} ref="staffId" id="placementCoordinator">
+          <option value="">All Staff</option>
+          {staffOptions}
+        </select>
+      </div>
     )
   }
 });
@@ -47,10 +54,10 @@ var OfferedParticipantGroupPanel = React.createClass({
   render: function() {
     var actionRow,
         createdAt = Date.parse(this.props.data.created_at).toString('yyyy-MM-dd'),
-        draftJobOffers = this.props.data.draft_job_offers,
-        participantNodes = this.props.data.participants.map(function (participant) {
-          var draftJobOffer = draftJobOffers.filter(function (draft_job_offer) {
-            return draft_job_offer.participant_id == participant.id;
+        participants = this.props.data.participants,
+        participantNodes = this.props.data.draft_job_offers.map(function (draftJobOffer) {
+          var participant = participants.filter(function (participant) {
+            return draftJobOffer.participant_id == participant.id;
           })[0];
           return (
             <OfferedParticipantGroupParticipant key={participant.id} data={participant} draftJobOffer={draftJobOffer} />
@@ -64,6 +71,13 @@ var OfferedParticipantGroupPanel = React.createClass({
 
     return (
       <div className="panel panel-default participant-group-panel">
+        <div className="panel-heading">
+          <h1 className="panel-title">
+            <a href={"/employers/" + this.props.data.employer.id + "/offered_participant_groups"}>
+              {this.props.data.employer.name}
+            </a>
+          </h1>
+        </div>
         <div className="list-group">
           {participantNodes}
         </div>
@@ -76,21 +90,37 @@ var OfferedParticipantGroupPanel = React.createClass({
 });
 
 var OfferedParticipantGroupPanels = React.createClass({
+  getInitialState: function () {
+    return { groups: null };
+  },
+
   componentDidMount: function() {
-    $.get(this.props.source, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          groups: data.offered_participant_groups
-        });
-      }
-    }.bind(this));
+    if (! this.state.groups) {
+      $.get(this.props.source, function(data) {
+        if (this.isMounted()) {
+          this.setState({
+            groups: data.offered_participant_groups
+          });
+        }
+      }.bind(this));
+    }
   },
 
   render: function() {
     if (this.isMounted()) {
       var staffIdState = this.props.staffIdState,
           groupPanels = this.state.groups.filter(function (offeredParticipantGroup) {
-            return staffIdState.value === "" || offeredParticipantGroup.staff.id === staffIdState.value;
+            if (staffIdState === undefined) {
+              return true;
+            } else {
+              if (staffIdState.value === "") {
+                return true;
+              } else if (offeredParticipantGroup.staff !== null && offeredParticipantGroup.staff.id === parseInt(staffIdState.value)) {
+                return true;
+              }
+            }
+
+            return false;
           }).map(function (group) {
             return (
               <OfferedParticipantGroupPanel key={group.id} data={group} />

@@ -65,6 +65,10 @@
           "overtime": "no"
         }
       ],
+      "employer": {
+        "id": 1,
+        "name": "Bob's Burgers"
+      },
       "staff": {
         "id": "1",
         "name": "Leslie Knope"
@@ -109,6 +113,10 @@
           "overtime_rate": 6
         }
       ],
+      "employer": {
+        "id": 2,
+        "name": "Jimmy's Pizza"
+      },
       "staff": {
         "id": "2",
         "name": "April Ludgate"
@@ -183,6 +191,10 @@
           "overtime_rate": 6
         }
       ],
+      "employer": {
+        "id": 1,
+        "name": "Bobs Burgers"
+      },
       "staff": {
         "id": "2",
         "name": "April Ludgate"
