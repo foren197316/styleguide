@@ -76,15 +76,25 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
   },
 
   render: function () {
-    var staffOptions = this.props.data.filter(function (offeredParticipantGroup) {
-          return offeredParticipantGroup.staff != undefined;
-        }).map(function (offeredParticipantGroup) {
-          var staff = offeredParticipantGroup.staff;
-
+    var staffOptions = this.props.data.reduce(function (prev, curr) {
+          if (curr.staff != undefined) {
+            for (var i=0; i<prev.length; i++) {
+              if (prev[i].id === curr.staff.id) {
+                prev[i].count += 1;
+                return prev;
+              }
+            }
+            var currCopy = curr.staff;
+            currCopy.count = 1;
+            prev.push(currCopy);
+          }
+          return prev;
+        }, []).map(function (staff) {
           return (
             <label className="list-group-item" key={staff.id}>
               <input type="radio" name="staff" value={staff.id} />
               {staff.name}
+              <span className="badge">{staff.count}</span>
             </label>
           )
         });
