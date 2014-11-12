@@ -54,14 +54,11 @@ var OfferedParticipantGroupPanel = React.createClass({
     return { sending: false, puttingOnReview: false };
   },
 
-  componentWillMount: function() {
-    this.props.onReviewExpiresOn = Date.today().add(3).days().toString('yyyy-MM-dd');
-  },
-
   render: function() {
     var actionRow,
         createdAt = Date.parse(this.props.data.created_at).toString('yyyy-MM-dd'),
         participants = this.props.data.participants,
+        staffName = this.props.data.staff ? this.props.data.staff.name : null,
         participantNodes = this.props.data.draft_job_offers.map(function (draftJobOffer) {
           var participant = participants.filter(function (participant) {
             return draftJobOffer.participant_id == participant.id;
@@ -80,6 +77,9 @@ var OfferedParticipantGroupPanel = React.createClass({
       <div className="panel panel-default participant-group-panel">
         <div className="panel-heading">
           <h1 className="panel-title">
+            <span className="pull-right text-muted">
+              {staffName}
+            </span>
             <a href={"/employers/" + this.props.data.employer.id + "/offered_participant_groups"}>
               {this.props.data.employer.name}
             </a>

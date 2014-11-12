@@ -198,8 +198,8 @@ var ReadOnlyFormGroup = React.createClass({
 
     return (
       <div className="form-group">
-        <label className="control-label col-sm-4">{label}</label>
-        <span className="control-label col-sm-8" style={{"text-align": "left", "text-transform": "capitalize"}}>{value}</span>
+        <label className="control-label col-xs-4">{label}</label>
+        <span className="control-label col-xs-8" style={{"text-align": "left", "text-transform": "capitalize"}}>{value}</span>
       </div>
     )
   }
