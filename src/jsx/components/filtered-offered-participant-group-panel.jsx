@@ -76,17 +76,23 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
   },
 
   render: function () {
-    var staffOptions = this.props.data.reduce(function (prev, curr) {
+    var totalCount = 0,
+        noCoordinatorCount = 0,
+        staffOptions = this.props.data.reduce(function (prev, curr) {
+          totalCount++;
+
           if (curr.staff != undefined) {
             for (var i=0; i<prev.length; i++) {
               if (prev[i].id === curr.staff.id) {
-                prev[i].count += 1;
+                prev[i].count++;
                 return prev;
               }
             }
             var currCopy = curr.staff;
             currCopy.count = 1;
             prev.push(currCopy);
+          } else {
+            noCoordinatorCount++;
           }
           return prev;
         }, []).map(function (staff) {
@@ -97,19 +103,28 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
               <span className="badge">{staff.count}</span>
             </label>
           )
-        });
+        }),
+        noCoordinatorRadio = function () {
+          if (noCoordinatorCount > 0) {
+            return (
+              <label className="list-group-item">
+                <input type="radio" name="staff" value="-1" />
+                No Coordinator
+                <span className="badge">{noCoordinatorCount}</span>
+              </label>
+            )
+          }
+        }();
 
     return (
       <div name="staff" className="list-group" onChange={this.handleChange}>
         <label className="list-group-item">
           <input type="radio" name="staff" value="" defaultChecked />
           All Coordinators
+          <span className="badge">{totalCount}</span>
         </label>
         {staffOptions}
-        <label className="list-group-item">
-          <input type="radio" name="staff" value="-1" />
-          No Coordinator
-        </label>
+        {noCoordinatorRadio}
       </div>
     )
   }
