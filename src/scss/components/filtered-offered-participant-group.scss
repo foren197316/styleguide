@@ -8,19 +8,19 @@ category: Components - Filtered Particpant Group
 ---
 
 ```html_example
-<div id="FilteredOfferedParticipantGroups"></div>
+<div id="OfferedParticipantGroupsIndex"></div>
 ```
 
 ```js_example
 React.renderComponent(
-  FilterableOfferedParticipantGroupPanels({
+  OfferedParticipantGroupsIndex({
     source: "/json/offered-participant-groups.json",
     staff: [
       { id: 1, name: 'Leslie Knope' },
       { id: 2, name: 'April Ludgate' }
     ]
   }),
-  document.getElementById("FilteredOfferedParticipantGroups")
+  document.getElementById("OfferedParticipantGroupsIndex")
 );
 ```
 */

@@ -1,42 +1,89 @@
-var FilterableOfferedParticipantGroupPanels = React.createClass({
+var OfferedParticipantGroupsIndex = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
 
-  getInitialState: function() {
-    return {
-      staffId: ""
+  getInitialState: function () {
+    return { data: null };
+  },
+
+  componentDidMount: function() {
+    if (! this.props.initialData) {
+      $.get(this.props.source, function(data) {
+        if (this.isMounted()) {
+          this.setProps({
+            initialData: data.offered_participant_groups
+          });
+
+          this.setState({
+            data: data.offered_participant_groups
+          });
+        }
+      }.bind(this));
     }
   },
 
+  render: function() {
+    if (this.state.data && this.isMounted()) {
+      var dataState = this.linkState('data');
+
+      return (
+        <div className="row">
+          <div className="col-md-3">
+            <OfferedParticipantGroupsStaffFilter dataState={dataState} data={this.props.initialData} staff={this.props.staff} />
+          </div>
+          <div className="col-md-9">
+            <OfferedParticipantGroups dataState={dataState} />
+          </div>
+        </div>
+      );
+    } else {
+      return <Spinner />
+    };
+  }
+});
+
+var OfferedParticipantGroups = React.createClass({
   render: function () {
-    var staffIdState = this.linkState('staffId');
+    var groupPanels = this.props.dataState.value.map(function (group) {
+      return (
+        <OfferedParticipantGroupPanel data={group} />
+      )
+    });
 
     return (
-      <div className="row">
-        <div className="col-md-3">
-          <SearchOfferedParticipantGroupPanels staffIdState={staffIdState} staff={this.props.staff} />
-        </div>
-        <div className="col-md-9">
-          <OfferedParticipantGroupPanels source={this.props.source} staffIdState={staffIdState} />
-        </div>
+      <div id="participant-group-panels">
+        {groupPanels}
       </div>
     )
   }
 });
 
-var SearchOfferedParticipantGroupPanels = React.createClass({
+var OfferedParticipantGroupsStaffFilter = React.createClass({
   handleChange: function (event) {
-    this.props.staffIdState.requestChange(event.target.value);
+    var staffId = event.target.value,
+        groupPanels = this.props.data.filter(function (offeredParticipantGroup) {
+          if (staffId === "") {
+            return true;
+          } else if (staffId === "-1" && offeredParticipantGroup.staff === null) {
+            return true;
+          } else if (offeredParticipantGroup.staff !== null && parseInt(offeredParticipantGroup.staff.id) === parseInt(staffId)) {
+            return true;
+          }
+
+          return false;
+        });
+
+    this.props.dataState.requestChange(groupPanels);
   },
 
   render: function () {
     var staffOptions = this.props.staff.map(function (staff) {
-      return (
-        <label className="list-group-item" key={staff.id}>
-          <input type="radio" name="staff" value={staff.id} />
-          {staff.name}
-        </label>
-      )
-    });
+          return (
+            <label className="list-group-item" key={staff.id}>
+              <input type="radio" name="staff" value={staff.id} />
+              {staff.name}
+            </label>
+          )
+        });
 
     return (
       <div name="staff" className="list-group" onChange={this.handleChange}>

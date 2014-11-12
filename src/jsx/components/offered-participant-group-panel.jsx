@@ -18,24 +18,10 @@ var OfferedParticipantGroupPanels = React.createClass({
   render: function() {
     if (this.isMounted()) {
       var staffIdState = this.props.staffIdState,
-          groupPanels = this.state.groups.filter(function (offeredParticipantGroup) {
-            if (staffIdState === undefined) {
-              return true;
-            } else {
-              if (staffIdState.value === "") {
-                return true;
-              } else if (staffIdState.value === "-1" && offeredParticipantGroup.staff === null) {
-                return true;
-              } else if (offeredParticipantGroup.staff !== null && parseInt(offeredParticipantGroup.staff.id) === parseInt(staffIdState.value)) {
-                return true;
-              }
-            }
-
-            return false;
-          }).map(function (group) {
+          groupPanels = this.state.groups.map(function(group) {
             return (
-              <OfferedParticipantGroupPanel key={group.id} data={group} />
-            );
+              <OfferedParticipantGroupPanel data={group} />
+            )
           });
 
       return (
