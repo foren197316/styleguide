@@ -193,12 +193,9 @@
       ],
       "employer": {
         "id": 1,
-        "name": "Bobs Burgers"
+        "name": "PFETA"
       },
-      "staff": {
-        "id": "2",
-        "name": "April Ludgate"
-      }
+      "staff": null
     }
   ]
 }
