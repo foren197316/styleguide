@@ -14,11 +14,7 @@ category: Components - Filtered Particpant Group
 ```js_example
 React.renderComponent(
   OfferedParticipantGroupsIndex({
-    source: "/json/offered-participant-groups.json",
-    staff: [
-      { id: 1, name: 'Leslie Knope' },
-      { id: 2, name: 'April Ludgate' }
-    ]
+    source: "/json/offered-participant-groups.json"
   }),
   document.getElementById("OfferedParticipantGroupsIndex")
 );

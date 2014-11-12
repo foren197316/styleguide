@@ -76,7 +76,11 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
   },
 
   render: function () {
-    var staffOptions = this.props.staff.map(function (staff) {
+    var staffOptions = this.props.data.filter(function (offeredParticipantGroup) {
+          return offeredParticipantGroup.staff != undefined;
+        }).map(function (offeredParticipantGroup) {
+          var staff = offeredParticipantGroup.staff;
+
           return (
             <label className="list-group-item" key={staff.id}>
               <input type="radio" name="staff" value={staff.id} />
