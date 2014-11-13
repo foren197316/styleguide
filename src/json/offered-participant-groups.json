@@ -67,7 +67,8 @@
       ],
       "employer": {
         "id": 1,
-        "name": "Bob's Burgers"
+        "name": "Bob's Burgers",
+        "vetted": true
       },
       "staff": {
         "id": "1",
@@ -115,7 +116,8 @@
       ],
       "employer": {
         "id": 2,
-        "name": "Jimmy's Pizza"
+        "name": "Jimmy's Pizza",
+        "vetted": false
       },
       "staff": {
         "id": "2",
@@ -192,8 +194,9 @@
         }
       ],
       "employer": {
-        "id": 1,
-        "name": "PFETA"
+        "id": 3,
+        "name": "PFETA",
+        "vetted": false
       },
       "staff": null
     }

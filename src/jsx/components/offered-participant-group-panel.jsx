@@ -37,12 +37,43 @@ var OfferedParticipantGroupPanels = React.createClass({
 
 var OfferedParticipantGroupPanel = React.createClass({
   getInitialState: function() {
-    return { sending: false, puttingOnReview: false };
+    return {
+      sending: false,
+      puttingOnReview: false,
+      sendingJobOffer: false
+    };
+  },
+
+  handleSendToParticipant: function (event) {
+    this.setState({ sendingJobOffer: true });
+  },
+
+  handleCancel: function(event) {
+    this.setState({ sendingJobOffer: false });
+  },
+
+  handleConfirm: function(event) {
+    this.setState({ sending: true });
+
+    var node = this.getDOMNode(),
+        data = {};
+
+    $.ajax({
+      url: "/offered_participant_groups/" + this.props.data.id + "/job_offers.json",
+      type: "POST",
+      data: data,
+      success: function(data) {
+        React.unmountComponentAtNode(node);
+        $(node).remove();
+      },
+      error: function(data) {
+        window.location = window.location;
+      }
+    });
   },
 
   render: function() {
     var actionRow,
-        createdAt = Date.parse(this.props.data.created_at).toString('yyyy-MM-dd'),
         participants = this.props.data.participants,
         staffName = this.props.data.staff ? this.props.data.staff.name : null,
         participantNodes = this.props.data.draft_job_offers.map(function (draftJobOffer) {
@@ -54,9 +85,36 @@ var OfferedParticipantGroupPanel = React.createClass({
           )
         });
 
-    actionRow = <div className="row">
-      <div className="panel-title pull-left col-xs-3 col-sm-3">{this.props.data.name}</div>
-    </div>
+    if (this.state.sendingJobOffer) {
+      actionRow = (
+        <div className="row">
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.props.data.name}</div>
+          </div>
+          <div className="col-xs-9 col-sm-9">
+            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
+          </div>
+        </div>
+      )
+    } else if (this.props.data.employer.vetted) {
+      actionRow = (
+        <div className="row">
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.props.data.name}</div>
+          </div>
+          <div className="col-xs-9 col-sm-9">
+            <button className="btn btn-success pull-right" onClick={this.handleSendToParticipant}>Send to Participant</button>
+          </div>
+        </div>
+      )
+    } else {
+      actionRow = (
+        <div className="row">
+          <div className="panel-title pull-left col-xs-3 col-sm-3">{this.props.data.name}</div>
+        </div>
+      )
+    }
 
     return (
       <div className="panel panel-default participant-group-panel">

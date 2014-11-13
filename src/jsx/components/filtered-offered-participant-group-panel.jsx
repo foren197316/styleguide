@@ -90,9 +90,8 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
                 return prev;
               }
             }
-            var currCopy = curr.staff;
-            currCopy.count = 1;
-            prev.push(currCopy);
+            curr.staff.count = 1;
+            prev.push(curr.staff);
           } else {
             noCoordinatorCount++;
           }
@@ -163,9 +162,8 @@ var OfferedParticipantGroupsEmployerFilter = React.createClass({
                 return prev;
               }
             }
-            var currCopy = curr.employer;
-            currCopy.count = 1;
-            prev.push(currCopy);
+            curr.employer.count = 1;
+            prev.push(curr.employer);
           } else {
             noCoordinatorCount++;
           }
@@ -251,9 +249,8 @@ var OfferedParticipantGroupsProgramFilter = React.createClass({
                 return prev;
               }
             }
-            var currCopy = curr.program;
-            currCopy.count = 1;
-            prev.push(currCopy);
+            curr.program.count = 1;
+            prev.push(curr.program);
           } else {
             noCoordinatorCount++;
           }
