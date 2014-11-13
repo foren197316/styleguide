@@ -1,4 +1,10 @@
 var RadioGroupFilterMixin = {
+  componentWillMount: function () {
+    if (!this.filteredAttributeKey) {
+      console.warn("Components using RadioGroupFilterMixin must have a 'filteredAttributeKey' attribute.");
+    }
+  },
+
   handleChange: function (event) {
     var selectedId = event.target.value,
         filteredAttributeKey = this.filteredAttributeKey,
