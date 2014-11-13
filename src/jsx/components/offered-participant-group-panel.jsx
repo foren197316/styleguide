@@ -56,7 +56,6 @@ var OfferedParticipantGroupPanel = React.createClass({
 
     actionRow = <div className="row">
       <div className="panel-title pull-left col-xs-3 col-sm-3">{this.props.data.name}</div>
-      <div className="pull-right text-right col-xs-9 col-sm-9"><strong>Created {createdAt}</strong></div>
     </div>
 
     return (
