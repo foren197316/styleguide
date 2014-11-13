@@ -100,9 +100,9 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
         }, []).map(function (staff) {
           return (
             <label className="list-group-item" key={staff.id}>
-              <input type="radio" name="staff" value={staff.id} />
-              {staff.name}
               <span className="badge">{staff.count}</span>
+              <input type="radio" name="staff" value={staff.id} />
+              <span className="title">{staff.name}</span>
             </label>
           )
         }),
@@ -110,9 +110,9 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
           if (noCoordinatorCount > 0) {
             return (
               <label className="list-group-item">
-                <input type="radio" name="staff" value="-1" />
-                No Coordinator
                 <span className="badge">{noCoordinatorCount}</span>
+                <input type="radio" name="staff" value="-1" />
+                <span className="title">No Coordinator</span>
               </label>
             )
           }
@@ -121,9 +121,9 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
     return (
       <div name="staff" className="list-group" onChange={this.handleChange}>
         <label className="list-group-item">
-          <input type="radio" name="staff" value="" defaultChecked />
-          All Coordinators
           <span className="badge">{totalCount}</span>
+          <input type="radio" name="staff" value="" defaultChecked />
+          <span className="title">All Coordinators</span>
         </label>
         {staffOptions}
         {noCoordinatorRadio}
@@ -173,9 +173,9 @@ var OfferedParticipantGroupsEmployerFilter = React.createClass({
         }, []).map(function (employer) {
           return (
             <label className="list-group-item" key={employer.id}>
-              <input type="radio" name="employer" value={employer.id} />
-              {employer.name}
               <span className="badge">{employer.count}</span>
+              <input type="radio" name="employer" value={employer.id} />
+              <span className="title">{employer.name}</span>
             </label>
           )
         }),
@@ -183,9 +183,9 @@ var OfferedParticipantGroupsEmployerFilter = React.createClass({
           if (noCoordinatorCount > 0) {
             return (
               <label className="list-group-item">
-                <input type="radio" name="employer" value="-1" />
-                No Coordinator
                 <span className="badge">{noCoordinatorCount}</span>
+                <input type="radio" name="employer" value="-1" />
+                <span className="title">No Employer</span>
               </label>
             )
           }
@@ -194,9 +194,9 @@ var OfferedParticipantGroupsEmployerFilter = React.createClass({
     return (
       <div name="employer" className="list-group" onChange={this.handleChange}>
         <label className="list-group-item">
-          <input type="radio" name="employer" value="" defaultChecked />
-          All Employers
           <span className="badge">{totalCount}</span>
+          <input type="radio" name="employer" value="" defaultChecked />
+          <span className="title">All Employers</span>
         </label>
         {employerOptions}
         {noCoordinatorRadio}
@@ -246,9 +246,9 @@ var OfferedParticipantGroupsProgramFilter = React.createClass({
         }, []).map(function (program) {
           return (
             <label className="list-group-item" key={program.id}>
-              <input type="radio" name="program" value={program.id} />
-              {program.name}
               <span className="badge">{program.count}</span>
+              <input type="radio" name="program" value={program.id} />
+              <span className="title">{program.name}</span>
             </label>
           )
         }),
@@ -256,9 +256,9 @@ var OfferedParticipantGroupsProgramFilter = React.createClass({
           if (noCoordinatorCount > 0) {
             return (
               <label className="list-group-item">
-                <input type="radio" name="program" value="-1" />
-                No Coordinator
                 <span className="badge">{noCoordinatorCount}</span>
+                <input type="radio" name="program" value="-1" />
+                <span className="title">No Program</span>
               </label>
             )
           }
@@ -267,9 +267,9 @@ var OfferedParticipantGroupsProgramFilter = React.createClass({
     return (
       <div name="program" className="list-group" onChange={this.handleChange}>
         <label className="list-group-item">
-          <input type="radio" name="program" value="" defaultChecked />
-          All Programs
           <span className="badge">{totalCount}</span>
+          <input type="radio" name="program" value="" defaultChecked />
+          <span className="title">All Programs</span>
         </label>
         {programOptions}
         {noCoordinatorRadio}

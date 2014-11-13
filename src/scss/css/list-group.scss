@@ -10,8 +10,9 @@ label.list-group {
 
 .list-group {
   label.list-group-item {
-    input[type="radio"] + *, input[type="checkbox"] + * {
-      padding-left: 10px;
+    .title {
+      margin-left: 10px;
+      margin-right: 20px;
     }
   }
 }
