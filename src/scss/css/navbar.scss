@@ -17,6 +17,7 @@
   a.navbar-brand {
     font-weight: bold;
     color: $interexchange-primary;
+    padding-left: 0;
 
     &:hover {
       color: lighten($interexchange-primary, 10%);
