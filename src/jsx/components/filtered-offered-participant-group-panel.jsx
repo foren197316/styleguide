@@ -80,7 +80,7 @@ var OfferedParticipantGroupsStaffFilter = React.createClass({
   render: function () {
     var totalCount = 0,
         noCoordinatorCount = 0,
-        staffOptions = this.props.data.reduce(function (prev, curr) {
+        staffOptions = this.props.dataState.value.reduce(function (prev, curr) {
           totalCount++;
 
           if (curr.staff != undefined) {
@@ -153,7 +153,7 @@ var OfferedParticipantGroupsEmployerFilter = React.createClass({
   render: function () {
     var totalCount = 0,
         noCoordinatorCount = 0,
-        employerOptions = this.props.data.reduce(function (prev, curr) {
+        employerOptions = this.props.dataState.value.reduce(function (prev, curr) {
           totalCount++;
 
           if (curr.employer != undefined) {
@@ -226,7 +226,7 @@ var OfferedParticipantGroupsProgramFilter = React.createClass({
   render: function () {
     var totalCount = 0,
         noCoordinatorCount = 0,
-        programOptions = this.props.data.reduce(function (prev, curr) {
+        programOptions = this.props.dataState.value.reduce(function (prev, curr) {
           totalCount++;
 
           if (curr.program != undefined) {
