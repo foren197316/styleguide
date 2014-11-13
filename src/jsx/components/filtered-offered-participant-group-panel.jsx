@@ -220,6 +220,21 @@ var OfferedParticipantGroupsProgramFilter = React.createClass({
           return false;
         });
 
+    var $container = event.target,
+        $listGroupItems = $container.querySelectorAll('.list-group-item'),
+        $radios = $container.querySelectorAll('input[type="radio"]');
+
+    for (var i=0; i < $listGroupItems.length; i++) {
+      var $listGroupItem = $listGroupItems[i],
+          $radio = $radios[i];
+
+      $listGroupItem.className = $listGroupItem.className.replace("active", "");
+
+      if ($radio.checked) {
+        $listGroupItem.className = $listGroupItem.className + " active";
+      }
+    }
+
     this.props.dataState.requestChange(groupPanels);
   },
 

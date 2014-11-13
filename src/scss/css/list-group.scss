@@ -11,8 +11,12 @@ label.list-group {
 .list-group {
   label.list-group-item {
     .title {
-      margin-left: 10px;
-      margin-right: 20px;
+      width: 75%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      margin: 0 0 -4px 10px;
     }
   }
 }
