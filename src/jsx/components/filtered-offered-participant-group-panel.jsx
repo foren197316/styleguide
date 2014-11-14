@@ -29,7 +29,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
         <div className="row">
           <div className="col-md-3">
             {this.createRadioGroupFilter(this.props.initialData, dataState, "program")}
-            {this.createRadioGroupFilter(this.props.initialData, dataState, "staff", "cooperator")}
+            {this.createRadioGroupFilter(this.props.initialData, dataState, "staff", "coordinator")}
             {this.createRadioGroupFilter(this.props.initialData, dataState, "employer")}
           </div>
           <div className="col-md-9">
