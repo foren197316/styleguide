@@ -1,13 +1,19 @@
 var RadioGroupFilterMixin = {
-  componentWillMount: function () {
-    if (!this.filteredAttributeKey) {
-      console.warn("Components using RadioGroupFilterMixin must have a 'filteredAttributeKey' attribute.");
+  createRadioGroupFilter: function (data, dataState, filteredAttributeKey, presentationName) {
+    if (! data || ! dataState || ! filteredAttributeKey) {
+      console.warn("createRadioGroupFilter requires data, dataState, and filteredAttributeKey");
     }
-  },
 
+    var actualPresentationName = capitaliseWord(presentationName || filteredAttributeKey);
+
+    return <RadioGroupFilter data={data} dataState={dataState} filteredAttributeKey={filteredAttributeKey} presentationName={actualPresentationName} />;
+  }
+};
+
+var RadioGroupFilter = React.createClass({
   handleChange: function (event) {
     var selectedId = event.target.value,
-        filteredAttributeKey = this.filteredAttributeKey,
+        filteredAttributeKey = this.props.filteredAttributeKey,
         groupPanels = this.props.data.filter(function (group) {
           var filteredAttribute = group[filteredAttributeKey],
               definitelyNotThere = (filteredAttribute === null || filteredAttribute === undefined);
@@ -29,8 +35,8 @@ var RadioGroupFilterMixin = {
   render: function () {
     var totalCount = 0,
         noneCount = 0,
-        filteredAttributeKey = this.filteredAttributeKey,
-        presentationName = capitaliseWord(this.presentationName || filteredAttributeKey),
+        filteredAttributeKey = this.props.filteredAttributeKey,
+        presentationName = this.props.presentationName,
         radioOptions = this.props.dataState.value.reduce(function (prev, curr) {
           totalCount++;
 
@@ -83,4 +89,4 @@ var RadioGroupFilterMixin = {
       </div>
     )
   }
-};
+});

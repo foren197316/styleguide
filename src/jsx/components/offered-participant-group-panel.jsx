@@ -92,8 +92,10 @@ var OfferedParticipantGroupPanel = React.createClass({
             <div className="panel-title pull-left">{this.props.data.name}</div>
           </div>
           <div className="col-xs-9 col-sm-9">
-            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
+            <div className="btn-group clearfix pull-right">
+              <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+              <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
+            </div>
           </div>
         </div>
       )

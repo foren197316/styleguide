@@ -1,5 +1,5 @@
 var OfferedParticipantGroupsIndex = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [React.addons.LinkedStateMixin, RadioGroupFilterMixin],
 
   getInitialState: function () {
     return { data: null };
@@ -28,9 +28,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
       return (
         <div className="row">
           <div className="col-md-3">
-            <OfferedParticipantGroupsProgramFilter dataState={dataState} data={this.props.initialData} />
-            <OfferedParticipantGroupsStaffFilter dataState={dataState} data={this.props.initialData} />
-            <OfferedParticipantGroupsEmployerFilter dataState={dataState} data={this.props.initialData} />
+            {this.createRadioGroupFilter(this.props.initialData, dataState, "program")}
+            {this.createRadioGroupFilter(this.props.initialData, dataState, "staff", "cooperator")}
+            {this.createRadioGroupFilter(this.props.initialData, dataState, "employer")}
           </div>
           <div className="col-md-9">
             <OfferedParticipantGroups dataState={dataState} />
@@ -57,20 +57,4 @@ var OfferedParticipantGroups = React.createClass({
       </div>
     )
   }
-});
-
-var OfferedParticipantGroupsStaffFilter = React.createClass({
-  mixins: [RadioGroupFilterMixin],
-  filteredAttributeKey: "staff",
-  presentationName: "coordinator"
-});
-
-var OfferedParticipantGroupsEmployerFilter = React.createClass({
-  mixins: [RadioGroupFilterMixin],
-  filteredAttributeKey: "employer"
-});
-
-var OfferedParticipantGroupsProgramFilter = React.createClass({
-  mixins: [RadioGroupFilterMixin],
-  filteredAttributeKey: "program"
 });
