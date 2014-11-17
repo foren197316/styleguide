@@ -40,8 +40,13 @@ var OfferedParticipantGroupPanel = React.createClass({
     return {
       sending: false,
       puttingOnReview: false,
-      sendingJobOffer: false
+      sendingJobOffer: false,
+      offered: this.hasJobOffers()
     };
+  },
+
+  hasJobOffers: function () {
+    return this.props.data.job_offers.length > 0;
   },
 
   handleSendToParticipant: function (event) {
@@ -55,17 +60,15 @@ var OfferedParticipantGroupPanel = React.createClass({
   handleConfirm: function(event) {
     this.setState({ sending: true });
 
-    var node = this.getDOMNode(),
-        data = {};
+    var data = {};
 
     $.ajax({
       url: "/offered_participant_groups/" + this.props.data.id + "/job_offers.json",
       type: "POST",
       data: data,
       success: function(data) {
-        React.unmountComponentAtNode(node);
-        $(node).remove();
-      },
+        this.setState({ offered: true });
+      }.bind(this),
       error: function(data) {
         window.location = window.location;
       }
@@ -76,7 +79,7 @@ var OfferedParticipantGroupPanel = React.createClass({
     var actionRow,
         participants = this.props.data.participants,
         staffName = this.props.data.staff ? this.props.data.staff.name : null,
-        offers = this.props.data.job_offers.length > 0 ? this.props.data.job_offers : this.props.data.draft_job_offers,
+        offers = this.hasJobOffers() ? this.props.data.job_offers : this.props.data.draft_job_offers,
         participantNodes = offers.map(function (draftJobOffer) {
           var participant = participants.filter(function (participant) {
             return draftJobOffer.participant_id == participant.id;
@@ -97,6 +100,17 @@ var OfferedParticipantGroupPanel = React.createClass({
               <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
               <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
             </div>
+          </div>
+        </div>
+      )
+    } else if (this.state.offered) {
+      actionRow = (
+        <div className="row">
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.props.data.name}</div>
+          </div>
+          <div className="col-xs-9 col-sm-9">
+            <div className="pull-right"><span className="label label-warning">Sent</span></div>
           </div>
         </div>
       )
