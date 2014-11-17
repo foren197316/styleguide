@@ -76,7 +76,8 @@ var OfferedParticipantGroupPanel = React.createClass({
     var actionRow,
         participants = this.props.data.participants,
         staffName = this.props.data.staff ? this.props.data.staff.name : null,
-        participantNodes = this.props.data.draft_job_offers.map(function (draftJobOffer) {
+        offers = this.props.data.job_offers.length > 0 ? this.props.data.job_offers : this.props.data.draft_job_offers,
+        participantNodes = offers.map(function (draftJobOffer) {
           var participant = participants.filter(function (participant) {
             return draftJobOffer.participant_id == participant.id;
           })[0];

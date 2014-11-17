@@ -65,6 +65,7 @@
           "overtime": "no"
         }
       ],
+      "job_offers": [],
       "employer": {
         "id": 1,
         "name": "Bob's Burgers",
@@ -102,7 +103,8 @@
           ]
         }
       ],
-      "draft_job_offers": [
+      "draft_job_offers": [],
+      "job_offers": [
         {
           "id": 3,
           "participant_id": 13,
@@ -117,7 +119,7 @@
       "employer": {
         "id": 2,
         "name": "Jimmy's Pizza",
-        "vetted": false
+        "vetted": true
       },
       "staff": {
         "id": "2",
@@ -193,6 +195,7 @@
           "overtime_rate": 6
         }
       ],
+      "job_offers": [],
       "employer": {
         "id": 3,
         "name": "PFETA",
