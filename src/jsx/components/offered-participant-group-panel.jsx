@@ -113,7 +113,12 @@ var OfferedParticipantGroupPanel = React.createClass({
     } else {
       actionRow = (
         <div className="row">
-          <div className="panel-title pull-left col-xs-3 col-sm-3">{this.props.data.name}</div>
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.props.data.name}</div>
+          </div>
+          <div className="col-xs-9 col-sm-9">
+            <div className="pull-right"><span className="label label-warning">Employer Not Vetted</span></div>
+          </div>
         </div>
       )
     }
