@@ -67,7 +67,7 @@ var OfferedParticipantGroupPanel = React.createClass({
       type: "POST",
       data: data,
       success: function(data) {
-        this.setState({ offered: true });
+        this.setState({ offered: true, sending: false, sendingJobOffer: false });
       }.bind(this),
       error: function(data) {
         window.location = window.location;
@@ -110,7 +110,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             <div className="panel-title pull-left">{this.props.data.name}</div>
           </div>
           <div className="col-xs-9 col-sm-9">
-            <div className="pull-right"><span className="label label-warning">Sent</span></div>
+            <div className="pull-right"><span className="label label-success">Sent</span></div>
           </div>
         </div>
       )
