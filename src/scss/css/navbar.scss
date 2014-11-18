@@ -2,11 +2,6 @@
   margin-bottom: 20px;
 }
 
-.navbar > .container img.navbar-brand,
-.navbar > .container-fluid img.navbar-brand {
-  margin-left: 10px;
-}
-
 .navbar-default {
   .navbar-nav > li > a {
     &:hover {
@@ -17,7 +12,7 @@
   a.navbar-brand {
     font-weight: bold;
     color: $interexchange-primary;
-    padding-left: 0;
+    padding-left: 10px;
 
     &:hover {
       color: lighten($interexchange-primary, 10%);
@@ -25,7 +20,7 @@
   }
 
   img.navbar-brand {
-    padding: 10px;
+    padding: 10px 10px 10px 15px;
     margin: 0;
   }
 }
