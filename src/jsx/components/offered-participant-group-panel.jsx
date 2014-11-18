@@ -113,14 +113,14 @@ var OfferedParticipantGroupPanel = React.createClass({
           </div>
         </div>
       )
-    } else if (this.state.data.employer.vetted) {
+    } else if (!this.state.data.employer.vetted) {
       actionRow = (
         <div className="row">
           <div className="col-xs-3 col-sm-3">
             <div className="panel-title pull-left">{this.state.data.name}</div>
           </div>
           <div className="col-xs-9 col-sm-9">
-            <button className="btn btn-success pull-right" onClick={this.handleSendToParticipant}>Send to Participant</button>
+            <div className="pull-right"><span className="label label-warning">Employer Not Vetted</span></div>
           </div>
         </div>
       )
@@ -131,7 +131,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             <div className="panel-title pull-left">{this.state.data.name}</div>
           </div>
           <div className="col-xs-9 col-sm-9">
-            <div className="pull-right"><span className="label label-warning">Employer Not Vetted</span></div>
+            <button className="btn btn-success pull-right" onClick={this.handleSendToParticipant}>Send to Participant</button>
           </div>
         </div>
       )
