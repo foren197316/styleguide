@@ -10,6 +10,7 @@
         "name": "2014 Winter Work Travel",
         "active": true
       },
+      "can_send": true,
       "participants": [
         {
           "id": 10,
@@ -92,6 +93,7 @@
         "name": "2014 Summer Work Travel",
         "active": true
       },
+      "can_send": true,
       "participants": [
         {
           "id": 13,
@@ -147,6 +149,7 @@
         "name": "2014 Summer Work Travel",
         "active": true
       },
+      "can_send": true,
       "participants": [
         {
           "id": 14,
@@ -218,6 +221,62 @@
         "vetted": false
       },
       "staff": null
+    },
+    {
+      "id": 4,
+      "participant_group_id": 4,
+      "name": "Individual",
+      "created_at":  "2014-10-30T12:23:39.760-04:00",
+      "program": {
+        "id": 2,
+        "name": "2014 Summer Work Travel",
+        "active": true
+      },
+      "can_send": false,
+      "participants": [
+        {
+          "id": 16,
+          "name": "Adrian Pucey",
+          "gender": "Male",
+          "country_name": "United Kingdom",
+          "photo_url": "/images/participants/pucey.jpg",
+          "date_of_birth": "1989-12-15",
+          "arrival_date": "2014-11-15",
+          "departure_date": "2015-02-03",
+          "positions": [
+            {
+              "id": 2,
+              "name": "Guest Services"
+            },
+            {
+              "id": 3,
+              "name": "Front Desk"
+            }
+          ]
+        }
+      ],
+      "job_offers": [],
+      "draft_job_offers": [
+        {
+          "id": 4,
+          "participant_id": 16,
+          "position": "Barista",
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
+        }
+      ],
+      "employer": {
+        "id": 2,
+        "name": "Jimmy's Pizza",
+        "vetted": true
+      },
+      "staff": {
+        "id": "2",
+        "name": "April Ludgate"
+      }
     }
   ]
 }

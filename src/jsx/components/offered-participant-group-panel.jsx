@@ -124,6 +124,14 @@ var OfferedParticipantGroupPanel = React.createClass({
           </div>
         </div>
       )
+    } else if (!this.state.data.can_send) {
+      actionRow = (
+        <div className="row">
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.state.data.name}</div>
+          </div>
+        </div>
+      )
     } else {
       actionRow = (
         <div className="row">
