@@ -39,6 +39,7 @@ var OfferedParticipantGroupPanel = React.createClass({
       sending: false,
       puttingOnReview: false,
       sendingJobOffer: false,
+      rejecting: false,
       data: this.props.data
     };
   },
@@ -51,6 +52,10 @@ var OfferedParticipantGroupPanel = React.createClass({
     this.setState({ sendingJobOffer: true });
   },
 
+  handleReject: function () {
+    this.setState({ rejecting: true });
+  },
+
   handleCancel: function(event) {
     this.setState({ sendingJobOffer: false });
   },
@@ -58,15 +63,32 @@ var OfferedParticipantGroupPanel = React.createClass({
   handleConfirm: function(event) {
     this.setState({ sending: true });
 
-    var data = {};
+    var node = this.getDOMNode(),
+        url = null,
+        data = {},
+        success = null;
+
+    if (this.state.sendingJobOffer) {
+      url = "/offered_participant_groups/" + this.state.data.id + "/job_offers.json";
+      success = function(data) {
+        this.setState({ data: data.offered_participant_group, sending: false, sendingJobOffer: false, rejecting: false });
+      }.bind(this);
+    } else if (this.state.rejecting) {
+      url = "/offered_participant_groups/" + this.state.data.id;
+      data = {
+        "_method": "DELETE"
+      };
+      success = function (data) {
+        React.unmountComponentAtNode(node);
+        $(node).remove();
+      };
+    }
 
     $.ajax({
-      url: "/offered_participant_groups/" + this.state.data.id + "/job_offers.json",
+      url: url,
       type: "POST",
       data: data,
-      success: function(data) {
-        this.setState({ data: data.offered_participant_group, sending: false, sendingJobOffer: false });
-      }.bind(this),
+      success: success,
       error: function(data) {
         window.location = window.location;
       }
@@ -110,6 +132,20 @@ var OfferedParticipantGroupPanel = React.createClass({
           </div>
         </div>
       )
+    } else if (this.state.rejecting) {
+      actionRow = (
+        <div className="row">
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.state.data.name}</div>
+          </div>
+          <div className="col-xs-9 col-sm-9">
+            <div className="btn-group clearfix pull-right">
+              <button className="btn btn-danger" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+              <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )
     } else if (this.hasJobOffers()) {
       actionRow = (
         <div className="row">
@@ -147,7 +183,10 @@ var OfferedParticipantGroupPanel = React.createClass({
             <div className="panel-title pull-left">{this.state.data.name}</div>
           </div>
           <div className="col-xs-9 col-sm-9">
-            <button className="btn btn-success pull-right" onClick={this.handleSendToParticipant}>Send to Participant</button>
+            <div className="btn-group pull-right">
+              <button className="btn btn-success" onClick={this.handleSendToParticipant}>Send to Participant</button>
+              <button className="btn btn-danger" onClick={this.handleReject}>Reject</button>
+            </div>
           </div>
         </div>
       )
