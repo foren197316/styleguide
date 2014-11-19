@@ -76,15 +76,23 @@ var OfferedParticipantGroupPanel = React.createClass({
   render: function() {
     var actionRow,
         participants = this.state.data.participants,
+        jobOfferParticipantAgreements = this.state.data.job_offer_participant_agreements,
         staffName = this.state.data.staff ? this.state.data.staff.name : null,
-        offers = this.hasJobOffers() ? this.state.data.job_offers : this.state.data.draft_job_offers,
-        offerLinkTitle = this.hasJobOffers() ? 'View' : 'Preview',
+        hasJobOffers = this.hasJobOffers(),
+        offers = hasJobOffers ? this.state.data.job_offers : this.state.data.draft_job_offers,
+        offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
         participantNodes = offers.map(function (offer) {
           var participant = participants.filter(function (participant) {
             return offer.participant_id == participant.id;
           })[0];
+          var jobOfferParticipantAgreement = hasJobOffers
+            ? jobOfferParticipantAgreements.filter(function (jobOfferParticipantAgreement) {
+                return offer.id == jobOfferParticipantAgreement.job_offer_id;
+              })[0] || null
+            : null;
+
           return (
-            <OfferedParticipantGroupParticipant key={participant.id} data={participant} offer={offer} offerLinkTitle={offerLinkTitle} />
+            <OfferedParticipantGroupParticipant key={participant.id} participant={participant} offer={offer} jobOfferParticipantAgreement={jobOfferParticipantAgreement} offerLinkTitle={offerLinkTitle} />
           )
         });
 
@@ -175,6 +183,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
 
   render: function () {
     var overtimeRate = null,
+        jobOfferParticipantAgreement = null,
         jobOfferLink = this.props.offer.href
           ? <a href={this.props.offer.href}>{this.props.offerLinkTitle}</a>
           : null;
@@ -185,15 +194,21 @@ var OfferedParticipantGroupParticipant = React.createClass({
       );
     }
 
+    if (this.props.jobOfferParticipantAgreement !== null) {
+      jobOfferParticipantAgreement = (
+        <ReadOnlyFormGroup label="Signed by" value={this.props.jobOfferParticipantAgreement.full_name + " on " + Date.parse(this.props.jobOfferParticipantAgreement.created_at).toString(dateFormat)} />
+      );
+    }
+
     return (
-      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
+      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.participant.name}>
         <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.participant.photo_url} alt={this.props.participant.name} />
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
                 <h4 className="media-heading">
-                  <LinkToParticipantName data={this.props.data} />
+                  <LinkToParticipantName data={this.props.participant} />
                 </h4>
               </div>
             </div>
@@ -202,8 +217,9 @@ var OfferedParticipantGroupParticipant = React.createClass({
               <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseInt(this.props.offer.wage).toFixed(2)} />
               <ReadOnlyFormGroup label="Tipped?" value={this.props.offer.tipped ? 'Yes' : 'No'} />
               <ReadOnlyFormGroup label="Hours per week" value={this.props.offer.hours} />
-              <ReadOnlyFormGroup label="Overtime?" value={this.props.offer.overtime} />
+              <ReadOnlyFormGroup label="Overtime?" value={capitaliseWord(this.props.offer.overtime)} />
               {overtimeRate}
+              {jobOfferParticipantAgreement}
               <ReadOnlyFormGroup label="" value={jobOfferLink} />
             </div>
           </div>

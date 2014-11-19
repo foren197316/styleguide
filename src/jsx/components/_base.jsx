@@ -1,7 +1,9 @@
 /** @jsx React.DOM */
 
+var dateFormat = "dd-MMM-yyyy";
+
 var capitaliseWord = function (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 var Spinner = React.createClass({
@@ -63,7 +65,7 @@ var ReviewableParticipantGroupPanel = React.createClass({
   },
 
   componentWillMount: function() {
-    this.props.onReviewExpiresOn = Date.today().add(3).days().toString('yyyy-MM-dd');
+    this.props.onReviewExpiresOn = Date.today().add(3).days().toString(dateFormat);
   },
 
   handlePutOnReview: function(event) {
@@ -203,7 +205,7 @@ var ReadOnlyFormGroup = React.createClass({
     return (
       <div className="form-group">
         <label className="control-label col-xs-12 col-sm-4">{label}</label>
-        <span className="control-label col-xs-12 col-sm-4" style={{"text-align": "left", "text-transform": "capitalize"}}>{value}</span>
+        <span className="control-label col-xs-12 col-sm-4" style={{"text-align": "left"}}>{value}</span>
       </div>
     )
   }
