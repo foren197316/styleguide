@@ -121,12 +121,12 @@ var ReviewableParticipantGroupPanel = React.createClass({
         </div>
       );
 
-      additionalContent = [(
+      additionalContent = (
         <div>
           <p className="panel-text">You will have until <strong>{this.props.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
           <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
         </div>
-      )]
+      )
     } else {
       actions = (
         <button className="btn btn-success" onClick={this.handlePutOnReview}>Put on Review</button>
@@ -138,8 +138,9 @@ var ReviewableParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <ParticipantGroupPanelFooter name={this.props.data.name} additionalContent={additionalContent}>
+        <ParticipantGroupPanelFooter name={this.props.data.name}>
           {actions}
+          {additionalContent}
         </ParticipantGroupPanelFooter>
       </div>
     )
@@ -148,34 +149,38 @@ var ReviewableParticipantGroupPanel = React.createClass({
 
 var ParticipantGroupPanelFooter = React.createClass({
   render: function () {
-    var additionalContent;
+    var name = this.props.name,
+        children = React.Children.map(this.props.children, function (child, index) {
+          if (child == undefined) return;
 
-    if (this.props.additionalContent && this.props.additionalContent.length > 0) {
-      additionalContent = this.props.additionalContent.map(function (content) {
-        return (
-          <div className="row">
-            <div className="col-xs-12 text-right">
-              <hr />
-              {content}
-            </div>
-          </div>
-        )
-      });
-    }
+          if (index === 0) {
+            return (
+              <div className="row">
+                <div className="col-xs-3 col-sm-3">
+                  <div className="panel-title pull-left">{name}</div>
+                </div>
+                <div className="col-xs-9 col-sm-9">
+                  <div className="pull-right">
+                    {child}
+                  </div>
+                </div>
+              </div>
+            );
+          } else {
+            return (
+              <div className="row">
+                <div className="col-xs-12 text-right">
+                  <hr />
+                  {child}
+                </div>
+              </div>
+            );
+          }
+        });
 
     return (
       <div className="panel-footer clearfix">
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.props.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="pull-right">
-              {this.props.children}
-            </div>
-          </div>
-        </div>
-        {additionalContent}
+        {children}
       </div>
     )
   }
