@@ -147,25 +147,35 @@ var ReviewableParticipantGroupPanel = React.createClass({
   }
 });
 
+var ParticipantGroupPanelFooterName = React.createClass({
+  propTypes: { name: React.PropTypes.string.isRequired },
+
+  render: function () {
+    return (
+      <div className="row">
+        <div className="col-xs-3 col-sm-3">
+          <div className="panel-title pull-left">{this.props.name}</div>
+        </div>
+        <div className="col-xs-9 col-sm-9">
+          <div className="pull-right">
+            {this.props.children}
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
 var ParticipantGroupPanelFooter = React.createClass({
+  propTypes: { name: React.PropTypes.string.isRequired },
+
   render: function () {
     var name = this.props.name,
         children = React.Children.map(this.props.children, function (child, index) {
           if (child == undefined) return;
 
           if (index === 0) {
-            return (
-              <div className="row">
-                <div className="col-xs-3 col-sm-3">
-                  <div className="panel-title pull-left">{name}</div>
-                </div>
-                <div className="col-xs-9 col-sm-9">
-                  <div className="pull-right">
-                    {child}
-                  </div>
-                </div>
-              </div>
-            );
+            return <ParticipantGroupPanelFooterName name={name}>{child}</ParticipantGroupPanelFooterName>
           } else {
             return (
               <div className="row">
@@ -176,7 +186,7 @@ var ParticipantGroupPanelFooter = React.createClass({
               </div>
             );
           }
-        });
+        }) || <ParticipantGroupPanelFooterName name={this.props.name} />;
 
     return (
       <div className="panel-footer clearfix">
