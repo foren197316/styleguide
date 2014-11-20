@@ -186,7 +186,7 @@ var ParticipantGroupPanelFooter = React.createClass({
               </div>
             );
           }
-        }) || <ParticipantGroupPanelFooterName name={this.props.name} />;
+        }) || <ParticipantGroupPanelFooterName name={name} />;
 
     return (
       <div className="panel-footer clearfix">

@@ -146,55 +146,30 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
         draftJobOfferValidState = this.props.draftJobOfferValidState,
         buttonGroup = (function (participant) {
           if (isOfferingState.value) {
-            return (
-              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValidState={draftJobOfferValidState} isOfferingState={isOfferingState} />
-            )
+            return <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValidState={draftJobOfferValidState} isOfferingState={isOfferingState} />;
           } else if (isDecliningState.value) {
-            return (
-              <OnReviewParticipantGroupPanelFooterButtonsDeclineCancel data={participant} isDecliningState={isDecliningState} />
-            )
+            return <OnReviewParticipantGroupPanelFooterButtonsDeclineCancel data={participant} isDecliningState={isDecliningState} />;
           } else {
-            return (
-              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} isOfferingState={isOfferingState} isDecliningState={isDecliningState} />
-            )
+            return <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} isOfferingState={isOfferingState} isDecliningState={isDecliningState} />;
           }
         })(),
-        legalize = (function (participant) {
+        legalese = (function (participant) {
           if (isOfferingState.value) {
             return (
-              <div className="row">
-                <hr/>
-                <small className="col-xs-12 text-right">
-                  By clicking offer I agree that the information entered is true and accurate to the best of my knowledge and that I will contact InterExchange if any information changes.
-                </small>
-              </div>
+              <small>
+                By clicking offer I agree that the information entered is true and accurate to the best of my knowledge and that I will contact InterExchange if any information changes.
+              </small>
             )
           } else if (isDecliningState.value) {
-            return (
-              <div className="row">
-                <hr/>
-                <span className="col-xs-12 text-right">
-                  Are you sure you want to decline this participant?
-                </span>
-              </div>
-            )
+            return <span>Are you sure you want to decline this participant?</span>;
           }
         })();
 
     return (
-      <div className="panel-footer clearfix">
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.props.data.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="pull-right">
-              {buttonGroup}
-            </div>
-          </div>
-        </div>
-        {legalize}
-      </div>
+      <ParticipantGroupPanelFooter name={this.props.data.name}>
+        {buttonGroup}
+        {legalese}
+      </ParticipantGroupPanelFooter>
     )
   }
 });
