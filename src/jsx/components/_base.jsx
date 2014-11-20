@@ -104,7 +104,8 @@ var ReviewableParticipantGroupPanel = React.createClass({
   },
 
   render: function() {
-    var actionRow,
+    var actions,
+        additionalContent,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
         participantNodes = this.props.data.participants.map(function (participant) {
         return (
@@ -113,31 +114,23 @@ var ReviewableParticipantGroupPanel = React.createClass({
       });
 
     if (this.state.puttingOnReview) {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
         </div>
-        <div className="col-xs-9 col-sm-9">
-          <div className="btn-group pull-right clearfix">
-            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-          </div>
-        </div>
-        <div className="col-xs-12 text-right">
-          <hr />
+      );
+
+      additionalContent = [(
+        <div>
           <p className="panel-text">You will have until <strong>{this.props.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
           <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
         </div>
-      </div>
+      )]
     } else {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
-        </div>
-        <div className="col-xs-9 col-sm-9">
-          <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>
-        </div>
-      </div>
+      actions = (
+        <button className="btn btn-success" onClick={this.handlePutOnReview}>Put on Review</button>
+      )
     }
 
     return (
@@ -145,9 +138,58 @@ var ReviewableParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <div className="panel-footer clearfix">
-          {actionRow}
+        <ParticipantGroupPanelFooter name={this.props.data.name} additionalContent={additionalContent}>
+          {actions}
+        </ParticipantGroupPanelFooter>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupPanelFooter = React.createClass({
+  render: function () {
+    var additionalContent;
+
+    if (this.props.additionalContent && this.props.additionalContent.length > 0) {
+      additionalContent = this.props.additionalContent.map(function (content) {
+        return (
+          <div className="row">
+            <div className="col-xs-12 text-right">
+              <hr />
+              {content}
+            </div>
+          </div>
+        )
+      });
+    }
+
+    return (
+      <div className="panel-footer clearfix">
+        <div className="row">
+          <div className="col-xs-3 col-sm-3">
+            <div className="panel-title pull-left">{this.props.name}</div>
+          </div>
+          <div className="col-xs-9 col-sm-9">
+            <div className="pull-right">
+              {this.props.children}
+            </div>
+          </div>
         </div>
+        {additionalContent}
+      </div>
+    )
+  }
+});
+
+var ReadOnlyFormGroup = React.createClass({
+  render: function () {
+    var label = this.props.label,
+        value = this.props.value;
+
+    return (
+      <div className="form-group">
+        <label className="control-label col-xs-12 col-sm-4">{label}</label>
+        <span className="control-label col-xs-12 col-sm-8" style={{"text-align": "left"}}>{value}</span>
       </div>
     )
   }
@@ -196,18 +238,3 @@ var GroupPanelsMixin = {
     };
   }
 };
-
-var ReadOnlyFormGroup = React.createClass({
-  render: function () {
-    var label = this.props.label,
-        value = this.props.value
-
-    return (
-      <div className="form-group">
-        <label className="control-label col-xs-12 col-sm-4">{label}</label>
-        <span className="control-label col-xs-12 col-sm-8" style={{"text-align": "left"}}>{value}</span>
-      </div>
-    )
-  }
-});
-
