@@ -231,14 +231,14 @@ var ValidatingFormGroup = React.createClass({
     var state = {};
 
     React.Children.forEach(this.props.children, function (child, index) {
-      state[this.stateName(index)] = false;
+      state[this.stateName(index)] = ! child.type.validates;
     }.bind(this));
 
     return state;
   },
 
   componentDidUpdate: function () {
-    var valid = false;
+    var valid = true;
 
     React.Children.forEach(this.props.children, function (child, index) {
       valid = valid && this.state[this.stateName(index)];
@@ -309,5 +309,21 @@ var GroupPanelsMixin = {
     } else {
       return <Spinner />
     };
+  }
+};
+
+var ValidatingInputMixin = {
+  statics: { validates: true},
+
+  propTypes: { validationState: React.PropTypes.object.isRequired },
+
+  getInitialState: function() {
+    return {value: null};
+  },
+
+  handleChange: function (event) {
+    var newState = this.validate(event.target.value);
+    this.setState({value: event.target.value});
+    this.props.validationState.requestChange(newState);
   }
 };
