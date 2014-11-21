@@ -81,46 +81,58 @@ var OnReviewParticipantGroupPanelHeading = React.createClass({
   }
 });
 
+/**
+ * TODO:
+ * Make PanelGroups wrap the Participant child nodes so we can reference them with this.props.children
+ */
 var OnReviewParticipantGroupPanelListGroup = React.createClass({
-  getInitialState: function () {
-    var participantCount = this.props.data.participants.length,
-        participantValidationStatuses = [];
+  mixins: [React.addons.LinkedStateMixin],
 
-    for (var i=0; i<participantCount; i++) {
-      participantValidationStatuses.push(false);
+  propTypes: {
+    draftJobOfferValidState: React.PropTypes.object.isRequired,
+    isOfferingState: React.PropTypes.object.isRequired,
+    isDecliningState: React.PropTypes.object.isRequired,
+    data: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function () {
+    var state = {};
+
+    for (var i=0; i<this.props.data.participants.length; i++) {
+      state[this.stateName(i)] = false;
     }
 
-    return { "participantValidationStatuses": participantValidationStatuses };
+    return state;
+  },
+
+  stateName: function (index) {
+    return 'participantValid'+index.toString();
   },
 
   isFormValid: function () {
-    return this.state.participantValidationStatuses.reduce(function (prev, curr) {
-      return prev && curr;
-    });
+    for (var i=0; i<this.props.data.participants.length; i++) {
+      if (!this.state[this.stateName(i)]) {
+        return false;
+      }
+    }
+    return true;
   },
 
-  toggleNodeStatus: function (i) {
-    var participantValidationStatuses = this.state.participantValidationStatuses;
+  componentDidUpdate: function () {
+    var valid = this.isFormValid();
 
-    participantValidationStatuses[i] = !participantValidationStatuses[i];
-    this.setState({"participantValidationStatuses": participantValidationStatuses});
-
-    var isValid = this.isFormValid();
-    if (this.props.draftJobOfferValidState.value !== isValid) {
-      this.props.draftJobOfferValidState.requestChange(isValid);
+    if (this.props.draftJobOfferValidState.value !== valid) {
+      this.props.draftJobOfferValidState.requestChange(valid);
     }
   },
 
   render: function() {
-    var isOffering = this.props.isOfferingState.value,
-        isDeclining = this.props.isDecliningState.value,
-        toggleNodeStatus = this.toggleNodeStatus,
-        participantNodes = this.props.data.participants.map(function (participant, i) {
-          if (isOffering) {
+    var participantNodes = this.props.data.participants.map(function (participant, i) {
+          if (this.props.isOfferingState.value) {
             return (
-              <ParticipantGroupParticipantOffering toggleNodeStatus={toggleNodeStatus.bind(this, i)} key={participant.id} data={participant} />
+              <ParticipantGroupParticipantOffering validationState={this.linkState(this.stateName(i))} key={participant.id} data={participant} />
             )
-          } else if (isDeclining) {
+          } else if (this.props.isDecliningState.value) {
             return (
               <ParticipantGroupParticipantDeclining key={participant.id} data={participant} />
             )
@@ -129,7 +141,7 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
               <ParticipantGroupParticipant key={participant.id} data={participant} />
             )
           }
-        });
+        }.bind(this));
 
     return (
       <div className="list-group">
