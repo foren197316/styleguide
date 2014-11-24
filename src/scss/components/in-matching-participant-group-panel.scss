@@ -21,8 +21,20 @@ category: Components - Participant Group
 ```js_example
 React.renderComponent(
   InMatchingParticipantGroupPanels({
-    source:"/json/in-matching-participant-groups.json",
-    employerId: "1"
+    source: "/json/in-matching-participant-groups.json",
+    employerId: "1",
+    enrollments: [
+      {
+        program_id: 1,
+        on_review_maximum: 3,
+        on_review_count: 2
+      },
+      {
+        program_id: 2,
+        on_review_maximum: 3,
+        on_review_count: 3
+      }
+    ]
   }),
   document.getElementById("InMatchingParticipantGroups")
 );
