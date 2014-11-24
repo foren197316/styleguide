@@ -7,27 +7,32 @@ var InMatchingParticipantGroupPanels = React.createClass({
   },
 
   componentDidMount: function() {
-    var enrollments = this.props.enrollments;
-
     $.get(this.props.source, function(data) {
       if (this.isMounted()) {
         this.setState({
           groups: data.in_matching_participant_groups,
-          enrollments: enrollments
+        });
+      }
+    }.bind(this));
+
+    $.get(this.props.enrollmentsSource, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          enrollments: data.enrollments,
         });
       }
     }.bind(this));
   },
 
   render: function() {
-    if (this.isMounted()) {
+    if (this.isMounted() && this.state.groups && this.state.enrollments) {
       var employerId = this.props.employerId,
           participantGroupPanelType = this.participantGroupPanelType,
           enrollments = this.state.enrollments,
           groupPanels = this.state.groups.map(function (group) {
-            var program = group.program,
+            var program_id = group.participants[0].program_id,
                 enrollment = enrollments.filter(function (enrollment) {
-                  return enrollment.program_id === program.id
+                  return enrollment.program_id === program_id
                 })[0];
 
             return (
