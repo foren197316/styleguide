@@ -96,6 +96,16 @@ gulp.task('styles', ['fonts'], function() {
         .pipe(gulp.dest('build/css'));
 });
 
+gulp.task('styles-app', function() {
+  return gulp.src('src/scss/app/*.scss')
+        .pipe(sass({keepSpecialComments: 0}))
+        .pipe(concat('interexchange-app.css'))
+        .pipe(gulp.dest('build/css'))
+        .pipe(minifyCSS())
+        .pipe(rename('interexchange-app.min.css'))
+        .pipe(gulp.dest('build/css'));
+});
+
 gulp.task('javascript-components', function() {
   return gulp.src('src/jsx/components/*.jsx')
     .pipe(concat('interexchange-components.jsx'))
@@ -129,7 +139,7 @@ gulp.task('styleguide', function () {
     .pipe(hologram());
 });
 
-gulp.task('build', ['vendors', 'fonts', 'images', 'json', 'styles', 'javascript-components', 'javascript-app', 'styleguide']);
+gulp.task('build', ['vendors', 'fonts', 'images', 'json', 'styles', 'styles-app', 'javascript-components', 'javascript-app', 'styleguide']);
 
 gulp.task('serve', ['build'], function () {
   browserSync({

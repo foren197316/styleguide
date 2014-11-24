@@ -1,0 +1,201 @@
+@charset "UTF-8";
+
+@import "../interexchange-variables";
+@import "../bootstrap-variables";
+
+.panel-documents {
+  .title {
+    display: block;
+    float: left;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: 18px;
+    vertical-align: middle;
+  }
+
+  .result, .actions {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+
+    .btn {
+      margin-left: 5px;
+    }
+  }
+
+  .attachments {
+    clear: both;
+  }
+
+  .result {
+    display: block;
+    height: 30px;
+
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: bold;
+
+    i {
+      display: inline-block;
+      height: 16px;
+      width: 16px;
+      background: {
+        repeat: no-repeat;
+        image: image-url('sprites.png');
+      }
+    }
+
+    &.success {
+      color: $state-success-text;
+      background-color: $state-success-bg;
+      border-radius: 4px;
+      padding: 0 10px;
+
+      i {
+        background-position: 0 -16px;
+      }
+    }
+
+    &.failure {
+      color: $state-danger-text;
+
+      i {
+        background-position: 0 -32px;
+      }
+    }
+
+    &.pending {
+      color: $state-warning-text;
+
+      i {
+        @extend .icon-large;
+        @extend .icon-waiting;
+        position: relative;
+        top: 3px;
+      }
+    }
+  }
+}
+
+.content-box-documents {
+  @extend .content-box;
+
+  .content-box-row {
+    &.content-box-footer {
+      height: 20px;
+    }
+
+    .title {
+      max-width: 60%;
+    }
+
+    .remove {
+      display: block;
+      float: left;
+      height: 18px;
+      margin-top: 1px;
+      margin-left: 8px;
+
+      color: $gray-light;
+      font-size: 14px;
+      line-height: 20px;
+
+      &:hover {
+        color: $gray;
+      }
+    }
+
+    .rejection {
+      @extend .well;
+      @extend .alert;
+      @extend .alert-error;
+      @extend .alert-block;
+      @extend .clearfix;
+
+      position: relative;
+
+      margin: 10px 0 0;
+
+      i {
+        display: block;
+        float: left;
+        height: 32px;
+        width: 32px;
+        background: image-url('sprites.png') -16px 0px no-repeat;
+      }
+
+      .message {
+        max-width: 340px;
+        margin-left: 35px;
+
+        span {
+          display: block;
+          line-height: 16px;
+
+          &:first-child {
+            font-weight: bold;
+          }
+        }
+      }
+
+      i, .btn {
+        position: absolute;
+        top: 50%;
+      }
+
+      i {
+        left: 10px;
+        margin-top: -16px;
+      }
+
+      .btn {
+        right: 10px;
+        margin-top: -15px;
+      }
+    }
+  }
+
+  .result {
+    &.offset,
+    &.large-offset {
+      top: 7px !important;
+      height: 35px !important;
+    }
+
+    &.offset {
+      right: 70px !important;
+    }
+
+    &.large-offset {
+      right: 120px !important;
+    }
+
+    span {
+      display: block;
+      width: 100%;
+      float: left;
+
+      text-align: right;
+      line-height: 17px;
+
+      &:last-child {
+        clear: left;
+        font: {
+          size: 12px;
+          weight: normal;
+        }
+      }
+    }
+  }
+}
+
+.documents-form {
+  .fileremove {
+    color: $state-danger-text;
+    padding-left: 10px;
+    padding-right: 40px;
+  }
+}
