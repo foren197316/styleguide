@@ -18,7 +18,8 @@
           "photo_url": "/images/participants/flint.jpg",
           "date_of_birth": "1988-01-02",
           "arrival_date": "2014-12-01",
-          "departure_date": "2015-03-01"
+          "departure_date": "2015-03-01",
+          "program_id": 1
         },
         {
           "id": 11,
@@ -28,7 +29,8 @@
           "photo_url": "/images/participants/parkinson.jpg",
           "date_of_birth": "1987-01-02",
           "arrival_date": "2014-12-01",
-          "departure_date": "2015-03-01"
+          "departure_date": "2015-03-01",
+          "program_id": 1
         }
       ]
     },
@@ -50,7 +52,8 @@
           "photo_url": "/images/participants/malfoy.jpg",
           "date_of_birth": "1989-12-15",
           "arrival_date": "2014-11-15",
-          "departure_date": "2015-02-03"
+          "departure_date": "2015-02-03",
+          "program_id": 1
         }
       ]
     },
@@ -72,7 +75,8 @@
           "photo_url": "/images/participants/crabbe.jpg",
           "date_of_birth": "1989-05-15",
           "arrival_date": "2014-12-15",
-          "departure_date": "2015-04-03"
+          "departure_date": "2015-04-03",
+          "program_id": 2
         },
         {
           "id": 13,
@@ -82,7 +86,8 @@
           "photo_url": "/images/participants/goyle.jpg",
           "date_of_birth": "1989-05-15",
           "arrival_date": "2014-12-15",
-          "departure_date": "2015-04-03"
+          "departure_date": "2015-04-03",
+          "program_id": 2
         }
       ]
     }
