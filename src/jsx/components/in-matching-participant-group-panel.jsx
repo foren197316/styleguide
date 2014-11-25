@@ -1,4 +1,6 @@
 var InMatchingParticipantGroupPanels = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
+
   getInitialState: function () {
     return {
       groups: null,
@@ -29,6 +31,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
       var employerId = this.props.employerId,
           participantGroupPanelType = this.participantGroupPanelType,
           enrollments = this.state.enrollments,
+          enrollmentsState = this.linkState('enrollments'),
           groupPanels = this.state.groups.map(function (group) {
             var program_id = group.participants[0].program_id,
                 enrollment = enrollments.filter(function (enrollment) {
@@ -36,7 +39,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
                 })[0];
 
             return (
-              <InMatchingParticipantGroupPanel key={group.id} data={group} employerId={employerId} enrollment={enrollment} />
+              <InMatchingParticipantGroupPanel key={group.id} data={group} employerId={employerId} enrollment={enrollment} enrollmentsState={enrollmentsState} />
             );
           });
 
@@ -53,11 +56,16 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
 var InMatchingParticipantGroupPanel = React.createClass({
   getInitialState: function() {
-    return { sending: false, puttingOnReview: false };
+    return {
+      sending: false,
+      puttingOnReview: false,
+      onReviewExpiresOn: Date.today().add(3).days().toString(dateFormat)
+    };
   },
 
-  componentWillMount: function() {
-    this.props.onReviewExpiresOn = Date.today().add(3).days().toString(dateFormat);
+  canPutOnReview: function () {
+    return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum
+        && this.props.data.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
   },
 
   handlePutOnReview: function(event) {
@@ -76,7 +84,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
           on_review_participant_group: {
             in_matching_participant_group_id: this.props.data.id,
             employer_id: this.props.employerId,
-            expires_on: this.props.onReviewExpiresOn
+            expires_on: this.state.onReviewExpiresOn
           }
         };
 
@@ -85,9 +93,20 @@ var InMatchingParticipantGroupPanel = React.createClass({
       type: "POST",
       data: data,
       success: function(data) {
+        var currentEnrollments = this.props.enrollmentsState.value.map(function (enrollment, index) {
+          if (enrollment.id === this.props.enrollment.id) {
+            this.props.enrollment.on_review_count += data.on_review_participant_group.participants.length;
+            return this.props.enrollment;
+          }
+
+          return enrollment;
+        }.bind(this));
+
+        this.props.enrollmentsState.requestChange(currentEnrollments);
+
         React.unmountComponentAtNode(node);
         $(node).remove();
-      },
+      }.bind(this),
       error: function(data) {
         window.location = window.location;
       }
@@ -97,6 +116,9 @@ var InMatchingParticipantGroupPanel = React.createClass({
   render: function() {
     var actionRow,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
+        participantNames = this.props.data.participants.map(function (participant) {
+          return participant.name;
+        }).join(", "),
         participantNodes = this.props.data.participants.map(function (participant) {
           return (
             <ParticipantGroupParticipant key={participant.id} data={participant} />
@@ -120,7 +142,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
           <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
         </div>
       </div>
-    } else if (this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum) {
+    } else if (this.canPutOnReview()) {
       actionRow = <div className="row">
         <div className="col-xs-3 col-sm-3">
           <div className="panel-title pull-left">{this.props.data.name}</div>
@@ -141,7 +163,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
     }
 
     return (
-      <div className="panel panel-default participant-group-panel">
+      <div className="panel panel-default participant-group-panel" data-participant-names={participantNames}>
         <div className="list-group">
           {participantNodes}
         </div>
