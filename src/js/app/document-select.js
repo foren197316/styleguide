@@ -4,7 +4,7 @@ InterExchange.DocumentSelect = function(element) {
       $target = $(element.data('target'));
 
   $select.on('change', function(event) {
-    var document = currentDocument(event),
+    var document = currentDocument(this.value),
         instructions = "";
 
     if (document) {
@@ -24,9 +24,7 @@ InterExchange.DocumentSelect = function(element) {
       .toggleClass('isnt-other-document', !isOtherDocument);
   });
 
-  function currentDocument(event) {
-    var documentName = event.val;
-
+  function currentDocument(documentName) {
     if (documentName === "Other") {
       return null;
     }

@@ -195,9 +195,62 @@
 }
 
 .documents-form {
+  &.is-other-document {
+    .other-document {
+      display: block;
+    }
+  }
+
+  &.is-needs-translation {
+    .needs-translation {
+      display: block;
+    }
+  }
+
+  &.isnt-in-english {
+    .attachment-translation {
+      display: block;
+      margin-top: 10px;
+    }
+  }
+
+  &.is-instructions {
+    .document-instructions {
+      display: block;
+    }
+  }
+
+  .other-document, .needs-translation, .attachment-translation, .document-instructions, .has-passport, .has-no-passport {
+    display: none;
+  }
+
+  .select2-container {
+    margin-left: 0;
+  }
+
+  .fileurl, .fileremove {
+    display: block;
+    float: left;
+  }
+
   .fileremove {
     color: $state-danger-text;
     padding-left: 10px;
     padding-right: 40px;
+    margin-left: 15px;
+  }
+}
+
+.passport-form {
+  &.is-has-passport {
+    .has-passport {
+      display: block;
+    }
+  }
+
+  &.isnt-has-passport {
+    .has-no-passport {
+      display: block;
+    }
   }
 }
