@@ -54,16 +54,16 @@ var ParticipantGroupParticipant = React.createClass({
                 <label>{this.props.data.country_name}</label>
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <label>{this.props.data.gender.substring(0, 1).toUpperCase()}</label>&nbsp;
+                <strong>{this.props.data.gender}</strong>
+                <br/>
                 <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
               </div>
-              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <i className="fa fa-plane fa-flip-vertical"></i>
-                <span>{this.props.data.arrival_date}</span>
-              </div>
-              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <i className="fa fa-plane"></i>
-                <span>{this.props.data.departure_date}</span>
+              <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
+                <strong>Availability</strong>
+                <br/>
+                <span>{Date.parse(this.props.data.arrival_date).add(2).days().toString(dateFormat)}</span>
+                <span> - </span>
+                <span>{Date.parse(this.props.data.departure_date).toString(dateFormat)}</span>
               </div>
             </div>
           </div>
@@ -280,6 +280,25 @@ var ParticipantGroupParticipantOffering = React.createClass({
                 <h4 className="media-heading">{this.props.data.name}</h4>
               </div>
             </div>
+            <div className="row">
+              <div className="col-xs-12 col-sm-3 col-lg-6">
+                <i className="fa fa-globe"></i>
+                <label>{this.props.data.country_name}</label>
+              </div>
+              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
+                <strong>{this.props.data.gender}</strong>
+                <br/>
+                <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
+              </div>
+              <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
+                <strong>Availability</strong>
+                <br/>
+                <span>{Date.parse(this.props.data.arrival_date).add(2).days().toString(dateFormat)}</span>
+                <span> - </span>
+                <span>{Date.parse(this.props.data.departure_date).toString(dateFormat)}</span>
+              </div>
+            </div>
+            <hr/>
             <div className="row">
               <div className="col-xs-12">
                 <ValidatingFormGroup validationState={this.props.validationState} resourceId={this.props.data.id}>

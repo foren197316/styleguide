@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var dateFormat = "dd-MMM-yyyy";
+var dateFormat = "MM/dd/yyyy";
 
 var capitaliseWord = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
