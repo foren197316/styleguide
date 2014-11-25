@@ -103,6 +103,10 @@ var ParticipantGroupParticipant = React.createClass({
 var ParticipantGroupParticipantOfferingFormTipped = React.createClass({
   mixins: [ValidatingInputMixin],
 
+  validate: function () {
+    return true;
+  },
+
   render: function () {
     var key = this.props.resourceId;
 
