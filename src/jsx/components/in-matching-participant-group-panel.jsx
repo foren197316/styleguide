@@ -33,7 +33,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
           enrollments = this.state.enrollments,
           enrollmentsState = this.linkState('enrollments'),
           groupPanels = this.state.groups.map(function (group) {
-            var program_id = group.participants[0].program_id,
+            var program_id = group.program.id,
                 enrollment = enrollments.filter(function (enrollment) {
                   return enrollment.program_id === program_id
                 })[0];
@@ -119,7 +119,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
         participantNames = this.props.data.participants.map(function (participant) {
           return participant.name;
-        }).join(", ");
+        }).join(",");
 
     if (this.state.puttingOnReview) {
       action = (

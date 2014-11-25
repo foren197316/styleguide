@@ -23,52 +23,78 @@ var draftJobOfferFormId = function (key, field) {
 };
 
 var LinkToParticipantName = React.createClass({
-  render: function () {
-    var participantName = this.props.data.href
-      ? <a href={this.props.data.href}>{this.props.data.name}</a>
-      : <span>{this.props.data.name}</span>;
+  propTypes: {
+    name: React.PropTypes.string.isRequired,
+    href: React.PropTypes.string
+  },
 
-      return (
-        <span>{participantName}</span>
-      )
+  render: function () {
+    return this.props.href
+      ? <span><a href={this.props.href}>{this.props.name}</a></span>
+      : <span>{this.props.name}</span>;
   }
 });
 
-var ParticipantGroupParticipant = React.createClass({
+var ParticipantGroupItemWrapper = React.createClass({
+  propTypes: {
+    participant: React.PropTypes.object.isRequired
+  },
+
   render: function () {
+    var participant = this.props.participant,
+        hr = React.Children.count(this.props.children) > 0 ? <hr /> : null;
+
     return (
-      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
+      <div className="list-group-item list-group-item-participant" data-participant-name={participant.name}>
         <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <img className="media-object img-circle img-thumbnail pull-left" src={participant.photo_url} alt={participant.name} />
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
                 <h4 className="media-heading">
-                  <LinkToParticipantName data={this.props.data} />
+                  <LinkToParticipantName name={participant.name} href={participant.href} />
                 </h4>
               </div>
             </div>
             <div className="row">
               <div className="col-xs-12 col-sm-3 col-lg-6">
                 <i className="fa fa-globe"></i>
-                <label>{this.props.data.country_name}</label>
+                <label>{participant.country_name}</label>
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <strong>{this.props.data.gender}</strong>
+                <strong>{participant.gender}</strong>
                 <br/>
-                <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
+                <YearCalculator from={participant.date_of_birth} to={participant.arrival_date} />
               </div>
               <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
                 <strong>Availability</strong>
                 <br/>
-                <span>{Date.parse(this.props.data.arrival_date).add(2).days().toString(dateFormat)}</span>
+                <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
                 <span> - </span>
-                <span>{Date.parse(this.props.data.departure_date).toString(dateFormat)}</span>
+                <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
               </div>
             </div>
+            {hr}
+            {React.Children.map(this.props.children, function (child) {
+              return (
+                <div className="row">
+                  <div className="col-xs-12">
+                    {child}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
+    )
+  }
+});
+
+var ParticipantGroupParticipant = React.createClass({
+  render: function () {
+    return (
+      <ParticipantGroupItemWrapper participant={this.props.data} />
     )
   }
 });
@@ -204,8 +230,8 @@ var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
       >
         <option disabled="disabled"></option>
         {this.props.positions.map(function(position) {
-          return <option value={position.id}>{position.name}</option>;
-        })}
+          return <option value={position.id} key={"offering_form_position_"+this.props.resourceId+"_"+position.id}>{position.name}</option>;
+        }.bind(this))}
       </ReactBootstrap.Input>
     )
   }
@@ -271,51 +297,18 @@ var ParticipantGroupParticipantDecliningForm = React.createClass({
 var ParticipantGroupParticipantOffering = React.createClass({
   render: function() {
     return (
-      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
-        <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt={this.props.data.name} />
-          <div className="media-body">
-            <div className="row">
-              <div className="col-xs-12">
-                <h4 className="media-heading">{this.props.data.name}</h4>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-12 col-sm-3 col-lg-6">
-                <i className="fa fa-globe"></i>
-                <label>{this.props.data.country_name}</label>
-              </div>
-              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <strong>{this.props.data.gender}</strong>
-                <br/>
-                <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
-              </div>
-              <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
-                <strong>Availability</strong>
-                <br/>
-                <span>{Date.parse(this.props.data.arrival_date).add(2).days().toString(dateFormat)}</span>
-                <span> - </span>
-                <span>{Date.parse(this.props.data.departure_date).toString(dateFormat)}</span>
-              </div>
-            </div>
-            <hr/>
-            <div className="row">
-              <div className="col-xs-12">
-                <ValidatingFormGroup validationState={this.props.validationState} resourceId={this.props.data.id}>
-                  <ReactBootstrap.Input name={draftJobOfferFormName(this.props.data.id, "participant_id")} id={draftJobOfferFormId(this.props.data.id, "participant_id")} defaultValue={this.props.data.id} type="hidden" />
-                  <ParticipantGroupParticipantOfferingFormPosition positions={this.props.data.positions} />
-                  <ParticipantGroupParticipantOfferingFormWage />
-                  <ParticipantGroupParticipantOfferingFormTipped />
-                  <ParticipantGroupParticipantOfferingFormHours />
-                  <ParticipantGroupParticipantOfferingFormOvertime>
-                    <ParticipantGroupParticipantOfferingFormOvertimeRate />
-                  </ParticipantGroupParticipantOfferingFormOvertime>
-                </ValidatingFormGroup>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ParticipantGroupItemWrapper participant={this.props.data}>
+        <ValidatingFormGroup validationState={this.props.validationState} resourceId={this.props.data.id}>
+          <ReactBootstrap.Input name={draftJobOfferFormName(this.props.data.id, "participant_id")} id={draftJobOfferFormId(this.props.data.id, "participant_id")} defaultValue={this.props.data.id} type="hidden" />
+          <ParticipantGroupParticipantOfferingFormPosition positions={this.props.data.positions} />
+          <ParticipantGroupParticipantOfferingFormWage />
+          <ParticipantGroupParticipantOfferingFormTipped />
+          <ParticipantGroupParticipantOfferingFormHours />
+          <ParticipantGroupParticipantOfferingFormOvertime>
+            <ParticipantGroupParticipantOfferingFormOvertimeRate />
+          </ParticipantGroupParticipantOfferingFormOvertime>
+        </ValidatingFormGroup>
+      </ParticipantGroupItemWrapper>
     )
   }
 });
@@ -323,23 +316,9 @@ var ParticipantGroupParticipantOffering = React.createClass({
 var ParticipantGroupParticipantDeclining = React.createClass({
   render: function () {
     return (
-      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
-        <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
-          <div className="media-body">
-            <div className="row">
-              <div className="col-xs-12">
-                <h4 className="media-heading">{this.props.data.name}</h4>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-12">
-                <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ParticipantGroupItemWrapper participant={this.props.data}>
+        <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} />
+      </ParticipantGroupItemWrapper>
     )
   }
 });

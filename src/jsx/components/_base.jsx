@@ -108,10 +108,10 @@ var ReviewableParticipantGroupPanel = React.createClass({
         additionalContent,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
         participantNodes = this.props.data.participants.map(function (participant) {
-        return (
-          <ParticipantGroupParticipant key={participant.id} data={participant} />
-        )
-      });
+          return (
+            <ParticipantGroupParticipant key={participant.id} data={participant} />
+          )
+        });
 
     if (this.state.puttingOnReview) {
       actions = (

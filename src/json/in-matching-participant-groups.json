@@ -4,11 +4,6 @@
       "id": 1,
       "participant_group_id": 2,
       "name": "Couple",
-      "program": {
-        "id": 1,
-        "name": "2014 Winter Work Travel",
-        "active": true
-      },
       "participants": [
         {
           "id": 10,
@@ -38,11 +33,6 @@
       "id": 2,
       "participant_group_id": 3,
       "name": "Individual",
-      "program": {
-        "id": 2,
-        "name": "2015 Summer Work Travel",
-        "active": true
-      },
       "participants": [
         {
           "id": 13,
@@ -61,11 +51,6 @@
       "id": 3,
       "participant_group_id": 4,
       "name": "Friends",
-      "program": {
-        "id": 1,
-        "name": "2014 Winter Work Travel",
-        "active": true
-      },
       "participants": [
         {
           "id": 12,
