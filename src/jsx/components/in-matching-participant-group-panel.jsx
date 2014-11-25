@@ -33,7 +33,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
           enrollments = this.state.enrollments,
           enrollmentsState = this.linkState('enrollments'),
           groupPanels = this.state.groups.map(function (group) {
-            var program_id = group.program.id,
+            var program_id = group.participants[0].program_id,
                 enrollment = enrollments.filter(function (enrollment) {
                   return enrollment.program_id === program_id
                 })[0];
