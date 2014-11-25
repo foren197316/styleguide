@@ -33,7 +33,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
           enrollments = this.state.enrollments,
           enrollmentsState = this.linkState('enrollments'),
           groupPanels = this.state.groups.map(function (group) {
-            var program_id = group.participants[0].program_id,
+            var program_id = group.program.id,
                 enrollment = enrollments.filter(function (enrollment) {
                   return enrollment.program_id === program_id
                 })[0];
@@ -114,62 +114,44 @@ var InMatchingParticipantGroupPanel = React.createClass({
   },
 
   render: function() {
-    var actionRow,
+    var action,
+        legalese,
+        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
         participantNames = this.props.data.participants.map(function (participant) {
           return participant.name;
-        }).join(", "),
-        participantNodes = this.props.data.participants.map(function (participant) {
-          return (
-            <ParticipantGroupParticipant key={participant.id} data={participant} />
-          )
-        });
+        }).join(",");
 
     if (this.state.puttingOnReview) {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
+      action = (
+        <div className="btn-group pull-right">
+          <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
         </div>
-        <div className="col-xs-9 col-sm-9">
-          <div className="btn-group pull-right clearfix">
-            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-          </div>
-        </div>
-        <div className="col-xs-12 text-right">
-          <hr />
+      )
+      legalese = (
+        <div>
           <p className="panel-text">You will have until <strong>{this.props.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
           <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
         </div>
-      </div>
+      )
     } else if (this.canPutOnReview()) {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
-        </div>
-        <div className="col-xs-9 col-sm-9">
-          <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>
-        </div>
-      </div>
+      action = <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>;
     } else {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
-        </div>
-        <div className="col-xs-9 col-sm-9 text-right">
-          <span className="label label-warning">On Review limit reached</span>
-        </div>
-      </div>
+      action = <span className="label label-warning">On Review limit reached</span>;
     }
 
     return (
       <div className="panel panel-default participant-group-panel" data-participant-names={participantNames}>
         <div className="list-group">
-          {participantNodes}
+          {this.props.data.participants.map(function (participant) {
+            return <ParticipantGroupParticipant key={participant.id} data={participant} />;
+          })}
         </div>
-        <div className="panel-footer clearfix">
-          {actionRow}
-        </div>
+        <ParticipantGroupPanelFooter name={footerName}>
+          {action}
+          {legalese}
+        </ParticipantGroupPanelFooter>
       </div>
     )
   }

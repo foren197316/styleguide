@@ -106,12 +106,13 @@ var ReviewableParticipantGroupPanel = React.createClass({
   render: function() {
     var actions,
         additionalContent,
+        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
         participantNodes = this.props.data.participants.map(function (participant) {
-        return (
-          <ParticipantGroupParticipant key={participant.id} data={participant} />
-        )
-      });
+          return (
+            <ParticipantGroupParticipant key={participant.id} data={participant} />
+          )
+        });
 
     if (this.state.puttingOnReview) {
       actions = (
@@ -138,7 +139,7 @@ var ReviewableParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <ParticipantGroupPanelFooter name={this.props.data.name}>
+        <ParticipantGroupPanelFooter name={footerName}>
           {actions}
           {additionalContent}
         </ParticipantGroupPanelFooter>
@@ -153,10 +154,12 @@ var ParticipantGroupPanelFooterName = React.createClass({
   render: function () {
     return (
       <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.name}</div>
+        <div className="col-xs-6 col-sm-6">
+          <div className="panel-title pull-left" style={{ "white-space": "nowrap"}}>
+            {this.props.name}
+          </div>
         </div>
-        <div className="col-xs-9 col-sm-9">
+        <div className="col-xs-6 col-sm-6">
           <div className="pull-right">
             {this.props.children}
           </div>
@@ -167,7 +170,9 @@ var ParticipantGroupPanelFooterName = React.createClass({
 });
 
 var ParticipantGroupPanelFooter = React.createClass({
-  propTypes: { name: React.PropTypes.string.isRequired },
+  propTypes: {
+    name: React.PropTypes.string.isRequired
+  },
 
   render: function () {
     var name = this.props.name,

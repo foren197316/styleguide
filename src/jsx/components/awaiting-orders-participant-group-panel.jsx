@@ -58,6 +58,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actions,
+        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
         participantNodes = this.props.data.participants.map(function (participant) {
           return (
             <ParticipantGroupParticipant key={participant.id} data={participant} />
@@ -85,7 +86,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <ParticipantGroupPanelFooter name={this.props.data.name}>
+        <ParticipantGroupPanelFooter name={footerName}>
           {actions}
         </ParticipantGroupPanelFooter>
       </div>

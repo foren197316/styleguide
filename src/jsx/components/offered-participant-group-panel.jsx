@@ -16,9 +16,9 @@ var OfferedParticipantGroupPanels = React.createClass({
   render: function() {
     if (this.isMounted()) {
       var staffIdState = this.props.staffIdState,
-          groupPanels = this.state.groups.map(function(group) {
+          groupPanels = this.state.groups.map(function(group, index) {
             return (
-              <OfferedParticipantGroupPanel data={group} />
+              <OfferedParticipantGroupPanel data={group} key={"offered_participant_group_"+index} />
             )
           });
 
@@ -97,6 +97,7 @@ var OfferedParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actions,
+        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
         participants = this.state.data.participants,
         jobOfferParticipantAgreements = this.state.data.job_offer_participant_agreements,
         staffName = this.state.data.staff ? this.state.data.staff.name : null,
@@ -169,7 +170,7 @@ var OfferedParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <ParticipantGroupPanelFooter name={this.state.data.name}>
+        <ParticipantGroupPanelFooter name={footerName}>
           {actions}
         </ParticipantGroupPanelFooter>
       </div>
@@ -202,49 +203,18 @@ var OfferedParticipantGroupParticipant = React.createClass({
     }
 
     return (
-      <div className="list-group-item list-group-item-participant" data-participant-name={this.props.participant.name}>
-        <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.participant.photo_url} alt={this.props.participant.name} />
-          <div className="media-body">
-            <div className="row">
-              <div className="col-xs-12">
-                <h4 className="media-heading">
-                  <LinkToParticipantName data={this.props.participant} />
-                </h4>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-xs-12 col-sm-3 col-lg-6">
-                <i className="fa fa-globe"></i>
-                <label>{this.props.participant.country_name}</label>
-              </div>
-              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <strong>{this.props.participant.gender}</strong>
-                <br/>
-                <YearCalculator from={this.props.participant.date_of_birth} to={this.props.participant.arrival_date} />
-              </div>
-              <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
-                <strong>Availability</strong>
-                <br/>
-                <span>{Date.parse(this.props.participant.arrival_date).add(2).days().toString(dateFormat)}</span>
-                <span> - </span>
-                <span>{Date.parse(this.props.participant.departure_date).toString(dateFormat)}</span>
-              </div>
-            </div>
-            <hr/>
-            <div className="form form-horizontal">
-              <ReadOnlyFormGroup label="Position" value={this.props.offer.position} />
-              <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseInt(this.props.offer.wage).toFixed(2)} />
-              <ReadOnlyFormGroup label="Tipped?" value={this.props.offer.tipped ? 'Yes' : 'No'} />
-              <ReadOnlyFormGroup label="Hours per week" value={this.props.offer.hours} />
-              <ReadOnlyFormGroup label="Overtime?" value={capitaliseWord(this.props.offer.overtime)} />
-              {overtimeRate}
-              {jobOfferParticipantAgreement}
-              <ReadOnlyFormGroup label="" value={jobOfferLink} />
-            </div>
-          </div>
+      <ParticipantGroupItemWrapper participant={this.props.participant}>
+        <div className="form form-horizontal">
+          <ReadOnlyFormGroup label="Position" value={this.props.offer.position} />
+          <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseInt(this.props.offer.wage).toFixed(2)} />
+          <ReadOnlyFormGroup label="Tipped?" value={this.props.offer.tipped ? 'Yes' : 'No'} />
+          <ReadOnlyFormGroup label="Hours per week" value={this.props.offer.hours} />
+          <ReadOnlyFormGroup label="Overtime?" value={capitaliseWord(this.props.offer.overtime)} />
+          {overtimeRate}
+          {jobOfferParticipantAgreement}
+          <ReadOnlyFormGroup label="" value={jobOfferLink} />
         </div>
-      </div>
+      </ParticipantGroupItemWrapper>
     )
   }
 });
