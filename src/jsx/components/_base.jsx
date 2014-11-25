@@ -104,7 +104,8 @@ var ReviewableParticipantGroupPanel = React.createClass({
   },
 
   render: function() {
-    var actionRow,
+    var actions,
+        additionalContent,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
         participantNodes = this.props.data.participants.map(function (participant) {
         return (
@@ -113,31 +114,23 @@ var ReviewableParticipantGroupPanel = React.createClass({
       });
 
     if (this.state.puttingOnReview) {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
         </div>
-        <div className="col-xs-9 col-sm-9">
-          <div className="btn-group pull-right clearfix">
-            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-          </div>
-        </div>
-        <div className="col-xs-12 text-right">
-          <hr />
+      );
+
+      additionalContent = (
+        <div>
           <p className="panel-text">You will have until <strong>{this.props.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
           <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
         </div>
-      </div>
+      )
     } else {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
-        </div>
-        <div className="col-xs-9 col-sm-9">
-          <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>
-        </div>
-      </div>
+      actions = (
+        <button className="btn btn-success" onClick={this.handlePutOnReview}>Put on Review</button>
+      )
     }
 
     return (
@@ -145,9 +138,131 @@ var ReviewableParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <div className="panel-footer clearfix">
-          {actionRow}
+        <ParticipantGroupPanelFooter name={this.props.data.name}>
+          {actions}
+          {additionalContent}
+        </ParticipantGroupPanelFooter>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupPanelFooterName = React.createClass({
+  propTypes: { name: React.PropTypes.string.isRequired },
+
+  render: function () {
+    return (
+      <div className="row">
+        <div className="col-xs-3 col-sm-3">
+          <div className="panel-title pull-left">{this.props.name}</div>
         </div>
+        <div className="col-xs-9 col-sm-9">
+          <div className="pull-right">
+            {this.props.children}
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupPanelFooter = React.createClass({
+  propTypes: { name: React.PropTypes.string.isRequired },
+
+  render: function () {
+    var name = this.props.name,
+        children = React.Children.map(this.props.children, function (child, index) {
+          if (child == undefined) return;
+
+          if (index === 0) {
+            return <ParticipantGroupPanelFooterName name={name}>{child}</ParticipantGroupPanelFooterName>
+          } else {
+            return (
+              <div className="row">
+                <div className="col-xs-12 text-right">
+                  <hr />
+                  {child}
+                </div>
+              </div>
+            );
+          }
+        }) || <ParticipantGroupPanelFooterName name={name} />;
+
+    return (
+      <div className="panel-footer clearfix">
+        {children}
+      </div>
+    )
+  }
+});
+
+var ReadOnlyFormGroup = React.createClass({
+  render: function () {
+    var label = this.props.label,
+        value = this.props.value;
+
+    return (
+      <div className="form-group">
+        <label className="control-label col-xs-12 col-sm-4">{label}</label>
+        <span className="control-label col-xs-12 col-sm-8" style={{"text-align": "left"}}>{value}</span>
+      </div>
+    )
+  }
+});
+
+var ValidatingFormGroup = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
+
+  /**
+   * TODO:
+   * I'd like validate that validationState is a ReactLink,
+   * but I'm not sure if React exposes the class.
+   */
+  propTypes: {
+    validationState: React.PropTypes.object.isRequired,
+    resourceId: React.PropTypes.number
+  },
+
+  stateName: function (index) {
+    return 'childValid'+index.toString();
+  },
+
+  getInitialState: function () {
+    var state = {};
+
+    React.Children.forEach(this.props.children, function (child, index) {
+      state[this.stateName(index)] = ! child.type.validates;
+    }.bind(this));
+
+    return state;
+  },
+
+  componentDidUpdate: function () {
+    var valid = true;
+
+    React.Children.forEach(this.props.children, function (child, index) {
+      valid = valid && this.state[this.stateName(index)];
+    }.bind(this));
+
+    if (valid !== this.props.validationState.value) {
+      this.props.validationState.requestChange(valid);
+    }
+  },
+
+  render: function () {
+    return (
+      <div>
+        {React.Children.map(this.props.children, function (child, index) {
+          var props = {
+            validationState: this.linkState(this.stateName(index))
+          };
+
+          if (this.props.resourceId) {
+            props.resourceId = this.props.resourceId;
+          }
+
+          return React.addons.cloneWithProps(child, props);
+        }.bind(this))}
       </div>
     )
   }
@@ -197,17 +312,18 @@ var GroupPanelsMixin = {
   }
 };
 
-var ReadOnlyFormGroup = React.createClass({
-  render: function () {
-    var label = this.props.label,
-        value = this.props.value
+var ValidatingInputMixin = {
+  statics: { validates: true},
 
-    return (
-      <div className="form-group">
-        <label className="control-label col-xs-12 col-sm-4">{label}</label>
-        <span className="control-label col-xs-12 col-sm-8" style={{"text-align": "left"}}>{value}</span>
-      </div>
-    )
+  propTypes: { validationState: React.PropTypes.object.isRequired },
+
+  getInitialState: function() {
+    return {value: null};
+  },
+
+  handleChange: function (event) {
+    var newState = this.validate(event.target.value);
+    this.setState({value: event.target.value});
+    this.props.validationState.requestChange(newState);
   }
-});
-
+};

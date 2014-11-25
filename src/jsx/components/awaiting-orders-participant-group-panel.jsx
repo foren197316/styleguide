@@ -57,7 +57,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
   },
 
   render: function() {
-    var actionRow,
+    var actions,
         participantNodes = this.props.data.participants.map(function (participant) {
           return (
             <ParticipantGroupParticipant key={participant.id} data={participant} />
@@ -65,29 +65,19 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
         });
 
     if (this.state.puttingInMatching || this.state.puttingOnReserve) {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
         </div>
-        <div className="col-xs-9 col-sm-9">
-          <div className="btn-group pull-right clearfix">
-            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-          </div>
-        </div>
-      </div>;
+      )
     } else {
-      actionRow = <div className="row">
-        <div className="col-xs-3 col-sm-3">
-          <div className="panel-title pull-left">{this.props.data.name}</div>
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-primary" onClick={this.handlePutInMatching}>Put In Matching</button>
+          <button className="btn btn-warning" onClick={this.handlePutOnReserve}>Put On Reserve</button>
         </div>
-        <div className="col-xs-9 col-sm-9">
-          <div className="btn-group pull-right clearfix">
-            <button className="btn btn-primary" onClick={this.handlePutInMatching}>Put In Matching</button>
-            <button className="btn btn-warning" onClick={this.handlePutOnReserve}>Put On Reserve</button>
-          </div>
-        </div>
-      </div>;
+      )
     }
 
     return (
@@ -95,9 +85,9 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <div className="panel-footer clearfix">
-          {actionRow}
-        </div>
+        <ParticipantGroupPanelFooter name={this.props.data.name}>
+          {actions}
+        </ParticipantGroupPanelFooter>
       </div>
     )
   }

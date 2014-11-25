@@ -96,7 +96,7 @@ var OfferedParticipantGroupPanel = React.createClass({
   },
 
   render: function() {
-    var actionRow,
+    var actions,
         participants = this.state.data.participants,
         jobOfferParticipantAgreements = this.state.data.job_offer_participant_agreements,
         staffName = this.state.data.staff ? this.state.data.staff.name : null,
@@ -119,78 +119,37 @@ var OfferedParticipantGroupPanel = React.createClass({
         });
 
     if (this.state.sendingJobOffer) {
-      actionRow = (
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.state.data.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="btn-group clearfix pull-right">
-              <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-              <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-            </div>
-          </div>
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
         </div>
       )
     } else if (this.state.rejecting) {
-      actionRow = (
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.state.data.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="btn-group clearfix pull-right">
-              <button className="btn btn-danger" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-              <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-            </div>
-          </div>
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-danger" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
         </div>
       )
     } else if (this.hasJobOffers()) {
-      actionRow = (
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.state.data.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="pull-right"><span className="label label-success">Sent</span></div>
-          </div>
-        </div>
+      actions = (
+        <span className="label label-success">Sent</span>
       )
     } else if (!this.state.data.can_send) {
-      actionRow = (
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.state.data.name}</div>
-          </div>
-        </div>
-      )
+      actions = null;
     } else if (!this.state.data.employer.vetted) {
-      actionRow = (
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.state.data.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="pull-right">
-              <span className="label label-warning pull-left">Employer Not Vetted</span>
-              <button className="btn btn-small btn-danger" onClick={this.handleReject}>Reject</button>
-            </div>
-          </div>
+      actions = (
+        <div>
+          <span className="label label-warning pull-left">Employer Not Vetted</span>
+          <button className="btn btn-small btn-danger" onClick={this.handleReject}>Reject</button>
         </div>
       )
     } else {
-      actionRow = (
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.state.data.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="btn-group pull-right">
-              <button className="btn btn-success" onClick={this.handleSendToParticipant}>Send to Participant</button>
-              <button className="btn btn-danger" onClick={this.handleReject}>Reject</button>
-            </div>
-          </div>
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-success" onClick={this.handleSendToParticipant}>Send to Participant</button>
+          <button className="btn btn-danger" onClick={this.handleReject}>Reject</button>
         </div>
       )
     }
@@ -210,9 +169,9 @@ var OfferedParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <div className="panel-footer clearfix">
-          {actionRow}
-        </div>
+        <ParticipantGroupPanelFooter name={this.state.data.name}>
+          {actions}
+        </ParticipantGroupPanelFooter>
       </div>
     )
   }

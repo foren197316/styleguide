@@ -75,20 +75,10 @@ var ParticipantGroupParticipant = React.createClass({
 
 
 var ParticipantGroupParticipantOfferingFormTipped = React.createClass({
-  getInitialState: function() {
-    return {selected: false};
-  },
-
-  handleChange: function (event) {
-    if (! this.state.selected) {
-      this.props.propagateFormValidity({"tipped": true});
-    }
-
-    this.setState({selected: true});
-  },
+  mixins: [ValidatingInputMixin],
 
   render: function () {
-    var key = this.props.participantKey;
+    var key = this.props.resourceId;
 
     return (
       <div className="form-group">
@@ -105,19 +95,16 @@ var ParticipantGroupParticipantOfferingFormTipped = React.createClass({
 });
 
 var ParticipantGroupParticipantOfferingFormHours = React.createClass({
+  statics: { validates: true},
+
   getInitialState: function() {
     return {hours: null};
   },
 
   handleChange: function (event) {
-    var oldState = this.validate(this.state.hours),
-        newState = this.validate(event.target.value);
-
+    var newState = this.validate(event.target.value);
     this.setState({hours: event.target.value});
-
-    if (oldState !== newState) {
-      this.props.propagateFormValidity({"hours": newState});
-    }
+    this.props.validationState.requestChange(newState);
   },
 
   validate: function (value) {
@@ -125,24 +112,25 @@ var ParticipantGroupParticipantOfferingFormHours = React.createClass({
   },
 
   render: function () {
-    var key = this.props.participantKey;
+    var key = this.props.resourceId;
 
     return (
-      <ReactBootstrap.Input name={draftJobOfferFormName(key, "hours")} id={draftJobOfferFormId(key, "hours")} value={this.state.hours}  label="Hours per week" hasFeedback bsStyle={validateNumber(this.state.hours)} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
+      <ReactBootstrap.Input name={draftJobOfferFormName(key, "hours")} id={draftJobOfferFormId(key, "hours")} value={this.state.value}  label="Hours per week" hasFeedback bsStyle={validateNumber(this.state.value)} labelClassName="col-sm-4" type="text" step="1" wrapperClassName="col-sm-8" onChange={this.handleChange} />
     )
   }
 });
 
 var ParticipantGroupParticipantOfferingFormOvertime = React.createClass({
+  statics: { validates: true},
+
   getInitialState: function () {
     return {overtime: null};
   },
 
   handleChange: function (event) {
-    this.setState({overtime: event.target.value});
-
-    var overtimeRateValidity = event.target.value !== "yes";
-    this.props.propagateFormValidity({"overtime": true, "overtime_rate": overtimeRateValidity});
+    var overtime = event.target.value;
+    this.setState({overtime: overtime});
+    this.props.validationState.requestChange(overtime === "no" || overtime === "maybe");
   },
 
   validate: function () {
@@ -150,9 +138,14 @@ var ParticipantGroupParticipantOfferingFormOvertime = React.createClass({
   },
 
   render: function () {
-    var key = this.props.participantKey,
+    var key = this.props.resourceId,
         overtimeRate = this.state.overtime === "yes"
-          ? <ParticipantGroupParticipantOfferingFormOvertimeRate participantKey={key} propagateFormValidity={this.props.propagateFormValidity} />
+          ? React.Children.map(this.props.children, function (child) {
+              return React.addons.cloneWithProps(child, {
+                validationState: this.props.validationState,
+                resourceId: this.props.resourceId
+              });
+            }.bind(this))
           : null;
 
     return (
@@ -174,65 +167,33 @@ var ParticipantGroupParticipantOfferingFormOvertime = React.createClass({
 });
 
 var ParticipantGroupParticipantOfferingFormOvertimeRate = React.createClass({
-  getInitialState: function() {
-    return {overtime_rate: null};
-  },
-
-  handleChange: function (event) {
-    var oldState = this.validate(this.state.overtime_rate),
-        newState = this.validate(event.target.value);
-
-    this.setState({overtime_rate: event.target.value});
-
-    if (oldState !== newState) {
-      this.props.propagateFormValidity({"overtime_rate": newState});
-    }
-  },
+  mixins: [ValidatingInputMixin],
 
   validate: function (value) {
     return  value !== null && value.length > 0 && validateMoney(value) !== 'error';
   },
 
   render: function () {
-    var participantKey = this.props.participantKey;
+    var participantKey = this.props.resourceId;
 
     return (
-      <ReactBootstrap.Input name={draftJobOfferFormName(participantKey, "overtime_rate")} id={draftJobOfferFormId(participantKey, "overtime_rate")} value={this.state.overtime_rate} hasFeedback bsStyle={validateMoney(this.state.overtime_rate)} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
+      <ReactBootstrap.Input name={draftJobOfferFormName(participantKey, "overtime_rate")} id={draftJobOfferFormId(participantKey, "overtime_rate")} value={this.state.value} hasFeedback bsStyle={validateMoney(this.state.value)} onChange={this.handleChange} label="Overtime rate per hour" addonBefore="$" type="text" labelClassName="col-sm-4" wrapperClassName="col-sm-8" />
     )
   }
 });
 
 var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
-  getInitialState: function() {
-    return {position_id: null};
-  },
-
-  handleChange: function (event) {
-    var oldState = this.validate(this.state.position_id),
-        newState = this.validate(event.target.value);
-
-    this.setState({position_id: event.target.value});
-
-    if (oldState !== newState) {
-      this.props.propagateFormValidity({"position_id": true});
-    }
-  },
+  mixins: [ValidatingInputMixin],
 
   validate: function (value) {
     return value !== null && value.length > 0;
   },
 
   render: function () {
-    var positionOptions = this.props.positions.map(function(position) {
-          return (
-            <option value={position.id}>{position.name}</option>
-          )
-        });
-
     return (
       <ReactBootstrap.Input
-        name={draftJobOfferFormName(this.props.participantKey, "position_id")}
-        id={draftJobOfferFormId(this.props.participantKey, "position_id")}
+        name={draftJobOfferFormName(this.props.resourceId, "position_id")}
+        id={draftJobOfferFormId(this.props.resourceId, "position_id")}
         defaultValue={this.state.position_id}
         label="Position"
         help="You can offer a participant any position they are interested in."
@@ -242,27 +203,16 @@ var ParticipantGroupParticipantOfferingFormPosition = React.createClass({
         wrapperClassName="col-sm-8"
       >
         <option disabled="disabled"></option>
-        {positionOptions}
+        {this.props.positions.map(function(position) {
+          return <option value={position.id}>{position.name}</option>;
+        })}
       </ReactBootstrap.Input>
     )
   }
 });
 
 var ParticipantGroupParticipantOfferingFormWage = React.createClass({
-  getInitialState: function() {
-    return {wage: null};
-  },
-
-  handleChange: function (event) {
-    var oldState = this.validate(this.state.wage),
-        newState = this.validate(event.target.value);
-
-    this.setState({wage: event.target.value});
-
-    if (oldState !== newState) {
-      this.props.propagateFormValidity({"wage": newState});
-    }
-  },
+  mixins: [ValidatingInputMixin],
 
   validate: function (value) {
     return  value !== null && value.length > 0 && validateMoney(value) !== 'error';
@@ -270,59 +220,7 @@ var ParticipantGroupParticipantOfferingFormWage = React.createClass({
 
   render: function () {
     return (
-      <ReactBootstrap.Input name={draftJobOfferFormName(this.props.participantKey, "wage")} id={draftJobOfferFormId(this.props.participantKey, "wage")} defaultValue={this.state.wage} hasFeedback bsStyle={validateMoney(this.state.wage)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
-    )
-  }
-});
-
-var ParticipantGroupParticipantOfferingForm = React.createClass({
-  getInitialState: function () {
-    return {
-      formValidity: {
-        position_id: false,
-        wage: false,
-        tipped: false,
-        hours: false,
-        overtime: false,
-        overtime_rate: true
-      }
-    };
-  },
-
-  formIsValid: function () {
-    return this.state.formValidity.position_id
-      && this.state.formValidity.wage
-      && this.state.formValidity.tipped
-      && this.state.formValidity.hours
-      && this.state.formValidity.overtime
-      && this.state.formValidity.overtime_rate;
-  },
-
-  propagateFormValidity: function (values) {
-    var valid    = this.state.formValidity,
-        oldState = this.formIsValid();
-
-    for (prop in values) {
-      valid[prop] = values[prop];
-    }
-
-    this.setState({formValidity: valid});
-
-    if (oldState !== this.formIsValid()) {
-      this.props.toggleNodeStatus();
-    }
-  },
-
-  render: function () {
-    return (
-      <div>
-        <ReactBootstrap.Input name={draftJobOfferFormName(this.props.key, "participant_id")} id={draftJobOfferFormId(this.props.key, "participant_id")} defaultValue={this.props.key} type="hidden" />
-        <ParticipantGroupParticipantOfferingFormPosition participantKey={this.props.key} propagateFormValidity={this.propagateFormValidity} positions={this.props.data.positions} />
-        <ParticipantGroupParticipantOfferingFormWage participantKey={this.props.key} propagateFormValidity={this.propagateFormValidity} />
-        <ParticipantGroupParticipantOfferingFormTipped participantKey={this.props.key} propagateFormValidity={this.propagateFormValidity} />
-        <ParticipantGroupParticipantOfferingFormHours participantKey={this.props.key} propagateFormValidity={this.propagateFormValidity} />
-        <ParticipantGroupParticipantOfferingFormOvertime participantKey={this.props.key} propagateFormValidity={this.propagateFormValidity} />
-      </div>
+      <ReactBootstrap.Input name={draftJobOfferFormName(this.props.resourceId, "wage")} id={draftJobOfferFormId(this.props.resourceId, "wage")} defaultValue={this.state.value} hasFeedback bsStyle={validateMoney(this.state.value)} onChange={this.handleChange} label="Wage per hour" labelClassName="col-sm-4" addonBefore="$" type="text" wrapperClassName="col-sm-8" />
     )
   }
 });
@@ -375,7 +273,7 @@ var ParticipantGroupParticipantOffering = React.createClass({
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={this.props.data.name}>
         <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt="{this.props.data.name}" />
+          <img className="media-object img-circle img-thumbnail pull-left" src={this.props.data.photo_url} alt={this.props.data.name} />
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
@@ -384,7 +282,16 @@ var ParticipantGroupParticipantOffering = React.createClass({
             </div>
             <div className="row">
               <div className="col-xs-12">
-                <ParticipantGroupParticipantOfferingForm key={this.props.key} toggleNodeStatus={this.props.toggleNodeStatus} data={this.props.data} />
+                <ValidatingFormGroup validationState={this.props.validationState} resourceId={this.props.data.id}>
+                  <ReactBootstrap.Input name={draftJobOfferFormName(this.props.data.id, "participant_id")} id={draftJobOfferFormId(this.props.data.id, "participant_id")} defaultValue={this.props.data.id} type="hidden" />
+                  <ParticipantGroupParticipantOfferingFormPosition positions={this.props.data.positions} />
+                  <ParticipantGroupParticipantOfferingFormWage />
+                  <ParticipantGroupParticipantOfferingFormTipped />
+                  <ParticipantGroupParticipantOfferingFormHours />
+                  <ParticipantGroupParticipantOfferingFormOvertime>
+                    <ParticipantGroupParticipantOfferingFormOvertimeRate />
+                  </ParticipantGroupParticipantOfferingFormOvertime>
+                </ValidatingFormGroup>
               </div>
             </div>
           </div>

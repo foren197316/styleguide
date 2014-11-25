@@ -81,46 +81,58 @@ var OnReviewParticipantGroupPanelHeading = React.createClass({
   }
 });
 
+/**
+ * TODO:
+ * Make PanelGroups wrap the Participant child nodes so we can reference them with this.props.children
+ */
 var OnReviewParticipantGroupPanelListGroup = React.createClass({
-  getInitialState: function () {
-    var participantCount = this.props.data.participants.length,
-        participantValidationStatuses = [];
+  mixins: [React.addons.LinkedStateMixin],
 
-    for (var i=0; i<participantCount; i++) {
-      participantValidationStatuses.push(false);
+  propTypes: {
+    draftJobOfferValidState: React.PropTypes.object.isRequired,
+    isOfferingState: React.PropTypes.object.isRequired,
+    isDecliningState: React.PropTypes.object.isRequired,
+    data: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function () {
+    var state = {};
+
+    for (var i=0; i<this.props.data.participants.length; i++) {
+      state[this.stateName(i)] = false;
     }
 
-    return { "participantValidationStatuses": participantValidationStatuses };
+    return state;
+  },
+
+  stateName: function (index) {
+    return 'participantValid'+index.toString();
   },
 
   isFormValid: function () {
-    return this.state.participantValidationStatuses.reduce(function (prev, curr) {
-      return prev && curr;
-    });
+    for (var i=0; i<this.props.data.participants.length; i++) {
+      if (!this.state[this.stateName(i)]) {
+        return false;
+      }
+    }
+    return true;
   },
 
-  toggleNodeStatus: function (i) {
-    var participantValidationStatuses = this.state.participantValidationStatuses;
+  componentDidUpdate: function () {
+    var valid = this.isFormValid();
 
-    participantValidationStatuses[i] = !participantValidationStatuses[i];
-    this.setState({"participantValidationStatuses": participantValidationStatuses});
-
-    var isValid = this.isFormValid();
-    if (this.props.draftJobOfferValidState.value !== isValid) {
-      this.props.draftJobOfferValidState.requestChange(isValid);
+    if (this.props.draftJobOfferValidState.value !== valid) {
+      this.props.draftJobOfferValidState.requestChange(valid);
     }
   },
 
   render: function() {
-    var isOffering = this.props.isOfferingState.value,
-        isDeclining = this.props.isDecliningState.value,
-        toggleNodeStatus = this.toggleNodeStatus,
-        participantNodes = this.props.data.participants.map(function (participant, i) {
-          if (isOffering) {
+    var participantNodes = this.props.data.participants.map(function (participant, i) {
+          if (this.props.isOfferingState.value) {
             return (
-              <ParticipantGroupParticipantOffering toggleNodeStatus={toggleNodeStatus.bind(this, i)} key={participant.id} data={participant} />
+              <ParticipantGroupParticipantOffering validationState={this.linkState(this.stateName(i))} key={participant.id} data={participant} />
             )
-          } else if (isDeclining) {
+          } else if (this.props.isDecliningState.value) {
             return (
               <ParticipantGroupParticipantDeclining key={participant.id} data={participant} />
             )
@@ -129,7 +141,7 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({
               <ParticipantGroupParticipant key={participant.id} data={participant} />
             )
           }
-        });
+        }.bind(this));
 
     return (
       <div className="list-group">
@@ -146,55 +158,30 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
         draftJobOfferValidState = this.props.draftJobOfferValidState,
         buttonGroup = (function (participant) {
           if (isOfferingState.value) {
-            return (
-              <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValidState={draftJobOfferValidState} isOfferingState={isOfferingState} />
-            )
+            return <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValidState={draftJobOfferValidState} isOfferingState={isOfferingState} />;
           } else if (isDecliningState.value) {
-            return (
-              <OnReviewParticipantGroupPanelFooterButtonsDeclineCancel data={participant} isDecliningState={isDecliningState} />
-            )
+            return <OnReviewParticipantGroupPanelFooterButtonsDeclineCancel data={participant} isDecliningState={isDecliningState} />;
           } else {
-            return (
-              <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} isOfferingState={isOfferingState} isDecliningState={isDecliningState} />
-            )
+            return <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} isOfferingState={isOfferingState} isDecliningState={isDecliningState} />;
           }
         })(),
-        legalize = (function (participant) {
+        legalese = (function (participant) {
           if (isOfferingState.value) {
             return (
-              <div className="row">
-                <hr/>
-                <small className="col-xs-12 text-right">
-                  By clicking offer I agree that the information entered is true and accurate to the best of my knowledge and that I will contact InterExchange if any information changes.
-                </small>
-              </div>
+              <small>
+                By clicking offer I agree that the information entered is true and accurate to the best of my knowledge and that I will contact InterExchange if any information changes.
+              </small>
             )
           } else if (isDecliningState.value) {
-            return (
-              <div className="row">
-                <hr/>
-                <span className="col-xs-12 text-right">
-                  Are you sure you want to decline this participant?
-                </span>
-              </div>
-            )
+            return <span>Are you sure you want to decline this participant?</span>;
           }
         })();
 
     return (
-      <div className="panel-footer clearfix">
-        <div className="row">
-          <div className="col-xs-3 col-sm-3">
-            <div className="panel-title pull-left">{this.props.data.name}</div>
-          </div>
-          <div className="col-xs-9 col-sm-9">
-            <div className="pull-right">
-              {buttonGroup}
-            </div>
-          </div>
-        </div>
-        {legalize}
-      </div>
+      <ParticipantGroupPanelFooter name={this.props.data.name}>
+        {buttonGroup}
+        {legalese}
+      </ParticipantGroupPanelFooter>
     )
   }
 });
