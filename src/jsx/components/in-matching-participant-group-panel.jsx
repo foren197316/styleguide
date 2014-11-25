@@ -33,7 +33,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
           enrollments = this.state.enrollments,
           enrollmentsState = this.linkState('enrollments'),
           groupPanels = this.state.groups.map(function (group) {
-            var program_id = group.participants[0].program_id,
+            var program_id = group.program.id,
                 enrollment = enrollments.filter(function (enrollment) {
                   return enrollment.program_id === program_id
                 })[0];
@@ -116,6 +116,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
   render: function() {
     var action,
         legalese,
+        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
         participantNames = this.props.data.participants.map(function (participant) {
           return participant.name;
@@ -147,7 +148,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
             return <ParticipantGroupParticipant key={participant.id} data={participant} />;
           })}
         </div>
-        <ParticipantGroupPanelFooter name={this.props.data.name}>
+        <ParticipantGroupPanelFooter name={footerName}>
           {action}
           {legalese}
         </ParticipantGroupPanelFooter>

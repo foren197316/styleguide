@@ -4,6 +4,12 @@
       "id": 1,
       "participant_group_id": 2,
       "name": "Couple",
+      "created_at":  "2014-10-30T12:23:39.760-04:00",
+      "program": {
+        "id": 1,
+        "name": "2014 Winter Work Travel",
+        "active": true
+      },
       "participants": [
         {
           "id": 10,
@@ -33,6 +39,12 @@
       "id": 2,
       "participant_group_id": 3,
       "name": "Individual",
+      "created_at":  "2014-10-30T12:23:39.760-04:00",
+      "program": {
+        "id": 2,
+        "name": "2014 Summer Work Travel",
+        "active": true
+      },
       "participants": [
         {
           "id": 12,
@@ -50,6 +62,12 @@
       "id": 3,
       "participant_group_id": 4,
       "name": "Friends",
+      "created_at":  "2014-10-30T12:23:39.760-04:00",
+      "program": {
+        "id": 2,
+        "name": "2014 Summer Work Travel",
+        "active": true
+      },
       "participants": [
         {
           "id": 13,

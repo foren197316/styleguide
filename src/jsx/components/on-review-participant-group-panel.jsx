@@ -156,6 +156,7 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
     var isOfferingState = this.props.isOfferingState,
         isDecliningState = this.props.isDecliningState,
         draftJobOfferValidState = this.props.draftJobOfferValidState,
+        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
         buttonGroup = (function (participant) {
           if (isOfferingState.value) {
             return <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} draftJobOfferValidState={draftJobOfferValidState} isOfferingState={isOfferingState} />;
@@ -178,7 +179,7 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
         })();
 
     return (
-      <ParticipantGroupPanelFooter name={this.props.data.name}>
+      <ParticipantGroupPanelFooter name={footerName}>
         {buttonGroup}
         {legalese}
       </ParticipantGroupPanelFooter>

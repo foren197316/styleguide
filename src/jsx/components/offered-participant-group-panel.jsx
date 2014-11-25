@@ -97,6 +97,7 @@ var OfferedParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actions,
+        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
         participants = this.state.data.participants,
         jobOfferParticipantAgreements = this.state.data.job_offer_participant_agreements,
         staffName = this.state.data.staff ? this.state.data.staff.name : null,
@@ -169,7 +170,7 @@ var OfferedParticipantGroupPanel = React.createClass({
         <div className="list-group">
           {participantNodes}
         </div>
-        <ParticipantGroupPanelFooter name={this.state.data.name}>
+        <ParticipantGroupPanelFooter name={footerName}>
           {actions}
         </ParticipantGroupPanelFooter>
       </div>
