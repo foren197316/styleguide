@@ -3,6 +3,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
   getInitialState: function () {
     return {
+      employer: null,
       inMatchingParticipantGroups: null,
       participantGroups: null,
       participants: null,
@@ -12,26 +13,43 @@ var InMatchingParticipantGroupPanels = React.createClass({
   },
 
   componentDidMount: function() {
+    $.get(this.props.urls.employer, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          employer: data.employer
+        });
+      }
+    }.bind(this));
+
     $.get(this.props.urls.inMatchingParticipantGroups, function(data) {
       if (this.isMounted()) {
-        this.setState({
-          inMatchingParticipantGroups: data.in_matching_participant_groups,
+        var participantGroupIds = data.in_matching_participant_groups.map(function (in_matching_participant_group) {
+          return in_matching_participant_group.participant_group_id;
         });
-      }
-    }.bind(this));
 
-    $.get(this.props.urls.participantGroups, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          participantGroups: data.participant_groups,
-        });
-      }
-    }.bind(this));
+        $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
+          var participantIds = data.participant_groups.map(function (participant_group) {
+            return participant_group.participant_ids;
+          }).reduce(function (prev, curr) {
+            curr.forEach(function (participant_id) {
+              prev.push(participant_id);
+            });
+            return prev;
+          }, []);
 
-    $.get(this.props.urls.participants, function(data) {
-      if (this.isMounted()) {
+          $.get(this.props.urls.participants, { ids: participantIds }, function(data) {
+            this.setState({
+              participants: data.participants
+            });
+          }.bind(this));
+
+          this.setState({
+            participantGroups: data.participant_groups
+          });
+        }.bind(this));
+
         this.setState({
-          participants: data.participants,
+          inMatchingParticipantGroups: data.in_matching_participant_groups
         });
       }
     }.bind(this));
@@ -39,7 +57,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
     $.get(this.props.urls.enrollments, function(data) {
       if (this.isMounted()) {
         this.setState({
-          enrollments: data.enrollments,
+          enrollments: data.enrollments
         });
       }
     }.bind(this));
@@ -47,7 +65,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
     $.get(this.props.urls.programs, function(data) {
       if (this.isMounted()) {
         this.setState({
-          programs: data.programs,
+          programs: data.programs
         });
       }
     }.bind(this));
@@ -55,6 +73,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
   isLoaded: function() {
     return this.isMounted() &&
+           this.state.employer &&
            this.state.inMatchingParticipantGroups &&
            this.state.participantGroups &&
            this.state.participants &&
@@ -64,24 +83,35 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
   render: function() {
     if (this.isLoaded()) {
-      var employerId = this.props.employerId,
+      var employerState = this.linkState('employer'),
           programsState = this.linkState('programs'),
           enrollmentsState = this.linkState('enrollments'),
           participantsState = this.linkState('participants'),
-          groupPanels = this.state.participantGroups.map(function (participantGroup) {
-                program = programsState.value.filter(function (program) {
-                  return program.id === participantGroup.program_id
-                })[0],
-                enrollment = enrollmentsState.value.filter(function (enrollment) {
-                  return enrollment.program_id === program.id
-                })[0],
-                participants = participantsState.value.filter(function (participant) {
-                  return participantGroup.participant_ids.indexOf(participant.id) >= 0;
-                });
+          participantGroupsState = this.linkState('participantGroups'),
+          groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+            program = programsState.value.filter(function (program) {
+              return program.id === participantsState.value[0].program_id
+            })[0],
+            enrollment = enrollmentsState.value.filter(function (enrollment) {
+              return enrollment.program_id === program.id
+            })[0],
+            participantGroup = participantGroupsState.value.filter(function (participantGroup) {
+              return participantGroup.id === inMatchingParticipantGroup.participant_group_id;
+            })[0],
+            participants = participantsState.value.filter(function (participant) {
+              return participantGroup.participant_ids.indexOf(participant.id) >= 0;
+            }),
+            regions = participants.map(function (participant) {
+              return participant.region_ids;
+            }).reduce(function (prev, curr) {
+              return prev.concat(curr);
+            }, []);
 
-            return (
-              <InMatchingParticipantGroupPanel key={participantGroup.id} participants={participants} data={participantGroup} employerId={employerId} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} />
-            );
+            if (enrollment !== undefined && regions.indexOf(employerState.value.region_id) >= 0) {
+              return (
+                <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} />
+              );
+            }
           });
 
       return (
@@ -124,7 +154,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
         data = {
           on_review_participant_group: {
             in_matching_participant_group_id: this.props.data.id,
-            employer_id: this.props.employerId,
+            employer_id: this.props.employerState.value.id,
             expires_on: this.state.onReviewExpiresOn
           }
         };

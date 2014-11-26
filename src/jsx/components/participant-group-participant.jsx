@@ -47,7 +47,7 @@ var ParticipantGroupItemWrapper = React.createClass({
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={participant.name}>
         <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={participant.photo_url} alt={participant.name} />
+          <img className="media-object img-circle img-thumbnail pull-left" src={participant.photo_url + "/convert?h=100&w=100&fit=crop"} alt={participant.name} />
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">

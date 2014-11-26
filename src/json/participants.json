@@ -6,10 +6,13 @@
       "name": "Marcus Flint",
       "gender": "Male",
       "country_name": "Australia",
-      "photo_url": "/images/participants/flint.jpg",
+      "photo_url": "https://www.filepicker.io/api/file/TL2K4WQOTX2LktWR56TY",
       "date_of_birth": "1988-01-02",
       "arrival_date": "2014-12-01",
-      "departure_date": "2015-03-01"
+      "departure_date": "2015-03-01",
+      "program_id": 1,
+      "position_ids": [1, 2],
+      "region_ids": [1]
     },
     {
       "id": 2,
@@ -17,10 +20,13 @@
       "name": "Pansy Parkinson",
       "gender": "Female",
       "country_name": "New Zealand",
-      "photo_url": "/images/participants/parkinson.jpg",
+      "photo_url": "https://www.filepicker.io/api/file/SC1DNizLTxWOgZ98EM3n",
       "date_of_birth": "1987-01-02",
       "arrival_date": "2014-12-01",
-      "departure_date": "2015-03-01"
+      "departure_date": "2015-03-01",
+      "program_id": 1,
+      "position_ids": [3, 4],
+      "region_ids": [1]
     },
     {
       "id": 3,
@@ -28,10 +34,13 @@
       "name": "Draco Malfoy",
       "gender": "Female",
       "country_name": "United Kingdom",
-      "photo_url": "/images/participants/malfoy.jpg",
+      "photo_url": "https://www.filepicker.io/api/file/YZIlTqBPQ86dYcBL7cLS",
       "date_of_birth": "1989-12-15",
       "arrival_date": "2014-11-15",
-      "departure_date": "2015-02-03"
+      "departure_date": "2015-02-03",
+      "program_id": 2,
+      "position_ids": [2],
+      "region_ids": [2]
     },
     {
       "id": 4,
@@ -39,10 +48,13 @@
       "name": "Vincent McNameLong Crabbe",
       "gender": "Male",
       "country_name": "The Republic of Ireland",
-      "photo_url": "/images/participants/crabbe.jpg",
+      "photo_url": "https://www.filepicker.io/api/file/hLJ5uB13Qji1RjyyT2g8",
       "date_of_birth": "1989-05-15",
       "arrival_date": "2014-12-15",
-      "departure_date": "2015-04-03"
+      "departure_date": "2015-04-03",
+      "program_id": 2,
+      "position_ids": [1, 2],
+      "region_ids": [2]
     },
     {
       "id": 5,
@@ -50,10 +62,13 @@
       "name": "Gregory Goyle",
       "gender": "Male",
       "country_name": "The Republic of Ireland",
-      "photo_url": "/images/participants/goyle.jpg",
+      "photo_url": "https://www.filepicker.io/api/file/GMKvJuDQThiBLfK0Hj0L",
       "date_of_birth": "1989-05-15",
       "arrival_date": "2014-12-15",
-      "departure_date": "2015-04-03"
+      "departure_date": "2015-04-03",
+      "program_id": 2,
+      "position_ids": [1, 2, 3],
+      "region_ids": [1]
     }
   ]
 }

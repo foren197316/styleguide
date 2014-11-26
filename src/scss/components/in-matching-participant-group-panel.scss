@@ -21,13 +21,14 @@ category: Components - Participant Group
 ```js_example
 React.renderComponent(
   InMatchingParticipantGroupPanels({
-    employerId: 1,
     urls: {
+      employer: "/json/employer.json",
       inMatchingParticipantGroups: "/json/in_matching_participant_groups.json",
       participantGroups: "/json/participant_groups.json",
       participants: "/json/participants.json",
       enrollments: "/json/enrollments.json",
-      programs: "/json/programs.json"
+      programs: "/json/programs.json",
+      positions: "/json/positions.json"
     }
   }),
   document.getElementById("InMatchingParticipantGroups")

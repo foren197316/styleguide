@@ -1,0 +1,8 @@
+{
+  "employer": {
+    "id": 1,
+    "name": "Bobs Burgers",
+    "vetted": true,
+    "region_id": 1
+  }
+}
