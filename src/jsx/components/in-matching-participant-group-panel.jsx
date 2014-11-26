@@ -3,21 +3,39 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
   getInitialState: function () {
     return {
-      groups: null,
+      inMatchingParticipantGroups: null,
+      participantGroups: null,
+      participants: null,
       enrollments: null
     };
   },
 
   componentDidMount: function() {
-    $.get(this.props.source, function(data) {
+    $.get(this.props.urls.inMatchingParticipantGroups, function(data) {
       if (this.isMounted()) {
         this.setState({
-          groups: data.in_matching_participant_groups,
+          inMatchingParticipantGroups: data.in_matching_participant_groups,
         });
       }
     }.bind(this));
 
-    $.get(this.props.enrollmentsSource, function(data) {
+    $.get(this.props.urls.participantGroups, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          participantGroups: data.participant_groups,
+        });
+      }
+    }.bind(this));
+
+    $.get(this.props.urls.participants, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          participants: data.participants,
+        });
+      }
+    }.bind(this));
+
+    $.get(this.props.urls.enrollments, function(data) {
       if (this.isMounted()) {
         this.setState({
           enrollments: data.enrollments,
@@ -26,20 +44,30 @@ var InMatchingParticipantGroupPanels = React.createClass({
     }.bind(this));
   },
 
+  isLoaded: function() {
+    return this.isMounted() &&
+           this.state.inMatchingParticipantGroups &&
+           this.state.participantGroups &&
+           this.state.participants &&
+           this.state.enrollments
+  },
+
   render: function() {
-    if (this.isMounted() && this.state.groups && this.state.enrollments) {
+    if (this.isLoaded()) {
       var employerId = this.props.employerId,
-          participantGroupPanelType = this.participantGroupPanelType,
-          enrollments = this.state.enrollments,
           enrollmentsState = this.linkState('enrollments'),
-          groupPanels = this.state.groups.map(function (group) {
-            var program_id = group.program.id,
-                enrollment = enrollments.filter(function (enrollment) {
+          participantsState = this.linkState('participants'),
+          groupPanels = this.state.participantGroups.map(function (participantGroup) {
+            var program_id = participantGroup.program_id,
+                enrollment = enrollmentsState.value.filter(function (enrollment) {
                   return enrollment.program_id === program_id
-                })[0];
+                })[0],
+                participants = participantsState.value.filter(function (participant) {
+                  return participantGroup.participant_ids.indexOf(participant.id) >= 0;
+                });
 
             return (
-              <InMatchingParticipantGroupPanel key={group.id} data={group} employerId={employerId} enrollment={enrollment} enrollmentsState={enrollmentsState} />
+              <InMatchingParticipantGroupPanel key={participantGroup.id} participants={participants} data={participantGroup} employerId={employerId} enrollment={enrollment} enrollmentsState={enrollmentsState} />
             );
           });
 
@@ -65,7 +93,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
 
   canPutOnReview: function () {
     return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum
-        && this.props.data.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
+        && this.props.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
   },
 
   handlePutOnReview: function(event) {
@@ -117,8 +145,8 @@ var InMatchingParticipantGroupPanel = React.createClass({
     var action,
         legalese,
         footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
-        participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
-        participantNames = this.props.data.participants.map(function (participant) {
+        participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant',
+        participantNames = this.props.participants.map(function (participant) {
           return participant.name;
         }).join(",");
 
@@ -144,7 +172,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
     return (
       <div className="panel panel-default participant-group-panel" data-participant-names={participantNames}>
         <div className="list-group">
-          {this.props.data.participants.map(function (participant) {
+          {this.props.participants.map(function (participant) {
             return <ParticipantGroupParticipant key={participant.id} data={participant} />;
           })}
         </div>

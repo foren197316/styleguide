@@ -3,12 +3,12 @@
     {
       "program_id": 1,
       "on_review_maximum": 3,
-      "on_review_count": 2
+      "on_review_count": 1
     },
     {
       "program_id": 2,
-      "on_review_maximum": 3,
-      "on_review_count": 3
+      "on_review_maximum": 2,
+      "on_review_count": 1
     }
   ]
 }
