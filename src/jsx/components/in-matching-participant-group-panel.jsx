@@ -6,7 +6,8 @@ var InMatchingParticipantGroupPanels = React.createClass({
       inMatchingParticipantGroups: null,
       participantGroups: null,
       participants: null,
-      enrollments: null
+      enrollments: null,
+      programs: null
     };
   },
 
@@ -42,6 +43,14 @@ var InMatchingParticipantGroupPanels = React.createClass({
         });
       }
     }.bind(this));
+
+    $.get(this.props.urls.programs, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          programs: data.programs,
+        });
+      }
+    }.bind(this));
   },
 
   isLoaded: function() {
@@ -49,25 +58,29 @@ var InMatchingParticipantGroupPanels = React.createClass({
            this.state.inMatchingParticipantGroups &&
            this.state.participantGroups &&
            this.state.participants &&
-           this.state.enrollments
+           this.state.enrollments &&
+           this.state.programs
   },
 
   render: function() {
     if (this.isLoaded()) {
       var employerId = this.props.employerId,
+          programsState = this.linkState('programs'),
           enrollmentsState = this.linkState('enrollments'),
           participantsState = this.linkState('participants'),
           groupPanels = this.state.participantGroups.map(function (participantGroup) {
-            var program_id = participantGroup.program_id,
+                program = programsState.value.filter(function (program) {
+                  return program.id === participantGroup.program_id
+                })[0],
                 enrollment = enrollmentsState.value.filter(function (enrollment) {
-                  return enrollment.program_id === program_id
+                  return enrollment.program_id === program.id
                 })[0],
                 participants = participantsState.value.filter(function (participant) {
                   return participantGroup.participant_ids.indexOf(participant.id) >= 0;
                 });
 
             return (
-              <InMatchingParticipantGroupPanel key={participantGroup.id} participants={participants} data={participantGroup} employerId={employerId} enrollment={enrollment} enrollmentsState={enrollmentsState} />
+              <InMatchingParticipantGroupPanel key={participantGroup.id} participants={participants} data={participantGroup} employerId={employerId} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} />
             );
           });
 
