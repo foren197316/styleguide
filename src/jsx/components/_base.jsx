@@ -2,6 +2,12 @@
 
 var dateFormat = "MM/dd/yyyy";
 
+Array.prototype.flatten = function () {
+  return this.reduce(function (prev, curr) {
+    return prev.concat(curr);
+  }, []);
+};
+
 var capitaliseWord = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -330,5 +336,19 @@ var ValidatingInputMixin = {
     var newState = this.validate(event.target.value);
     this.setState({value: event.target.value});
     this.props.validationState.requestChange(newState);
+  }
+};
+
+var LoadResourceMixin = {
+  loadResourceFunc: function (resource) {
+    return function (params) {
+      $.get(this.props.urls[resource], params, function(data) {
+        if (this.isMounted()) {
+          var state = {};
+          state[resource] = data[resource];
+          this.setState(state);
+        }
+      }.bind(this));
+    }.bind(this);
   }
 };

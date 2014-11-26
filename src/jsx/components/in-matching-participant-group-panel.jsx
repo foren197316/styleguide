@@ -1,5 +1,5 @@
 var InMatchingParticipantGroupPanels = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
 
   getInitialState: function () {
     return {
@@ -12,63 +12,49 @@ var InMatchingParticipantGroupPanels = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    $.get(this.props.urls.employer, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          employer: data.employer
-        });
-      }
-    }.bind(this));
+  loadInMatchingParticipantGroups: function () {
+    var deferred = Q.defer();
 
     $.get(this.props.urls.inMatchingParticipantGroups, function(data) {
       if (this.isMounted()) {
-        var participantGroupIds = data.in_matching_participant_groups.map(function (in_matching_participant_group) {
-          return in_matching_participant_group.participant_group_id;
-        });
-
-        $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
-          var participantIds = data.participant_groups.map(function (participant_group) {
-            return participant_group.participant_ids;
-          }).reduce(function (prev, curr) {
-            curr.forEach(function (participant_id) {
-              prev.push(participant_id);
-            });
-            return prev;
-          }, []);
-
-          $.get(this.props.urls.participants, { ids: participantIds }, function(data) {
-            this.setState({
-              participants: data.participants
-            });
-          }.bind(this));
-
-          this.setState({
-            participantGroups: data.participant_groups
-          });
-        }.bind(this));
-
         this.setState({
           inMatchingParticipantGroups: data.in_matching_participant_groups
         });
+
+        deferred.resolve(data.in_matching_participant_groups.map(function (in_matching_participant_group) {
+          return in_matching_participant_group.participant_group_id;
+        }));
       }
     }.bind(this));
 
-    $.get(this.props.urls.enrollments, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          enrollments: data.enrollments
-        });
-      }
+    return deferred.promise;
+  },
+
+  loadParticipantGroups: function (participantGroupIds) {
+    var deferred = Q.defer();
+
+    $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
+      this.setState({
+        participantGroups: data.participant_groups
+      });
+
+      deferred.resolve(data.participant_groups.map(function (participant_group) {
+        return participant_group.participant_ids;
+      }).flatten());
     }.bind(this));
 
-    $.get(this.props.urls.programs, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          programs: data.programs
-        });
-      }
-    }.bind(this));
+    return deferred.promise;
+  },
+
+  componentDidMount: function() {
+    this.loadResourceFunc("employer")();
+
+    this.loadInMatchingParticipantGroups()
+    .then(this.loadParticipantGroups)
+    .then(this.loadResourceFunc("participants"));
+
+    this.loadResourceFunc("enrollments")();
+    this.loadResourceFunc("programs")();
   },
 
   isLoaded: function() {
@@ -106,9 +92,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
                 }),
                 regions = participants.map(function (participant) {
                   return participant.region_ids;
-                }).reduce(function (prev, curr) {
-                  return prev.concat(curr);
-                }, []);
+                }).flatten();
 
             if (regions.indexOf(employerState.value.region_id) >= 0) {
               return (
