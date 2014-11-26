@@ -3,44 +3,115 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
   getInitialState: function () {
     return {
-      groups: null,
-      enrollments: null
+      employer: null,
+      inMatchingParticipantGroups: null,
+      participantGroups: null,
+      participants: null,
+      enrollments: null,
+      programs: null
     };
   },
 
   componentDidMount: function() {
-    $.get(this.props.source, function(data) {
+    $.get(this.props.urls.employer, function(data) {
       if (this.isMounted()) {
         this.setState({
-          groups: data.in_matching_participant_groups,
+          employer: data.employer
         });
       }
     }.bind(this));
 
-    $.get(this.props.enrollmentsSource, function(data) {
+    $.get(this.props.urls.inMatchingParticipantGroups, function(data) {
+      if (this.isMounted()) {
+        var participantGroupIds = data.in_matching_participant_groups.map(function (in_matching_participant_group) {
+          return in_matching_participant_group.participant_group_id;
+        });
+
+        $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
+          var participantIds = data.participant_groups.map(function (participant_group) {
+            return participant_group.participant_ids;
+          }).reduce(function (prev, curr) {
+            curr.forEach(function (participant_id) {
+              prev.push(participant_id);
+            });
+            return prev;
+          }, []);
+
+          $.get(this.props.urls.participants, { ids: participantIds }, function(data) {
+            this.setState({
+              participants: data.participants
+            });
+          }.bind(this));
+
+          this.setState({
+            participantGroups: data.participant_groups
+          });
+        }.bind(this));
+
+        this.setState({
+          inMatchingParticipantGroups: data.in_matching_participant_groups
+        });
+      }
+    }.bind(this));
+
+    $.get(this.props.urls.enrollments, function(data) {
       if (this.isMounted()) {
         this.setState({
-          enrollments: data.enrollments,
+          enrollments: data.enrollments
+        });
+      }
+    }.bind(this));
+
+    $.get(this.props.urls.programs, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          programs: data.programs
         });
       }
     }.bind(this));
   },
 
-  render: function() {
-    if (this.isMounted() && this.state.groups && this.state.enrollments) {
-      var employerId = this.props.employerId,
-          participantGroupPanelType = this.participantGroupPanelType,
-          enrollments = this.state.enrollments,
-          enrollmentsState = this.linkState('enrollments'),
-          groupPanels = this.state.groups.map(function (group) {
-            var program_id = group.program.id,
-                enrollment = enrollments.filter(function (enrollment) {
-                  return enrollment.program_id === program_id
-                })[0];
+  isLoaded: function() {
+    return this.isMounted() &&
+           this.state.employer &&
+           this.state.inMatchingParticipantGroups &&
+           this.state.participantGroups &&
+           this.state.participants &&
+           this.state.enrollments &&
+           this.state.programs
+  },
 
-            return (
-              <InMatchingParticipantGroupPanel key={group.id} data={group} employerId={employerId} enrollment={enrollment} enrollmentsState={enrollmentsState} />
-            );
+  render: function() {
+    if (this.isLoaded()) {
+      var employerState = this.linkState('employer'),
+          programsState = this.linkState('programs'),
+          enrollmentsState = this.linkState('enrollments'),
+          participantsState = this.linkState('participants'),
+          participantGroupsState = this.linkState('participantGroups'),
+          groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+            program = programsState.value.filter(function (program) {
+              return program.id === participantsState.value[0].program_id
+            })[0],
+            enrollment = enrollmentsState.value.filter(function (enrollment) {
+              return enrollment.program_id === program.id
+            })[0],
+            participantGroup = participantGroupsState.value.filter(function (participantGroup) {
+              return participantGroup.id === inMatchingParticipantGroup.participant_group_id;
+            })[0],
+            participants = participantsState.value.filter(function (participant) {
+              return participantGroup.participant_ids.indexOf(participant.id) >= 0;
+            }),
+            regions = participants.map(function (participant) {
+              return participant.region_ids;
+            }).reduce(function (prev, curr) {
+              return prev.concat(curr);
+            }, []);
+
+            if (enrollment !== undefined && regions.indexOf(employerState.value.region_id) >= 0) {
+              return (
+                <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} />
+              );
+            }
           });
 
       return (
@@ -65,7 +136,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
 
   canPutOnReview: function () {
     return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum
-        && this.props.data.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
+        && this.props.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
   },
 
   handlePutOnReview: function(event) {
@@ -83,7 +154,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
         data = {
           on_review_participant_group: {
             in_matching_participant_group_id: this.props.data.id,
-            employer_id: this.props.employerId,
+            employer_id: this.props.employerState.value.id,
             expires_on: this.state.onReviewExpiresOn
           }
         };
@@ -117,8 +188,8 @@ var InMatchingParticipantGroupPanel = React.createClass({
     var action,
         legalese,
         footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
-        participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
-        participantNames = this.props.data.participants.map(function (participant) {
+        participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant',
+        participantNames = this.props.participants.map(function (participant) {
           return participant.name;
         }).join(",");
 
@@ -144,7 +215,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
     return (
       <div className="panel panel-default participant-group-panel" data-participant-names={participantNames}>
         <div className="list-group">
-          {this.props.data.participants.map(function (participant) {
+          {this.props.participants.map(function (participant) {
             return <ParticipantGroupParticipant key={participant.id} data={participant} />;
           })}
         </div>

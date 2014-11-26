@@ -47,7 +47,7 @@ var ParticipantGroupItemWrapper = React.createClass({
     return (
       <div className="list-group-item list-group-item-participant" data-participant-name={participant.name}>
         <div className="media">
-          <img className="media-object img-circle img-thumbnail pull-left" src={participant.photo_url} alt={participant.name} />
+          <img className="media-object img-circle img-thumbnail pull-left" src={participant.photo_url + "/convert?h=100&w=100&fit=crop"} alt={participant.name} />
           <div className="media-body">
             <div className="row">
               <div className="col-xs-12">
@@ -59,6 +59,7 @@ var ParticipantGroupItemWrapper = React.createClass({
             <div className="row">
               <div className="col-xs-12 col-sm-3 col-lg-6">
                 <i className="fa fa-globe"></i>
+<<<<<<< HEAD
                 <label>{participant.country_name}</label>
               </div>
               <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
@@ -72,6 +73,21 @@ var ParticipantGroupItemWrapper = React.createClass({
                 <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
                 <span> - </span>
                 <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
+=======
+                <label>{this.props.data.country_name}</label>
+              </div>
+              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
+                <strong>{this.props.data.gender}</strong>
+                <br/>
+                <YearCalculator from={this.props.data.date_of_birth} to={this.props.data.arrival_date} />
+              </div>
+              <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
+                <strong>Availability</strong>
+                <br/>
+                <span>{Date.parse(this.props.data.arrival_date).add(2).days().toString(dateFormat)}</span>
+                <span> - </span>
+                <span>{Date.parse(this.props.data.departure_date).toString(dateFormat)}</span>
+>>>>>>> Availability Dates
               </div>
             </div>
             {hr}
