@@ -89,25 +89,28 @@ var InMatchingParticipantGroupPanels = React.createClass({
           participantsState = this.linkState('participants'),
           participantGroupsState = this.linkState('participantGroups'),
           groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-            program = programsState.value.filter(function (program) {
-              return program.id === participantsState.value[0].program_id
-            })[0],
-            enrollment = enrollmentsState.value.filter(function (enrollment) {
-              return enrollment.program_id === program.id
-            })[0],
-            participantGroup = participantGroupsState.value.filter(function (participantGroup) {
-              return participantGroup.id === inMatchingParticipantGroup.participant_group_id;
-            })[0],
-            participants = participantsState.value.filter(function (participant) {
-              return participantGroup.participant_ids.indexOf(participant.id) >= 0;
-            }),
-            regions = participants.map(function (participant) {
-              return participant.region_ids;
-            }).reduce(function (prev, curr) {
-              return prev.concat(curr);
-            }, []);
+            var program = programsState.value.filter(function (program) {
+                  return program.id === participantsState.value[0].program_id
+                })[0],
+                enrollment = enrollmentsState.value.filter(function (enrollment) {
+                  return enrollment.program_id === program.id
+                })[0];
 
-            if (enrollment !== undefined && regions.indexOf(employerState.value.region_id) >= 0) {
+            if (enrollment === undefined || !enrollment.searchable) return;
+
+            var participantGroup = participantGroupsState.value.filter(function (participantGroup) {
+                  return participantGroup.id === inMatchingParticipantGroup.participant_group_id;
+                })[0],
+                participants = participantsState.value.filter(function (participant) {
+                  return participantGroup.participant_ids.indexOf(participant.id) >= 0;
+                }),
+                regions = participants.map(function (participant) {
+                  return participant.region_ids;
+                }).reduce(function (prev, curr) {
+                  return prev.concat(curr);
+                }, []);
+
+            if (regions.indexOf(employerState.value.region_id) >= 0) {
               return (
                 <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} />
               );
