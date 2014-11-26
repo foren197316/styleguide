@@ -112,7 +112,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
             if (regions.indexOf(employerState.value.region_id) >= 0) {
               return (
-                <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} />
+                <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
               );
             }
           });
@@ -190,7 +190,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
   render: function() {
     var action,
         legalese,
-        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
+        footerName = this.props.participantGroup.name + (" - " + this.props.program.name),
         participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant',
         participantNames = this.props.participants.map(function (participant) {
           return participant.name;
