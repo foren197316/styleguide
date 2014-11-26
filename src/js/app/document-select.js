@@ -16,7 +16,7 @@ InterExchange.DocumentSelect = function(element) {
   });
 
   $select.on('change', function(event) {
-    var document = currentDocument(event),
+    var document = currentDocument(this.value),
         isOtherDocument = (document === null);
 
     $target
