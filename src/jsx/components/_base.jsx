@@ -361,58 +361,56 @@ var LoadResourceMixin = {
     }.bind(this);
   },
 
-  loadMatchedOrUnmatchedParticipantGroups: function (resourceName) {
-    var deferred = Q.defer(),
-        underscoredResourceName = camelCaseToUnderscore(resourceName);
+  loadParticipants: function (resourceName) {
+    var loadMatchedOrUnmatchedParticipantGroups = function () {
+      var deferred = Q.defer(),
+          underscoredResourceName = camelCaseToUnderscore(resourceName);
 
-    $.get(this.props.urls[resourceName], function(data) {
-      if (this.isMounted()) {
-        var state = {};
-        state[resourceName] = data[underscoredResourceName];
-        this.setState(state);
+      $.get(this.props.urls[resourceName], function(data) {
+        if (this.isMounted()) {
+          var state = {};
+          state[resourceName] = data[underscoredResourceName];
+          this.setState(state);
+
+          deferred.resolve({
+            ids: data[underscoredResourceName].map(function (group) {
+              return group.participant_group_id;
+            }).sort()
+          });
+        }
+      }.bind(this));
+
+      return deferred.promise;
+    }.bind(this);
+
+    var loadParticipantGroups = function (params) {
+      var deferred = Q.defer();
+
+      $.get(this.props.urls.participantGroups, params, function(data) {
+        this.setState({
+          participantGroups: data.participant_groups
+        });
 
         deferred.resolve({
-          ids: data[underscoredResourceName].map(function (group) {
-            return group.participant_group_id;
-          }).sort()
+          ids: data.participant_groups.map(function (participant_group) {
+            return participant_group.participant_ids;
+          }).flatten().sort()
         });
-      }
-    }.bind(this));
+      }.bind(this));
 
-    return deferred.promise;
-  },
+      return deferred.promise;
+    }.bind(this);
 
-  loadParticipantGroups: function (params) {
-    var deferred = Q.defer();
-
-    $.get(this.props.urls.participantGroups, params, function(data) {
-      this.setState({
-        participantGroups: data.participant_groups
-      });
-
-      deferred.resolve({
-        ids: data.participant_groups.map(function (participant_group) {
-          return participant_group.participant_ids;
-        }).flatten().sort()
-      });
-    }.bind(this));
-
-    return deferred.promise;
-  },
-
-  loadParticipants: function (resourceName) {
-    return this.loadMatchedOrUnmatchedParticipantGroups(resourceName)
-    .then(this.loadParticipantGroups)
+    return loadMatchedOrUnmatchedParticipantGroups(resourceName)
+    .then(loadParticipantGroups)
     .then(this.loadResourceFunc("participants"));
-  },
-
-  setIsLoadedState: function () {
-    this.setState({ isLoaded: true });
   },
 
   loadAll: function (promiseList) {
     Q.allSettled(promiseList)
-    .then(this.setIsLoadedState)
+    .then(function () {
+      this.setState({ isLoaded: true });
+    }.bind(this))
     .done();
   }
 };
