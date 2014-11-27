@@ -15,33 +15,30 @@ var InMatchingParticipantGroupPanels = React.createClass({
   },
 
   render: function() {
-    if (this.state.isLoaded) {
+    return this.waitForLoadAll(function () {
       var employerState = this.linkState('employer'),
           programsState = this.linkState('programs'),
           enrollmentsState = this.linkState('enrollments'),
           participantsState = this.linkState('participants'),
           participantGroupsState = this.linkState('participantGroups'),
           groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-            var program = programsState.value.filter(function (program) {
-                  return program.id === participantsState.value[0].program_id
-                })[0],
-                enrollment = enrollmentsState.value.filter(function (enrollment) {
-                  return enrollment.program_id === program.id
-                })[0];
-
-            if (enrollment === undefined || !enrollment.searchable) return;
-
             var participantGroup = participantGroupsState.value.filter(function (participantGroup) {
                   return participantGroup.id === inMatchingParticipantGroup.participant_group_id;
                 })[0],
                 participants = participantsState.value.filter(function (participant) {
                   return participantGroup.participant_ids.indexOf(participant.id) >= 0;
                 }),
+                program = programsState.value.filter(function (program) {
+                  return program.id === participants[0].program_id
+                })[0],
+                enrollment = enrollmentsState.value.filter(function (enrollment) {
+                  return enrollment.program_id === program.id
+                })[0],
                 regions = participants.map(function (participant) {
                   return participant.region_ids;
                 }).flatten();
 
-            if (regions.indexOf(employerState.value.region_id) >= 0) {
+            if (enrollment !== undefined && enrollment.searchable && regions.indexOf(employerState.value.region_id) >= 0) {
               return (
                 <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
               );
@@ -53,9 +50,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
           {groupPanels}
         </div>
       );
-    } else {
-      return <Spinner />
-    };
+    });
   }
 });
 

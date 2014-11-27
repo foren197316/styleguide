@@ -219,7 +219,7 @@ var ReadOnlyFormGroup = React.createClass({
     return (
       <div className="form-group">
         <label className="control-label col-xs-12 col-sm-4">{label}</label>
-        <span className="control-label col-xs-12 col-sm-8" style={{"text-align": "left"}}>{value}</span>
+        <span className="control-label col-xs-12 col-sm-8" style={{ "textAlign": "left" }}>{value}</span>
       </div>
     )
   }
@@ -386,8 +386,16 @@ var LoadResourceMixin = {
   loadAll: function (promiseList) {
     Q.allSettled(promiseList)
     .then(function () {
-      this.setState({ isLoaded: true });
+      if (this.isMounted()) {
+        this.setState({ isLoaded: true });
+      }
     }.bind(this))
     .done();
+  },
+
+  waitForLoadAll: function (loadedCallback) {
+    return this.state.isLoaded
+      ? loadedCallback.bind(this)()
+      : <Spinner />;
   }
 };
