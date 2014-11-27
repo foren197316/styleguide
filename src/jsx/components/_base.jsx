@@ -371,21 +371,21 @@ var LoadResourceMixin = {
         state[resourceName] = data[underscoredResourceName];
         this.setState(state);
 
-        deferred.resolve(
-          data[underscoredResourceName].map(function (group) {
+        deferred.resolve({
+          ids: data[underscoredResourceName].map(function (group) {
             return group.participant_group_id;
           }).sort()
-        );
+        });
       }
     }.bind(this));
 
     return deferred.promise;
   },
 
-  loadParticipantGroups: function (participantGroupIds) {
+  loadParticipantGroups: function (params) {
     var deferred = Q.defer();
 
-    $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
+    $.get(this.props.urls.participantGroups, params, function(data) {
       this.setState({
         participantGroups: data.participant_groups
       });
@@ -401,9 +401,17 @@ var LoadResourceMixin = {
   },
 
   loadParticipants: function (resourceName) {
-    this.loadMatchedOrUnmatchedParticipantGroups(resourceName)
+    return this.loadMatchedOrUnmatchedParticipantGroups(resourceName)
     .then(this.loadParticipantGroups)
-    .then(this.loadResourceFunc("participants"))
-    .done();
+    .then(this.loadResourceFunc("participants"));
+  },
+
+  setIsLoadedState: function () {
+    this.setState({ isLoaded: true });
+  },
+
+  loadAll: function (promiseList) {
+    Q.allSettled(promiseList)
+    .then(this.setIsLoadedState);
   }
 };

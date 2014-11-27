@@ -13,26 +13,16 @@ var InMatchingParticipantGroupPanels = React.createClass({
   },
 
   componentDidMount: function() {
-    this.loadResourceFunc("employer")();
-
-    this.loadParticipants("inMatchingParticipantGroups");
-
-    this.loadResourceFunc("enrollments")();
-    this.loadResourceFunc("programs")();
-  },
-
-  isLoaded: function() {
-    return this.isMounted() &&
-           this.state.employer &&
-           this.state.inMatchingParticipantGroups &&
-           this.state.participantGroups &&
-           this.state.participants &&
-           this.state.enrollments &&
-           this.state.programs
+    this.loadAll([
+      this.loadResourceFunc("employer")(),
+      this.loadParticipants("inMatchingParticipantGroups"),
+      this.loadResourceFunc("enrollments")(),
+      this.loadResourceFunc("programs")()
+    ]);
   },
 
   render: function() {
-    if (this.isLoaded()) {
+    if (this.state.isLoaded) {
       var employerState = this.linkState('employer'),
           programsState = this.linkState('programs'),
           enrollmentsState = this.linkState('enrollments'),
