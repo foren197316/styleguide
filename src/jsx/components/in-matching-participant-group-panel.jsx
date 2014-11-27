@@ -2,14 +2,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
   mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
 
   getInitialState: function () {
-    return {
-      employer: null,
-      inMatchingParticipantGroups: null,
-      participantGroups: null,
-      participants: null,
-      enrollments: null,
-      programs: null
-    };
+    return {};
   },
 
   componentDidMount: function() {

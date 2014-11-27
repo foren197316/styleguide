@@ -165,7 +165,7 @@ var ParticipantGroupPanelFooterName = React.createClass({
     return (
       <div className="row">
         <div className="col-xs-6 col-sm-6">
-          <div className="panel-title pull-left" style={{ "white-space": "nowrap"}}>
+          <div className="panel-title pull-left" style={{ "whiteSpace": "nowrap"}}>
             {this.props.name}
           </div>
         </div>
@@ -412,6 +412,7 @@ var LoadResourceMixin = {
 
   loadAll: function (promiseList) {
     Q.allSettled(promiseList)
-    .then(this.setIsLoadedState);
+    .then(this.setIsLoadedState)
+    .done();
   }
 };
