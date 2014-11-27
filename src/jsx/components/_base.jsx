@@ -344,65 +344,42 @@ var ValidatingInputMixin = {
 };
 
 var LoadResourceMixin = {
-  loadResourceFunc: function (resource) {
+  loadResourceFunc: function (resourceName) {
     return function (params) {
-      var deferred = Q.defer();
-
-      $.get(this.props.urls[resource], params, function(data) {
+      return Q($.ajax({
+        url: this.props.urls[resourceName],
+        type: "GET",
+        data: params
+      })).then(function (response) {
         if (this.isMounted()) {
-          var state = {};
-          state[resource] = data[resource];
+          var state = {},
+              data = response[camelCaseToUnderscore(resourceName)];
+
+          state[resourceName] = data;
           this.setState(state);
-          deferred.resolve(data[resource]);
+          return data;
         }
       }.bind(this));
-
-      return deferred.promise;
     }.bind(this);
   },
 
   loadParticipants: function (resourceName) {
-    var loadMatchedOrUnmatchedParticipantGroups = function () {
-      var deferred = Q.defer(),
-          underscoredResourceName = camelCaseToUnderscore(resourceName);
-
-      $.get(this.props.urls[resourceName], function(data) {
-        if (this.isMounted()) {
-          var state = {};
-          state[resourceName] = data[underscoredResourceName];
-          this.setState(state);
-
-          deferred.resolve({
-            ids: data[underscoredResourceName].map(function (group) {
-              return group.participant_group_id;
-            }).sort()
-          });
-        }
-      }.bind(this));
-
-      return deferred.promise;
-    }.bind(this);
-
-    var loadParticipantGroups = function (params) {
-      var deferred = Q.defer();
-
-      $.get(this.props.urls.participantGroups, params, function(data) {
-        this.setState({
-          participantGroups: data.participant_groups
-        });
-
-        deferred.resolve({
-          ids: data.participant_groups.map(function (participant_group) {
-            return participant_group.participant_ids;
-          }).flatten().sort()
-        });
-      }.bind(this));
-
-      return deferred.promise;
-    }.bind(this);
-
-    return loadMatchedOrUnmatchedParticipantGroups(resourceName)
-    .then(loadParticipantGroups)
+    return this.loadResourceFunc(resourceName)()
+    .then(function (groups) {
+      return {
+        ids: groups.map(function (group) {
+          return group.participant_group_id;
+        }).sort()
+      };
+    })
+    .then(this.loadResourceFunc("participantGroups"))
+    .then(function (participant_groups) {
+      return {
+        ids: participant_groups.map(function (participant_group) {
+          return participant_group.participant_ids;
+        }).flatten().sort()
+      };
+    })
     .then(this.loadResourceFunc("participants"));
   },
 
