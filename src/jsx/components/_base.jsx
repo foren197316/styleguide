@@ -12,6 +12,10 @@ var capitaliseWord = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+var camelCaseToUnderscore = function (string) {
+  return string.replace(/([A-Z])/g, "_$1").toLowerCase();
+}
+
 var Spinner = React.createClass({
   render: function() {
     return (
@@ -342,13 +346,64 @@ var ValidatingInputMixin = {
 var LoadResourceMixin = {
   loadResourceFunc: function (resource) {
     return function (params) {
+      var deferred = Q.defer();
+
       $.get(this.props.urls[resource], params, function(data) {
         if (this.isMounted()) {
           var state = {};
           state[resource] = data[resource];
           this.setState(state);
+          deferred.resolve(data[resource]);
         }
       }.bind(this));
+
+      return deferred.promise;
     }.bind(this);
+  },
+
+  loadMatchedOrUnmatchedParticipantGroups: function (resourceName) {
+    var deferred = Q.defer(),
+        underscoredResourceName = camelCaseToUnderscore(resourceName);
+
+    $.get(this.props.urls[resourceName], function(data) {
+      if (this.isMounted()) {
+        var state = {};
+        state[resourceName] = data[underscoredResourceName];
+        this.setState(state);
+
+        deferred.resolve(
+          data[underscoredResourceName].map(function (group) {
+            return group.participant_group_id;
+          }).sort()
+        );
+      }
+    }.bind(this));
+
+    return deferred.promise;
+  },
+
+  loadParticipantGroups: function (participantGroupIds) {
+    var deferred = Q.defer();
+
+    $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
+      this.setState({
+        participantGroups: data.participant_groups
+      });
+
+      deferred.resolve({
+        ids: data.participant_groups.map(function (participant_group) {
+          return participant_group.participant_ids;
+        }).flatten().sort()
+      });
+    }.bind(this));
+
+    return deferred.promise;
+  },
+
+  loadParticipants: function (resourceName) {
+    this.loadMatchedOrUnmatchedParticipantGroups(resourceName)
+    .then(this.loadParticipantGroups)
+    .then(this.loadResourceFunc("participants"))
+    .done();
   }
 };

@@ -12,46 +12,10 @@ var InMatchingParticipantGroupPanels = React.createClass({
     };
   },
 
-  loadInMatchingParticipantGroups: function () {
-    var deferred = Q.defer();
-
-    $.get(this.props.urls.inMatchingParticipantGroups, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          inMatchingParticipantGroups: data.in_matching_participant_groups
-        });
-
-        deferred.resolve(data.in_matching_participant_groups.map(function (in_matching_participant_group) {
-          return in_matching_participant_group.participant_group_id;
-        }));
-      }
-    }.bind(this));
-
-    return deferred.promise;
-  },
-
-  loadParticipantGroups: function (participantGroupIds) {
-    var deferred = Q.defer();
-
-    $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
-      this.setState({
-        participantGroups: data.participant_groups
-      });
-
-      deferred.resolve(data.participant_groups.map(function (participant_group) {
-        return participant_group.participant_ids;
-      }).flatten());
-    }.bind(this));
-
-    return deferred.promise;
-  },
-
   componentDidMount: function() {
     this.loadResourceFunc("employer")();
 
-    this.loadInMatchingParticipantGroups()
-    .then(this.loadParticipantGroups)
-    .then(this.loadResourceFunc("participants"));
+    this.loadParticipants("inMatchingParticipantGroups");
 
     this.loadResourceFunc("enrollments")();
     this.loadResourceFunc("programs")();
