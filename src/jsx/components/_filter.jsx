@@ -1,16 +1,11 @@
-var RadioGroupFilterMixin = {
-  createRadioGroupFilter: function (data, dataState, filteredAttributeKey, presentationName) {
-    if (! data || ! dataState || ! filteredAttributeKey) {
-      console.warn("createRadioGroupFilter requires data, dataState, and filteredAttributeKey");
-    }
-
-    var actualPresentationName = capitaliseWord(presentationName || filteredAttributeKey);
-
-    return <RadioGroupFilter data={data} dataState={dataState} filteredAttributeKey={filteredAttributeKey} presentationName={actualPresentationName} />;
-  }
-};
-
 var RadioGroupFilter = React.createClass({
+  propTypes: {
+    data: React.PropTypes.object.isRequired,
+    dataState: React.PropTypes.object.isRequired,
+    filteredAttributeKey: React.PropTypes.string.isRequired,
+    presentationName: React.PropTypes.string
+  },
+
   handleChange: function (event) {
     var selectedId = event.target.value,
         filteredAttributeKey = this.props.filteredAttributeKey,
