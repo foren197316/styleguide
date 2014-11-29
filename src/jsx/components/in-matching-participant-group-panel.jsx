@@ -28,18 +28,10 @@ var InMatchingParticipantGroupPanels = React.createClass({
         participantsState = this.linkState('participants'),
         participantGroupsState = this.linkState('participantGroups'),
         groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-          var participantGroup = participantGroupsState.value.filter(function (participantGroup) {
-                return participantGroup.id === inMatchingParticipantGroup.participant_group_id;
-              })[0],
-              participants = participantsState.value.filter(function (participant) {
-                return participantGroup.participant_ids.indexOf(participant.id) >= 0;
-              }),
-              program = programsState.value.filter(function (program) {
-                return program.id === participants[0].program_id
-              })[0],
-              enrollment = enrollmentsState.value.filter(function (enrollment) {
-                return enrollment.program_id === program.id
-              })[0],
+          var participantGroup = participantGroupsState.value.findById(inMatchingParticipantGroup.participant_group_id),
+              participants = participantsState.value.findById(participantGroup.participant_ids),
+              program = programsState.value.findById(participants[0].program_id),
+              enrollment = enrollmentsState.value.findById(program.id, "program_id"),
               regions = participants.map(function (participant) {
                 return participant.region_ids;
               }).flatten();

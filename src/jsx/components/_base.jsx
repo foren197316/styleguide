@@ -14,6 +14,24 @@ Array.prototype.mapAttribute = function (attribute) {
   });
 };
 
+Array.prototype.findById = function (id, alternateKey) {
+  var key = alternateKey || "id";
+
+  if (id instanceof Array) {
+    return this.filter(function (entry) {
+      return id.indexOf(entry[key]) >= 0;
+    });
+  } else {
+    for (var i in this) {
+      if (this[i][key] === id) {
+        return this[i];
+      }
+    }
+
+    return null;
+  }
+};
+
 var capitaliseWord = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
