@@ -10,14 +10,13 @@ var RadioGroupFilter = React.createClass({
     var selectedId = event.target.value,
         filteredAttributeKey = this.props.filteredAttributeKey,
         groupPanels = this.props.data.filter(function (group) {
-          var filteredAttribute = group[filteredAttributeKey],
-              definitelyNotThere = (filteredAttribute === null || filteredAttribute === undefined);
+          var filteredAttribute = group[filteredAttributeKey];
 
           if (selectedId === "") {
             return true;
-          } else if (selectedId === "-1" && definitelyNotThere) {
+          } else if (selectedId === "-1" && filteredAttribute == undefined) {
             return true;
-          } else if (!definitelyNotThere && parseInt(filteredAttribute.id) === parseInt(selectedId)) {
+          } else if (filteredAttribute != undefined && parseInt(filteredAttribute.id) === parseInt(selectedId)) {
             return true;
           }
 
