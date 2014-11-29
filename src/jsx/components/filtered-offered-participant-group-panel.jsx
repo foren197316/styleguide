@@ -45,15 +45,11 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
 var OfferedParticipantGroups = React.createClass({
   render: function () {
-    var groupPanels = this.props.dataState.value.map(function (group) {
-      return (
-        <OfferedParticipantGroupPanel data={group} key={group.id} />
-      )
-    });
-
     return (
       <div id="participant-group-panels">
-        {groupPanels}
+        {this.props.dataState.value.map(function (group) {
+          return <OfferedParticipantGroupPanel data={group} key={group.id} />;
+        })}
       </div>
     )
   }
