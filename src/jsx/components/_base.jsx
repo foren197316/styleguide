@@ -8,6 +8,12 @@ Array.prototype.flatten = function () {
   }, []);
 };
 
+Array.prototype.mapAttribute = function (attribute) {
+  return this.map(function (entry) {
+    return entry[attribute];
+  });
+};
+
 var capitaliseWord = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -344,7 +350,7 @@ var ValidatingInputMixin = {
 };
 
 var LoadResourceMixin = {
-  loadResourceFunc: function (resourceName) {
+  loadResource: function (resourceName) {
     return function (params) {
       return Q($.ajax({
         url: this.props.urls[resourceName],
@@ -363,34 +369,33 @@ var LoadResourceMixin = {
     }.bind(this);
   },
 
-  loadParticipants: function (resourceName) {
-    return this.loadResourceFunc(resourceName)()
-    .then(function (groups) {
+  extractIds: function (idsAttribute) {
+    var prepareArray;
+
+    if ('ids' === idsAttribute.substr(idsAttribute.length - 3)) {
+      prepareArray = function (array) { return array.flatten(); }
+    } else {
+      prepareArray = function (array) { return array; }
+    }
+
+    return function (entries) {
       return {
-        ids: groups.map(function (group) {
-          return group.participant_group_id;
-        }).sort()
+        ids: prepareArray(entries.mapAttribute(idsAttribute)).sort()
       };
-    })
-    .then(this.loadResourceFunc("participantGroups"))
-    .then(function (participant_groups) {
-      return {
-        ids: participant_groups.map(function (participant_group) {
-          return participant_group.participant_ids;
-        }).flatten().sort()
-      };
-    })
-    .then(this.loadResourceFunc("participants"));
+    }
   },
 
   loadAll: function (promiseList) {
-    Q.allSettled(promiseList)
+    if (this.state.isLoaded) {
+      this.setState({ isLoaded: false });
+    }
+
+    return Q.allSettled(promiseList)
     .then(function () {
       if (this.isMounted()) {
         this.setState({ isLoaded: true });
       }
-    }.bind(this))
-    .done();
+    }.bind(this));
   },
 
   waitForLoadAll: function (loadedCallback) {
