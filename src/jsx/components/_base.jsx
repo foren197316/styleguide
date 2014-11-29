@@ -400,7 +400,7 @@ var LoadResourceMixin = {
 
   waitForLoadAll: function (loadedCallback) {
     return this.state.isLoaded
-      ? loadedCallback.bind(this)()
+      ? loadedCallback()
       : <Spinner />;
   }
 };
