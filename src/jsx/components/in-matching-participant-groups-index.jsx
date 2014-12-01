@@ -2,7 +2,12 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
 
   getInitialState: function () {
-    return {};
+    return {
+      genders: [
+        { id: "Female", name: "Female" },
+        { id: "Male", name: "Male" }
+      ]
+    };
   },
 
   componentDidMount: function () {
@@ -26,7 +31,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         participantGroups: this.state.participantGroups,
         enrollments: this.state.enrollments,
         programs: this.state.programs,
-        positions: this.state.positions
+        positions: this.state.positions,
+        genders: this.state.genders
       });
     }.bind(this));
   },
@@ -38,11 +44,12 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       <div className="row">
         <div className="col-md-3">
           <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
+          <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
         </div>
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
             return (
-              <div className="programs">
+              <div className="programs" key={"in_matching_participant_group_program_"+program.id}>
                 <div className="row">
                   <div className="col-md-12">
                     <h2 className="page-header">{program.name}</h2>
@@ -56,6 +63,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                       participants={this.state.participants}
                       program={program}
                       positions={this.state.positions}
+                      genders={this.state.genders}
                       employer={this.state.employer}
                       enrollments={this.state.enrollments} />
                   </div>
@@ -103,15 +111,23 @@ var InMatchingParticipantGroups = React.createClass({
               var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
                   participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
 
-              if (participantGroupParticipantPositionIds.intersects(this.props.positions.mapAttribute("id"))) {
-                return <InMatchingParticipantGroupPanel
-                        inMatchingParticipantGroup={inMatchingParticipantGroup}
-                        participantGroup={participantGroup}
-                        participants={participants}
-                        program={program}
-                        enrollment={enrollment}
-                        key={inMatchingParticipantGroup.id} />;
+              if (!participantGroupParticipantPositionIds.intersects(this.props.positions.mapAttribute("id"))) {
+                return;
               }
+
+              var participantGenders = participantGroupParticipants.mapAttribute("gender");
+
+              if (!this.props.genders.mapAttribute("id").intersects(participantGenders)) {
+                return;
+              }
+
+              return <InMatchingParticipantGroupPanel
+                      inMatchingParticipantGroup={inMatchingParticipantGroup}
+                      participantGroup={participantGroup}
+                      participants={participants}
+                      program={program}
+                      enrollment={enrollment}
+                      key={inMatchingParticipantGroup.id} />;
             }
           }.bind(this));
         }
