@@ -1,7 +1,50 @@
+var CheckBoxFilter = React.createClass({
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    options: React.PropTypes.array.isRequired,
+    dataLink: React.PropTypes.object.isRequired
+  },
+
+  onChange: function (event) {
+    var node = this.getDOMNode(),
+        checkedIds = $.map($(node).find('input[type="checkbox"]:checked'), function (checkbox) {
+          return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
+        }),
+        checkedOptions = this.props.options.filter(function (option) {
+          return checkedIds.indexOf(option.id.toString()) >= 0;
+        });
+
+    if (checkedOptions.length === 0) {
+      checkedOptions = this.props.options;
+    }
+
+    this.props.dataLink.requestChange(checkedOptions);
+  },
+
+  render: function () {
+    if (this.isMounted()) {
+      return (
+        <div>
+          <h5>{this.props.title}</h5>
+          <ul>
+            {this.props.options.map(function (option) {
+              return <li>
+                <label><input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} /> {option.name}</label>
+              </li>
+            }.bind(this))}
+          </ul>
+        </div>
+      )
+    } else {
+      return <Spinner />
+    }
+  }
+});
+
 var RadioGroupFilter = React.createClass({
   propTypes: {
     data: React.PropTypes.object.isRequired,
-    dataState: React.PropTypes.object.isRequired,
+    dataLink: React.PropTypes.object.isRequired,
     filteredAttributeKey: React.PropTypes.string.isRequired,
     presentationName: React.PropTypes.string
   },
@@ -23,15 +66,15 @@ var RadioGroupFilter = React.createClass({
           return false;
         });
 
-    this.props.dataState.requestChange(groupPanels);
+    this.props.dataLink.requestChange(groupPanels);
   },
 
   render: function () {
     var totalCount = 0,
         noneCount = 0,
         filteredAttributeKey = this.props.filteredAttributeKey,
-        presentationName = capitaliseWord(this.props.presentationName || filteredAttributeKey),
-        radioOptions = this.props.dataState.value.reduce(function (prev, curr) {
+        presentationName = (this.props.presentationName || filteredAttributeKey).capitaliseWord(),
+        radioOptions = this.props.dataLink.value.reduce(function (prev, curr) {
           totalCount++;
 
           var filteredAttribute = curr[filteredAttributeKey];

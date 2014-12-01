@@ -17,13 +17,18 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       this.loadResource("employer")(),
       participantsPromise,
       this.loadResource("enrollments")(),
-      this.loadResource("programs")()
+      this.loadResource("programs")(),
+      this.loadResource("positions")()
     ])
-    .then(function () {
+    .done(function () {
       this.setProps({
-        allInMatchingParticipantGroups: this.state.inMatchingParticipantGroups
+        inMatchingParticipantGroups: this.state.inMatchingParticipantGroups,
+        participantGroups: this.state.participantGroups,
+        enrollments: this.state.enrollments,
+        programs: this.state.programs,
+        positions: this.state.positions
       });
-    }.bind(this)).done();
+    }.bind(this));
   },
 
   renderLoaded: function () {
@@ -32,6 +37,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     return (
       <div className="row">
         <div className="col-md-3">
+          <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
         </div>
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
@@ -49,6 +55,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                       participantGroups={this.state.participantGroups}
                       participants={this.state.participants}
                       program={program}
+                      positions={this.state.positions}
                       employer={this.state.employer}
                       enrollments={this.state.enrollments} />
                   </div>
@@ -93,13 +100,18 @@ var InMatchingParticipantGroups = React.createClass({
                 }).flatten();
 
             if (regions.indexOf(employer.region_id) >= 0) {
-              return <InMatchingParticipantGroupPanel
-                      inMatchingParticipantGroup={inMatchingParticipantGroup}
-                      participantGroup={participantGroup}
-                      participants={participants}
-                      program={program}
-                      enrollment={enrollment}
-                      key={inMatchingParticipantGroup.id} />;
+              var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
+                  participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
+
+              if (participantGroupParticipantPositionIds.intersects(this.props.positions.mapAttribute("id"))) {
+                return <InMatchingParticipantGroupPanel
+                        inMatchingParticipantGroup={inMatchingParticipantGroup}
+                        participantGroup={participantGroup}
+                        participants={participants}
+                        program={program}
+                        enrollment={enrollment}
+                        key={inMatchingParticipantGroup.id} />;
+              }
             }
           }.bind(this));
         }

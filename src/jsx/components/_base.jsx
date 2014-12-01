@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+/* TODO: disable this in production */
 Q.longStackSupport = true;
 
 var dateFormat = "MM/dd/yyyy";
@@ -34,13 +35,25 @@ Array.prototype.findById = function (id, alternateKey) {
   }
 };
 
-var capitaliseWord = function (string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+Array.prototype.intersects = function (array) {
+  if (array.length > 0 && this.length > 0) {
+    for (var i in this) {
+      if (array.indexOf(this[i]) >= 0) {
+        return true;
+      }
+    }
+  }
 
-var camelCaseToUnderscore = function (string) {
-  return string.replace(/([A-Z])/g, "_$1").toLowerCase();
-}
+  return false;
+};
+
+String.prototype.capitaliseWord = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+String.prototype.camelCaseToUnderscore = function () {
+  return this.replace(/([A-Z])/g, "_$1").toLowerCase();
+};
 
 var Spinner = React.createClass({
   render: function() {
@@ -379,7 +392,7 @@ var LoadResourceMixin = {
       })).then(function (response) {
         if (this.isMounted()) {
           var state = {},
-              data = response[camelCaseToUnderscore(resourceName)];
+              data = response[resourceName.camelCaseToUnderscore()];
 
           state[resourceName] = data;
           this.setState(state);

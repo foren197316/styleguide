@@ -23,17 +23,17 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
   render: function() {
     if (this.state.data && this.isMounted()) {
-      var dataState = this.linkState('data');
+      var dataLink = this.linkState('data');
 
       return (
         <div className="row">
           <div className="col-md-3">
-            <RadioGroupFilter data={this.props.initialData} dataState={dataState} filteredAttributeKey="program" />
-            <RadioGroupFilter data={this.props.initialData} dataState={dataState} filteredAttributeKey="staff" presentationName="coordinator" />
-            <RadioGroupFilter data={this.props.initialData} dataState={dataState} filteredAttributeKey="employer" />
+            <RadioGroupFilter data={this.props.initialData} dataLink={dataLink} filteredAttributeKey="program" />
+            <RadioGroupFilter data={this.props.initialData} dataLink={dataLink} filteredAttributeKey="staff" presentationName="coordinator" />
+            <RadioGroupFilter data={this.props.initialData} dataLink={dataLink} filteredAttributeKey="employer" />
           </div>
           <div className="col-md-9">
-            <OfferedParticipantGroups dataState={dataState} />
+            <OfferedParticipantGroups dataLink={dataLink} />
           </div>
         </div>
       );
@@ -47,7 +47,7 @@ var OfferedParticipantGroups = React.createClass({
   render: function () {
     return (
       <div id="participant-group-panels">
-        {this.props.dataState.value.map(function (group) {
+        {this.props.dataLink.value.map(function (group) {
           return <OfferedParticipantGroupPanel data={group} key={group.id} />;
         })}
       </div>
