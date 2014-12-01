@@ -30,7 +30,7 @@ var RadioGroupFilter = React.createClass({
     var totalCount = 0,
         noneCount = 0,
         filteredAttributeKey = this.props.filteredAttributeKey,
-        presentationName = this.props.presentationName,
+        presentationName = capitaliseWord(this.props.presentationName || filteredAttributeKey),
         radioOptions = this.props.dataState.value.reduce(function (prev, curr) {
           totalCount++;
 
