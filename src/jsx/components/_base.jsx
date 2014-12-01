@@ -47,6 +47,15 @@ Array.prototype.intersects = function (array) {
   return false;
 };
 
+Array.prototype.uniq = function () {
+  return this.reduce(function (prev, curr) {
+    if (prev.indexOf(curr) < 0) {
+      prev.push(curr);
+    }
+    return prev;
+  }, []);
+};
+
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };

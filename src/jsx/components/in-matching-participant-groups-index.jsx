@@ -20,7 +20,19 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("participant_group_id"))
       .then(this.loadResource("participantGroups"))
       .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"));
+      .then(this.loadResource("participants"))
+      .then(this.extractIds("country_name"))
+      .then(function (data) {
+        var countries = data.ids.uniq().sort().map(function (country) {
+          return { id: country, name: country };
+        });
+
+        this.setState({
+          countries: countries
+        });
+
+        return true;
+      }.bind(this));
 
     this.loadAll([
       this.loadResource("employer")(),
@@ -33,7 +45,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       this.setProps({
         positions: this.state.positions,
         genders: this.state.genders,
-        ageAtArrival: this.state.ageAtArrival
+        ageAtArrival: this.state.ageAtArrival,
+        countries: this.state.countries
       });
     }.bind(this));
   },
@@ -47,6 +60,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
           <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
           <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
+          <CheckBoxFilter title="Country" options={this.props.countries} dataLink={this.linkState("countries")} />
         </div>
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
@@ -67,6 +81,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                       positions={this.state.positions}
                       genders={this.state.genders}
                       ageAtArrival={this.state.ageAtArrival}
+                      countries={this.state.countries}
                       employer={this.state.employer}
                       enrollments={this.state.enrollments} />
                   </div>
@@ -140,6 +155,12 @@ var InMatchingParticipantGroups = React.createClass({
                 if (! meetsAgeRequirement) {
                   return;
                 }
+              }
+
+              var participantCountries = participantGroupParticipants.mapAttribute("country_name");
+
+              if (!this.props.countries.mapAttribute("name").intersects(participantCountries)) {
+                return;
               }
 
               return <InMatchingParticipantGroupPanel
