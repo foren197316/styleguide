@@ -36,7 +36,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
                 return participant.region_ids;
               }).flatten();
 
-          if (enrollment !== undefined && enrollment.searchable && regions.indexOf(employerState.value.region_id) >= 0) {
+          if (enrollment !== null && enrollment.searchable && regions.indexOf(employerState.value.region_id) >= 0) {
             return (
               <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
             );
