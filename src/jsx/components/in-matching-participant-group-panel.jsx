@@ -81,7 +81,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
     this.setState({ sending: true });
 
     var node = this.getDOMNode(),
-        inMatchingParticipantGroup = {
+        data = {
           on_review_participant_group: {
             in_matching_participant_group_id: this.props.inMatchingParticipantGroup.id,
             employer_id: this.props.employerState.value.id,
