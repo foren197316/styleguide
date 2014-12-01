@@ -15,10 +15,13 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   },
 
   componentDidMount: function () {
-    var participantsPromise =
+    var participantGroupsPromise =
       this.loadResource("inMatchingParticipantGroups")()
       .then(this.extractIds("participant_group_id"))
-      .then(this.loadResource("participantGroups"))
+      .then(this.loadResource("participantGroups"));
+
+    var countryPromise =
+      participantGroupsPromise
       .then(this.extractIds("participant_ids"))
       .then(this.loadResource("participants"))
       .then(this.extractIds("country_name"))
@@ -34,9 +37,25 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         return true;
       }.bind(this));
 
+    var groupNamePromise =
+      participantGroupsPromise
+      .then(this.extractIds("name"))
+      .then(function (data) {
+        var names = data.ids.uniq().sort().map(function (name) {
+          return { id: name, name: name };
+        });
+
+        this.setState({
+          participantGroupNames: names
+        });
+
+        return true;
+      }.bind(this));
+
     this.loadAll([
       this.loadResource("employer")(),
-      participantsPromise,
+      countryPromise,
+      groupNamePromise,
       this.loadResource("enrollments")(),
       this.loadResource("programs")(),
       this.loadResource("positions")()
@@ -46,7 +65,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         positions: this.state.positions,
         genders: this.state.genders,
         ageAtArrival: this.state.ageAtArrival,
-        countries: this.state.countries
+        countries: this.state.countries,
+        participantGroupNames: this.state.participantGroupNames
       });
     }.bind(this));
   },
@@ -61,6 +81,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
           <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
           <CheckBoxFilter title="Country" options={this.props.countries} dataLink={this.linkState("countries")} />
+          <CheckBoxFilter title="Group Name" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
         </div>
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
@@ -82,6 +103,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                       genders={this.state.genders}
                       ageAtArrival={this.state.ageAtArrival}
                       countries={this.state.countries}
+                      participantGroupNames={this.state.participantGroupNames}
                       employer={this.state.employer}
                       enrollments={this.state.enrollments} />
                   </div>
@@ -115,6 +137,10 @@ var InMatchingParticipantGroups = React.createClass({
             var participantGroup = this.props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
 
             if (participantGroup === undefined) {
+              return;
+            }
+
+            if (this.props.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
               return;
             }
 

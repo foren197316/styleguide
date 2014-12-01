@@ -28,7 +28,7 @@ var CheckBoxFilter = React.createClass({
           <h5>{this.props.title}</h5>
           <ul>
             {this.props.options.map(function (option) {
-              return <li>
+              return <li key={this.props.title+"_checkbox_"+option.id}>
                 <label><input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} /> {option.name}</label>
               </li>
             }.bind(this))}
