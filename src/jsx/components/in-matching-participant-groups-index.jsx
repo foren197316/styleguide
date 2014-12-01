@@ -129,11 +129,11 @@ var InMatchingParticipantGroups = React.createClass({
 
                 if (this.props.ageAtArrival[0].id === "21_and_over") {
                   meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
-                    return prev || calculateAgeAtArrival(curr.date_of_birth, curr.arrival_date) >= 21;
+                    return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
                   }, false);
                 } else {
                   meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
-                    return prev || calculateAgeAtArrival(curr.date_of_birth, curr.arrival_date) < 21;
+                    return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) < 21;
                   }, false);
                 }
 
