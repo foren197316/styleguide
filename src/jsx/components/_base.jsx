@@ -142,7 +142,7 @@ var ReviewableParticipantGroupPanel = React.createClass({
   render: function() {
     var actions,
         additionalContent,
-        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
+        footerName = this.props.data.name,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
         participantNodes = this.props.data.participants.map(function (participant) {
           return (

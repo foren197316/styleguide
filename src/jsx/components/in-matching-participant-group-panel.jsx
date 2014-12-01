@@ -117,7 +117,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
   render: function() {
     var action,
         legalese,
-        footerName = this.props.participantGroup.name + (" - " + this.props.program.name),
+        footerName = this.props.participantGroup.name,
         participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant',
         participantNames = this.props.participants.map(function (participant) {
           return participant.name;
