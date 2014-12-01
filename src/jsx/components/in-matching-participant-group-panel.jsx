@@ -38,7 +38,7 @@ var InMatchingParticipantGroupPanels = React.createClass({
 
           if (enrollment !== null && enrollment.searchable && regions.indexOf(employerState.value.region_id) >= 0) {
             return (
-              <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
+              <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} inMatchingParticipantGroup={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
             );
           }
         });
@@ -81,9 +81,9 @@ var InMatchingParticipantGroupPanel = React.createClass({
     this.setState({ sending: true });
 
     var node = this.getDOMNode(),
-        data = {
+        inMatchingParticipantGroup = {
           on_review_participant_group: {
-            in_matching_participant_group_id: this.props.data.id,
+            in_matching_participant_group_id: this.props.inMatchingParticipantGroup.id,
             employer_id: this.props.employerState.value.id,
             expires_on: this.state.onReviewExpiresOn
           }

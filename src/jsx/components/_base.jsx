@@ -1,5 +1,7 @@
 /** @jsx React.DOM */
 
+Q.longStackSupport = true;
+
 var dateFormat = "MM/dd/yyyy";
 
 Array.prototype.flatten = function () {
@@ -413,7 +415,10 @@ var LoadResourceMixin = {
       if (this.isMounted()) {
         this.setState({ isLoaded: true });
       }
-    }.bind(this));
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error.stack);
+    });
   },
 
   waitForLoadAll: function (loadedCallback) {
