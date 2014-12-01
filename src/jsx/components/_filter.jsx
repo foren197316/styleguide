@@ -1,28 +1,22 @@
-var RadioGroupFilterMixin = {
-  createRadioGroupFilter: function (data, dataState, filteredAttributeKey, presentationName) {
-    if (! data || ! dataState || ! filteredAttributeKey) {
-      console.warn("createRadioGroupFilter requires data, dataState, and filteredAttributeKey");
-    }
-
-    var actualPresentationName = capitaliseWord(presentationName || filteredAttributeKey);
-
-    return <RadioGroupFilter data={data} dataState={dataState} filteredAttributeKey={filteredAttributeKey} presentationName={actualPresentationName} />;
-  }
-};
-
 var RadioGroupFilter = React.createClass({
+  propTypes: {
+    data: React.PropTypes.object.isRequired,
+    dataState: React.PropTypes.object.isRequired,
+    filteredAttributeKey: React.PropTypes.string.isRequired,
+    presentationName: React.PropTypes.string
+  },
+
   handleChange: function (event) {
     var selectedId = event.target.value,
         filteredAttributeKey = this.props.filteredAttributeKey,
         groupPanels = this.props.data.filter(function (group) {
-          var filteredAttribute = group[filteredAttributeKey],
-              definitelyNotThere = (filteredAttribute === null || filteredAttribute === undefined);
+          var filteredAttribute = group[filteredAttributeKey];
 
           if (selectedId === "") {
             return true;
-          } else if (selectedId === "-1" && definitelyNotThere) {
+          } else if (selectedId === "-1" && filteredAttribute == undefined) {
             return true;
-          } else if (!definitelyNotThere && parseInt(filteredAttribute.id) === parseInt(selectedId)) {
+          } else if (filteredAttribute != undefined && parseInt(filteredAttribute.id) === parseInt(selectedId)) {
             return true;
           }
 

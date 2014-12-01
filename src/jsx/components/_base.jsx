@@ -2,8 +2,42 @@
 
 var dateFormat = "MM/dd/yyyy";
 
+Array.prototype.flatten = function () {
+  return this.reduce(function (prev, curr) {
+    return prev.concat(curr);
+  }, []);
+};
+
+Array.prototype.mapAttribute = function (attribute) {
+  return this.map(function (entry) {
+    return entry[attribute];
+  });
+};
+
+Array.prototype.findById = function (id, alternateKey) {
+  var key = alternateKey || "id";
+
+  if (id instanceof Array) {
+    return this.filter(function (entry) {
+      return id.indexOf(entry[key]) >= 0;
+    });
+  } else {
+    for (var i in this) {
+      if (this[i][key] === id) {
+        return this[i];
+      }
+    }
+
+    return null;
+  }
+};
+
 var capitaliseWord = function (string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+var camelCaseToUnderscore = function (string) {
+  return string.replace(/([A-Z])/g, "_$1").toLowerCase();
 }
 
 var Spinner = React.createClass({
@@ -155,7 +189,7 @@ var ParticipantGroupPanelFooterName = React.createClass({
     return (
       <div className="row">
         <div className="col-xs-6 col-sm-6">
-          <div className="panel-title pull-left" style={{ "white-space": "nowrap"}}>
+          <div className="panel-title pull-left" style={{ "whiteSpace": "nowrap"}}>
             {this.props.name}
           </div>
         </div>
@@ -209,7 +243,7 @@ var ReadOnlyFormGroup = React.createClass({
     return (
       <div className="form-group">
         <label className="control-label col-xs-12 col-sm-4">{label}</label>
-        <span className="control-label col-xs-12 col-sm-8" style={{"text-align": "left"}}>{value}</span>
+        <span className="control-label col-xs-12 col-sm-8" style={{ "textAlign": "left" }}>{value}</span>
       </div>
     )
   }
@@ -330,5 +364,61 @@ var ValidatingInputMixin = {
     var newState = this.validate(event.target.value);
     this.setState({value: event.target.value});
     this.props.validationState.requestChange(newState);
+  }
+};
+
+var LoadResourceMixin = {
+  loadResource: function (resourceName) {
+    return function (params) {
+      return Q($.ajax({
+        url: this.props.urls[resourceName],
+        type: "GET",
+        data: params
+      })).then(function (response) {
+        if (this.isMounted()) {
+          var state = {},
+              data = response[camelCaseToUnderscore(resourceName)];
+
+          state[resourceName] = data;
+          this.setState(state);
+          return data;
+        }
+      }.bind(this));
+    }.bind(this);
+  },
+
+  extractIds: function (idsAttribute) {
+    var prepareArray;
+
+    if ('ids' === idsAttribute.substr(idsAttribute.length - 3)) {
+      prepareArray = function (array) { return array.flatten(); }
+    } else {
+      prepareArray = function (array) { return array; }
+    }
+
+    return function (entries) {
+      return {
+        ids: prepareArray(entries.mapAttribute(idsAttribute)).sort()
+      };
+    }
+  },
+
+  loadAll: function (promiseList) {
+    if (this.state.isLoaded) {
+      this.setState({ isLoaded: false });
+    }
+
+    return Q.allSettled(promiseList)
+    .then(function () {
+      if (this.isMounted()) {
+        this.setState({ isLoaded: true });
+      }
+    }.bind(this));
+  },
+
+  waitForLoadAll: function (loadedCallback) {
+    return this.state.isLoaded
+      ? loadedCallback()
+      : <Spinner />;
   }
 };

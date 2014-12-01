@@ -1,5 +1,5 @@
 var OfferedParticipantGroupsIndex = React.createClass({
-  mixins: [React.addons.LinkedStateMixin, RadioGroupFilterMixin],
+  mixins: [React.addons.LinkedStateMixin],
 
   getInitialState: function () {
     return { data: null };
@@ -28,9 +28,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
       return (
         <div className="row">
           <div className="col-md-3">
-            {this.createRadioGroupFilter(this.props.initialData, dataState, "program")}
-            {this.createRadioGroupFilter(this.props.initialData, dataState, "staff", "coordinator")}
-            {this.createRadioGroupFilter(this.props.initialData, dataState, "employer")}
+            <RadioGroupFilter data={this.props.initialData} dataState={dataState} filteredAttributeKey="program" />
+            <RadioGroupFilter data={this.props.initialData} dataState={dataState} filteredAttributeKey="staff" presentationName="coordinator" />
+            <RadioGroupFilter data={this.props.initialData} dataState={dataState} filteredAttributeKey="employer" />
           </div>
           <div className="col-md-9">
             <OfferedParticipantGroups dataState={dataState} />
@@ -45,15 +45,11 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
 var OfferedParticipantGroups = React.createClass({
   render: function () {
-    var groupPanels = this.props.dataState.value.map(function (group) {
-      return (
-        <OfferedParticipantGroupPanel data={group} key={group.id} />
-      )
-    });
-
     return (
       <div id="participant-group-panels">
-        {groupPanels}
+        {this.props.dataState.value.map(function (group) {
+          return <OfferedParticipantGroupPanel data={group} key={group.id} />;
+        })}
       </div>
     )
   }

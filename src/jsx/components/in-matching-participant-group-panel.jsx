@@ -1,130 +1,57 @@
 var InMatchingParticipantGroupPanels = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
 
   getInitialState: function () {
-    return {
-      employer: null,
-      inMatchingParticipantGroups: null,
-      participantGroups: null,
-      participants: null,
-      enrollments: null,
-      programs: null
-    };
+    return {};
   },
 
   componentDidMount: function() {
-    $.get(this.props.urls.employer, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          employer: data.employer
-        });
-      }
-    }.bind(this));
+    var participantsPromise =
+      this.loadResource("inMatchingParticipantGroups")()
+      .then(this.extractIds("participant_group_id"))
+      .then(this.loadResource("participantGroups"))
+      .then(this.extractIds("participant_ids"))
+      .then(this.loadResource("participants"));
 
-    $.get(this.props.urls.inMatchingParticipantGroups, function(data) {
-      if (this.isMounted()) {
-        var participantGroupIds = data.in_matching_participant_groups.map(function (in_matching_participant_group) {
-          return in_matching_participant_group.participant_group_id;
-        });
-
-        $.get(this.props.urls.participantGroups, { ids: participantGroupIds }, function(data) {
-          var participantIds = data.participant_groups.map(function (participant_group) {
-            return participant_group.participant_ids;
-          }).reduce(function (prev, curr) {
-            curr.forEach(function (participant_id) {
-              prev.push(participant_id);
-            });
-            return prev;
-          }, []);
-
-          $.get(this.props.urls.participants, { ids: participantIds }, function(data) {
-            this.setState({
-              participants: data.participants
-            });
-          }.bind(this));
-
-          this.setState({
-            participantGroups: data.participant_groups
-          });
-        }.bind(this));
-
-        this.setState({
-          inMatchingParticipantGroups: data.in_matching_participant_groups
-        });
-      }
-    }.bind(this));
-
-    $.get(this.props.urls.enrollments, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          enrollments: data.enrollments
-        });
-      }
-    }.bind(this));
-
-    $.get(this.props.urls.programs, function(data) {
-      if (this.isMounted()) {
-        this.setState({
-          programs: data.programs
-        });
-      }
-    }.bind(this));
+    this.loadAll([
+      this.loadResource("employer")(),
+      participantsPromise,
+      this.loadResource("enrollments")(),
+      this.loadResource("programs")()
+    ]).done();
   },
 
-  isLoaded: function() {
-    return this.isMounted() &&
-           this.state.employer &&
-           this.state.inMatchingParticipantGroups &&
-           this.state.participantGroups &&
-           this.state.participants &&
-           this.state.enrollments &&
-           this.state.programs
+  renderLoaded: function () {
+    var employerState = this.linkState('employer'),
+        programsState = this.linkState('programs'),
+        enrollmentsState = this.linkState('enrollments'),
+        participantsState = this.linkState('participants'),
+        participantGroupsState = this.linkState('participantGroups'),
+        groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+          var participantGroup = participantGroupsState.value.findById(inMatchingParticipantGroup.participant_group_id),
+              participants = participantsState.value.findById(participantGroup.participant_ids),
+              program = programsState.value.findById(participants[0].program_id),
+              enrollment = enrollmentsState.value.findById(program.id, "program_id"),
+              regions = participants.map(function (participant) {
+                return participant.region_ids;
+              }).flatten();
+
+          if (enrollment !== null && enrollment.searchable && regions.indexOf(employerState.value.region_id) >= 0) {
+            return (
+              <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
+            );
+          }
+        });
+
+    return (
+      <div id="participant-group-panels">
+        {groupPanels}
+      </div>
+    )
   },
 
   render: function() {
-    if (this.isLoaded()) {
-      var employerState = this.linkState('employer'),
-          programsState = this.linkState('programs'),
-          enrollmentsState = this.linkState('enrollments'),
-          participantsState = this.linkState('participants'),
-          participantGroupsState = this.linkState('participantGroups'),
-          groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-            var program = programsState.value.filter(function (program) {
-                  return program.id === participantsState.value[0].program_id
-                })[0],
-                enrollment = enrollmentsState.value.filter(function (enrollment) {
-                  return enrollment.program_id === program.id
-                })[0];
-
-            if (enrollment === undefined || !enrollment.searchable) return;
-
-            var participantGroup = participantGroupsState.value.filter(function (participantGroup) {
-                  return participantGroup.id === inMatchingParticipantGroup.participant_group_id;
-                })[0],
-                participants = participantsState.value.filter(function (participant) {
-                  return participantGroup.participant_ids.indexOf(participant.id) >= 0;
-                }),
-                regions = participants.map(function (participant) {
-                  return participant.region_ids;
-                }).reduce(function (prev, curr) {
-                  return prev.concat(curr);
-                }, []);
-
-            if (regions.indexOf(employerState.value.region_id) >= 0) {
-              return (
-                <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} data={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
-              );
-            }
-          });
-
-      return (
-        <div id="participant-group-panels">
-          {groupPanels}
-        </div>
-      );
-    } else {
-      return <Spinner />
-    };
+    return this.waitForLoadAll(this.renderLoaded);
   }
 });
 
