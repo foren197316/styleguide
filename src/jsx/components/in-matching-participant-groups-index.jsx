@@ -34,12 +34,28 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         <div className="col-md-3">
         </div>
         <div className="col-md-9">
-          <InMatchingParticipantGroups
-            inMatchingParticipantGroupsLink={inMatchingParticipantGroupsLink}
-            participantGroups={this.state.participantGroups}
-            participants={this.state.participants}
-            programs={this.state.programs}
-            enrollments={this.state.enrollments} />
+          {this.state.programs.map(function (program) {
+            return (
+              <div className="programs">
+                <div className="row">
+                  <div className="col-md-12">
+                    <h2 className="page-header">{program.name}</h2>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <InMatchingParticipantGroups
+                      inMatchingParticipantGroupsLink={inMatchingParticipantGroupsLink}
+                      participantGroups={this.state.participantGroups}
+                      participants={this.state.participants}
+                      program={program}
+                      employer={this.state.employer}
+                      enrollments={this.state.enrollments} />
+                  </div>
+                </div>
+              </div>
+            )
+          }.bind(this))}
         </div>
       </div>
     )
@@ -56,20 +72,37 @@ var InMatchingParticipantGroups = React.createClass({
   },
 
   render: function () {
-    var inMatchingParticipantGroupPanels = this.props.inMatchingParticipantGroupsLink.value.map(function (inMatchingParticipantGroup) {
-          var participantGroup = this.props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id),
-              participants = this.props.participants.findById(participantGroup.participant_ids),
-              program = this.props.programs.findById(participants[0].program_id),
-              enrollment = this.props.enrollments.findById(program.id, "program_id");
+    var program = this.props.program,
+        employer = this.props.employer,
+        enrollment = this.props.enrollments.findById(program.id, "program_id"),
+        inMatchingParticipantGroupPanels = null;
 
-          return <InMatchingParticipantGroupPanel
-                  inMatchingParticipantGroup={inMatchingParticipantGroup}
-                  participantGroup={participantGroup}
-                  participants={participants}
-                  program={program}
-                  enrollment={enrollment}
-                  key={inMatchingParticipantGroup.id} />;
-        }.bind(this));
+        if (enrollment !== null && enrollment.searchable) {
+          inMatchingParticipantGroupPanels = this.props.inMatchingParticipantGroupsLink.value.map(function (inMatchingParticipantGroup) {
+            var participantGroup = this.props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
+
+            if (participantGroup === undefined) {
+              return;
+            }
+
+            var participants = this.props.participants.filter(function (participant) {
+                  return participant.program_id === program.id;
+                }).findById(participantGroup.participant_ids),
+                regions = participants.map(function (participant) {
+                  return participant.region_ids;
+                }).flatten();
+
+            if (regions.indexOf(employer.region_id) >= 0) {
+              return <InMatchingParticipantGroupPanel
+                      inMatchingParticipantGroup={inMatchingParticipantGroup}
+                      participantGroup={participantGroup}
+                      participants={participants}
+                      program={program}
+                      enrollment={enrollment}
+                      key={inMatchingParticipantGroup.id} />;
+            }
+          }.bind(this));
+        }
 
     return (
       <div id="participant-group-panels">
