@@ -6,6 +6,10 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       genders: [
         { id: "Female", name: "Female" },
         { id: "Male", name: "Male" }
+      ],
+      ageAtArrival: [
+        { id: "21_and_over", name: "21 and Over" },
+        { id: "under_21", name: "Under 21" }
       ]
     };
   },
@@ -27,12 +31,9 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     ])
     .done(function () {
       this.setProps({
-        inMatchingParticipantGroups: this.state.inMatchingParticipantGroups,
-        participantGroups: this.state.participantGroups,
-        enrollments: this.state.enrollments,
-        programs: this.state.programs,
         positions: this.state.positions,
-        genders: this.state.genders
+        genders: this.state.genders,
+        ageAtArrival: this.state.ageAtArrival
       });
     }.bind(this));
   },
@@ -45,6 +46,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         <div className="col-md-3">
           <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
           <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
+          <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
         </div>
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
@@ -64,6 +66,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                       program={program}
                       positions={this.state.positions}
                       genders={this.state.genders}
+                      ageAtArrival={this.state.ageAtArrival}
                       employer={this.state.employer}
                       enrollments={this.state.enrollments} />
                   </div>
@@ -119,6 +122,24 @@ var InMatchingParticipantGroups = React.createClass({
 
               if (!this.props.genders.mapAttribute("id").intersects(participantGenders)) {
                 return;
+              }
+
+              if (this.props.ageAtArrival.length === 1) {
+                var meetsAgeRequirement;
+
+                if (this.props.ageAtArrival[0].id === "21_and_over") {
+                  meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
+                    return prev || calculateAgeAtArrival(curr.date_of_birth, curr.arrival_date) >= 21;
+                  }, false);
+                } else {
+                  meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
+                    return prev || calculateAgeAtArrival(curr.date_of_birth, curr.arrival_date) < 21;
+                  }, false);
+                }
+
+                if (! meetsAgeRequirement) {
+                  return;
+                }
               }
 
               return <InMatchingParticipantGroupPanel

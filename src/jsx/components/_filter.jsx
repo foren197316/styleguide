@@ -43,7 +43,7 @@ var CheckBoxFilter = React.createClass({
 
 var RadioGroupFilter = React.createClass({
   propTypes: {
-    data: React.PropTypes.object.isRequired,
+    data: React.PropTypes.array.isRequired,
     dataLink: React.PropTypes.object.isRequired,
     filteredAttributeKey: React.PropTypes.string.isRequired,
     presentationName: React.PropTypes.string

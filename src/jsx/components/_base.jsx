@@ -79,6 +79,11 @@ var YearCalculator = React.createClass({
   }
 });
 
+var calculateAgeAtArrival = function (dateOfBirthString, arrivalDateString) {
+  var span = new TimeSpan(Date.parse(arrivalDateString) - Date.parse(dateOfBirthString));
+  return Math.floor(span.getDays() / 365); /* TODO: leap year issues? TimeSpan doesn't have a getYears */
+};
+
 var RadioGroupButton = React.createClass({
   handleChange: function(event) {
     var $buttonGroup = event.target.parentNode.parentNode,
