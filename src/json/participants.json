@@ -35,12 +35,12 @@
       "gender": "Female",
       "country_name": "United Kingdom",
       "photo_url": "https://www.filepicker.io/api/file/YZIlTqBPQ86dYcBL7cLS",
-      "date_of_birth": "1989-12-15",
+      "date_of_birth": "1996-12-15",
       "arrival_date": "2014-11-15",
       "departure_date": "2015-02-03",
       "program_id": 2,
-      "position_ids": [2],
-      "region_ids": [2]
+      "position_ids": [3,2],
+      "region_ids": [2, 1]
     },
     {
       "id": 4,
@@ -49,7 +49,7 @@
       "gender": "Male",
       "country_name": "The Republic of Ireland",
       "photo_url": "https://www.filepicker.io/api/file/hLJ5uB13Qji1RjyyT2g8",
-      "date_of_birth": "1989-05-15",
+      "date_of_birth": "1996-05-15",
       "arrival_date": "2014-12-15",
       "departure_date": "2015-04-03",
       "program_id": 2,
