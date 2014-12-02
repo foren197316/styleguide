@@ -23,7 +23,32 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     var participantsPromise =
       participantGroupsPromise
       .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"));
+      .then(this.loadResource("participants"))
+      .then(this.loadResource("programs"))
+      .then(function (programs) {
+        var programsWithCount = programs.map(function (program) {
+          program.participant_count = 0;
+          return program;
+        });
+
+        var participants = this.state.participants.filter(function (participant) {
+          for (var i in programsWithCount) {
+            if (programsWithCount[i].id === participant.program_id) {
+              programsWithCount[i].participant_count++;
+              return true;
+            }
+          }
+
+          return false;
+        });
+
+        this.setState({
+          participants: participants,
+          programs: programsWithCount
+        });
+
+        return participants;
+      }.bind(this));
 
     var participantGroupsWithParticipantNamesPromise =
       participantsPromise
@@ -35,6 +60,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
             .join(",");
 
           return participantGroup;
+        }).filter(function (participantGroup) {
+          return participantGroup.participant_names.trim().length > 0;
         });
 
         this.setState({
@@ -80,7 +107,6 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       groupNamePromise,
       participantGroupsWithParticipantNamesPromise,
       this.loadResource("enrollments")(),
-      this.loadResource("programs")(),
       this.loadResource("positions")()
     ])
     .done(function () {
@@ -102,8 +128,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   },
 
   renderLoaded: function () {
-    var inMatchingParticipantGroupsLink = this.linkState("inMatchingParticipantGroups"),
-        enrollmentsLink = this.linkState("enrollments");
+    var enrollmentsLink = this.linkState("enrollments");
 
     return (
       <div className="row">
@@ -118,30 +143,21 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
             return (
-              <div className="programs" key={"in_matching_participant_group_program_"+program.id}>
-                <div className="row">
-                  <div className="col-md-12">
-                    <h2 className="page-header">{program.name}</h2>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <InMatchingParticipantGroups
-                      ageAtArrival={this.state.ageAtArrival}
-                      countries={this.state.countries}
-                      employer={this.state.employer}
-                      enrollments={this.state.enrollments}
-                      enrollmentsLink={enrollmentsLink}
-                      genders={this.state.genders}
-                      inMatchingParticipantGroupsLink={inMatchingParticipantGroupsLink}
-                      participantGroupNames={this.state.participantGroupNames}
-                      participantGroups={this.state.participantGroups}
-                      participants={this.state.participants}
-                      positions={this.state.positions}
-                      program={program} />
-                  </div>
-                </div>
-              </div>
+              <InMatchingParticipantGroupProgram program={program}>
+                <InMatchingParticipantGroups
+                  ageAtArrival={this.state.ageAtArrival}
+                  countries={this.state.countries}
+                  employer={this.state.employer}
+                  enrollments={this.state.enrollments}
+                  enrollmentsLink={enrollmentsLink}
+                  genders={this.state.genders}
+                  inMatchingParticipantGroups={this.state.inMatchingParticipantGroups}
+                  participantGroupNames={this.state.participantGroupNames}
+                  participantGroups={this.state.participantGroups}
+                  participants={this.state.participants}
+                  positions={this.state.positions}
+                  program={program} />
+              </InMatchingParticipantGroupProgram>
             )
           }.bind(this))}
         </div>
@@ -156,93 +172,160 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   }
 });
 
-var InMatchingParticipantGroups = React.createClass({
+var InMatchingParticipantGroupProgram = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
+
   propTypes: {
-    inMatchingParticipantGroupsLink: React.PropTypes.object.isRequired
+    program: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function () {
+    return {
+      hasVisibleParticipantGroups: true
+    };
   },
 
   render: function () {
-    var program = this.props.program,
-        employer = this.props.employer,
-        enrollments = this.props.enrollments,
-        enrollmentsLink = this.props.enrollmentsLink,
+    var hasVisibleParticipantGroupsLink = this.linkState("hasVisibleParticipantGroups"),
+        children = React.Children.map(this.props.children, function (child) {
+                    return React.addons.cloneWithProps(child, {
+                      hasVisibleParticipantGroupsLink: hasVisibleParticipantGroupsLink
+                    });
+                  });
+
+    if (this.state.hasVisibleParticipantGroups) {
+      return (
+        <div className="programs" key={"in_matching_participant_group_program_"+this.props.program.id}>
+          <div className="row">
+            <div className="col-md-12">
+              <h2 className="page-header">
+                {this.props.program.name}
+                <small className="pull-right">{this.props.program.participant_count} Participants</small>
+              </h2>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              {children}
+            </div>
+          </div>
+        </div>
+      )
+    } else {
+      return <div>{children}</div>
+    }
+  }
+});
+
+var InMatchingParticipantGroups = React.createClass({
+  propTypes: {
+    inMatchingParticipantGroups: React.PropTypes.array.isRequired
+  },
+
+  getInitialState: function () {
+    return {
+      inMatchingParticipantPanels: null
+    };
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    this.updatePanels(newProps);
+  },
+
+  updatePanels: function (props) {
+    var program = props.program,
+        employer = props.employer,
+        enrollments = props.enrollments,
+        enrollmentsLink = props.enrollmentsLink,
         enrollment = enrollments.findById(program.id, "program_id"),
         inMatchingParticipantGroupPanels = null;
 
-        if (enrollment !== null && enrollment.searchable) {
-          inMatchingParticipantGroupPanels = this.props.inMatchingParticipantGroupsLink.value.map(function (inMatchingParticipantGroup) {
-            var participantGroup = this.props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
+    if (enrollment !== null && enrollment.searchable) {
+      inMatchingParticipantGroupPanels = props.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+        var participantGroup = props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
 
-            if (participantGroup === undefined || participantGroup === null) {
-              return;
-            }
-
-            if (this.props.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
-              return;
-            }
-
-            var participants = this.props.participants.filter(function (participant) {
-                  return participant.program_id === program.id;
-                }).findById(participantGroup.participant_ids),
-                regions = participants.map(function (participant) {
-                  return participant.region_ids;
-                }).flatten();
-
-            if (regions.indexOf(employer.region_id) >= 0) {
-              var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
-                  participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
-
-              if (!participantGroupParticipantPositionIds.intersects(this.props.positions.mapAttribute("id"))) {
-                return;
-              }
-
-              var participantGenders = participantGroupParticipants.mapAttribute("gender");
-
-              if (!this.props.genders.mapAttribute("id").intersects(participantGenders)) {
-                return;
-              }
-
-              if (this.props.ageAtArrival.length === 1) {
-                var meetsAgeRequirement;
-
-                if (this.props.ageAtArrival[0].id === "21_and_over") {
-                  meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
-                    return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
-                  }, false);
-                } else {
-                  meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
-                    return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) < 21;
-                  }, false);
-                }
-
-                if (! meetsAgeRequirement) {
-                  return;
-                }
-              }
-
-              var participantCountries = participantGroupParticipants.mapAttribute("country_name");
-
-              if (!this.props.countries.mapAttribute("name").intersects(participantCountries)) {
-                return;
-              }
-
-              return <InMatchingParticipantGroupPanel
-                      employer={employer}
-                      enrollment={enrollment}
-                      enrollments={enrollments}
-                      enrollmentsLink={enrollmentsLink}
-                      inMatchingParticipantGroup={inMatchingParticipantGroup}
-                      key={inMatchingParticipantGroup.id}
-                      participantGroup={participantGroup}
-                      participants={participants}
-                      program={program} />;
-            }
-          }.bind(this));
+        if (participantGroup === undefined || participantGroup === null) {
+          return;
         }
 
+        if (props.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
+          return;
+        }
+
+        var participants = props.participants.filter(function (participant) {
+              return participant.program_id === program.id;
+            }).findById(participantGroup.participant_ids),
+            regions = participants.map(function (participant) {
+              return participant.region_ids;
+            }).flatten();
+
+        if (regions.indexOf(employer.region_id) >= 0) {
+          var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
+              participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
+
+          if (!participantGroupParticipantPositionIds.intersects(props.positions.mapAttribute("id"))) {
+            return;
+          }
+
+          var participantGenders = participantGroupParticipants.mapAttribute("gender");
+
+          if (!props.genders.mapAttribute("id").intersects(participantGenders)) {
+            return;
+          }
+
+          if (props.ageAtArrival.length === 1) {
+            var meetsAgeRequirement;
+
+            if (props.ageAtArrival[0].id === "21_and_over") {
+              meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
+                return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
+              }, false);
+            } else {
+              meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
+                return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) < 21;
+              }, false);
+            }
+
+            if (! meetsAgeRequirement) {
+              return;
+            }
+          }
+
+          var participantCountries = participantGroupParticipants.mapAttribute("country_name");
+
+          if (!props.countries.mapAttribute("name").intersects(participantCountries)) {
+            return;
+          }
+
+          return <InMatchingParticipantGroupPanel
+                  employer={employer}
+                  enrollment={enrollment}
+                  enrollments={enrollments}
+                  enrollmentsLink={enrollmentsLink}
+                  inMatchingParticipantGroup={inMatchingParticipantGroup}
+                  key={inMatchingParticipantGroup.id}
+                  participantGroup={participantGroup}
+                  participants={participants}
+                  program={program} />;
+        }
+      }.bind(this));
+    }
+
+    if (inMatchingParticipantGroupPanels != undefined) {
+      inMatchingParticipantGroupPanels = inMatchingParticipantGroupPanels.filter(function (panel) {
+        return panel != undefined;
+      });
+    }
+
+    this.setState({
+      inMatchingParticipantGroupPanels: inMatchingParticipantGroupPanels
+    });
+  },
+
+  render: function () {
     return (
       <div id="participant-group-panels">
-        {inMatchingParticipantGroupPanels}
+        {this.state.inMatchingParticipantGroupPanels}
       </div>
     )
   }
