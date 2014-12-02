@@ -79,11 +79,11 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     return (
       <div className="row">
         <div className="col-md-3">
-          <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
-          <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
           <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
+          <CheckBoxFilter title="Group" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
+          <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
+          <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
           <CheckBoxFilter title="Country" options={this.props.countries} dataLink={this.linkState("countries")} />
-          <CheckBoxFilter title="Group Name" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
         </div>
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
