@@ -70,7 +70,7 @@ var Alert = React.createClass({
         <strong>{this.props.status.message}</strong><br/>
         <span>{this.props.status.instructions}</span>
         &nbsp;
-        <a className="alert-link" href={this.props.status.action.href}>{this.props.status.action.title}</a>
+        <a className="alert-link" href={this.props.status.action.url}>{this.props.status.action.title}</a>.
       </div>
     )
   }
