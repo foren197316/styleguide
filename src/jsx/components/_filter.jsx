@@ -166,10 +166,15 @@ var SearchFilter = React.createClass({
 
       var filterFunc = caseSensitive
             ? function (entry) {
-                return entry[searchOn].indexOf(value) >= 0;
+                return value.split(/\s+/).reduce(function (prev, curr) {
+                  return prev && entry[searchOn].indexOf(curr) >= 0;
+                }, true);
               }
             : function (entry) {
-                return entry[searchOn].toLowerCase().indexOf(value.toLowerCase()) >= 0;
+                var lowerEntry = entry[searchOn].toLowerCase();
+                return value.toLowerCase().split(/\s+/).reduce(function (prev, curr) {
+                  return prev && lowerEntry.indexOf(curr) >= 0;
+                }, true);
               };
 
       filteredData = filteredData.filter(filterFunc);
