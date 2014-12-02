@@ -290,14 +290,14 @@ var ParticipantGroupParticipantDecliningForm = React.createClass({
       <div>
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Reason</label>
-          <RadioGroup className="col-xs-12 col-sm-8" defaultValue={this.state.reason} onChange={this.handleChange} name={"rejections[" + this.props.key + "][option]"}>
+          <RadioGroup className="col-xs-12 col-sm-8" defaultValue={this.state.reason} onChange={this.handleChange} name={"rejections[" + this.props.data.id + "][option]"}>
             <div className="radio"><label><input type="radio" value="Filled this position" /> Filled this position</label></div>
             <div className="radio"><label><input type="radio" value="Unsuitable work dates" /> Unsuitable work dates</label></div>
             <div className="radio"><label><input type="radio" value="Unsuitable English" /> Unsuitable English</label></div>
             <div className="radio"><label><input type="radio" value="" /> Other</label></div>
           </RadioGroup>
         </div>
-        <ReactBootstrap.Input name={"rejections["+this.props.key+"][reason]"} id={"rejection_reason_"+this.props.key} label="Please specify" labelClassName={"col-sm-4 " + visibility} type="text" wrapperClassName={"col-sm-8 " + visibility}/>
+        <ReactBootstrap.Input name={"rejections["+this.props.data.id+"][reason]"} id={"rejection_reason_"+this.props.data.id} label="Please specify" labelClassName={"col-sm-4 " + visibility} type="text" wrapperClassName={"col-sm-8 " + visibility}/>
       </div>
     )
   }
@@ -326,7 +326,7 @@ var ParticipantGroupParticipantDeclining = React.createClass({
   render: function () {
     return (
       <ParticipantGroupItemWrapper participant={this.props.data}>
-        <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} />
+        <ParticipantGroupParticipantDecliningForm data={this.props.data} />
       </ParticipantGroupItemWrapper>
     )
   }

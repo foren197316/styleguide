@@ -26,7 +26,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
 
     if (this.state.isOffering) {
       url = "/offered_participant_groups.json",
-      trackEventName = 'confirmed-employer-participants-offer',
+      trackEventName = "confirmed-employer-participants-offer",
       data = {
         offered_participant_group: $.extend({
           employer_id: this.props.employerId,
@@ -35,7 +35,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
       };
     } else if (this.state.isDeclining) {
       url = "/on_review_participant_groups/" + this.props.data.id + ".json",
-      trackEventName = 'confirmed-employer-participants-decline',
+      trackEventName = "confirmed-employer-participants-decline",
       data = {
         "_method": "DELETE",
         on_review_participant_group: form.serializeJSON()
@@ -54,8 +54,8 @@ var OnReviewParticipantGroupPanel = React.createClass({
         $(node).remove();
 
         Intercom('trackEvent', trackEventName, {
-          employerId: this.props.employerId,
-          employerName: this.props.employerName,
+          employer_id: this.props.employerId,
+          employer_name: this.props.employerName,
           participant_names: this.participantNames()
         });
       }.bind(this),
@@ -176,9 +176,9 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({
           if (isOfferingState.value) {
             return <OnReviewParticipantGroupPanelFooterButtonsConfirmCancel data={participant} employerId={this.props.employerId} employerName={this.props.employerName} participantNames={this.props.participantNames} draftJobOfferValidState={draftJobOfferValidState} isOfferingState={isOfferingState} />;
           } else if (isDecliningState.value) {
-            return <OnReviewParticipantGroupPanelFooterButtonsDeclineCancel data={participant} employerName={this.props.employerName} participantNames={this.props.participantNames} isDecliningState={isDecliningState} />;
+            return <OnReviewParticipantGroupPanelFooterButtonsDeclineCancel data={participant} employerId={this.props.employerId} employerName={this.props.employerName} participantNames={this.props.participantNames} isDecliningState={isDecliningState} />;
           } else {
-            return <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} employerName={this.props.employerName} participantNames={this.props.participantNames} isOfferingState={isOfferingState} isDecliningState={isDecliningState} />;
+            return <OnReviewParticipantGroupPanelFooterButtonsOfferDecline data={participant} employerId={this.props.employerId} employerName={this.props.employerName} participantNames={this.props.participantNames} isOfferingState={isOfferingState} isDecliningState={isDecliningState} />;
           }
         }.bind(this))(),
         legalese = (function (participant) {
@@ -207,8 +207,8 @@ var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
     this.props.isOfferingState.requestChange(!this.props.isOfferingState.value);
 
     Intercom('trackEvent', 'clicked-employer-participants-offer', {
-      employerId: this.props.employerId,
-      employerName: this.props.employerName,
+      employer_id: this.props.employerId,
+      employer_name: this.props.employerName,
       participant_names: this.props.participantNames
     });
   },
@@ -217,8 +217,8 @@ var OnReviewParticipantGroupPanelFooterButtonsOfferDecline = React.createClass({
     this.props.isDecliningState.requestChange(!this.props.isDecliningState.value);
 
     Intercom('trackEvent', 'clicked-employer-participants-decline', {
-      employerId: this.props.employerId,
-      employerName: this.props.employerName,
+      employer_id: this.props.employerId,
+      employer_name: this.props.employerName,
       participant_names: this.props.participantNames
     });
   },
@@ -238,8 +238,8 @@ var OnReviewParticipantGroupPanelFooterButtonsConfirmCancel = React.createClass(
     this.props.isOfferingState.requestChange(!this.props.isOfferingState.value);
 
     Intercom('trackEvent', 'canceled-employer-participants-offer', {
-      employerId: this.props.employerId,
-      employerName: this.props.employerName,
+      employer_id: this.props.employerId,
+      employer_name: this.props.employerName,
       participant_names: this.props.participantNames
     });
   },
@@ -263,8 +263,8 @@ var OnReviewParticipantGroupPanelFooterButtonsDeclineCancel = React.createClass(
     this.props.isDecliningState.requestChange(!this.props.isDecliningState.value);
 
     Intercom('trackEvent', 'canceled-employer-participants-decline', {
-      employerId: this.props.employerId,
-      employerName: this.props.employerName,
+      employer_id: this.props.employerId,
+      employer_name: this.props.employerName,
       participant_names: this.props.participantNames
     });
   },
