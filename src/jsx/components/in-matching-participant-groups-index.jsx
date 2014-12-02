@@ -32,10 +32,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     var participantsPromise =
       participantGroupsPromise
       .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"));
-
-    var participantGroupsWithParticipantNamesPromise =
-      participantsPromise
+      .then(this.loadResource("participants"))
       .then(this.loadResource("enrollments"))
       .then(function (enrollments) {
         var searchableEnrollments = enrollments.filter(function (enrollment) {
@@ -51,31 +48,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("program_id"))
       .then(this.loadResource("programs"))
       .then(function (programs) {
-        var programsWithCount = programs.map(function (program) {
-          program.participant_count = 0;
-          return program;
-        });
-
-        var participants = this.state.participants.filter(function (participant) {
-          for (var i in programsWithCount) {
-            if (programsWithCount[i].id === participant.program_id) {
-              programsWithCount[i].participant_count++;
-              return true;
-            }
-          }
-
-          return false;
-        });
-
-        this.setState({
-          programs: programsWithCount
-        });
-
-        return participants;
-      }.bind(this))
-      .then(function (participants) {
         var participantGroupsWithParticipantNames = this.state.participantGroups.map(function (participantGroup) {
-          var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
+          var participantGroupParticipants = this.state.participants.findById(participantGroup.participant_ids),
               regionIds = participantGroupParticipants.mapAttribute("region_ids").flatten();
 
           if (regionIds.indexOf(this.state.employer.region_id) >= 0) {
@@ -90,19 +64,33 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         });
 
         var filteredParticipants = participantGroupsWithParticipantNames.map(function (participantGroup) {
-          return participants.findById(participantGroup.participant_ids);
-        }).flatten();
+          return this.state.participants.findById(participantGroup.participant_ids);
+        }.bind(this)).flatten();
+
+        var programsWithCount = programs.map(function (program) {
+          program.participant_count = 0;
+          return program;
+        });
+
+        filteredParticipants = filteredParticipants.filter(function (participant) {
+          for (var i in programsWithCount) {
+            if (programsWithCount[i].id === participant.program_id) {
+              programsWithCount[i].participant_count++;
+              return true;
+            }
+          }
+
+          return false;
+        });
 
         this.setState({
           participantGroups: participantGroupsWithParticipantNames,
-          participants: filteredParticipants
+          participants: filteredParticipants,
+          programs: programsWithCount
         });
 
         return filteredParticipants;
-      }.bind(this));
-
-    var countryPromise =
-      participantGroupsWithParticipantNamesPromise
+      }.bind(this))
       .then(this.extractIds("country_name"))
       .then(function (data) {
         var countries = data.ids.uniq().sort().map(function (country) {
@@ -132,7 +120,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       }.bind(this));
 
     this.loadAll([
-      countryPromise,
+      participantsPromise,
       groupNamePromise,
       this.loadResource("positions")()
     ])
