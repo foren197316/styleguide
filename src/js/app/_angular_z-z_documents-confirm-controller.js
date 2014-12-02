@@ -10,6 +10,7 @@ app.controller('WtEmployerApplicationDocumentConfirmModalController', function($
       $scope.reloadPage();
     })
     .error(function(data) {
+      $("[ng-controller='WtEmployerApplicationDocumentConfirmModalController'] button[type='submit']").removeAttr('disabled');
       $scope.ResetConfirmFormErrors(activity);
 
       angular.forEach(data.errors, function(errors, field) {
