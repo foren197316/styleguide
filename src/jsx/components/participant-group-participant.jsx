@@ -69,7 +69,7 @@ var ParticipantGroupItemWrapper = React.createClass({
               <div className="col-xs-12 col-md-4 col-md-offset-4">
                 <div className="row text-right">
                   <div className="col-xs-6 col-md-10">
-                    <strong>English Level</strong>
+                    <strong>English <span className="hidden-xs">Level</span> </strong>
                   </div>
                   <div className="col-xs-6 col-md-2">
                     <span>{participant.english_level}</span>
