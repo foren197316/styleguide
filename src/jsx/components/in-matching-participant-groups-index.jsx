@@ -34,7 +34,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("participant_ids"))
       .then(this.loadResource("participants"));
 
-    var programsPromise =
+    var participantGroupsWithParticipantNamesPromise =
       participantsPromise
       .then(this.loadResource("enrollments"))
       .then(function (enrollments) {
@@ -68,15 +68,11 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         });
 
         this.setState({
-          participants: participants,
           programs: programsWithCount
         });
 
         return participants;
-      }.bind(this));
-
-    var participantGroupsWithParticipantNamesPromise =
-      participantsPromise
+      }.bind(this))
       .then(function (participants) {
         var participantGroupsWithParticipantNames = this.state.participantGroups.map(function (participantGroup) {
           var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
@@ -138,7 +134,6 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     this.loadAll([
       countryPromise,
       groupNamePromise,
-      programsPromise,
       this.loadResource("positions")()
     ])
     .done(function () {
