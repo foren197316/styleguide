@@ -116,6 +116,8 @@ var InMatchingParticipantGroupPanel = React.createClass({
         $(node).remove();
       }.bind(this),
       error: function(data) {
+        alert("Unable to put Participant Group on Review.\n\nThis page will automatically reload.");
+
         window.location = window.location;
       }
     });
