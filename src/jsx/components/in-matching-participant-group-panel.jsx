@@ -62,6 +62,30 @@ var InMatchingParticipantGroupPanels = React.createClass({
   }
 });
 
+var Alert = React.createClass({
+  render: function () {
+    return (
+      <div className={"alert alert-" + this.props.status.type}>
+        <AlertClose />
+        <strong>{this.props.status.message}</strong><br/>
+        <span>{this.props.status.instructions}</span>
+        &nbsp;
+        <a className="alert-link" href={this.props.status.action.href}>{this.props.status.action.title}</a>
+      </div>
+    )
+  }
+});
+
+var AlertClose = React.createClass({
+  render: function () {
+    return (
+      <button type="button" className="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span><span className="sr-only">Close</span>
+      </button>
+    )
+  }
+});
+
 var InMatchingParticipantGroupPanel = React.createClass({
   getInitialState: function() {
     return {
@@ -100,6 +124,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
       url: "/on_review_participant_groups.json",
       type: "POST",
       data: data,
+      dataType: "json",
       success: function(data) {
         var currentEnrollments = this.props.enrollmentsLink.value.map(function (enrollment, index) {
           if (enrollment.id === this.props.enrollment.id) {
@@ -111,15 +136,10 @@ var InMatchingParticipantGroupPanel = React.createClass({
         }.bind(this));
 
         this.props.enrollmentsLink.requestChange(currentEnrollments);
-
-        React.unmountComponentAtNode(node);
-        $(node).remove();
       }.bind(this),
-      error: function(data) {
-        alert("Unable to put Participant Group on Review.\n\nThis page will automatically reload.");
-
-        window.location = window.location;
-      }
+      complete: function(data) {
+        this.setState({status: data.responseJSON.status});
+      }.bind(this)
     });
   },
 
@@ -132,37 +152,41 @@ var InMatchingParticipantGroupPanel = React.createClass({
           return participant.name;
         }).join(",");
 
-    if (this.state.puttingOnReview) {
-      action = (
-        <div className="btn-group pull-right">
-          <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
-          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-        </div>
-      )
-      legalese = (
-        <div>
-          <p className="panel-text">You will have until <strong>{this.state.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
-          <p className="panel-text">If you take no action by <strong>{this.state.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
-        </div>
-      )
-    } else if (this.canPutOnReview()) {
-      action = <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>;
+    if (this.state.status) {
+      return <Alert status={this.state.status} />
     } else {
-      action = <span className="label label-warning">On Review limit reached</span>;
-    }
+      if (this.state.puttingOnReview) {
+        action = (
+          <div className="btn-group pull-right">
+            <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+            <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
+          </div>
+        )
+        legalese = (
+          <div>
+            <p className="panel-text">You will have until <strong>{this.state.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
+            <p className="panel-text">If you take no action by <strong>{this.state.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
+          </div>
+        )
+      } else if (this.canPutOnReview()) {
+        action = <button className="btn btn-success pull-right" onClick={this.handlePutOnReview}>Put on Review</button>;
+      } else {
+        action = <span className="label label-warning">On Review limit reached</span>;
+      }
 
-    return (
-      <div className="panel panel-default participant-group-panel" data-participant-names={participantNames}>
-        <div className="list-group">
-          {this.props.participants.map(function (participant) {
-            return <ParticipantGroupParticipant key={participant.id} data={participant} />;
-          })}
+      return (
+        <div className="panel panel-default participant-group-panel" data-participant-names={participantNames}>
+          <div className="list-group">
+            {this.props.participants.map(function (participant) {
+              return <ParticipantGroupParticipant key={participant.id} data={participant} />;
+            })}
+          </div>
+          <ParticipantGroupPanelFooter name={footerName}>
+            {action}
+            {legalese}
+          </ParticipantGroupPanelFooter>
         </div>
-        <ParticipantGroupPanelFooter name={footerName}>
-          {action}
-          {legalese}
-        </ParticipantGroupPanelFooter>
-      </div>
-    )
+      )
+    }
   }
 });
