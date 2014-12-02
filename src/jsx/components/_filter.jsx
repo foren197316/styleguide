@@ -188,7 +188,7 @@ var SearchFilter = React.createClass({
     if (this.isMounted()) {
       return (
         <label className="list-group">
-          <input type="search" name={"search_"+this.props.title} onChange={this.handleChange} value={this.state.lastSearch} className="list-group-item form-control" placeholder="First, Middle, or Last Name" autofocus="true" />
+          <input type="search" name={"search_"+this.props.title} onChange={this.handleChange} value={this.state.lastSearch} className="list-group-item form-control" placeholder="Search" />
         </label>
       )
     } else {
