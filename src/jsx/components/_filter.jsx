@@ -128,3 +128,65 @@ var RadioGroupFilter = React.createClass({
     )
   }
 });
+
+var SearchFilter = React.createClass({
+  statics: {
+    inputCharacterMinimumDefault: 3,
+    caseSensitiveDefault: false
+  },
+
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    searchOn: React.PropTypes.string.isRequired,
+    options: React.PropTypes.array.isRequired,
+    dataLink: React.PropTypes.object.isRequired,
+    inputCharacterMinimum: React.PropTypes.number,
+    caseSensitive: React.PropTypes.bool
+  },
+
+  getInitialState: function () {
+    return {
+      lastSearch: null
+    };
+  },
+
+  handleChange: function (event) {
+    var value = event.target.value,
+        searchOn = this.props.searchOn,
+        inputCharacterMinimum = this.props.inputCharacterMinimum || SearchFilter.inputCharacterMinimumDefault,
+        caseSensitive = typeof this.props.caseSensitive === "boolean" ? this.props.caseSensitive : SearchFilter.caseSensitiveDefault;
+
+    if (value.length >= inputCharacterMinimum) {
+      var filteredData;
+      if (this.state.lastSearch !== null && value.indexOf(this.state.lastSearch) >= 0) {
+        filteredData = this.props.dataLink.value;
+      } else {
+        filteredData = this.props.options;
+      }
+
+      var filterFunc = caseSensitive
+            ? function (entry) {
+                return entry[searchOn].indexOf(value) >= 0;
+              }
+            : function (entry) {
+                return entry[searchOn].toLowerCase().indexOf(value.toLowerCase()) >= 0;
+              };
+
+      filteredData = filteredData.filter(filterFunc);
+
+      this.props.dataLink.requestChange(filteredData);
+    } else {
+      this.props.dataLink.requestChange(this.props.options);
+    }
+
+    this.setState({
+      lastSearch: value
+    });
+  },
+
+  render: function () {
+    return (
+      <input name={"search_"+this.props.title} onChange={this.handleChange} value={this.state.lastSearch} />
+    )
+  }
+});

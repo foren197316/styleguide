@@ -20,10 +20,32 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("participant_group_id"))
       .then(this.loadResource("participantGroups"));
 
-    var countryPromise =
+    var participantsPromise =
       participantGroupsPromise
       .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"))
+      .then(this.loadResource("participants"));
+
+    var participantGroupsWithParticipantNamesPromise =
+      participantsPromise
+      .then(function (participants) {
+        var participantGroupsWithParticipantNames = this.state.participantGroups.map(function (participantGroup) {
+          participantGroup.participant_names = participants
+            .findById(participantGroup.participant_ids)
+            .mapAttribute("name")
+            .join(",");
+
+          return participantGroup;
+        });
+
+        this.setState({
+          participantGroups: participantGroupsWithParticipantNames
+        });
+
+        return participantGroupsWithParticipantNames;
+      }.bind(this));
+
+    var countryPromise =
+      participantsPromise
       .then(this.extractIds("country_name"))
       .then(function (data) {
         var countries = data.ids.uniq().sort().map(function (country) {
@@ -56,12 +78,14 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       this.loadResource("employer")(),
       countryPromise,
       groupNamePromise,
+      participantGroupsWithParticipantNamesPromise,
       this.loadResource("enrollments")(),
       this.loadResource("programs")(),
       this.loadResource("positions")()
     ])
     .done(function () {
       this.setProps({
+        participantGroups: this.state.participantGroups,
         ageAtArrival: this.state.ageAtArrival,
         countries: this.state.countries,
         enrollments: this.state.enrollments,
@@ -79,6 +103,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     return (
       <div className="row">
         <div className="col-md-3">
+          <SearchFilter title="Search" searchOn="participant_names" options={this.props.participantGroups} dataLink={this.linkState("participantGroups")} />
           <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
           <CheckBoxFilter title="Group" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
           <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
@@ -141,7 +166,7 @@ var InMatchingParticipantGroups = React.createClass({
           inMatchingParticipantGroupPanels = this.props.inMatchingParticipantGroupsLink.value.map(function (inMatchingParticipantGroup) {
             var participantGroup = this.props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
 
-            if (participantGroup === undefined) {
+            if (participantGroup === undefined || participantGroup === null) {
               return;
             }
 
