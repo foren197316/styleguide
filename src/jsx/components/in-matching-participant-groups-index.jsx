@@ -199,9 +199,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   },
 
   render: function () {
-    return this.waitForLoadAll(function() {
-      return this.renderLoaded();
-    }.bind(this));
+    return this.waitForLoadAll(this.renderLoaded);
   }
 });
 
