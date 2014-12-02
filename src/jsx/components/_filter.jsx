@@ -26,7 +26,7 @@ var CheckBoxFilter = React.createClass({
       return (
         <div className="panel panel-default">
           <div className="panel-heading">{this.props.title}</div>
-          <div className="list-group">
+          <div className="list-group list-group-scrollable">
             {this.props.options.map(function (option) {
               return <label key={this.props.title+"_checkbox_"+option.id} className="list-group-item">
                 <input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} />

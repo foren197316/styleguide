@@ -9,9 +9,11 @@ label.list-group {
 }
 
 .list-group {
-  max-height: 400px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  &.list-group-scrollable {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
   label.list-group-item {
     input {
