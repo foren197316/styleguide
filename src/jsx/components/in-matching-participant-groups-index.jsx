@@ -62,17 +62,19 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     ])
     .done(function () {
       this.setProps({
-        positions: this.state.positions,
-        genders: this.state.genders,
         ageAtArrival: this.state.ageAtArrival,
         countries: this.state.countries,
-        participantGroupNames: this.state.participantGroupNames
+        enrollments: this.state.enrollments,
+        genders: this.state.genders,
+        participantGroupNames: this.state.participantGroupNames,
+        positions: this.state.positions
       });
     }.bind(this));
   },
 
   renderLoaded: function () {
-    var inMatchingParticipantGroupsLink = this.linkState("inMatchingParticipantGroups");
+    var inMatchingParticipantGroupsLink = this.linkState("inMatchingParticipantGroups"),
+        enrollmentsLink = this.linkState("enrollments");
 
     return (
       <div className="row">
@@ -95,17 +97,18 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                 <div className="row">
                   <div className="col-md-12">
                     <InMatchingParticipantGroups
-                      inMatchingParticipantGroupsLink={inMatchingParticipantGroupsLink}
-                      participantGroups={this.state.participantGroups}
-                      participants={this.state.participants}
-                      program={program}
-                      positions={this.state.positions}
-                      genders={this.state.genders}
                       ageAtArrival={this.state.ageAtArrival}
                       countries={this.state.countries}
-                      participantGroupNames={this.state.participantGroupNames}
                       employer={this.state.employer}
-                      enrollments={this.state.enrollments} />
+                      enrollments={this.state.enrollments}
+                      enrollmentsLink={enrollmentsLink}
+                      genders={this.state.genders}
+                      inMatchingParticipantGroupsLink={inMatchingParticipantGroupsLink}
+                      participantGroupNames={this.state.participantGroupNames}
+                      participantGroups={this.state.participantGroups}
+                      participants={this.state.participants}
+                      positions={this.state.positions}
+                      program={program} />
                   </div>
                 </div>
               </div>
@@ -129,7 +132,9 @@ var InMatchingParticipantGroups = React.createClass({
   render: function () {
     var program = this.props.program,
         employer = this.props.employer,
-        enrollment = this.props.enrollments.findById(program.id, "program_id"),
+        enrollments = this.props.enrollments,
+        enrollmentsLink = this.props.enrollmentsLink,
+        enrollment = enrollments.findById(program.id, "program_id"),
         inMatchingParticipantGroupPanels = null;
 
         if (enrollment !== null && enrollment.searchable) {
@@ -190,12 +195,15 @@ var InMatchingParticipantGroups = React.createClass({
               }
 
               return <InMatchingParticipantGroupPanel
+                      employer={employer}
+                      enrollment={enrollment}
+                      enrollments={enrollments}
+                      enrollmentsLink={enrollmentsLink}
                       inMatchingParticipantGroup={inMatchingParticipantGroup}
+                      key={inMatchingParticipantGroup.id}
                       participantGroup={participantGroup}
                       participants={participants}
-                      program={program}
-                      enrollment={enrollment}
-                      key={inMatchingParticipantGroup.id} />;
+                      program={program} />;
             }
           }.bind(this));
         }

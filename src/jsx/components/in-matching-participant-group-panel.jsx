@@ -24,22 +24,29 @@ var InMatchingParticipantGroupPanels = React.createClass({
   renderLoaded: function () {
     var employerState = this.linkState('employer'),
         programsState = this.linkState('programs'),
-        enrollmentsState = this.linkState('enrollments'),
+        enrollmentsLink = this.linkState('enrollments'),
         participantsState = this.linkState('participants'),
         participantGroupsState = this.linkState('participantGroups'),
         groupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
           var participantGroup = participantGroupsState.value.findById(inMatchingParticipantGroup.participant_group_id),
               participants = participantsState.value.findById(participantGroup.participant_ids),
               program = programsState.value.findById(participants[0].program_id),
-              enrollment = enrollmentsState.value.findById(program.id, "program_id"),
+              enrollment = enrollmentsLink.value.findById(program.id, "program_id"),
               regions = participants.map(function (participant) {
                 return participant.region_ids;
               }).flatten();
 
           if (enrollment !== null && enrollment.searchable && regions.indexOf(employerState.value.region_id) >= 0) {
-            return (
-              <InMatchingParticipantGroupPanel key={inMatchingParticipantGroup.id} participants={participants} inMatchingParticipantGroup={inMatchingParticipantGroup} enrollment={enrollment} program={program} enrollmentsState={enrollmentsState} employerState={employerState} program={program} participantGroup={participantGroup} />
-            );
+            return <InMatchingParticipantGroupPanel
+                    employer={employerState.value}
+                    enrollment={enrollment}
+                    enrollments={enrollmentsLink.value}
+                    enrollmentsLink={enrollmentsLink}
+                    inMatchingParticipantGroup={inMatchingParticipantGroup}
+                    key={inMatchingParticipantGroup.id}
+                    participantGroup={participantGroup}
+                    participants={participants}
+                    program={program} />;
           }
         });
 
@@ -84,7 +91,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
         data = {
           on_review_participant_group: {
             in_matching_participant_group_id: this.props.inMatchingParticipantGroup.id,
-            employer_id: this.props.employerState.value.id,
+            employer_id: this.props.employer.id,
             expires_on: this.state.onReviewExpiresOn
           }
         };
@@ -94,7 +101,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
       type: "POST",
       data: data,
       success: function(data) {
-        var currentEnrollments = this.props.enrollmentsState.value.map(function (enrollment, index) {
+        var currentEnrollments = this.props.enrollmentsLink.value.map(function (enrollment, index) {
           if (enrollment.id === this.props.enrollment.id) {
             this.props.enrollment.on_review_count += data.on_review_participant_group.participants.length;
             return this.props.enrollment;
@@ -103,7 +110,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
           return enrollment;
         }.bind(this));
 
-        this.props.enrollmentsState.requestChange(currentEnrollments);
+        this.props.enrollmentsLink.requestChange(currentEnrollments);
 
         React.unmountComponentAtNode(node);
         $(node).remove();
