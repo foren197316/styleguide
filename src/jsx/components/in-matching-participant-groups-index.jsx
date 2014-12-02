@@ -145,7 +145,14 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   },
 
   render: function () {
-    return this.waitForLoadAll(this.renderLoaded);
+    return this.waitForLoadAll(function() {
+      Intercom('trackEvent', 'visited-employer-participants-search', {
+        employer_id: this.state.employer.id,
+        employer_name: this.state.employer.name
+      });
+
+      return this.renderLoaded();
+    }.bind(this));
   }
 });
 
