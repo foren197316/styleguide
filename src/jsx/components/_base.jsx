@@ -356,11 +356,12 @@ var GroupPanelsMixin = {
   render: function() {
     if (this.isMounted()) {
       var employerId = this.props.employerId,
+          employerName = this.props.employerName,
           participantGroupPanelType = this.participantGroupPanelType,
           idType = this.getIdType(),
           groupPanels = this.state.groups.map(function (group) {
             return (
-              <participantGroupPanelType key={group.id} data={group} employerId={employerId} idType={idType} />
+              <participantGroupPanelType key={group.id} data={group} employerId={employerId} employerName={employerName} idType={idType} />
             );
           });
 
