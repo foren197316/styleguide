@@ -57,26 +57,36 @@ var ParticipantGroupItemWrapper = React.createClass({
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-12 col-lg-6">
-                <label>{participant.country_name}</label>
+              <div className="col-xs-12 col-md-6">
+                <strong>{participant.country_name}</strong>
+                <br/>
+                <strong><YearCalculator from={participant.date_of_birth} to={participant.arrival_date} /></strong>
+                <strong style={{ "padding-left": "5px" }}>{participant.gender}</strong>
               </div>
             </div>
+            <hr/>
             <div className="row">
-              <div className="col-xs-12 col-lg-8">
-                <strong><YearCalculator from={participant.date_of_birth} to={participant.arrival_date} /></strong>
-                &nbsp;
-                &nbsp;
-                <strong>{participant.gender}</strong>
+              <div className="col-xs-12 col-md-4 col-md-offset-4">
+                <div className="row text-right">
+                  <div className="col-xs-6 col-md-10">
+                    <strong>English Level</strong>
+                  </div>
+                  <div className="col-xs-6 col-md-2">
+                    <span>{participant.english_level}</span>
+                  </div>
+                </div>
               </div>
-              <div className="col-xs-hidden col-lg-4 text-right">
-                <dl className="dl-horizontal">
-                  <dt>Availability</dt>
-                  <dd>
+              <div className="col-xs-12 col-md-4">
+                <div className="row text-right">
+                  <div className="col-xs-6 col-md-7">
+                    <strong>Availability</strong>
+                  </div>
+                  <div className="col-xs-6 col-md-5">
                     <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
                     <br/>
                     <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
-                  </dd>
-                </dl>
+                  </div>
+                </div>
               </div>
             </div>
             {hr}
