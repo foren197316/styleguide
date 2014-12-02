@@ -102,14 +102,32 @@ var InMatchingParticipantGroupPanel = React.createClass({
 
   handlePutOnReview: function(event) {
     this.setState({ puttingOnReview: true });
+
+    Intercom('trackEvent', 'clicked-employer-participants-review', {
+      employer_id: this.props.employer.id,
+      employer_name: this.props.employer.name,
+      participant_names: this.participantNames()
+    });
   },
 
   handleCancel: function(event) {
     this.setState({ puttingOnReview: false });
+
+    Intercom('trackEvent', 'canceled-employer-participants-review', {
+      employer_id: this.props.employer.id,
+      employer_name: this.props.employer.name,
+      participant_names: this.participantNames()
+    });
   },
 
   handleConfirm: function(event) {
     this.setState({ sending: true });
+
+    Intercom('trackEvent', 'confirmed-employer-participants-review', {
+      employer_id: this.props.employer.id,
+      employer_name: this.props.employer.name,
+      participant_names: this.participantNames()
+    });
 
     var node = this.getDOMNode(),
         data = {
@@ -143,14 +161,17 @@ var InMatchingParticipantGroupPanel = React.createClass({
     });
   },
 
+  participantNames: function () {
+    return this.props.participants.map(function (participant) {
+      return participant.name;
+    }).join(", ");
+  },
+
   render: function() {
     var action,
         legalese,
         footerName = this.props.participantGroup.name,
-        participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant',
-        participantNames = this.props.participants.map(function (participant) {
-          return participant.name;
-        }).join(",");
+        participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant';
 
     if (this.state.status) {
       return <Alert status={this.state.status} />
@@ -175,7 +196,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
       }
 
       return (
-        <div className="panel panel-default participant-group-panel" data-participant-names={participantNames}>
+        <div className="panel panel-default participant-group-panel" data-participant-names={this.participantNames()}>
           <div className="list-group">
             {this.props.participants.map(function (participant) {
               return <ParticipantGroupParticipant key={participant.id} data={participant} />;
