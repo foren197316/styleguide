@@ -24,7 +24,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
 
   componentDidMount: function () {
     var participantGroupsPromise =
-      this.loadResource("inMatchingParticipantGroups")()
+      this.loadResource("employer")()
+      .then(this.loadResource("inMatchingParticipantGroups"))
       .then(this.extractIds("participant_group_id"))
       .then(this.loadResource("participantGroups"));
 
@@ -78,25 +79,34 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       participantsPromise
       .then(function (participants) {
         var participantGroupsWithParticipantNames = this.state.participantGroups.map(function (participantGroup) {
-          participantGroup.participant_names = participants
-            .findById(participantGroup.participant_ids)
-            .mapAttribute("name")
-            .join(",");
+          var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
+              regionIds = participantGroupParticipants.mapAttribute("region_ids").flatten();
+
+          if (regionIds.indexOf(this.state.employer.region_id) >= 0) {
+            participantGroup.participant_names = participantGroupParticipants.mapAttribute("name").join(",");
+          } else {
+            participantGroup.participant_names = "";
+          }
 
           return participantGroup;
-        }).filter(function (participantGroup) {
+        }.bind(this)).filter(function (participantGroup) {
           return participantGroup.participant_names.trim().length > 0;
         });
 
+        var filteredParticipants = participantGroupsWithParticipantNames.map(function (participantGroup) {
+          return participants.findById(participantGroup.participant_ids);
+        }).flatten();
+
         this.setState({
-          participantGroups: participantGroupsWithParticipantNames
+          participantGroups: participantGroupsWithParticipantNames,
+          participants: filteredParticipants
         });
 
-        return participantGroupsWithParticipantNames;
+        return filteredParticipants;
       }.bind(this));
 
     var countryPromise =
-      participantsPromise
+      participantGroupsWithParticipantNamesPromise
       .then(this.extractIds("country_name"))
       .then(function (data) {
         var countries = data.ids.uniq().sort().map(function (country) {
@@ -126,10 +136,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       }.bind(this));
 
     this.loadAll([
-      this.loadResource("employer")(),
       countryPromise,
       groupNamePromise,
-      participantGroupsWithParticipantNamesPromise,
       programsPromise,
       this.loadResource("positions")()
     ])
