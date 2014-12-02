@@ -159,21 +159,19 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         <div className="col-md-9">
           {this.state.programs.map(function (program) {
             return (
-              <InMatchingParticipantGroupProgram program={program}>
-                <InMatchingParticipantGroups
-                  ageAtArrival={this.state.ageAtArrival}
-                  countries={this.state.countries}
-                  employer={this.state.employer}
-                  enrollments={this.state.enrollments}
-                  enrollmentsLink={enrollmentsLink}
-                  genders={this.state.genders}
-                  inMatchingParticipantGroups={this.state.inMatchingParticipantGroups}
-                  participantGroupNames={this.state.participantGroupNames}
-                  participantGroups={this.state.participantGroups}
-                  participants={this.state.participants}
-                  positions={this.state.positions}
-                  program={program} />
-              </InMatchingParticipantGroupProgram>
+              <InMatchingParticipantGroups
+                ageAtArrival={this.state.ageAtArrival}
+                countries={this.state.countries}
+                employer={this.state.employer}
+                enrollments={this.state.enrollments}
+                enrollmentsLink={enrollmentsLink}
+                genders={this.state.genders}
+                inMatchingParticipantGroups={this.state.inMatchingParticipantGroups}
+                participantGroupNames={this.state.participantGroupNames}
+                participantGroups={this.state.participantGroups}
+                participants={this.state.participants}
+                positions={this.state.positions}
+                program={program} />
             )
           }.bind(this))}
         </div>
@@ -188,87 +186,32 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   }
 });
 
-var InMatchingParticipantGroupProgram = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
-
-  propTypes: {
-    program: React.PropTypes.object.isRequired
-  },
-
-  getInitialState: function () {
-    return {
-      hasVisibleParticipantGroups: true
-    };
-  },
-
-  render: function () {
-    var hasVisibleParticipantGroupsLink = this.linkState("hasVisibleParticipantGroups"),
-        children = React.Children.map(this.props.children, function (child) {
-                    return React.addons.cloneWithProps(child, {
-                      hasVisibleParticipantGroupsLink: hasVisibleParticipantGroupsLink
-                    });
-                  });
-
-    if (this.state.hasVisibleParticipantGroups) {
-      return (
-        <div className="programs" key={"in_matching_participant_group_program_"+this.props.program.id}>
-          <div className="row">
-            <div className="col-md-12">
-              <h2 className="page-header">
-                {this.props.program.name}
-                <small className="pull-right">{this.props.program.participant_count} Participants</small>
-              </h2>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              {children}
-            </div>
-          </div>
-        </div>
-      )
-    } else {
-      return <div>{children}</div>
-    }
-  }
-});
-
 var InMatchingParticipantGroups = React.createClass({
   propTypes: {
     inMatchingParticipantGroups: React.PropTypes.array.isRequired
   },
 
-  getInitialState: function () {
-    return {
-      inMatchingParticipantPanels: null
-    };
-  },
-
-  componentWillReceiveProps: function (newProps) {
-    this.updatePanels(newProps);
-  },
-
-  updatePanels: function (props) {
-    var program = props.program,
-        employer = props.employer,
-        enrollments = props.enrollments,
-        enrollmentsLink = props.enrollmentsLink,
+  render: function () {
+    var program = this.props.program,
+        employer = this.props.employer,
+        enrollments = this.props.enrollments,
+        enrollmentsLink = this.props.enrollmentsLink,
         enrollment = enrollments.findById(program.id, "program_id"),
         inMatchingParticipantGroupPanels = null;
 
     if (enrollment !== null && enrollment.searchable) {
-      inMatchingParticipantGroupPanels = props.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-        var participantGroup = props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
+      inMatchingParticipantGroupPanels = this.props.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+        var participantGroup = this.props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
 
         if (participantGroup === undefined || participantGroup === null) {
           return;
         }
 
-        if (props.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
+        if (this.props.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
           return;
         }
 
-        var participants = props.participants.filter(function (participant) {
+        var participants = this.props.participants.filter(function (participant) {
               return participant.program_id === program.id;
             }).findById(participantGroup.participant_ids),
             regions = participants.map(function (participant) {
@@ -279,20 +222,20 @@ var InMatchingParticipantGroups = React.createClass({
           var participantGroupParticipants = participants.findById(participantGroup.participant_ids),
               participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
 
-          if (!participantGroupParticipantPositionIds.intersects(props.positions.mapAttribute("id"))) {
+          if (!participantGroupParticipantPositionIds.intersects(this.props.positions.mapAttribute("id"))) {
             return;
           }
 
           var participantGenders = participantGroupParticipants.mapAttribute("gender");
 
-          if (!props.genders.mapAttribute("id").intersects(participantGenders)) {
+          if (!this.props.genders.mapAttribute("id").intersects(participantGenders)) {
             return;
           }
 
-          if (props.ageAtArrival.length === 1) {
+          if (this.props.ageAtArrival.length === 1) {
             var meetsAgeRequirement;
 
-            if (props.ageAtArrival[0].id === "21_and_over") {
+            if (this.props.ageAtArrival[0].id === "21_and_over") {
               meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
                 return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
               }, false);
@@ -309,7 +252,7 @@ var InMatchingParticipantGroups = React.createClass({
 
           var participantCountries = participantGroupParticipants.mapAttribute("country_name");
 
-          if (!props.countries.mapAttribute("name").intersects(participantCountries)) {
+          if (!this.props.countries.mapAttribute("name").intersects(participantCountries)) {
             return;
           }
 
@@ -331,18 +274,32 @@ var InMatchingParticipantGroups = React.createClass({
       inMatchingParticipantGroupPanels = inMatchingParticipantGroupPanels.filter(function (panel) {
         return panel != undefined;
       });
+    } else {
+      inMatchingParticipantGroupPanels = [];
     }
 
-    this.setState({
-      inMatchingParticipantGroupPanels: inMatchingParticipantGroupPanels
-    });
-  },
-
-  render: function () {
-    return (
-      <div id="participant-group-panels">
-        {this.state.inMatchingParticipantGroupPanels}
-      </div>
-    )
+    if (inMatchingParticipantGroupPanels.length > 0) {
+      return (
+        <div className="programs" key={"in_matching_participant_group_program_"+this.props.program.id}>
+          <div className="row">
+            <div className="col-md-12">
+              <h2 className="page-header">
+                {this.props.program.name}
+                <small className="pull-right">{this.props.program.participant_count} Participants</small>
+              </h2>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <div id="participant-group-panels">
+                {inMatchingParticipantGroupPanels}
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    } else {
+      return null;
+    }
   }
 });
