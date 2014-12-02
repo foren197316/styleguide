@@ -24,15 +24,16 @@ var CheckBoxFilter = React.createClass({
   render: function () {
     if (this.isMounted()) {
       return (
-        <div>
-          <h5>{this.props.title}</h5>
-          <ul>
+        <div className="panel panel-default">
+          <div className="panel-heading">{this.props.title}</div>
+          <div className="list-group">
             {this.props.options.map(function (option) {
-              return <li key={this.props.title+"_checkbox_"+option.id}>
-                <label><input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} /> {option.name}</label>
-              </li>
+              return <label key={this.props.title+"_checkbox_"+option.id} className="list-group-item">
+                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} />
+                <span className="title">{option.name}</span>
+              </label>
             }.bind(this))}
-          </ul>
+          </div>
         </div>
       )
     } else {

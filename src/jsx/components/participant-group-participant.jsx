@@ -57,21 +57,26 @@ var ParticipantGroupItemWrapper = React.createClass({
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-12 col-sm-3 col-lg-6">
-                <i className="fa fa-globe"></i>
+              <div className="col-xs-12 col-lg-6">
                 <label>{participant.country_name}</label>
               </div>
-              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
+            </div>
+            <div className="row">
+              <div className="col-xs-12 col-lg-8">
+                <strong><YearCalculator from={participant.date_of_birth} to={participant.arrival_date} /></strong>
+                &nbsp;
+                &nbsp;
                 <strong>{participant.gender}</strong>
-                <br/>
-                <YearCalculator from={participant.date_of_birth} to={participant.arrival_date} />
               </div>
-              <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
-                <strong>Availability</strong>
-                <br/>
-                <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
-                <span> - </span>
-                <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
+              <div className="col-xs-hidden col-lg-4 text-right">
+                <dl className="dl-horizontal">
+                  <dt>Availability</dt>
+                  <dd>
+                    <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
+                    <br/>
+                    <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
+                  </dd>
+                </dl>
               </div>
             </div>
             {hr}
