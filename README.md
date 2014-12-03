@@ -30,3 +30,9 @@ $ gulp deploy
 ### TODO
 
 AWS Publish https://www.npmjs.org/package/gulp-awspublish
+
+### Test
+
+```
+npm test
+```
