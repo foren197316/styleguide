@@ -235,16 +235,16 @@ var DateRangeFilter = React.createClass({
     } else {
       filteredData = options.filter(function (option) {
         var startGreaterThan = option[searchFrom].reduce(function (prev, curr) {
-                                  return (startFromDate !== null && Date.compare(curr, startFromDate) >= 0) || prev;
+                                  return prev || (startFromDate !== null && Date.compare(curr, startFromDate) >= 0);
                                 }, false),
             startLessThan    = option[searchFrom].reduce(function (prev, curr) {
-                                  return (startToDate !== null && Date.compare(curr, startToDate) <= 0) || prev;
+                                  return prev || (startToDate !== null && Date.compare(curr, startToDate) <= 0);
                                 }, false);
             finishGreaterThan = option[searchTo].reduce(function (prev, curr) {
-                                  return (finishFromDate !== null && Date.compare(curr, finishFromDate) >= 0) || prev;
+                                  return prev || (finishFromDate !== null && Date.compare(curr, finishFromDate) >= 0);
                                 }, false),
             finishLessThan    = option[searchTo].reduce(function (prev, curr) {
-                                  return (finishToDate !== null && Date.compare(curr, finishToDate) <= 0) || prev;
+                                  return prev || (finishToDate !== null && Date.compare(curr, finishToDate) <= 0);
                                 }, false);
 
         return (
