@@ -204,71 +204,59 @@ var SearchFilter = React.createClass({
 
 var DateRangeFilter = React.createClass({
   propTypes: {
-    title: React.PropTypes.string.isRequired,
+    dataLink: React.PropTypes.object.isRequired,
+    options:  React.PropTypes.array.isRequired,
     searchOn: React.PropTypes.string.isRequired,
-    options: React.PropTypes.array.isRequired,
-    dataLink: React.PropTypes.object.isRequired
+    title:    React.PropTypes.string.isRequired
   },
 
   componentDidMount: function () {
     if (this.isMounted()) {
-      $(this.getDOMNode()).find('.datepicker.after').datepicker({autoclose: true, clearBtn: true}).on('hide', this.handleAfterChange).on('clear', this.handleBeforeChange);
-      $(this.getDOMNode()).find('.datepicker.before').datepicker({autoclose: true, clearBtn: true}).on('hide', this.handleBeforeChange).on('clear', this.handleBeforeChange);
+      $(this.getDOMNode())
+        .find('.datepicker')
+        .datepicker({autoclose: true, clearBtn: true})
+        .on('hide', this.handleChange)
+        .on('clear', this.handleChange);
     }
   },
 
-  handleAfterChange: function (event) {
-    var value = Date.parse(event.target.value),
-        searchOn = this.props.searchOn,
-        options = this.props.options,
-        filteredData = null;
+  handleChange: function (event) {
+    var fromDate      = Date.parse($(this.getDOMNode()).find('.datepicker.from').val()),
+        toDate        = Date.parse($(this.getDOMNode()).find('.datepicker.to').val()),
+        searchOn      = this.props.searchOn,
+        options       = this.props.options,
+        filteredData  = null;
 
-    if (value === null) {
-      filteredData = options;
-    } else {
-      filteredData = options.filter(function (participantGroup) {
-        return participantGroup.start_dates.reduce(function (prev, curr) {
-          return Date.compare(curr, value) > 0 || prev;
-        }, false);
-      });
-    }
+    filteredData = options.filter(function (option) {
+      var greaterThan = option[searchOn].reduce(function (prev, curr) {
+                          return (fromDate !== null && Date.compare(curr, fromDate) >= 0) || prev;
+                        }, false),
+          lessThan    = option[searchOn].reduce(function (prev, curr) {
+                          return (toDate !== null && Date.compare(curr, toDate) <= 0) || prev;
+                        }, false);
+
+      if (fromDate !== null && toDate !== null) {
+        return greaterThan && lessThan;
+      } else {
+        return greaterThan || lessThan;
+      }
+    });
 
     this.props.dataLink.requestChange(filteredData);
   },
-
-  handleBeforeChange: function (event) {
-    var value = Date.parse(event.target.value),
-        searchOn = this.props.searchOn,
-        options = this.props.options,
-        filteredData = null;
-
-    if (value === null) {
-      filteredData = options;
-    } else {
-      filteredData = options.filter(function (participantGroup) {
-        return participantGroup.start_dates.reduce(function (prev, curr) {
-          return Date.compare(curr, value) < 0 || prev;
-        }, false);
-      });
-    }
-
-    this.props.dataLink.requestChange(filteredData);
-  },
-
 
   render: function () {
-
     return (
       <div className="panel panel-default">
         <div className="panel-heading">{this.props.title}</div>
         <div className="list-group list-group-scrollable">
           <label className="list-group-item">
             <span className="title">After</span>
-            <input type="text" className="datepicker after form-control" name={"from_date_"+this.props.title} />
+            <input type="text" className="datepicker from form-control" name={"from_date_"+this.props.title} />
           </label>
           <label className="list-group-item">
             <span className="title">Before</span>
-            <input type="text" className="datepicker before form-control" name={"to_date_"+this.props.title} />
+            <input type="text" className="datepicker to form-control" name={"to_date_"+this.props.title} />
           </label>
         </div>
       </div>
