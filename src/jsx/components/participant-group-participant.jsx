@@ -57,21 +57,36 @@ var ParticipantGroupItemWrapper = React.createClass({
               </div>
             </div>
             <div className="row">
-              <div className="col-xs-12 col-sm-3 col-lg-6">
-                <i className="fa fa-globe"></i>
-                <label>{participant.country_name}</label>
-              </div>
-              <div className="col-xs-12 col-sm-3 col-lg-2 text-right">
-                <strong>{participant.gender}</strong>
+              <div className="col-xs-12 col-md-6">
+                <strong>{participant.country_name}</strong>
                 <br/>
-                <YearCalculator from={participant.date_of_birth} to={participant.arrival_date} />
+                <strong><YearCalculator from={participant.date_of_birth} to={participant.arrival_date} /></strong>
+                <strong style={{ "padding-left": "5px" }}>{participant.gender}</strong>
               </div>
-              <div className="col-xs-12 col-sm-6 col-lg-4 text-right">
-                <strong>Availability</strong>
-                <br/>
-                <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
-                <span> - </span>
-                <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
+            </div>
+            <hr/>
+            <div className="row">
+              <div className="col-xs-12 col-md-4 col-md-offset-4">
+                <div className="row text-right">
+                  <div className="col-xs-6 col-md-10">
+                    <strong>English <span className="hidden-xs">Level</span> </strong>
+                  </div>
+                  <div className="col-xs-6 col-md-2">
+                    <span>{participant.english_level}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xs-12 col-md-4">
+                <div className="row text-right">
+                  <div className="col-xs-6 col-md-5 col-lg-7">
+                    <strong>Availability</strong>
+                  </div>
+                  <div className="col-xs-6 col-md-7 col-lg-5">
+                    <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
+                    <br/>
+                    <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
+                  </div>
+                </div>
               </div>
             </div>
             {hr}
@@ -285,14 +300,14 @@ var ParticipantGroupParticipantDecliningForm = React.createClass({
       <div>
         <div className="form-group">
           <label className="col-xs-12 col-sm-4 control-label">Reason</label>
-          <RadioGroup className="col-xs-12 col-sm-8" defaultValue={this.state.reason} onChange={this.handleChange} name={"rejections[" + this.props.key + "][option]"}>
+          <RadioGroup className="col-xs-12 col-sm-8" defaultValue={this.state.reason} onChange={this.handleChange} name={"rejections[" + this.props.data.id + "][option]"}>
             <div className="radio"><label><input type="radio" value="Filled this position" /> Filled this position</label></div>
             <div className="radio"><label><input type="radio" value="Unsuitable work dates" /> Unsuitable work dates</label></div>
             <div className="radio"><label><input type="radio" value="Unsuitable English" /> Unsuitable English</label></div>
             <div className="radio"><label><input type="radio" value="" /> Other</label></div>
           </RadioGroup>
         </div>
-        <ReactBootstrap.Input name={"rejections["+this.props.key+"][reason]"} id={"rejection_reason_"+this.props.key} label="Please specify" labelClassName={"col-sm-4 " + visibility} type="text" wrapperClassName={"col-sm-8 " + visibility}/>
+        <ReactBootstrap.Input name={"rejections["+this.props.data.id+"][reason]"} id={"rejection_reason_"+this.props.data.id} label="Please specify" labelClassName={"col-sm-4 " + visibility} type="text" wrapperClassName={"col-sm-8 " + visibility}/>
       </div>
     )
   }
@@ -321,7 +336,7 @@ var ParticipantGroupParticipantDeclining = React.createClass({
   render: function () {
     return (
       <ParticipantGroupItemWrapper participant={this.props.data}>
-        <ParticipantGroupParticipantDecliningForm key={this.props.key} data={this.props.data} />
+        <ParticipantGroupParticipantDecliningForm data={this.props.data} />
       </ParticipantGroupItemWrapper>
     )
   }

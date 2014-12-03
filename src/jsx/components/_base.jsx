@@ -1,5 +1,8 @@
 /** @jsx React.DOM */
 
+/* TODO: disable this in production */
+Q.longStackSupport = true;
+
 var dateFormat = "MM/dd/yyyy";
 
 Array.prototype.flatten = function () {
@@ -32,13 +35,34 @@ Array.prototype.findById = function (id, alternateKey) {
   }
 };
 
-var capitaliseWord = function (string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
+Array.prototype.intersects = function (array) {
+  if (array.length > 0 && this.length > 0) {
+    for (var i in this) {
+      if (array.indexOf(this[i]) >= 0) {
+        return true;
+      }
+    }
+  }
 
-var camelCaseToUnderscore = function (string) {
-  return string.replace(/([A-Z])/g, "_$1").toLowerCase();
-}
+  return false;
+};
+
+Array.prototype.uniq = function () {
+  return this.reduce(function (prev, curr) {
+    if (prev.indexOf(curr) < 0) {
+      prev.push(curr);
+    }
+    return prev;
+  }, []);
+};
+
+String.prototype.capitaliseWord = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+String.prototype.camelCaseToUnderscore = function () {
+  return this.replace(/([A-Z])/g, "_$1").toLowerCase();
+};
 
 var Spinner = React.createClass({
   render: function() {
@@ -54,15 +78,15 @@ var YearCalculator = React.createClass({
   },
 
   render: function() {
-    var to = Date.today(this.props.to),
-        from = Date.parse(this.props.from),
-        period = new TimePeriod(to, from);
-
     return (
-      <span>{period.years}</span>
+      <span>{calculateAgeAtArrival(this.props.to, this.props.from)}</span>
     )
   }
 });
+
+var calculateAgeAtArrival = function (to, from) {
+  return new TimePeriod(Date.parse(to), Date.parse(from)).years;
+};
 
 var RadioGroupButton = React.createClass({
   handleChange: function(event) {
@@ -140,7 +164,7 @@ var ReviewableParticipantGroupPanel = React.createClass({
   render: function() {
     var actions,
         additionalContent,
-        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
+        footerName = this.props.data.name,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
         participantNodes = this.props.data.participants.map(function (participant) {
           return (
@@ -332,11 +356,12 @@ var GroupPanelsMixin = {
   render: function() {
     if (this.isMounted()) {
       var employerId = this.props.employerId,
+          employerName = this.props.employerName,
           participantGroupPanelType = this.participantGroupPanelType,
           idType = this.getIdType(),
           groupPanels = this.state.groups.map(function (group) {
             return (
-              <participantGroupPanelType key={group.id} data={group} employerId={employerId} idType={idType} />
+              <participantGroupPanelType key={group.id} data={group} employerId={employerId} employerName={employerName} idType={idType} />
             );
           });
 
@@ -377,7 +402,7 @@ var LoadResourceMixin = {
       })).then(function (response) {
         if (this.isMounted()) {
           var state = {},
-              data = response[camelCaseToUnderscore(resourceName)];
+              data = response[resourceName.camelCaseToUnderscore()];
 
           state[resourceName] = data;
           this.setState(state);
@@ -413,7 +438,10 @@ var LoadResourceMixin = {
       if (this.isMounted()) {
         this.setState({ isLoaded: true });
       }
-    }.bind(this));
+    }.bind(this))
+    .catch(function (error) {
+      console.log(error.stack);
+    });
   },
 
   waitForLoadAll: function (loadedCallback) {

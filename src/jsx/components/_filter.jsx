@@ -1,7 +1,51 @@
+var CheckBoxFilter = React.createClass({
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    options: React.PropTypes.array.isRequired,
+    dataLink: React.PropTypes.object.isRequired
+  },
+
+  onChange: function (event) {
+    var node = this.getDOMNode(),
+        checkedIds = $.map($(node).find('input[type="checkbox"]:checked'), function (checkbox) {
+          return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
+        }),
+        checkedOptions = this.props.options.filter(function (option) {
+          return checkedIds.indexOf(option.id.toString()) >= 0;
+        });
+
+    if (checkedOptions.length === 0) {
+      checkedOptions = this.props.options;
+    }
+
+    this.props.dataLink.requestChange(checkedOptions);
+  },
+
+  render: function () {
+    if (this.isMounted()) {
+      return (
+        <div className="panel panel-default">
+          <div className="panel-heading">{this.props.title}</div>
+          <div className="list-group list-group-scrollable">
+            {this.props.options.map(function (option) {
+              return <label key={this.props.title+"_checkbox_"+option.id} className="list-group-item">
+                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} />
+                <span className="title">{option.name}</span>
+              </label>
+            }.bind(this))}
+          </div>
+        </div>
+      )
+    } else {
+      return <Spinner />
+    }
+  }
+});
+
 var RadioGroupFilter = React.createClass({
   propTypes: {
-    data: React.PropTypes.object.isRequired,
-    dataState: React.PropTypes.object.isRequired,
+    data: React.PropTypes.array.isRequired,
+    dataLink: React.PropTypes.object.isRequired,
     filteredAttributeKey: React.PropTypes.string.isRequired,
     presentationName: React.PropTypes.string
   },
@@ -23,15 +67,15 @@ var RadioGroupFilter = React.createClass({
           return false;
         });
 
-    this.props.dataState.requestChange(groupPanels);
+    this.props.dataLink.requestChange(groupPanels);
   },
 
   render: function () {
     var totalCount = 0,
         noneCount = 0,
         filteredAttributeKey = this.props.filteredAttributeKey,
-        presentationName = this.props.presentationName,
-        radioOptions = this.props.dataState.value.reduce(function (prev, curr) {
+        presentationName = (this.props.presentationName || filteredAttributeKey).capitaliseWord(),
+        radioOptions = this.props.dataLink.value.reduce(function (prev, curr) {
           totalCount++;
 
           var filteredAttribute = curr[filteredAttributeKey];
@@ -80,6 +124,166 @@ var RadioGroupFilter = React.createClass({
         </label>
         {radioOptions}
         {noneRadio}
+      </div>
+    )
+  }
+});
+
+var SearchFilter = React.createClass({
+  statics: {
+    inputCharacterMinimumDefault: 3,
+    caseSensitiveDefault: false
+  },
+
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    searchOn: React.PropTypes.string.isRequired,
+    options: React.PropTypes.array.isRequired,
+    dataLink: React.PropTypes.object.isRequired,
+    inputCharacterMinimum: React.PropTypes.number,
+    caseSensitive: React.PropTypes.bool
+  },
+
+  getInitialState: function () {
+    return {
+      lastSearch: null
+    };
+  },
+
+  handleChange: function (event) {
+    var value = event.target.value,
+        searchOn = this.props.searchOn,
+        inputCharacterMinimum = this.props.inputCharacterMinimum || SearchFilter.inputCharacterMinimumDefault,
+        caseSensitive = typeof this.props.caseSensitive === "boolean" ? this.props.caseSensitive : SearchFilter.caseSensitiveDefault;
+
+    if (value.length >= inputCharacterMinimum) {
+      var filteredData;
+      if (this.state.lastSearch !== null && value.indexOf(this.state.lastSearch) >= 0) {
+        filteredData = this.props.dataLink.value;
+      } else {
+        filteredData = this.props.options;
+      }
+
+      var filterFunc = caseSensitive
+            ? function (entry) {
+                return value.split(/\s+/).reduce(function (prev, curr) {
+                  return prev && entry[searchOn].indexOf(curr) >= 0;
+                }, true);
+              }
+            : function (entry) {
+                var lowerEntry = entry[searchOn].toLowerCase();
+                return value.toLowerCase().split(/\s+/).reduce(function (prev, curr) {
+                  return prev && lowerEntry.indexOf(curr) >= 0;
+                }, true);
+              };
+
+      filteredData = filteredData.filter(filterFunc);
+
+      this.props.dataLink.requestChange(filteredData);
+    } else {
+      this.props.dataLink.requestChange(this.props.options);
+    }
+
+    this.setState({
+      lastSearch: value
+    });
+  },
+
+  render: function () {
+    if (this.isMounted()) {
+      return (
+        <label className="list-group">
+          <input type="search" name={"search_"+this.props.title} onChange={this.handleChange} value={this.state.lastSearch} className="list-group-item form-control" placeholder="Search" />
+        </label>
+      )
+    } else {
+      return <Spinner />
+    }
+  }
+});
+
+var DateRangeFilter = React.createClass({
+  propTypes: {
+    dataLink: React.PropTypes.object.isRequired,
+    options:  React.PropTypes.array.isRequired,
+    searchOn: React.PropTypes.string.isRequired
+  },
+
+  componentDidMount: function () {
+    if (this.isMounted()) {
+      $(this.getDOMNode())
+        .find('.datepicker')
+        .datepicker({autoclose: true, clearBtn: true})
+        .on('hide', this.handleChange)
+        .on('clear', this.handleChange);
+    }
+  },
+
+  handleChange: function (event) {
+    var startFromDate = Date.parse($(this.getDOMNode()).find('.datepicker.start.from').val()),
+        startToDate   = Date.parse($(this.getDOMNode()).find('.datepicker.start.to').val()),
+        finishFromDate= Date.parse($(this.getDOMNode()).find('.datepicker.finish.from').val()),
+        finishToDate  = Date.parse($(this.getDOMNode()).find('.datepicker.finish.to').val()),
+        searchFrom    = this.props.searchFrom,
+        searchTo      = this.props.searchTo,
+        options       = this.props.options,
+        optionsLink   = this.props.dataLink.value,
+        filteredData  = null;
+
+    if (startFromDate === null && startToDate === null && finishFromDate === null && finishToDate === null) {
+      filteredData = options;
+    } else {
+      filteredData = options.filter(function (option) {
+        var startGreaterThan = option[searchFrom].reduce(function (prev, curr) {
+                                  return (startFromDate !== null && Date.compare(curr, startFromDate) >= 0) || prev;
+                                }, false),
+            startLessThan    = option[searchFrom].reduce(function (prev, curr) {
+                                  return (startToDate !== null && Date.compare(curr, startToDate) <= 0) || prev;
+                                }, false);
+            finishGreaterThan = option[searchTo].reduce(function (prev, curr) {
+                                  return (finishFromDate !== null && Date.compare(curr, finishFromDate) >= 0) || prev;
+                                }, false),
+            finishLessThan    = option[searchTo].reduce(function (prev, curr) {
+                                  return (finishToDate !== null && Date.compare(curr, finishToDate) <= 0) || prev;
+                                }, false);
+
+        return (
+                (startFromDate  === null || startGreaterThan)   &&
+                (startToDate    === null || startLessThan)      &&
+                (finishFromDate === null || finishGreaterThan)  &&
+                (finishToDate   === null || finishLessThan)
+               )
+      });
+    }
+
+    this.props.dataLink.requestChange(filteredData);
+  },
+
+  render: function () {
+    return (
+      <div className="panel panel-default">
+        <div className="panel-heading">Start</div>
+        <div className="list-group list-group-scrollable">
+          <label className="list-group-item">
+            <span className="title">From</span>
+            <input type="text" className="datepicker start from form-control" />
+          </label>
+          <label className="list-group-item">
+            <span className="title">To</span>
+            <input type="text" className="datepicker start to form-control" />
+          </label>
+        </div>
+        <div className="panel-heading">Finish</div>
+        <div className="list-group list-group-scrollable">
+          <label className="list-group-item">
+            <span className="title">From</span>
+            <input type="text" className="datepicker finish from form-control" />
+          </label>
+          <label className="list-group-item">
+            <span className="title">To</span>
+            <input type="text" className="datepicker finish to form-control" />
+          </label>
+        </div>
       </div>
     )
   }

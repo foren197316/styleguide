@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: In Matching Participant Groups Index
+name: in_matching-participant-groups-index
+category: Components - Filtered Participant Group
+---
+
+```html_example
+<div id="InMatchingParticipantGroupsIndex"></div>
+```
+
+```js_example
+React.renderComponent(
+  InMatchingParticipantGroupsIndex({
+    urls: {
+      employer: "/json/employer.json",
+      inMatchingParticipantGroups: "/json/in_matching_participant_groups.json",
+      participantGroups: "/json/participant_groups.json",
+      participants: "/json/participants.json",
+      enrollments: "/json/enrollments.json",
+      programs: "/json/programs.json",
+      positions: "/json/positions.json"
+    }
+  }),
+  document.getElementById("InMatchingParticipantGroupsIndex")
+);
+```
+*/

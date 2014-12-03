@@ -9,14 +9,27 @@ label.list-group {
 }
 
 .list-group {
+  &.list-group-scrollable {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   label.list-group-item {
+    input[type='radio'], input[type='checkbox'] {
+      position: absolute;
+      top: 9px;
+      left: 12px;
+
+      & + .title {
+        margin: 0 0 -4px 20px;
+      }
+    }
+
     .title {
-      width: 75%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      width: 90%;
+      white-space: normal;
       display: inline-block;
-      margin: 0 0 -4px 10px;
     }
   }
 }

@@ -209,7 +209,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
           <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseInt(this.props.offer.wage).toFixed(2)} />
           <ReadOnlyFormGroup label="Tipped?" value={this.props.offer.tipped ? 'Yes' : 'No'} />
           <ReadOnlyFormGroup label="Hours per week" value={this.props.offer.hours} />
-          <ReadOnlyFormGroup label="Overtime?" value={capitaliseWord(this.props.offer.overtime)} />
+          <ReadOnlyFormGroup label="Overtime?" value={this.props.offer.overtime.capitaliseWord()} />
           {overtimeRate}
           {jobOfferParticipantAgreement}
           <ReadOnlyFormGroup label="" value={jobOfferLink} />
