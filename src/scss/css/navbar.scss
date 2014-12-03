@@ -1,8 +1,6 @@
-.navbar {
-  margin-bottom: 20px;
-}
-
 .navbar-default {
+  margin-bottom: 20px;
+
   .navbar-nav > li > a {
     &:hover {
       color: darken($interexchange-primary, 10%);
