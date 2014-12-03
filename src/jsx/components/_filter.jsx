@@ -227,20 +227,24 @@ var DateRangeFilter = React.createClass({
         options       = this.props.options,
         filteredData  = null;
 
-    filteredData = options.filter(function (option) {
-      var greaterThan = option[searchOn].reduce(function (prev, curr) {
-                          return (fromDate !== null && Date.compare(curr, fromDate) >= 0) || prev;
-                        }, false),
-          lessThan    = option[searchOn].reduce(function (prev, curr) {
-                          return (toDate !== null && Date.compare(curr, toDate) <= 0) || prev;
-                        }, false);
+    if (fromDate === null && toDate === null) {
+      filteredData = options;
+    } else {
+      filteredData = options.filter(function (option) {
+        var greaterThan = option[searchOn].reduce(function (prev, curr) {
+                            return (fromDate !== null && Date.compare(curr, fromDate) >= 0) || prev;
+                          }, false),
+            lessThan    = option[searchOn].reduce(function (prev, curr) {
+                            return (toDate !== null && Date.compare(curr, toDate) <= 0) || prev;
+                          }, false);
 
-      if (fromDate !== null && toDate !== null) {
-        return greaterThan && lessThan;
-      } else {
-        return greaterThan || lessThan;
-      }
-    });
+        if (fromDate !== null && toDate !== null) {
+          return greaterThan && lessThan;
+        } else {
+          return greaterThan || lessThan;
+        }
+      });
+    }
 
     this.props.dataLink.requestChange(filteredData);
   },
