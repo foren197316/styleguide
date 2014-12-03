@@ -78,10 +78,10 @@ var ParticipantGroupItemWrapper = React.createClass({
               </div>
               <div className="col-xs-12 col-md-4">
                 <div className="row text-right">
-                  <div className="col-xs-6 col-md-5">
+                  <div className="col-xs-6 col-md-5 col-lg-7">
                     <strong>Availability</strong>
                   </div>
-                  <div className="col-xs-6 col-md-7">
+                  <div className="col-xs-6 col-md-7 col-lg-5">
                     <span>{Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)}</span>
                     <br/>
                     <span>{Date.parse(participant.departure_date).toString(dateFormat)}</span>
