@@ -241,10 +241,10 @@ var DateRangeFilter = React.createClass({
                                   return (startToDate !== null && Date.compare(curr, startToDate) <= 0) || prev;
                                 }, false);
             finishGreaterThan = option[searchTo].reduce(function (prev, curr) {
-                                  return (finishFromDate !== null && Date.compare(curr, finishFromDate) <= 0) || prev;
+                                  return (finishFromDate !== null && Date.compare(curr, finishFromDate) >= 0) || prev;
                                 }, false),
             finishLessThan    = option[searchTo].reduce(function (prev, curr) {
-                                  return (finishToDate !== null && Date.compare(curr, finishToDate) >= 0) || prev;
+                                  return (finishToDate !== null && Date.compare(curr, finishToDate) <= 0) || prev;
                                 }, false);
 
         return (
