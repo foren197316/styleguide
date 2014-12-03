@@ -1,8 +1,5 @@
 /** @jsx React.DOM */
 
-/* TODO: disable this in production */
-Q.longStackSupport = true;
-
 var dateFormat = "MM/dd/yyyy";
 
 Array.prototype.flatten = function () {
