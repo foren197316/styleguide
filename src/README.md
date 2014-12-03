@@ -19,17 +19,14 @@ copying and pasting the html code into the cms.
 ```html
 <head>
   ....
-    <!-- Include InterExchange Stylesheet -->
-    <link rel="stylesheet" href="https://dbr7c2i249eug.cloudfront.net/styleguide/css/interexchange.min.css"/>
+    <!-- Base Stylesheet -->
+    <link rel="stylesheet" href="https://iex-assets.s3.amazonaws.com/styleguide/css/interexchange.min.css"/>
 
-    <!-- Include InterExchange Javascript -->
-    <script type="text/javascript" src="https://dbr7c2i249eug.cloudfront.net/styleguide/js/interexchange.min.js"></script>
+    <!-- Base Javascript -->
+    <script type="text/javascript" src="https://iex-assets.s3.amazonaws.com/styleguide/js/interexchange.min.js"></script>
 
-    <!-- Include InterExchange Components -->
-    <script type="text/javascript" src="https://dbr7c2i249eug.cloudfront.net/styleguide/js/interexchange-components.min.js"></script>
-
-    <!-- Include InterExchange App Specific Javascript -->
-    <script type="text/javascript" src="https://dbr7c2i249eug.cloudfront.net/styleguide/js/interexchange-app.min.js"></script>
+    <!-- React JS Components -->
+    <script type="text/javascript" src="https://iex-assets.s3.amazonaws.com/styleguide/js/interexchange-components.min.js"></script>
   ...
 </head>
 ```
