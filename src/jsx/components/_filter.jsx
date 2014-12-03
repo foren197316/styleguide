@@ -206,8 +206,7 @@ var DateRangeFilter = React.createClass({
   propTypes: {
     dataLink: React.PropTypes.object.isRequired,
     options:  React.PropTypes.array.isRequired,
-    searchOn: React.PropTypes.string.isRequired,
-    title:    React.PropTypes.string.isRequired
+    searchOn: React.PropTypes.string.isRequired
   },
 
   componentDidMount: function () {
@@ -221,28 +220,39 @@ var DateRangeFilter = React.createClass({
   },
 
   handleChange: function (event) {
-    var fromDate      = Date.parse($(this.getDOMNode()).find('.datepicker.from').val()),
-        toDate        = Date.parse($(this.getDOMNode()).find('.datepicker.to').val()),
-        searchOn      = this.props.searchOn,
+    var startFromDate = Date.parse($(this.getDOMNode()).find('.datepicker.start.from').val()),
+        startToDate   = Date.parse($(this.getDOMNode()).find('.datepicker.start.to').val()),
+        finishFromDate= Date.parse($(this.getDOMNode()).find('.datepicker.finish.from').val()),
+        finishToDate  = Date.parse($(this.getDOMNode()).find('.datepicker.finish.to').val()),
+        searchFrom    = this.props.searchFrom,
+        searchTo      = this.props.searchTo,
         options       = this.props.options,
+        optionsLink   = this.props.dataLink.value,
         filteredData  = null;
 
-    if (fromDate === null && toDate === null) {
+    if (startFromDate === null && startToDate === null && finishFromDate === null && finishToDate === null) {
       filteredData = options;
     } else {
       filteredData = options.filter(function (option) {
-        var greaterThan = option[searchOn].reduce(function (prev, curr) {
-                            return (fromDate !== null && Date.compare(curr, fromDate) >= 0) || prev;
-                          }, false),
-            lessThan    = option[searchOn].reduce(function (prev, curr) {
-                            return (toDate !== null && Date.compare(curr, toDate) <= 0) || prev;
-                          }, false);
+        var startGreaterThan = option[searchFrom].reduce(function (prev, curr) {
+                                  return (startFromDate !== null && Date.compare(curr, startFromDate) >= 0) || prev;
+                                }, false),
+            startLessThan    = option[searchFrom].reduce(function (prev, curr) {
+                                  return (startToDate !== null && Date.compare(curr, startToDate) <= 0) || prev;
+                                }, false);
+            finishGreaterThan = option[searchTo].reduce(function (prev, curr) {
+                                  return (finishFromDate !== null && Date.compare(curr, finishFromDate) <= 0) || prev;
+                                }, false),
+            finishLessThan    = option[searchTo].reduce(function (prev, curr) {
+                                  return (finishToDate !== null && Date.compare(curr, finishToDate) >= 0) || prev;
+                                }, false);
 
-        if (fromDate !== null && toDate !== null) {
-          return greaterThan && lessThan;
-        } else {
-          return greaterThan || lessThan;
-        }
+        return (
+                (startFromDate  === null || startGreaterThan)   &&
+                (startToDate    === null || startLessThan)      &&
+                (finishFromDate === null || finishGreaterThan)  &&
+                (finishToDate   === null || finishLessThan)
+               )
       });
     }
 
@@ -252,15 +262,26 @@ var DateRangeFilter = React.createClass({
   render: function () {
     return (
       <div className="panel panel-default">
-        <div className="panel-heading">{this.props.title}</div>
+        <div className="panel-heading">Start</div>
         <div className="list-group list-group-scrollable">
           <label className="list-group-item">
             <span className="title">From</span>
-            <input type="text" className="datepicker from form-control" name={"from_date_"+this.props.title} />
+            <input type="text" className="datepicker start from form-control" />
           </label>
           <label className="list-group-item">
             <span className="title">To</span>
-            <input type="text" className="datepicker to form-control" name={"to_date_"+this.props.title} />
+            <input type="text" className="datepicker start to form-control" />
+          </label>
+        </div>
+        <div className="panel-heading">Finish</div>
+        <div className="list-group list-group-scrollable">
+          <label className="list-group-item">
+            <span className="title">From</span>
+            <input type="text" className="datepicker finish from form-control" />
+          </label>
+          <label className="list-group-item">
+            <span className="title">To</span>
+            <input type="text" className="datepicker finish to form-control" />
           </label>
         </div>
       </div>
