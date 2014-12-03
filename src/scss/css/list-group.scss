@@ -16,16 +16,20 @@ label.list-group {
   }
 
   label.list-group-item {
-    input {
+    input[type='radio'], input[type='checkbox'] {
       position: absolute;
       top: 9px;
       left: 12px;
+
+      & + .title {
+        margin: 0 0 -4px 20px;
+      }
     }
+
     .title {
       width: 90%;
       white-space: normal;
       display: inline-block;
-      margin: 0 0 -4px 20px;
     }
   }
 }

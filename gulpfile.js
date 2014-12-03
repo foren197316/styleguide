@@ -28,6 +28,7 @@ gulp.task('vendors', function() {
       'bower_components/datejs/build/date.js',
       'bower_components/jquery.serializeJSON/jquery.serializejson.js',
       'bower_components/react-radio-group/react-radiogroup.js',
+      'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js',

@@ -54,8 +54,16 @@ var InMatchingParticipantGroupsIndex = React.createClass({
 
           if (regionIds.indexOf(this.state.employer.region_id) >= 0) {
             participantGroup.participant_names = participantGroupParticipants.mapAttribute("name").join(",");
+            participantGroup.start_dates = participantGroupParticipants.map(function (participant) {
+              return Date.parse(participant.arrival_date).add(2).days();
+            }).flatten();
+            participantGroup.finish_dates = participantGroupParticipants.map(function (participant) {
+              return Date.parse(participant.departure_date);
+            }).flatten();
           } else {
             participantGroup.participant_names = "";
+            participantGroup.start_dates = [];
+            participantGroup.finish_dates = [];
           }
 
           return participantGroup;
@@ -145,6 +153,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Group" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
           <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
           <CheckBoxFilter title="English Level" options={this.props.englishLevels} dataLink={this.linkState("englishLevels")} />
+          <DateRangeFilter title="Start" searchOn="start_dates" options={this.props.participantGroups} dataLink={this.linkState("participantGroups")} />
+          <DateRangeFilter title="Finish" searchOn="finish_dates" options={this.props.participantGroups} dataLink={this.linkState("participantGroups")} />
           <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
           <CheckBoxFilter title="Country" options={this.props.countries} dataLink={this.linkState("countries")} />
         </div>

@@ -1,6 +1,7 @@
 {
   "name": "stylez",
   "devDependencies": {
+    "bootstrap-datepicker": "v1.3.0",
     "bootstrap-sass-official": "v3.2.0+2",
     "components-font-awesome": "v4.2.0",
     "datejs": "1.0.0-rc1",
