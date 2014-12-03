@@ -143,18 +143,19 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   },
 
   renderLoaded: function () {
-    var enrollmentsLink = this.linkState("enrollments");
+    var enrollmentsLink       = this.linkState("enrollments"),
+        participantGroupsLink = this.linkState("participantGroups");
 
     return (
       <div className="row">
         <div className="col-md-3">
-          <SearchFilter title="Search" searchOn="participant_names" options={this.props.participantGroups} dataLink={this.linkState("participantGroups")} />
+          <SearchFilter title="Search" searchOn="participant_names" options={this.props.participantGroups} dataLink={participantGroupsLink} />
           <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
           <CheckBoxFilter title="Group" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
           <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
           <CheckBoxFilter title="English Level" options={this.props.englishLevels} dataLink={this.linkState("englishLevels")} />
-          <DateRangeFilter title="Start" searchOn="start_dates" options={this.props.participantGroups} dataLink={this.linkState("participantGroups")} />
-          <DateRangeFilter title="Finish" searchOn="finish_dates" options={this.props.participantGroups} dataLink={this.linkState("participantGroups")} />
+          <DateRangeFilter title="Start" searchOn="start_dates" options={this.props.participantGroups} dataLink={participantGroupsLink} />
+          <DateRangeFilter title="Finish" searchOn="finish_dates" options={this.props.participantGroups} dataLink={participantGroupsLink} />
           <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
           <CheckBoxFilter title="Country" options={this.props.countries} dataLink={this.linkState("countries")} />
         </div>

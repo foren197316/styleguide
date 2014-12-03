@@ -255,11 +255,11 @@ var DateRangeFilter = React.createClass({
         <div className="panel-heading">{this.props.title}</div>
         <div className="list-group list-group-scrollable">
           <label className="list-group-item">
-            <span className="title">After</span>
+            <span className="title">From</span>
             <input type="text" className="datepicker from form-control" name={"from_date_"+this.props.title} />
           </label>
           <label className="list-group-item">
-            <span className="title">Before</span>
+            <span className="title">To</span>
             <input type="text" className="datepicker to form-control" name={"to_date_"+this.props.title} />
           </label>
         </div>
