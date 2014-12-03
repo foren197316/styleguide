@@ -33,7 +33,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       participantGroupsPromise
       .then(this.extractIds("participant_ids"))
       .then(this.loadResource("participants"))
-      .then(this.loadResource("enrollments"))
+      .then(this.loadResource("enrollments", true))
       .then(function (enrollments) {
         var searchableEnrollments = enrollments.filter(function (enrollment) {
           return enrollment.searchable;

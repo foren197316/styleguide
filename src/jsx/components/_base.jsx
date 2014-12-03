@@ -390,12 +390,12 @@ var ValidatingInputMixin = {
 };
 
 var LoadResourceMixin = {
-  loadResource: function (resourceName) {
+  loadResource: function (resourceName, ignoreParams) {
     return function (params) {
       return Q($.ajax({
         url: this.props.urls[resourceName],
         type: "GET",
-        data: params
+        data: ignoreParams ? null : params
       })).then(function (response) {
         if (this.isMounted()) {
           var state = {},
