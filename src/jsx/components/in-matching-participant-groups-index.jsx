@@ -22,6 +22,106 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     };
   },
 
+  filterParticipants: function (programs) {
+    var filteredParticipants = [];
+
+    var participantGroupsWithParticipantNames = this.state.participantGroups.map(function (participantGroup) {
+      var participantGroupParticipants = this.state.participants.findById(participantGroup.participant_ids),
+          regionIds = participantGroupParticipants.mapAttribute("region_ids").flatten();
+
+      if (regionIds.indexOf(this.state.employer.region_id) >= 0) {
+        participantGroup.participant_names = participantGroupParticipants.mapAttribute("name").join(",");
+        participantGroup.start_dates = participantGroupParticipants.map(function (participant) {
+          return Date.parse(participant.arrival_date).add(2).days();
+        }).flatten();
+        participantGroup.finish_dates = participantGroupParticipants.map(function (participant) {
+          return Date.parse(participant.departure_date);
+        }).flatten();
+      } else {
+        participantGroup.participant_names = "";
+        participantGroup.start_dates = [];
+        participantGroup.finish_dates = [];
+      }
+
+      if (participantGroup.participant_names.trim().length > 0) {
+        filteredParticipants = filteredParticipants.concat(participantGroupParticipants);
+      }
+
+      return participantGroup;
+    }.bind(this)).filter(function (participantGroup) {
+      return participantGroup.participant_names.trim().length > 0;
+    });
+
+    filteredParticipants = filteredParticipants.filter(function (participant) {
+      if (programs.findById(participant.program_id)) {
+        return true;
+      }
+
+      return false;
+    });
+
+    this.setState({
+      participantGroups: participantGroupsWithParticipantNames,
+      participants: filteredParticipants
+    });
+
+    return filteredParticipants;
+  },
+
+  filterEnrollments: function (enrollments) {
+    var searchableEnrollments = enrollments.filter(function (enrollment) {
+      return enrollment.searchable;
+    });
+
+    this.setState({
+      enrollments: searchableEnrollments
+    });
+
+    return searchableEnrollments;
+  },
+
+  setCountries: function (data) {
+    var countries = data.ids.uniq().sort().map(function (country) {
+      return { id: country, name: country };
+    });
+
+    this.setState({
+      countries: countries
+    });
+
+    return true;
+  },
+
+  setParticipantGroupNames: function (data) {
+    var names = data.ids.uniq().sort().map(function (name) {
+      return { id: name, name: name };
+    });
+
+    this.setState({
+      participantGroupNames: names
+    });
+
+    return true;
+  },
+
+  afterLoad: function () {
+    this.setProps({
+      participantGroups: this.state.participantGroups,
+      ageAtArrival: this.state.ageAtArrival,
+      countries: this.state.countries,
+      enrollments: this.state.enrollments,
+      genders: this.state.genders,
+      englishLevels: this.state.englishLevels,
+      participantGroupNames: this.state.participantGroupNames,
+      positions: this.state.positions
+    });
+
+    Intercom('trackEvent', 'visited-employer-participants-search', {
+      employer_id: this.state.employer.id,
+      employer_name: this.state.employer.name
+    });
+  },
+
   componentDidMount: function () {
     var participantGroupsPromise =
       this.loadResource("employer")()
@@ -34,112 +134,24 @@ var InMatchingParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("participant_ids"))
       .then(this.loadResource("participants"))
       .then(this.loadResource("enrollments", true))
-      .then(function (enrollments) {
-        var searchableEnrollments = enrollments.filter(function (enrollment) {
-          return enrollment.searchable;
-        });
-
-        this.setState({
-          enrollments: searchableEnrollments
-        });
-
-        return searchableEnrollments;
-      }.bind(this))
+      .then(this.filterEnrollments)
       .then(this.extractIds("program_id"))
       .then(this.loadResource("programs"))
-      .then(function (programs) {
-        var participantGroupsWithParticipantNames = this.state.participantGroups.map(function (participantGroup) {
-          var participantGroupParticipants = this.state.participants.findById(participantGroup.participant_ids),
-              regionIds = participantGroupParticipants.mapAttribute("region_ids").flatten();
-
-          if (regionIds.indexOf(this.state.employer.region_id) >= 0) {
-            participantGroup.participant_names = participantGroupParticipants.mapAttribute("name").join(",");
-            participantGroup.start_dates = participantGroupParticipants.map(function (participant) {
-              return Date.parse(participant.arrival_date).add(2).days();
-            }).flatten();
-            participantGroup.finish_dates = participantGroupParticipants.map(function (participant) {
-              return Date.parse(participant.departure_date);
-            }).flatten();
-          } else {
-            participantGroup.participant_names = "";
-            participantGroup.start_dates = [];
-            participantGroup.finish_dates = [];
-          }
-
-          return participantGroup;
-        }.bind(this)).filter(function (participantGroup) {
-          return participantGroup.participant_names.trim().length > 0;
-        });
-
-        var filteredParticipants = participantGroupsWithParticipantNames.map(function (participantGroup) {
-          return this.state.participants.findById(participantGroup.participant_ids);
-        }.bind(this)).flatten();
-
-        filteredParticipants = filteredParticipants.filter(function (participant) {
-          if (programs.findById(participant.program_id)) {
-            return true;
-          }
-
-          return false;
-        });
-
-        this.setState({
-          participantGroups: participantGroupsWithParticipantNames,
-          participants: filteredParticipants
-        });
-
-        return filteredParticipants;
-      }.bind(this))
+      .then(this.filterParticipants)
       .then(this.extractIds("country_name"))
-      .then(function (data) {
-        var countries = data.ids.uniq().sort().map(function (country) {
-          return { id: country, name: country };
-        });
-
-        this.setState({
-          countries: countries
-        });
-
-        return true;
-      }.bind(this));
+      .then(this.setCountries);
 
     var groupNamePromise =
       participantGroupsPromise
       .then(this.extractIds("name"))
-      .then(function (data) {
-        var names = data.ids.uniq().sort().map(function (name) {
-          return { id: name, name: name };
-        });
-
-        this.setState({
-          participantGroupNames: names
-        });
-
-        return true;
-      }.bind(this));
+      .then(this.setParticipantGroupNames);
 
     this.loadAll([
       participantsPromise,
       groupNamePromise,
       this.loadResource("positions")()
     ])
-    .done(function () {
-      this.setProps({
-        participantGroups: this.state.participantGroups,
-        ageAtArrival: this.state.ageAtArrival,
-        countries: this.state.countries,
-        enrollments: this.state.enrollments,
-        genders: this.state.genders,
-        englishLevels: this.state.englishLevels,
-        participantGroupNames: this.state.participantGroupNames,
-        positions: this.state.positions
-      });
-
-      Intercom('trackEvent', 'visited-employer-participants-search', {
-        employer_id: this.state.employer.id,
-        employer_name: this.state.employer.name
-      });
-    }.bind(this));
+    .done(this.afterLoad);
   },
 
   renderLoaded: function () {
