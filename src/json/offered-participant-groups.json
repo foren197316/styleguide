@@ -57,7 +57,7 @@
           "participant_id": 10,
           "position": "Barista",
           "tipped": true,
-          "wage": 5,
+          "wage": "5.50",
           "hours": 35,
           "overtime": "yes",
           "overtime_rate": 6

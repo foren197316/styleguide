@@ -192,7 +192,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
 
     if (this.props.offer.overtime === 'yes') {
       overtimeRate = (
-        <ReadOnlyFormGroup label="Overtime rate per hour" value={"$" + parseInt(this.props.offer.overtime_rate).toFixed(2)} />
+        <ReadOnlyFormGroup label="Overtime rate per hour" value={"$" + parseFloat(this.props.offer.overtime_rate).toFixed(2)} />
       );
     }
 
@@ -206,7 +206,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
       <ParticipantGroupItemWrapper participant={this.props.participant}>
         <div className="form form-horizontal">
           <ReadOnlyFormGroup label="Position" value={this.props.offer.position} />
-          <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseInt(this.props.offer.wage).toFixed(2)} />
+          <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseFloat(this.props.offer.wage).toFixed(2)} />
           <ReadOnlyFormGroup label="Tipped?" value={this.props.offer.tipped ? 'Yes' : 'No'} />
           <ReadOnlyFormGroup label="Hours per week" value={this.props.offer.hours} />
           <ReadOnlyFormGroup label="Overtime?" value={this.props.offer.overtime.capitaliseWord()} />
