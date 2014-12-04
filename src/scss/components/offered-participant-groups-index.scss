@@ -14,7 +14,17 @@ category: Components - Filtered Participant Group
 ```js_example
 React.renderComponent(
   OfferedParticipantGroupsIndex({
-    source: "/json/offered-participant-groups.json"
+    urls: {
+      employer: "/json/employer.json",
+      offeredParticipantGroups: "/json/offered_participant_groups.json",
+      participantGroups: "/json/participant_groups.json",
+      participants: "/json/participants.json",
+      programs: "/json/programs.json",
+      positions: "/json/positions.json",
+      draft_job_offers: "/json/draft_job_offers.json",
+      job_offers: "/json/job_offers.json",
+      job_offer_participant_agreements: "/json/job_offer_participant_agreements.json"
+    }
   }),
   document.getElementById("OfferedParticipantGroupsIndex")
 );

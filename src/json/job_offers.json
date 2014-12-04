@@ -1,0 +1,15 @@
+{
+  "job_offers": [
+    {
+      "id": 1,
+      "href": "#/job_offers/1",
+      "participant_id": 3,
+      "position_id": 2,
+      "tipped": true,
+      "wage": 5,
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6
+    }
+  ]
+}

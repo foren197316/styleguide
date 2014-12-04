@@ -14,7 +14,7 @@ category: Components - Participant Group
 ```js_example
 React.renderComponent(
   OfferedParticipantGroupPanels({
-    source: "/json/offered-participant-groups.json"
+    source: "/json/offered_participant_groups.json"
   }),
   document.getElementById("OfferedParticipantGroups")
 );
