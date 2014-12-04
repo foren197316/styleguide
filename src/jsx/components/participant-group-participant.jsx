@@ -130,8 +130,8 @@ var ParticipantGroupParticipantOfferingFormTipped = React.createClass({
         <label className="col-xs-12 col-sm-4 control-label" htmlFor={draftJobOfferFormName(key, "tipped")}>Tipped?</label>
         <div className="col-xs-12 col-sm-8">
           <RadioGroup name={draftJobOfferFormName(key, "tipped")} id={draftJobOfferFormId(key, "tipped")} className="btn-group btn-group-justified" onChange={this.handleChange}>
-            <RadioGroupButton title="Yes" inputValue="yes" iconClass="fa fa-check text-success" id={draftJobOfferFormId(key, "tipped") + "_yes"} htmlFor={draftJobOfferFormId(key, "tipped") + "_yes"} />
-            <RadioGroupButton title="No" inputValue="no" iconClass="fa fa-close text-danger" id={draftJobOfferFormId(key, "tipped") + "_no"} htmlFor={draftJobOfferFormId(key, "tipped") + "_no"} />
+            <RadioGroupButton title="Yes" inputValue="true" iconClass="fa fa-check text-success" id={draftJobOfferFormId(key, "tipped") + "_yes"} htmlFor={draftJobOfferFormId(key, "tipped") + "_yes"} />
+            <RadioGroupButton title="No" inputValue="false" iconClass="fa fa-close text-danger" id={draftJobOfferFormId(key, "tipped") + "_no"} htmlFor={draftJobOfferFormId(key, "tipped") + "_no"} />
           </RadioGroup>
         </div>
       </div>
