@@ -37,7 +37,8 @@ var OfferedParticipantGroupPanels = React.createClass({
       jobOffersPromise,
       jobOffersParticipantAgreementPromise,
       this.loadResource("programs")(),
-      this.loadResource("positions")()
+      this.loadResource("positions")(),
+      this.loadResource("staff")()
     ]).done();
   },
 
@@ -66,7 +67,8 @@ var OfferedParticipantGroupPanels = React.createClass({
               participantGroup={participantGroup}
               participants={participants}
               positions={this.state.positions}
-              program={program} />
+              program={program}
+              staff={this.state.staff} />
           )
         }.bind(this))}
       </div>

@@ -25,7 +25,7 @@ React.render(
       jobOffers: "/json/job_offers.json",
       jobOfferParticipantAgreements: "/json/job_offer_participant_agreements.json",
       positions: "/json/positions.json",
-      staffs: "/json/staffs.json"
+      staff: "/json/staff.json"
     }
   }),
   document.getElementById("OfferedParticipantGroups")
