@@ -6,16 +6,13 @@ var InMatchingParticipantGroupPanels = React.createClass({
   },
 
   componentDidMount: function() {
-    var participantsPromise =
-      this.loadResource("inMatchingParticipantGroups")()
-      .then(this.extractIds("participant_group_id"))
-      .then(this.loadResource("participantGroups"))
-      .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"));
-
     this.loadAll([
       this.loadResource("employer")(),
-      participantsPromise,
+      this.loadResource("inMatchingParticipantGroups")()
+        .then(this.extractIds("participant_group_id"))
+        .then(this.loadResource("participantGroups"))
+        .then(this.extractIds("participant_ids"))
+        .then(this.loadResource("participants")),
       this.loadResource("enrollments")(),
       this.loadResource("programs")()
     ]).done();
