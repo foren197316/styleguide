@@ -89,7 +89,8 @@ var OfferedParticipantGroupPanel = React.createClass({
     participantGroup: React.PropTypes.object.isRequired,
     participants: React.PropTypes.array.isRequired,
     positions: React.PropTypes.array.isRequired,
-    program: React.PropTypes.object.isRequired
+    program: React.PropTypes.object.isRequired,
+    staff: React.PropTypes.object
   },
 
   getInitialState: function() {
@@ -159,7 +160,7 @@ var OfferedParticipantGroupPanel = React.createClass({
   render: function() {
     var actions,
         footerName = this.props.participantGroup.name + " - " + this.props.program.name,
-        staffName = this.props.employer.staff ? this.props.employer.staff.name : null,
+        staffName = this.props.staff ? this.props.staff.name : null,
         hasJobOffers = this.hasJobOffers(),
         offers = hasJobOffers ? this.props.jobOffers : this.props.draftJobOffers,
         offerLinkTitle = hasJobOffers ? 'View' : 'Preview',

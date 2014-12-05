@@ -4,13 +4,15 @@
       "id": 1,
       "name": "Bobs Burgers",
       "vetted": true,
-      "region_id": 1
+      "region_id": 1,
+      "staff_id": 1
     },
     {
       "id": 2,
       "name": "Linda's Bed & Breakfast",
       "vetted": false,
-      "region_id": 1
+      "region_id": 1,
+      "staff_id": 2
     }
   ]
 }

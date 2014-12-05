@@ -4,17 +4,24 @@ var CheckBoxFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     options: React.PropTypes.array.isRequired,
-    dataLink: React.PropTypes.object.isRequired
+    dataLink: React.PropTypes.object.isRequired,
+    nestedAttribute: React.PropTypes.string
   },
 
   onChange: function (event) {
     var node = this.getDOMNode(),
+        nestedAttribute = this.props.nestedAttribute,
         checkedIds = $.map($(node).find('input[type="checkbox"]:checked'), function (checkbox) {
           return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
         }),
-        checkedOptions = this.props.options.filter(function (option) {
-          return checkedIds.indexOf(option.id.toString()) >= 0;
-        });
+        filterFunc = nestedAttribute
+          ? function (option) {
+              return checkedIds.indexOf(option[nestedAttribute].id.toString()) >= 0;
+            }
+          : function (option) {
+              return checkedIds.indexOf(option.id.toString()) >= 0;
+            },
+        checkedOptions = this.props.options.filter(filterFunc);
 
     if (checkedOptions.length === 0) {
       checkedOptions = this.props.options;
@@ -30,9 +37,13 @@ var CheckBoxFilter = React.createClass({
           <div className="panel-heading">{this.props.title}</div>
           <div className="list-group list-group-scrollable">
             {this.props.options.map(function (option) {
-              return <label key={this.props.title+"_checkbox_"+option.id} className="list-group-item">
-                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} />
-                <span className="title">{option.name}</span>
+              var filterOption = this.props.nestedAttribute
+                ? option[this.props.nestedAttribute]
+                : option;
+
+              return <label key={this.props.title+"_checkbox_"+filterOption.id} className="list-group-item">
+                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + filterOption.id + "]"} onChange={this.onChange} />
+                <span className="title">{filterOption.name}</span>
               </label>
             }.bind(this))}
           </div>
