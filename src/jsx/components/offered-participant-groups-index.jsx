@@ -2,7 +2,12 @@ var OfferedParticipantGroupsIndex = React.createClass({
   mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
 
   getInitialState: function () {
-    return {};
+    return {
+      participantSigned: [
+        { id: "Signed", name: "All Signed" },
+        { id: "Unsigned", name: "Any Unsigned" }
+      ]
+    };
   },
 
   setParticipantNames: function (participants) {
@@ -21,9 +26,27 @@ var OfferedParticipantGroupsIndex = React.createClass({
     return participants;
   },
 
+  filterPrograms: function (programs) {
+    var filteredPrograms = programs.filter(function (program) {
+      if (this.state.participants.findById(program.id, "program_id")) {
+        return true;
+      }
+      return false;
+    }.bind(this));
+
+    this.setState({
+      programs: filteredPrograms
+    });
+
+    return this.state.participants;
+  },
+
   setInitialData: function () {
     this.setProps({
-      offeredParticipantGroups: this.state.offeredParticipantGroups
+      offeredParticipantGroups: this.state.offeredParticipantGroups,
+      jobOffers: this.state.jobOffers,
+      participantSigned: this.state.participantSigned,
+      programs: this.state.programs
     });
   },
 
@@ -42,7 +65,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
       .then(this.loadResource("participantGroups"))
       .then(this.extractIds("participant_ids"))
       .then(this.loadResource("participants"))
-      .then(this.setParticipantNames);
+      .then(this.setParticipantNames)
+      .then(this.loadResource("programs", false))
+      .then(this.filterPrograms);
 
     var draftJobOffersPromise =
       offeredParticipantGroupsPromise
@@ -54,7 +79,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("job_offer_ids"))
       .then(this.loadResource("jobOffers"));
 
-    var jobOffersParticipantAgreementPromise =
+    var jobOfferParticipantAgreementsPromise =
       offeredParticipantGroupsPromise
       .then(this.extractIds("job_offer_participant_agreement_ids"))
       .then(this.loadResource("jobOfferParticipantAgreements"));
@@ -64,19 +89,23 @@ var OfferedParticipantGroupsIndex = React.createClass({
       participantsPromise,
       draftJobOffersPromise,
       jobOffersPromise,
-      jobOffersParticipantAgreementPromise,
-      this.loadResource("programs")()
+      jobOfferParticipantAgreementsPromise,
+      this.loadResource("positions")()
     ]).done(this.setInitialData);
   },
 
   renderLoaded: function () {
     var jobOffersLink = this.linkState("jobOffers");
     var offeredParticipantGroupsLink = this.linkState("offeredParticipantGroups");
+    var participantSignedLink = this.linkState("participantSigned");
+    var programsLink = this.linkState("programs");
 
     return (
       <div className="row">
         <div className="col-md-3">
           <SearchFilter title="offered_names" searchOn="participant_names" options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
+          <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
+          <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
@@ -89,17 +118,29 @@ var OfferedParticipantGroupsIndex = React.createClass({
               var participants = this.state.participants.findById(participantGroup.participant_ids);
               var program = this.state.programs.findById(participants[0].program_id);
 
-              return <OfferedParticipantGroupPanel
-                      draftJobOffers={draftJobOffers}
-                      employer={employer}
-                      jobOfferParticipantAgreements={jobOfferParticipantAgreements}
-                      jobOffers={jobOffers}
-                      jobOffersLink={jobOffersLink}
-                      key={"offered_participant_group_"+offeredParticipantGroup.id}
-                      offeredParticipantGroup={offeredParticipantGroup}
-                      participantGroup={participantGroup}
-                      participants={participants}
-                      program={program} />
+              if (!program) {
+                return;
+              }
+
+              if (
+                  participantSignedLink.value.length === 2
+                  || (participantSignedLink.value.length === 1 && participantSignedLink.value[0].id === 'Signed' && jobOfferParticipantAgreements.length === participants.length)
+                  || (participantSignedLink.value.length === 1 && participantSignedLink.value[0].id === 'Unsigned' && jobOfferParticipantAgreements.length < participants.length)
+                 )
+              {
+                return <OfferedParticipantGroupPanel
+                        draftJobOffers={draftJobOffers}
+                        employer={employer}
+                        jobOfferParticipantAgreements={jobOfferParticipantAgreements}
+                        jobOffers={jobOffers}
+                        jobOffersLink={jobOffersLink}
+                        key={"offered_participant_group_"+offeredParticipantGroup.id}
+                        offeredParticipantGroup={offeredParticipantGroup}
+                        participantGroup={participantGroup}
+                        participants={participants}
+                        positions={this.state.positions}
+                        program={program} />
+              }
             }.bind(this))}
           </div>
         </div>

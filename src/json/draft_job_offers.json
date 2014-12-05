@@ -14,7 +14,7 @@
     {
       "id": 2,
       "participant_id": 2,
-      "position": 3,
+      "position_id": 3,
       "tipped": true,
       "wage": 5,
       "hours": 35,

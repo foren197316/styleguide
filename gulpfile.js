@@ -115,7 +115,7 @@ gulp.task('javascript-components', function() {
     .pipe(react())
     .pipe(concat('interexchange-components.js'))
     .pipe(gulp.dest('build/js'))
-    .pipe(uglify())
+    .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
     .pipe(concat('interexchange-components.min.js'))
     .pipe(gulp.dest('build/js'));
 });

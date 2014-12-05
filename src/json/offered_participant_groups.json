@@ -4,9 +4,9 @@
       "id": 1,
       "participant_group_id": 1,
       "can_send": true,
-      "draft_job_offer_ids": [1, 2],
+      "draft_job_offer_ids": [1],
       "employer_id": 1,
-      "job_offer_ids": [],
+      "job_offer_ids": [2, 3],
       "job_offer_participant_agreement_ids": []
     },
     {

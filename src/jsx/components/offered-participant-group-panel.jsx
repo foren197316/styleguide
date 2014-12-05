@@ -36,7 +36,8 @@ var OfferedParticipantGroupPanels = React.createClass({
       draftJobOffersPromise,
       jobOffersPromise,
       jobOffersParticipantAgreementPromise,
-      this.loadResource("programs")()
+      this.loadResource("programs")(),
+      this.loadResource("positions")()
     ]).done();
   },
 
@@ -64,6 +65,7 @@ var OfferedParticipantGroupPanels = React.createClass({
               offeredParticipantGroup={offeredParticipantGroup}
               participantGroup={participantGroup}
               participants={participants}
+              positions={this.state.positions}
               program={program} />
           )
         }.bind(this))}
@@ -78,23 +80,24 @@ var OfferedParticipantGroupPanels = React.createClass({
 
 var OfferedParticipantGroupPanel = React.createClass({
   propTypes: {
-    draftJobOffers: React.PropTypes.object.isRequired,
+    draftJobOffers: React.PropTypes.array.isRequired,
     employer: React.PropTypes.object.isRequired,
-    jobOfferParticipantAgreements: React.PropTypes.object.isRequired,
-    jobOffers: React.PropTypes.object.isRequired,
+    jobOfferParticipantAgreements: React.PropTypes.array.isRequired,
+    jobOffers: React.PropTypes.array.isRequired,
     jobOffersLink: React.PropTypes.object.isRequired, /* ReactLink */
     offeredParticipantGroup: React.PropTypes.object.isRequired,
     participantGroup: React.PropTypes.object.isRequired,
-    participants: React.PropTypes.object.isRequired,
+    participants: React.PropTypes.array.isRequired,
+    positions: React.PropTypes.array.isRequired,
     program: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
     return {
-      sending: false,
       puttingOnReview: false,
-      sendingJobOffer: false,
-      rejecting: false
+      rejecting: false,
+      sending: false,
+      sendingJobOffer: false
     };
   },
 
@@ -162,12 +165,14 @@ var OfferedParticipantGroupPanel = React.createClass({
         offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
         participantNodes = offers.map(function (offer) {
           var participant = this.props.participants.findById(offer.participant_id);
+          var position = this.props.positions.findById(offer.position_id);
           var jobOfferParticipantAgreement = this.props.jobOfferParticipantAgreements.findById(offer.id, "job_offer_id");
 
           return (
             <OfferedParticipantGroupParticipant
               key={participant.id}
               participant={participant}
+              position={position}
               offer={offer}
               jobOfferParticipantAgreement={jobOfferParticipantAgreement}
               offerLinkTitle={offerLinkTitle} />
@@ -258,7 +263,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
     return (
       <ParticipantGroupItemWrapper participant={this.props.participant}>
         <div className="form form-horizontal">
-          <ReadOnlyFormGroup label="Position" value={this.props.offer.position} />
+          <ReadOnlyFormGroup label="Position" value={this.props.position.name} />
           <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseFloat(this.props.offer.wage).toFixed(2)} />
           <ReadOnlyFormGroup label="Tipped?" value={this.props.offer.tipped ? 'Yes' : 'No'} />
           <ReadOnlyFormGroup label="Hours per week" value={this.props.offer.hours} />

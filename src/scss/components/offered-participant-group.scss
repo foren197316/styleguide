@@ -12,7 +12,7 @@ category: Components - Participant Group
 ```
 
 ```js_example
-React.renderComponent(
+React.render(
   OfferedParticipantGroupPanels({
     urls: {
       employer: "/json/employer.json",
@@ -23,7 +23,8 @@ React.renderComponent(
       positions: "/json/positions.json",
       draftJobOffers: "/json/draft_job_offers.json",
       jobOffers: "/json/job_offers.json",
-      jobOfferParticipantAgreements: "/json/job_offer_participant_agreements.json"
+      jobOfferParticipantAgreements: "/json/job_offer_participant_agreements.json",
+      positions: "/json/positions.json"
     }
   }),
   document.getElementById("OfferedParticipantGroups")
