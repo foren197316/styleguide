@@ -46,25 +46,25 @@ var OfferedParticipantGroupPanels = React.createClass({
     return (
       <div id="participant-group-panels">
         {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
+          var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
+          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
+          var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
           var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
           var participants = this.state.participants.findById(participantGroup.participant_ids);
-          var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
-          var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
-          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
           var program = this.state.programs.findById(participants[0].program_id);
 
           return (
             <OfferedParticipantGroupPanel
+              draftJobOffers={draftJobOffers}
+              employer={this.state.employer}
+              jobOfferParticipantAgreements={jobOfferParticipantAgreements}
+              jobOffers={jobOffers}
               jobOffersLink={jobOffersLink}
+              key={"offered_participant_group_"+offeredParticipantGroup.id}
               offeredParticipantGroup={offeredParticipantGroup}
               participantGroup={participantGroup}
               participants={participants}
-              draftJobOffers={draftJobOffers}
-              jobOffers={jobOffers}
-              jobOfferParticipantAgreements={jobOfferParticipantAgreements}
-              program={program}
-              employer={this.state.employer}
-              key={"offered_participant_group_"+offeredParticipantGroup.id} />
+              program={program} />
           )
         }.bind(this))}
       </div>
@@ -78,15 +78,15 @@ var OfferedParticipantGroupPanels = React.createClass({
 
 var OfferedParticipantGroupPanel = React.createClass({
   propTypes: {
+    draftJobOffers: React.PropTypes.object.isRequired,
+    employer: React.PropTypes.object.isRequired,
+    jobOfferParticipantAgreements: React.PropTypes.object.isRequired,
+    jobOffers: React.PropTypes.object.isRequired,
     jobOffersLink: React.PropTypes.object.isRequired, /* ReactLink */
     offeredParticipantGroup: React.PropTypes.object.isRequired,
     participantGroup: React.PropTypes.object.isRequired,
-    program: React.PropTypes.object.isRequired,
     participants: React.PropTypes.object.isRequired,
-    draftJobOffers: React.PropTypes.object.isRequired,
-    jobOffers: React.PropTypes.object.isRequired,
-    jobOfferParticipantAgreements: React.PropTypes.object.isRequired,
-    employer: React.PropTypes.object.isRequired
+    program: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
