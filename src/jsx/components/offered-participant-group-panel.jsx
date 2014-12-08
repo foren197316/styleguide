@@ -13,7 +13,9 @@ var OfferedParticipantGroupPanels = React.createClass({
       .then(this.extractIds("participant_group_id"))
       .then(this.loadResource("participantGroups"))
       .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"));
+      .then(this.loadResource("participants"))
+      .then(this.extractIds("program_id"))
+      .then(this.loadResource("programs"));
 
     var draftJobOffersPromise =
       offeredParticipantGroupsPromise
@@ -36,7 +38,6 @@ var OfferedParticipantGroupPanels = React.createClass({
       draftJobOffersPromise,
       jobOffersPromise,
       jobOfferParticipantAgreementsPromise,
-      this.loadResource("programs")(),
       this.loadResource("positions")(),
       this.loadResource("staff")()
     ]).done();
@@ -49,10 +50,10 @@ var OfferedParticipantGroupPanels = React.createClass({
       <div id="participant-group-panels">
         {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
           var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
-          var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
-          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids, "job_offer_id");
           var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
           var participants = this.state.participants.findById(participantGroup.participant_ids);
+          var jobOffers = jobOffersLink.value.findById(participants.mapAttribute("id"), "participant_id");
+          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids, "job_offer_id");
           var program = this.state.programs.findById(participants[0].program_id);
 
           return (
@@ -131,13 +132,13 @@ var OfferedParticipantGroupPanel = React.createClass({
     if (this.state.sendingJobOffer) {
       url = "/offered_participant_groups/" + this.props.offeredParticipantGroup.id + "/job_offers.json";
       success = function(data) {
-        this.props.jobOffersLink.requestChange(this.props.jobOffersLink.value.concat(data.job_offers));
-
         this.setState({
           sending: false,
           sendingJobOffer: false,
           rejecting: false
         });
+
+        this.props.jobOffersLink.requestChange(this.props.jobOffersLink.value.concat(data.job_offers));
       }.bind(this);
     } else if (this.state.rejecting) {
       url = "/offered_participant_groups/" + this.props.offeredParticipantGroup.id;

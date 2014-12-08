@@ -26,21 +26,6 @@ var OfferedParticipantGroupsIndex = React.createClass({
     return participants;
   },
 
-  filterPrograms: function (programs) {
-    var filteredPrograms = programs.filter(function (program) {
-      if (this.state.participants.findById(program.id, "program_id")) {
-        return true;
-      }
-      return false;
-    }.bind(this));
-
-    this.setState({
-      programs: filteredPrograms
-    });
-
-    return this.state.participants;
-  },
-
   setInitialData: function () {
     this.setProps({
       employers: this.state.employers,
@@ -70,8 +55,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("participant_ids"))
       .then(this.loadResource("participants"))
       .then(this.setParticipantNames)
-      .then(this.loadResource("programs", false))
-      .then(this.filterPrograms);
+      .then(this.extractIds("program_id"))
+      .then(this.loadResource("programs"));
 
     var draftJobOffersPromise =
       offeredParticipantGroupsPromise
@@ -120,10 +105,10 @@ var OfferedParticipantGroupsIndex = React.createClass({
             {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
               var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
               var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
-              var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
-              var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids, "job_offer_id");
               var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
               var participants = this.state.participants.findById(participantGroup.participant_ids);
+              var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
+              var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids, "job_offer_id");
               var program = this.state.programs.findById(participants[0].program_id);
 
               if (!program || !employer) {
