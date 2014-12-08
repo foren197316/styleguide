@@ -53,7 +53,7 @@ var OfferedParticipantGroupPanels = React.createClass({
           var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
           var participants = this.state.participants.findById(participantGroup.participant_ids);
           var jobOffers = jobOffersLink.value.findById(participants.mapAttribute("id"), "participant_id");
-          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids, "job_offer_id");
+          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
           var program = this.state.programs.findById(participants[0].program_id);
 
           return (
