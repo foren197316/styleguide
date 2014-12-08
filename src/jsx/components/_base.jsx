@@ -432,19 +432,22 @@ var LoadResourceMixin = {
   },
 
   loadAll: function (promiseList) {
+    var printError = function (error) {
+      console.log(error.stack);
+    };
+
     if (this.state.isLoaded) {
       this.setState({ isLoaded: false });
     }
 
-    return Q.allSettled(promiseList)
+    return Q.allSettled(promiseList.map(function (promise) {
+      return promise.catch(printError);
+    }))
     .then(function () {
       if (this.isMounted()) {
         this.setState({ isLoaded: true });
       }
-    }.bind(this))
-    .catch(function (error) {
-      console.log(error.stack);
-    });
+    }.bind(this));
   },
 
   waitForLoadAll: function (loadedCallback) {
