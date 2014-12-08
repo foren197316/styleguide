@@ -426,7 +426,7 @@ var LoadResourceMixin = {
 
     return function (entries) {
       return {
-        ids: prepareArray(entries.mapAttribute(idsAttribute)).sort()
+        ids: prepareArray(entries.mapAttribute(idsAttribute)).notEmpty().sort()
       };
     }
   },
@@ -434,7 +434,8 @@ var LoadResourceMixin = {
   loadAll: function (promiseList) {
     var printError = function (error) {
       console.log(error.stack);
-    };
+      console.log(this.state);
+    }.bind(this);
 
     if (this.state.isLoaded) {
       this.setState({ isLoaded: false });
@@ -447,7 +448,8 @@ var LoadResourceMixin = {
       if (this.isMounted()) {
         this.setState({ isLoaded: true });
       }
-    }.bind(this));
+    }.bind(this))
+    .catch(printError);
   },
 
   waitForLoadAll: function (loadedCallback) {

@@ -117,7 +117,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
               var staff = this.state.staffs.findById(employer.staff_id);
 
-              if (!staff && staffsLink.value.length !== this.props.staffs.length) {
+              var staffCount = this.props.staffs ? this.props.staffs.length : 0;
+
+              if (!staff && staffsLink.value.length !== staffCount) {
                 return;
               }
 
