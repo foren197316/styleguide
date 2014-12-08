@@ -46,6 +46,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
       employers: this.state.employers,
       offeredParticipantGroups: this.state.offeredParticipantGroups,
       jobOffers: this.state.jobOffers,
+      jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements,
       participantSigned: this.state.participantSigned,
       programs: this.state.programs,
       staffs: this.state.staffs
@@ -112,15 +113,15 @@ var OfferedParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
           <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
           <CheckBoxFilter title="Coordinator" options={this.props.staffs} dataLink={staffsLink} />
-          <CheckBoxFilter title="Coordinator" options={this.props.employers} dataLink={employersLink} />
+          <CheckBoxFilter title="Employer" options={this.props.employers} dataLink={employersLink} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
             {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
               var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
               var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
-              var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
               var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
+              var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids, "job_offer_id");
               var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
               var participants = this.state.participants.findById(participantGroup.participant_ids);
               var program = this.state.programs.findById(participants[0].program_id);
@@ -144,8 +145,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
                 return <OfferedParticipantGroupPanel
                         draftJobOffers={draftJobOffers}
                         employer={employer}
-                        jobOfferParticipantAgreements={jobOfferParticipantAgreements}
                         jobOffers={jobOffers}
+                        jobOfferParticipantAgreements={jobOfferParticipantAgreements}
                         jobOffersLink={jobOffersLink}
                         key={"offered_participant_group_"+offeredParticipantGroup.id}
                         offeredParticipantGroup={offeredParticipantGroup}

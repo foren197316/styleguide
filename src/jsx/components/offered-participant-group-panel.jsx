@@ -25,7 +25,7 @@ var OfferedParticipantGroupPanels = React.createClass({
       .then(this.extractIds("job_offer_ids"))
       .then(this.loadResource("jobOffers"));
 
-    var jobOffersParticipantAgreementPromise =
+    var jobOfferParticipantAgreementsPromise =
       offeredParticipantGroupsPromise
       .then(this.extractIds("job_offer_participant_agreement_ids"))
       .then(this.loadResource("jobOfferParticipantAgreements"));
@@ -35,7 +35,7 @@ var OfferedParticipantGroupPanels = React.createClass({
       participantsPromise,
       draftJobOffersPromise,
       jobOffersPromise,
-      jobOffersParticipantAgreementPromise,
+      jobOfferParticipantAgreementsPromise,
       this.loadResource("programs")(),
       this.loadResource("positions")(),
       this.loadResource("staff")()
@@ -49,8 +49,8 @@ var OfferedParticipantGroupPanels = React.createClass({
       <div id="participant-group-panels">
         {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
           var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
-          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
           var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
+          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids, "job_offer_id");
           var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
           var participants = this.state.participants.findById(participantGroup.participant_ids);
           var program = this.state.programs.findById(participants[0].program_id);
@@ -59,8 +59,8 @@ var OfferedParticipantGroupPanels = React.createClass({
             <OfferedParticipantGroupPanel
               draftJobOffers={draftJobOffers}
               employer={this.state.employer}
-              jobOfferParticipantAgreements={jobOfferParticipantAgreements}
               jobOffers={jobOffers}
+              jobOfferParticipantAgreements={jobOfferParticipantAgreements}
               jobOffersLink={jobOffersLink}
               key={"offered_participant_group_"+offeredParticipantGroup.id}
               offeredParticipantGroup={offeredParticipantGroup}
@@ -84,8 +84,8 @@ var OfferedParticipantGroupPanel = React.createClass({
   propTypes: {
     draftJobOffers: React.PropTypes.array.isRequired,
     employer: React.PropTypes.object.isRequired,
-    jobOfferParticipantAgreements: React.PropTypes.array.isRequired,
     jobOffers: React.PropTypes.array.isRequired,
+    jobOfferParticipantAgreements: React.PropTypes.array.isRequired,
     jobOffersLink: React.PropTypes.object.isRequired, /* ReactLink */
     offeredParticipantGroup: React.PropTypes.object.isRequired,
     participantGroup: React.PropTypes.object.isRequired,
@@ -169,7 +169,9 @@ var OfferedParticipantGroupPanel = React.createClass({
         participantNodes = offers.map(function (offer) {
           var participant = this.props.participants.findById(offer.participant_id);
           var position = this.props.positions.findById(offer.position_id);
-          var jobOfferParticipantAgreement = this.props.jobOfferParticipantAgreements.findById(offer.id, "job_offer_id");
+          var jobOfferParticipantAgreement = hasJobOffers
+            ? this.props.jobOfferParticipantAgreements.findById(offer.id, "job_offer_id")
+            : null;
 
           return (
             <OfferedParticipantGroupParticipant
@@ -257,7 +259,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
       );
     }
 
-    if (this.props.jobOfferParticipantAgreement !== null) {
+    if (this.props.jobOfferParticipantAgreement != null) {
       jobOfferParticipantAgreement = (
         <ReadOnlyFormGroup label="Signed by" value={this.props.jobOfferParticipantAgreement.full_name + " on " + Date.parse(this.props.jobOfferParticipantAgreement.created_at).toString(dateFormat)} />
       );
