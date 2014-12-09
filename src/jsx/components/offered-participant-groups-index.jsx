@@ -6,7 +6,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
       participantSigned: [
         { id: "Signed", name: "All Signed" },
         { id: "Unsigned", name: "Any Unsigned" }
-      ]
+      ],
+      allStaffsUnselected: true
     };
   },
 
@@ -90,6 +91,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
     var programsLink = this.linkState("programs");
     var employersLink = this.linkState("employers");
     var staffsLink = this.linkState("staffs");
+    var allStaffsUnselectedLink = this.linkState("allStaffsUnselected");
 
     return (
       <div className="row">
@@ -97,7 +99,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
           <SearchFilter title="offered_names" searchOn="participant_names" options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
           <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
           <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
-          <CheckBoxFilter title="Coordinator" options={this.props.staffs} dataLink={staffsLink} />
+          <CheckBoxFilter title="Coordinator" options={this.props.staffs} dataLink={staffsLink} allUnselectedLink={allStaffsUnselectedLink} />
           <CheckBoxFilter title="Employer" options={this.props.employers} dataLink={employersLink} />
         </div>
         <div className="col-md-9">
@@ -117,9 +119,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
               var staff = this.state.staffs.findById(employer.staff_id);
 
-              var staffCount = this.props.staffs ? this.props.staffs.length : 0;
-
-              if (!staff && staffsLink.value.length !== staffCount) {
+              if (!staff && !this.state.allStaffsUnselected) {
                 return;
               }
 

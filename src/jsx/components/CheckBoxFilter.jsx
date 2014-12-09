@@ -4,8 +4,9 @@ var CheckBoxFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     options: React.PropTypes.array.isRequired,
-    dataLink: React.PropTypes.object.isRequired,
-    nestedAttribute: React.PropTypes.string
+    dataLink: React.PropTypes.object.isRequired, /* ReactLink */
+    nestedAttribute: React.PropTypes.string,
+    allUnselectedLink: React.PropTypes.object    /* ReactLink */
   },
 
   onChange: function (event) {
@@ -21,10 +22,15 @@ var CheckBoxFilter = React.createClass({
           : function (option) {
               return checkedIds.indexOf(option.id.toString()) >= 0;
             },
-        checkedOptions = this.props.options.filter(filterFunc);
+        checkedOptions = this.props.options.filter(filterFunc),
+        noneChecked = checkedOptions.length === 0;
 
-    if (checkedOptions.length === 0) {
+    if (noneChecked) {
       checkedOptions = this.props.options;
+    }
+
+    if (this.props.allUnselectedLink != undefined) {
+      this.props.allUnselectedLink.requestChange(noneChecked);
     }
 
     this.props.dataLink.requestChange(checkedOptions);
