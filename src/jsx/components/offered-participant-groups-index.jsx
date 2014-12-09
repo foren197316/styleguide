@@ -84,6 +84,50 @@ var OfferedParticipantGroupsIndex = React.createClass({
     ]).done(this.setInitialData);
   },
 
+  getOfferedParticipantGroupsCache: function () {
+    return this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
+      var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
+      var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
+      var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
+      var participants = this.state.participants.findById(participantGroup.participant_ids);
+      var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
+      var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
+      var program = this.state.programs.findById(participants[0].program_id);
+
+      if (!program || !employer) {
+        return null;
+      }
+
+      var staff = this.state.staffs.findById(employer.staff_id);
+
+      if (!staff && !this.state.allStaffsUnselected) {
+        return null;
+      }
+
+      if (
+          this.state.participantSigned.length === 2
+          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === 'Signed' && jobOfferParticipantAgreements.length === participants.length)
+          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === 'Unsigned' && jobOfferParticipantAgreements.length < participants.length)
+         )
+      {
+        return {
+          id: offeredParticipantGroup.id,
+          draftJobOffers: draftJobOffers,
+          employer: employer,
+          jobOffers: jobOffers,
+          jobOfferParticipantAgreements: jobOfferParticipantAgreements,
+          offeredParticipantGroup: offeredParticipantGroup,
+          participantGroup: participantGroup,
+          participants: participants,
+          program: program,
+          staff: staff
+        };
+      }
+
+      return null;
+    }.bind(this)).notEmpty();
+  },
+
   renderLoaded: function () {
     var jobOffersLink = this.linkState("jobOffers");
     var offeredParticipantGroupsLink = this.linkState("offeredParticipantGroups");
@@ -93,9 +137,12 @@ var OfferedParticipantGroupsIndex = React.createClass({
     var staffsLink = this.linkState("staffs");
     var allStaffsUnselectedLink = this.linkState("allStaffsUnselected");
 
+    var offeredParticipantGroupsCache = this.getOfferedParticipantGroupsCache();
+
     return (
       <div className="row">
         <div className="col-md-3">
+          <ExportButton url={this.props.urls.export} ids={offeredParticipantGroupsCache.mapAttribute("id")} />
           <SearchFilter title="offered_names" searchOn="participant_names" options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
           <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
           <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
@@ -104,45 +151,20 @@ var OfferedParticipantGroupsIndex = React.createClass({
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
-            {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
-              var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
-              var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
-              var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
-              var participants = this.state.participants.findById(participantGroup.participant_ids);
-              var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
-              var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
-              var program = this.state.programs.findById(participants[0].program_id);
-
-              if (!program || !employer) {
-                return;
-              }
-
-              var staff = this.state.staffs.findById(employer.staff_id);
-
-              if (!staff && !this.state.allStaffsUnselected) {
-                return;
-              }
-
-              if (
-                  participantSignedLink.value.length === 2
-                  || (participantSignedLink.value.length === 1 && participantSignedLink.value[0].id === 'Signed' && jobOfferParticipantAgreements.length === participants.length)
-                  || (participantSignedLink.value.length === 1 && participantSignedLink.value[0].id === 'Unsigned' && jobOfferParticipantAgreements.length < participants.length)
-                 )
-              {
-                return <OfferedParticipantGroupPanel
-                        draftJobOffers={draftJobOffers}
-                        employer={employer}
-                        jobOffers={jobOffers}
-                        jobOfferParticipantAgreements={jobOfferParticipantAgreements}
-                        jobOffersLink={jobOffersLink}
-                        key={"offered_participant_group_"+offeredParticipantGroup.id}
-                        offeredParticipantGroup={offeredParticipantGroup}
-                        participantGroup={participantGroup}
-                        participants={participants}
-                        positions={this.state.positions}
-                        program={program}
-                        staff={staff} />
-              }
+            {offeredParticipantGroupsCache.map(function (cache) {
+              return <OfferedParticipantGroupPanel
+                      draftJobOffers={cache.draftJobOffers}
+                      employer={cache.employer}
+                      jobOffers={cache.jobOffers}
+                      jobOfferParticipantAgreements={cache.jobOfferParticipantAgreements}
+                      jobOffersLink={jobOffersLink}
+                      key={"offered_participant_group_"+cache.id}
+                      offeredParticipantGroup={cache.offeredParticipantGroup}
+                      participantGroup={cache.participantGroup}
+                      participants={cache.participants}
+                      positions={this.state.positions}
+                      program={cache.program}
+                      staff={cache.staff} />
             }.bind(this))}
           </div>
         </div>

@@ -426,7 +426,7 @@ var LoadResourceMixin = {
 
     return function (entries) {
       return {
-        ids: prepareArray(entries.mapAttribute(idsAttribute)).notEmpty().sort()
+        ids: prepareArray(entries.mapAttribute(idsAttribute)).notEmpty().uniq().sort()
       };
     }
   },
