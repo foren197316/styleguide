@@ -21,6 +21,7 @@ var ExportButton = React.createClass({
       <form action={this.props.url} method="POST">
         <button className="btn btn-default" type="submit" style={{ marginBottom: "15px" }}>
           <i className="fa fa-download"></i>
+          &nbsp;
           Export to CSV
         </button>
         {this.props.ids.map(function (id) {
