@@ -36,26 +36,11 @@ var CheckBoxFilter = React.createClass({
     this.props.dataLink.requestChange(checkedOptions);
   },
 
-  onClear: function () {
-    $(this.getDOMNode()).find('input[type="checkbox"]:checked').removeAttr("checked");
-
-    if (this.props.allUnselectedLink != undefined) {
-      this.props.allUnselectedLink.requestChange(true);
-    }
-
-    this.props.dataLink.requestChange(this.props.options);
-  },
-
   render: function () {
     if (this.isMounted()) {
       return (
         <div className="panel panel-default">
-          <div className="panel-heading clearfix">
-            <div className="panel-title pull-left">{this.props.title}</div>
-            <div className="pull-right">
-              <button onClick={this.onClear} className="btn btn-default btn-xs">Clear</button>
-            </div>
-          </div>
+          <div className="panel-heading">{this.props.title}</div>
           <div className="list-group list-group-scrollable">
             {this.props.options.map(function (option) {
               var filterOption = this.props.nestedAttribute
