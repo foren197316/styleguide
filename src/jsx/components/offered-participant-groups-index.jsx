@@ -7,6 +7,10 @@ var OfferedParticipantGroupsIndex = React.createClass({
         { id: "Signed", name: "All Signed" },
         { id: "Unsigned", name: "Any Unsigned" }
       ],
+      offerSent: [
+        { id: "sent", name: "Sent" },
+        { id: "unsent", name: "Unsent" }
+      ],
       allStaffsUnselected: true
     };
   },
@@ -34,6 +38,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
       jobOffers: this.state.jobOffers,
       jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements,
       participantSigned: this.state.participantSigned,
+      offerSent: this.state.offerSent,
       programs: this.state.programs,
       staffs: this.state.staffs
     });
@@ -104,6 +109,13 @@ var OfferedParticipantGroupsIndex = React.createClass({
         return null;
       }
 
+      if (this.state.offerSent.length === 1) {
+        if (
+            (this.state.offerSent[0].id === "sent" && jobOffers.length === 0)
+            || (this.state.offerSent[0].id === "unsent" && jobOffers.length > 0)
+        ) return;
+      }
+
       if (
           this.state.participantSigned.length === 2
           || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === 'Signed' && jobOfferParticipantAgreements.length === participants.length)
@@ -132,6 +144,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
     var jobOffersLink = this.linkState("jobOffers");
     var offeredParticipantGroupsLink = this.linkState("offeredParticipantGroups");
     var participantSignedLink = this.linkState("participantSigned");
+    var offerSentLink = this.linkState("offerSent");
     var programsLink = this.linkState("programs");
     var employersLink = this.linkState("employers");
     var staffsLink = this.linkState("staffs");
@@ -145,6 +158,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
           <ExportButton url={this.props.urls.export} ids={offeredParticipantGroupsCache.mapAttribute("id")} />
           <SearchFilter title="offered_names" searchOn="participant_names" options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
           <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
+          <CheckBoxFilter title="Offer Sent" options={this.props.offerSent} dataLink={offerSentLink} />
           <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
           <CheckBoxFilter title="Coordinator" options={this.props.staffs} dataLink={staffsLink} allUnselectedLink={allStaffsUnselectedLink} />
           <CheckBoxFilter title="Employer" options={this.props.employers} dataLink={employersLink} />
