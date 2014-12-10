@@ -51,9 +51,9 @@ var CheckBoxFilter = React.createClass({
       return (
         <div className="panel panel-default">
           <div className="panel-heading clearfix">
-            {this.props.title}
+            <div className="panel-title pull-left">{this.props.title}</div>
             <div className="pull-right">
-              <button onClick={this.onClear} className="btn btn-default btn-sm">Clear</button>
+              <button onClick={this.onClear} className="btn btn-default btn-xs">Clear</button>
             </div>
           </div>
           <div className="list-group list-group-scrollable">
