@@ -5,13 +5,15 @@ var SearchFilter = React.createClass({
     options: React.PropTypes.array.isRequired,
     dataLink: React.PropTypes.object.isRequired,
     inputCharacterMinimum: React.PropTypes.number,
-    caseSensitive: React.PropTypes.bool
+    caseSensitive: React.PropTypes.bool,
+    autoFocus: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
     return {
       inputCharacterMinimum: 3,
-      caseSensitive: false
+      caseSensitive: false,
+      autoFocus: true
     }
   },
 
@@ -19,6 +21,12 @@ var SearchFilter = React.createClass({
     return {
       lastSearch: null
     };
+  },
+
+  componentDidMount: function () {
+    if (this.props.autoFocus) {
+      this.refs["searchInput"].getDOMNode().focus();
+    }
   },
 
   handleChange: function (event) {
@@ -59,14 +67,10 @@ var SearchFilter = React.createClass({
   },
 
   render: function () {
-    if (this.isMounted()) {
-      return (
-        <label className="list-group">
-          <input type="search" name={"search_"+this.props.title} onChange={this.handleChange} value={this.state.lastSearch} className="list-group-item form-control" placeholder="Search" />
-        </label>
-      )
-    } else {
-      return <Spinner />
-    }
+    return (
+      <label className="list-group">
+        <input type="search" ref="searchInput" name={"search_"+this.props.title} onChange={this.handleChange} value={this.state.lastSearch} className="list-group-item form-control" placeholder="Search" />
+      </label>
+    )
   }
 });
