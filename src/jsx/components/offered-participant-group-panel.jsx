@@ -203,10 +203,10 @@ var OfferedParticipantGroupPanel = React.createClass({
       actions = (
         <div>
           <span className="label label-success pull-left">Sent</span>
-          {this.state.data.can_send ? <button className="btn btn-small btn-danger" onClick={this.handleReject}>Reject</button> : null}
+          {this.props.offeredParticipantGroup.can_send ? <button className="btn btn-small btn-danger" onClick={this.handleReject}>Reject</button> : null}
         </div>
       )
-    } else if (!this.state.data.can_send) {
+    } else if (!this.props.offeredParticipantGroup.can_send) {
       actions = null;
     } else if (!this.props.employer.vetted) {
       actions = (
