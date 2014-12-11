@@ -237,10 +237,10 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                 program={program} />;
     }.bind(this)).notEmpty();
 
-    if (inMatchingParticipantGroups.length > 0) {
+    if (inMatchingParticipantGroupPanels.length > 0) {
       return {
         program: program,
-        inMatchingParticipantGroups: inMatchingParticipantGroups,
+        inMatchingParticipantGroupPanels: inMatchingParticipantGroupPanels,
         participantCount: participantCount
       }
     }
@@ -266,7 +266,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         <div className="col-md-9">
           {function () {
             if (allPrograms.length > 0) {
-              {allPrograms.map(function (data) {
+              return allPrograms.map(function (data) {
                 return (
                   <div className="programs" key={"in_matching_participant_group_program_"+data.program.id}>
                     <div className="row">
@@ -286,7 +286,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
                     </div>
                   </div>
                 )
-              }.bind(this))}
+              }.bind(this))
             } else {
               return <Alert type="warning" message={InMatchingParticipantGroupsIndex.noResultsMessage} closeable={false} />
             }
