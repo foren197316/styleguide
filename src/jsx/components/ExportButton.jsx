@@ -19,10 +19,8 @@ var ExportButton = React.createClass({
   render: function () {
     return (
       <form action={this.props.url} method="POST">
-        <button className="btn btn-default" type="submit" style={{ marginBottom: "15px" }}>
-          <i className="fa fa-download"></i>
-          &nbsp;
-          Export to CSV
+        <button className="btn btn-block btn-default" type="submit" style={{ marginBottom: "15px" }}>
+          <i className="fa fa-download"></i> Export to CSV
         </button>
         {this.props.ids.map(function (id) {
           return <HiddenIdInput id={id} key={"hidden_input_"+id} />
