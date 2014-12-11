@@ -37,8 +37,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
       offeredParticipantGroups: this.state.offeredParticipantGroups,
       jobOffers: this.state.jobOffers,
       jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements,
+      offerSent: this.state.draftJobOffers.length > 0 ? this.state.offerSent : [],
       participantSigned: this.state.participantSigned,
-      offerSent: this.state.offerSent,
       programs: this.state.programs,
       staffs: this.state.staffs
     });

@@ -57,7 +57,7 @@ var CheckBoxFilter = React.createClass({
           </div>
         )
       } else {
-        return <div></div>
+        return null;
       }
     } else {
       return <Spinner />
