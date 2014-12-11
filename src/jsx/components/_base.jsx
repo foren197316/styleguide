@@ -411,6 +411,14 @@ var LoadResourceMixin = {
           this.setState(state);
           return data;
         }
+      }.bind(this))
+      .catch(function (error) {
+        var state = {},
+            data = [];
+
+        state[resourceName] = data;
+        this.setState(state);
+        return data;
       }.bind(this));
     }.bind(this);
   },
