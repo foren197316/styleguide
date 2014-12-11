@@ -59,30 +59,6 @@ var InMatchingParticipantGroupPanels = React.createClass({
   }
 });
 
-var Alert = React.createClass({
-  render: function () {
-    return (
-      <div className={"alert alert-" + this.props.status.type}>
-        <AlertClose />
-        <strong>{this.props.status.message}</strong><br/>
-        <span>{this.props.status.instructions}</span>
-        &nbsp;
-        <a className="alert-link" href={this.props.status.action.url}>{this.props.status.action.title}</a>.
-      </div>
-    )
-  }
-});
-
-var AlertClose = React.createClass({
-  render: function () {
-    return (
-      <button type="button" className="close" data-dismiss="alert">
-        <span aria-hidden="true">&times;</span><span className="sr-only">Close</span>
-      </button>
-    )
-  }
-});
-
 var InMatchingParticipantGroupPanel = React.createClass({
   getInitialState: function() {
     return {
@@ -171,7 +147,8 @@ var InMatchingParticipantGroupPanel = React.createClass({
         participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant';
 
     if (this.state.status) {
-      return <Alert status={this.state.status} />
+      var status = this.state.status;
+      return <Alert type={status.type} message={status.message} instructions={status.instructions} action={new AlertAction(status.action.title, status.action.url)} />
     } else {
       if (this.state.puttingOnReview) {
         action = (

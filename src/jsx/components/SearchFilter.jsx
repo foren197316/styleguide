@@ -1,9 +1,4 @@
 var SearchFilter = React.createClass({
-  statics: {
-    inputCharacterMinimumDefault: 3,
-    caseSensitiveDefault: false
-  },
-
   propTypes: {
     title: React.PropTypes.string.isRequired,
     searchOn: React.PropTypes.string.isRequired,
@@ -11,6 +6,13 @@ var SearchFilter = React.createClass({
     dataLink: React.PropTypes.object.isRequired,
     inputCharacterMinimum: React.PropTypes.number,
     caseSensitive: React.PropTypes.bool
+  },
+
+  getDefaultProps: function () {
+    return {
+      inputCharacterMinimum: 3,
+      caseSensitive: false
+    }
   },
 
   getInitialState: function () {
@@ -21,11 +23,9 @@ var SearchFilter = React.createClass({
 
   handleChange: function (event) {
     var value = event.target.value,
-        searchOn = this.props.searchOn,
-        inputCharacterMinimum = this.props.inputCharacterMinimum || SearchFilter.inputCharacterMinimumDefault,
-        caseSensitive = typeof this.props.caseSensitive === "boolean" ? this.props.caseSensitive : SearchFilter.caseSensitiveDefault;
+        searchOn = this.props.searchOn;
 
-    if (value.length >= inputCharacterMinimum) {
+    if (value.length >= this.props.inputCharacterMinimum) {
       var filteredData;
       if (this.state.lastSearch !== null && value.indexOf(this.state.lastSearch) >= 0) {
         filteredData = this.props.dataLink.value;
@@ -33,7 +33,7 @@ var SearchFilter = React.createClass({
         filteredData = this.props.options;
       }
 
-      var filterFunc = caseSensitive
+      var filterFunc = this.props.caseSensitive
             ? function (entry) {
                 return value.split(/\s+/).reduce(function (prev, curr) {
                   return prev && entry[searchOn].indexOf(curr) >= 0;

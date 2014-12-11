@@ -1,6 +1,10 @@
 var InMatchingParticipantGroupsIndex = React.createClass({
   mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
 
+  statics: {
+    noResultsMessage: "There are currently no participants available who match your criteria. Check back soon!"
+  },
+
   getInitialState: function () {
     return {
       genders: [
@@ -154,96 +158,45 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     .done(this.afterLoad);
   },
 
-  renderLoaded: function () {
-    var enrollmentsLink       = this.linkState("enrollments"),
-        participantGroupsLink = this.linkState("participantGroups");
-
-    return (
-      <div className="row">
-        <div className="col-md-3">
-          <SearchFilter title="Search" searchOn="participant_names" options={this.props.participantGroups} dataLink={participantGroupsLink} />
-          <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
-          <CheckBoxFilter title="Group" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
-          <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
-          <CheckBoxFilter title="English Level" options={this.props.englishLevels} dataLink={this.linkState("englishLevels")} />
-          <DateRangeFilter searchFrom="start_dates" searchTo="finish_dates" options={this.props.participantGroups} dataLink={participantGroupsLink} />
-          <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
-          <CheckBoxFilter title="Country" options={this.props.countries} dataLink={this.linkState("countries")} />
-        </div>
-        <div className="col-md-9">
-          {this.state.programs.map(function (program) {
-            return (
-              <InMatchingParticipantGroups
-                ageAtArrival={this.state.ageAtArrival}
-                countries={this.state.countries}
-                employer={this.state.employer}
-                enrollments={this.state.enrollments}
-                enrollmentsLink={enrollmentsLink}
-                genders={this.state.genders}
-                englishLevels={this.state.englishLevels}
-                inMatchingParticipantGroups={this.state.inMatchingParticipantGroups}
-                participantGroupNames={this.state.participantGroupNames}
-                participantGroups={this.state.participantGroups}
-                participants={this.state.participants}
-                positions={this.state.positions}
-                program={program} />
-            )
-          }.bind(this))}
-        </div>
-      </div>
-    )
-  },
-
-  render: function () {
-    return this.waitForLoadAll(this.renderLoaded);
-  }
-});
-
-var InMatchingParticipantGroups = React.createClass({
-  propTypes: {
-    inMatchingParticipantGroups: React.PropTypes.array.isRequired
-  },
-
-  render: function () {
-    var program = this.props.program,
-        employer = this.props.employer,
-        enrollments = this.props.enrollments,
-        enrollmentsLink = this.props.enrollmentsLink,
+  getProgramCache: function (program) {
+    var employer = this.state.employer,
+        enrollments = this.state.enrollments,
+        enrollmentsLink = this.linkState("enrollments"),
         enrollment = enrollments.findById(program.id, "program_id"),
         inMatchingParticipantGroupPanels = null,
         participantCount = 0,
-        programParticipants = this.props.participants.filter(function (participant) {
+        programParticipants = this.state.participants.filter(function (participant) {
                                 return participant.program_id === program.id;
                               });
 
-    inMatchingParticipantGroupPanels = this.props.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-      var participantGroup = this.props.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
+    inMatchingParticipantGroupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+      var participantGroup = this.state.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
 
       if (participantGroup === undefined || participantGroup === null) {
         return;
       }
 
-      if (this.props.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
+      if (this.state.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
         return;
       }
 
       var participantGroupParticipants = programParticipants.findById(participantGroup.participant_ids),
           participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
 
-      if (!participantGroupParticipantPositionIds.intersects(this.props.positions.mapAttribute("id"))) {
+      if (!participantGroupParticipantPositionIds.intersects(this.state.positions.mapAttribute("id"))) {
         return;
       }
 
       var participantGenders = participantGroupParticipants.mapAttribute("gender");
 
-      if (!this.props.genders.mapAttribute("id").intersects(participantGenders)) {
+      if (!this.state.genders.mapAttribute("id").intersects(participantGenders)) {
         return;
       }
 
-      if (this.props.ageAtArrival.length === 1) {
+      if (this.state.ageAtArrival.length === 1) {
         var meetsAgeRequirement;
 
-        if (this.props.ageAtArrival[0].id === "21_and_over") {
+        if (this.state.ageAtArrival[0].id === "21_and_over") {
           meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
             return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
           }, false);
@@ -260,60 +213,90 @@ var InMatchingParticipantGroups = React.createClass({
 
       var participantCountries = participantGroupParticipants.mapAttribute("country_name");
 
-      if (!this.props.countries.mapAttribute("name").intersects(participantCountries)) {
+      if (!this.state.countries.mapAttribute("name").intersects(participantCountries)) {
         return;
       }
 
       var participantEnglishLevels = participantGroupParticipants.mapAttribute("english_level");
 
-      if (!this.props.englishLevels.mapAttribute("id").intersects(participantEnglishLevels)) {
+      if (!this.state.englishLevels.mapAttribute("id").intersects(participantEnglishLevels)) {
         return;
       }
 
       participantCount += participantGroupParticipants.length;
 
       return <InMatchingParticipantGroupPanel
-              employer={employer}
-              enrollment={enrollment}
-              enrollments={enrollments}
-              enrollmentsLink={enrollmentsLink}
-              inMatchingParticipantGroup={inMatchingParticipantGroup}
-              key={inMatchingParticipantGroup.id}
-              participantGroup={participantGroup}
-              participants={participantGroupParticipants}
-              program={program} />;
-    }.bind(this));
+                employer={employer}
+                enrollment={enrollment}
+                enrollments={enrollments}
+                enrollmentsLink={enrollmentsLink}
+                inMatchingParticipantGroup={inMatchingParticipantGroup}
+                key={inMatchingParticipantGroup.id}
+                participantGroup={participantGroup}
+                participants={participantGroupParticipants}
+                program={program} />;
+    }.bind(this)).notEmpty();
 
-    if (inMatchingParticipantGroupPanels != undefined) {
-      inMatchingParticipantGroupPanels = inMatchingParticipantGroupPanels.filter(function (panel) {
-        return panel != undefined;
-      });
-    } else {
-      inMatchingParticipantGroupPanels = [];
+    if (inMatchingParticipantGroups.length > 0) {
+      return {
+        program: program,
+        inMatchingParticipantGroups: inMatchingParticipantGroups,
+        participantCount: participantCount
+      }
     }
+  },
 
-    if (inMatchingParticipantGroupPanels.length > 0) {
-      return (
-        <div className="programs" key={"in_matching_participant_group_program_"+this.props.program.id}>
-          <div className="row">
-            <div className="col-md-12">
-              <h2 className="page-header">
-                {this.props.program.name}
-                <small className="pull-right">{participantCount} Participants</small>
-              </h2>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <div id="participant-group-panels">
-                {inMatchingParticipantGroupPanels}
-              </div>
-            </div>
-          </div>
+  renderLoaded: function () {
+    var enrollmentsLink       = this.linkState("enrollments"),
+        participantGroupsLink = this.linkState("participantGroups"),
+        allPrograms           = this.state.programs.map(this.getProgramCache).notEmpty();
+
+    return (
+      <div className="row">
+        <div className="col-md-3">
+          <SearchFilter title="Search" searchOn="participant_names" options={this.props.participantGroups} dataLink={participantGroupsLink} />
+          <CheckBoxFilter title="Age at Arrival" options={this.props.ageAtArrival} dataLink={this.linkState("ageAtArrival")} />
+          <CheckBoxFilter title="Group" options={this.props.participantGroupNames} dataLink={this.linkState("participantGroupNames")} />
+          <CheckBoxFilter title="Gender" options={this.props.genders} dataLink={this.linkState("genders")} />
+          <CheckBoxFilter title="English Level" options={this.props.englishLevels} dataLink={this.linkState("englishLevels")} />
+          <DateRangeFilter searchFrom="start_dates" searchTo="finish_dates" options={this.props.participantGroups} dataLink={participantGroupsLink} />
+          <CheckBoxFilter title="Positions" options={this.props.positions} dataLink={this.linkState("positions")} />
+          <CheckBoxFilter title="Country" options={this.props.countries} dataLink={this.linkState("countries")} />
         </div>
-      )
-    } else {
-      return null;
-    }
+        <div className="col-md-9">
+          {function () {
+            if (allPrograms.length > 0) {
+              {allPrograms.map(function (data) {
+                return (
+                  <div className="programs" key={"in_matching_participant_group_program_"+data.program.id}>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <h2 className="page-header">
+                          {data.program.name}
+                          <small className="pull-right">{data.participantCount} Participants</small>
+                        </h2>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div id="participant-group-panels">
+                          {data.inMatchingParticipantGroupPanels}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }.bind(this))}
+            } else {
+              return <Alert type="warning" message={InMatchingParticipantGroupsIndex.noResultsMessage} closeable={false} />
+            }
+          }.bind(this)()}
+        </div>
+      </div>
+    )
+  },
+
+  render: function () {
+    return this.waitForLoadAll(this.renderLoaded);
   }
 });
