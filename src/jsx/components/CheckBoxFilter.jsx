@@ -38,23 +38,27 @@ var CheckBoxFilter = React.createClass({
 
   render: function () {
     if (this.isMounted()) {
-      return (
-        <div className="panel panel-default">
-          <div className="panel-heading">{this.props.title}</div>
-          <div className="list-group list-group-scrollable">
-            {this.props.options.map(function (option) {
-              var filterOption = this.props.nestedAttribute
-                ? option[this.props.nestedAttribute]
-                : option;
+      if (this.props.options.length > 0) {
+        return (
+          <div className="panel panel-default">
+            <div className="panel-heading">{this.props.title}</div>
+            <div className="list-group list-group-scrollable">
+              {this.props.options.map(function (option) {
+                var filterOption = this.props.nestedAttribute
+                  ? option[this.props.nestedAttribute]
+                  : option;
 
-              return <label key={this.props.title+"_checkbox_"+filterOption.id} className="list-group-item">
-                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + filterOption.id + "]"} onChange={this.onChange} />
-                <span className="title">{filterOption.name}</span>
-              </label>
-            }.bind(this))}
+                return <label key={this.props.title+"_checkbox_"+filterOption.id} className="list-group-item">
+                  <input type="checkbox" name={this.props.title.toLowerCase() + "[" + filterOption.id + "]"} onChange={this.onChange} />
+                  <span className="title">{filterOption.name}</span>
+                </label>
+              }.bind(this))}
+            </div>
           </div>
-        </div>
-      )
+        )
+      } else {
+        return <div></div>
+      }
     } else {
       return <Spinner />
     }
