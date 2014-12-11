@@ -1,136 +1,127 @@
 var OfferedParticipantGroupsIndex = React.createClass({
-  mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
+  mixins: [Reflux.ListenerMixin],
 
   getInitialState: function () {
     return {
-      participantSigned: [
-        { id: "Signed", name: "All Signed" },
-        { id: "Unsigned", name: "Any Unsigned" }
-      ],
-      offerSent: [
-        { id: "Sent", name: "Sent" },
-        { id: "Unsent", name: "Unsent" }
-      ],
-      fileMakerReference: [
-        { id: "false", name: "Not in FileMaker" }
-      ],
-      allStaffsUnselected: true,
-      fileMakerReferenceUnselected: true
+      allStaffsUnselected: true
     };
   },
 
-  setParticipantNames: function (participants) {
-    var offeredParticipantGroupsWithNames = this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
-      var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
-      var offeredParticipants = participants.findById(participantGroup.participant_ids);
-      offeredParticipantGroup.participant_names = offeredParticipants.mapAttribute("name").join(",");
-      offeredParticipantGroup.participant_uuids = offeredParticipants.mapAttribute("uuid").join(",");
-      offeredParticipantGroup.participant_emails = offeredParticipants.mapAttribute("email").join(",");
+  initOfferSentStore: function () {
+    window.OfferSentActions = Reflux.createActions(genericStoreActions);
 
-      return offeredParticipantGroup;
-    }.bind(this));
+    window.OfferSentStore = Reflux.createStore({
+      listenables: OfferSentActions,
 
-    this.setState({
-      offeredParticipantGroups: offeredParticipantGroupsWithNames
+      permission: false,
+
+      init: function () {
+        this.draftJobOfferListener = this.listenTo(DraftJobOfferStore, this.handlePermissions);
+      },
+
+      handlePermissions: function () {
+        this.draftJobOfferListener.stop();
+
+        if (DraftJobOfferStore.permission) {
+          this.permission = true;
+          this.staticData = this.data = [
+            { id: "Sent", name: "Sent" },
+            { id: "Unsent", name: "Unsent" }
+          ]
+        }
+      }
     });
-
-    return participants;
   },
 
-  setInitialData: function () {
-    this.setProps({
-      employers: this.state.employers,
-      offeredParticipantGroups: this.state.offeredParticipantGroups,
-      jobOffers: this.state.jobOffers,
-      jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements,
-      jobOfferFileMakerReferences: this.state.jobOfferFileMakerReferences,
-      offerSent: this.state.draftJobOffers.length > 0 ? this.state.offerSent : [],
-      fileMakerReference: this.state.fileMakerReference,
-      participantSigned: this.state.participantSigned,
-      programs: this.state.programs,
-      staffs: this.state.staffs
+  initParticipantSignedStore: function () {
+    window.ParticipantSignedActions = Reflux.createActions(genericStoreActions);
+
+    window.ParticipantSignedStore = Reflux.createStore({
+      listenables: ParticipantSignedActions,
+
+      permission: true,
+
+      init: function () {
+        this.staticData = this.data = [
+          { id: "Signed", name: "All Signed" },
+          { id: "Unsigned", name: "Any Unsigned" }
+        ]
+      }
     });
   },
 
   componentDidMount: function() {
-    var offeredParticipantGroupsPromise = this.loadResource("offeredParticipantGroups")();
+    initStores(this.props.urls);
+    this.initOfferSentStore();
+    this.initParticipantSignedStore();
 
-    var staffsPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("employer_id"))
-      .then(this.loadResource("employers"))
-      .then(this.extractIds("staff_id"))
-      .then(this.loadResource("staffs"));
+    this.renderListener = this.joinTrailing(
+      OfferedParticipantGroupStore,
+      ParticipantGroupStore,
+      ParticipantStore,
+      ProgramStore,
+      EmployerStore,
+      StaffStore,
+      DraftJobOfferStore,
+      JobOfferStore,
+      JobOfferParticipantAgreementStore,
+      PositionStore,
+      this.setLoadedState
+    );
+  },
 
-    var participantsPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("participant_group_id"))
-      .then(this.loadResource("participantGroups"))
-      .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"))
-      .then(this.setParticipantNames)
-      .then(this.extractIds("program_id"))
-      .then(this.loadResource("programs"));
+  setLoadedState: function () {
+    this.renderListener.stop();
+    this.setState({ isLoaded: true });
 
-    var draftJobOffersPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("draft_job_offer_ids"))
-      .then(this.loadResource("draftJobOffers"));
+    var forceUpdate = function () { this.forceUpdate(); }.bind(this);
 
-    var jobOffersPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("job_offer_ids"))
-      .then(this.loadResource("jobOffers"));
+    this.listenTo(OfferedParticipantGroupStore, forceUpdate);
+    this.listenTo(ParticipantGroupStore, forceUpdate);
+    this.listenTo(ParticipantStore, forceUpdate);
+    this.listenTo(ProgramStore, forceUpdate);
+    this.listenTo(EmployerStore, forceUpdate);
+    this.listenTo(StaffStore, forceUpdate);
+    this.listenTo(DraftJobOfferStore, forceUpdate);
+    this.listenTo(JobOfferStore, forceUpdate);
+    this.listenTo(JobOfferParticipantAgreementStore, forceUpdate);
+    this.listenTo(PositionStore, forceUpdate);
+    this.listenTo(OfferSentStore, forceUpdate);
+    this.listenTo(ParticipantSignedStore, forceUpdate);
+  },
 
-    var jobOfferParticipantAgreementsPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("job_offer_participant_agreement_ids"))
-      .then(this.loadResource("jobOfferParticipantAgreements"));
-
-    var jobOfferFileMakerReferencesPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("job_offer_file_maker_reference_ids"))
-      .then(this.loadResource("jobOfferFileMakerReferences"));
-
-    var positionsPromise =
-      this.loadResource("positions")();
-
-    this.loadAll([
-      staffsPromise,
-      participantsPromise,
-      draftJobOffersPromise,
-      jobOffersPromise,
-      jobOfferParticipantAgreementsPromise,
-      jobOfferFileMakerReferencesPromise,
-      positionsPromise
-    ]).done(this.setInitialData);
+  render: function () {
+    if (this.state.isLoaded) {
+      return this.renderLoaded();
+    } else {
+      return <Spinner />
+    }
   },
 
   getOfferedParticipantGroupsCache: function () {
-    return this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
-      var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
-      var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
-      var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
-      var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(offeredParticipantGroup.job_offer_file_maker_reference_ids);
-      var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
-      var participants = this.state.participants.findById(participantGroup.participant_ids);
-      var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
-      var program = this.state.programs.findById(participants[0].program_id);
+    return OfferedParticipantGroupStore.map(function (offeredParticipantGroup) {
+      var draftJobOffers = DraftJobOfferStore.findById(offeredParticipantGroup.draft_job_offer_ids);
+      var employer = EmployerStore.findById(offeredParticipantGroup.employer_id);
+      var jobOfferParticipantAgreements = JobOfferParticipantAgreementStore.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
+      var jobOffers = JobOfferStore.findById(offeredParticipantGroup.job_offer_ids);
+      var participantGroup = ParticipantGroupStore.findById(offeredParticipantGroup.participant_group_id);
+      var participants = ParticipantStore.findById(participantGroup.participant_ids);
+      var program = ProgramStore.findById(participants[0].program_id);
 
       if (!program || !employer || (draftJobOffers.length == 0 && jobOffers.length == 0)) {
-        return null;
+        return;
       }
 
-      var staff = this.state.staffs.findById(employer.staff_id);
+      var staff = StaffStore.findById(employer.staff_id);
 
-      if (!staff && !this.state.allStaffsUnselected) {
-        return null;
+      if (!staff && !StaffStore.allUnselected) {
+        return;
       }
 
-      if (this.state.offerSent.length === 1) {
+      if (OfferSentStore.data.length === 1) {
         if (
-            (this.state.offerSent[0].id === "Sent" && jobOffers.length === 0)
-            || (this.state.offerSent[0].id === "Unsent" && jobOffers.length > 0)
+            (OfferSentStore.data[0].id === "Sent" && jobOffers.length === 0)
+            || (OfferSentStore.data[0].id === "Unsent" && jobOffers.length > 0)
         ) return;
       }
 
@@ -149,9 +140,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
       }
 
       if (
-          this.state.participantSigned.length === 2
-          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === "Signed" && jobOfferParticipantAgreements.length === participants.length)
-          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === "Unsigned" && jobOfferParticipantAgreements.length < participants.length)
+          ParticipantSignedStore.data.length === 2
+          || (ParticipantSignedStore.data.length === 1 && ParticipantSignedStore.data[0].id === "Signed" && jobOfferParticipantAgreements.length === participants.length)
+          || (ParticipantSignedStore.data.length === 1 && ParticipantSignedStore.data[0].id === "Unsigned" && jobOfferParticipantAgreements.length < participants.length)
          )
       {
         return {
@@ -168,34 +159,22 @@ var OfferedParticipantGroupsIndex = React.createClass({
           staff: staff
         };
       }
-
-      return null;
-    }.bind(this)).notEmpty();
+    }).notEmpty();
   },
 
   renderLoaded: function () {
-    var jobOffersLink = this.linkState("jobOffers");
-    var offeredParticipantGroupsLink = this.linkState("offeredParticipantGroups");
-    var participantSignedLink = this.linkState("participantSigned");
-    var offerSentLink = this.linkState("offerSent");
-    var fileMakerReferenceLink = this.linkState("fileMakerReference");
-    var programsLink = this.linkState("programs");
-    var employersLink = this.linkState("employers");
-    var staffsLink = this.linkState("staffs");
-    var allStaffsUnselectedLink = this.linkState("allStaffsUnselected");
-    var fileMakerReferenceUnselectedLink = this.linkState("fileMakerReferenceUnselected");
-
     var offeredParticipantGroupsCache = this.getOfferedParticipantGroupsCache();
 
     return (
       <div className="row">
         <div className="col-md-3">
-          <SearchFilter title="offered_names" searchOn={["participant_names", "participant_uuids", "participant_emails"]} options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
-          <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
-          <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
-          <CheckBoxFilter title="Offer Sent" options={this.props.offerSent} dataLink={offerSentLink} />
-          <CheckBoxFilter title="Coordinator" options={this.props.staffs} dataLink={staffsLink} allUnselectedLink={allStaffsUnselectedLink} />
-          <CheckBoxFilter title="Employer" options={this.props.employers} dataLink={employersLink} />
+          <SearchFilter title="offered_names" searchOn={["participant_names", "participant_emails", "participant_uuids"]} store={OfferedParticipantGroupStore} actions={OfferedParticipantGroupActions} />
+          <CheckBoxFilter title="Program" store={ProgramStore} actions={ProgramActions} />
+          <CheckBoxFilter title="Participant Agreement" store={ParticipantSignedStore} actions={ParticipantSignedActions} />
+          <CheckBoxFilter title="Offer Sent" store={OfferSentStore} actions={OfferSentActions} />
+          <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
+          <CheckBoxFilter title="Employer" store={EmployerStore} actions={EmployerActions} />
+          <ExportButton url={this.props.urls.export} ids={offeredParticipantGroupsCache.mapAttribute("id")} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
@@ -205,13 +184,10 @@ var OfferedParticipantGroupsIndex = React.createClass({
                       employer={cache.employer}
                       jobOffers={cache.jobOffers}
                       jobOfferParticipantAgreements={cache.jobOfferParticipantAgreements}
-                      jobOfferFileMakerReferences={cache.jobOfferFileMakerReferences}
-                      jobOffersLink={jobOffersLink}
                       key={"offered_participant_group_"+cache.id}
                       offeredParticipantGroup={cache.offeredParticipantGroup}
                       participantGroup={cache.participantGroup}
                       participants={cache.participants}
-                      positions={this.state.positions}
                       program={cache.program}
                       staff={cache.staff} />
             }.bind(this))}
@@ -219,9 +195,5 @@ var OfferedParticipantGroupsIndex = React.createClass({
         </div>
       </div>
     )
-  },
-
-  render: function() {
-    return this.waitForLoadAll(this.renderLoaded);
   }
 });

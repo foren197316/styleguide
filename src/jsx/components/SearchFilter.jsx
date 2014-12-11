@@ -5,8 +5,8 @@ var SearchFilter = React.createClass({
       React.PropTypes.string,
       React.PropTypes.array
     ]).isRequired,
-    options: React.PropTypes.array.isRequired,
-    dataLink: React.PropTypes.object.isRequired,
+    store: React.PropTypes.object.isRequired, /* TODO: require Reflux Store */
+    actions: React.PropTypes.object.isRequired, /* TODO: require Reflux Actions */
     inputCharacterMinimum: React.PropTypes.number,
     autoFocus: React.PropTypes.bool
   },
@@ -39,9 +39,9 @@ var SearchFilter = React.createClass({
     if (value.length >= this.props.inputCharacterMinimum) {
       var filteredData;
       if (this.state.lastSearch !== null && value.indexOf(this.state.lastSearch) >= 0) {
-        filteredData = this.props.dataLink.value;
+        filteredData = this.props.store.data;
       } else {
-        filteredData = this.props.options;
+        filteredData = this.props.store.staticData;
       }
 
       var containsFunc = function (entry, term) {
@@ -56,9 +56,9 @@ var SearchFilter = React.createClass({
         }, true);
       });
 
-      this.props.dataLink.requestChange(filteredData);
+      this.props.actions.setData(filteredData);
     } else {
-      this.props.dataLink.requestChange(this.props.options);
+      this.props.actions.setData(this.props.store.staticData);
     }
 
     this.setState({

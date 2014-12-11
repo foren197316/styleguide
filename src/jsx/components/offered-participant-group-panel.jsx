@@ -1,52 +1,12 @@
 var OfferedParticipantGroupPanels = React.createClass({
-  mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
+  mixins: [React.addons.LinkedStateMixin],
 
   getInitialState: function () {
     return {};
   },
 
   componentDidMount: function() {
-    var offeredParticipantGroupsPromise = this.loadResource("offeredParticipantGroups")();
-
-    var participantsPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("participant_group_id"))
-      .then(this.loadResource("participantGroups"))
-      .then(this.extractIds("participant_ids"))
-      .then(this.loadResource("participants"))
-      .then(this.extractIds("program_id"))
-      .then(this.loadResource("programs"));
-
-    var draftJobOffersPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("draft_job_offer_ids"))
-      .then(this.loadResource("draftJobOffers"));
-
-    var jobOffersPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("job_offer_ids"))
-      .then(this.loadResource("jobOffers"));
-
-    var jobOfferParticipantAgreementsPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("job_offer_participant_agreement_ids"))
-      .then(this.loadResource("jobOfferParticipantAgreements"));
-
-    var jobOfferFileMakerReferencesPromise =
-      offeredParticipantGroupsPromise
-      .then(this.extractIds("job_offer_file_maker_reference_ids"))
-      .then(this.loadResource("jobOfferFileMakerReferences"));
-
-    this.loadAll([
-      this.loadResource("employer")(),
-      participantsPromise,
-      draftJobOffersPromise,
-      jobOffersPromise,
-      jobOfferParticipantAgreementsPromise,
-      jobOfferFileMakerReferencesPromise,
-      this.loadResource("positions")(),
-      this.loadResource("staff")()
-    ]).done();
+    initStores(this.props.urls);
   },
 
   renderLoaded: function () {
@@ -75,7 +35,6 @@ var OfferedParticipantGroupPanels = React.createClass({
               offeredParticipantGroup={offeredParticipantGroup}
               participantGroup={participantGroup}
               participants={participants}
-              positions={this.state.positions}
               program={program}
               staff={this.state.staff} />
           )
@@ -100,7 +59,6 @@ var OfferedParticipantGroupPanel = React.createClass({
     offeredParticipantGroup: React.PropTypes.object.isRequired,
     participantGroup: React.PropTypes.object.isRequired,
     participants: React.PropTypes.array.isRequired,
-    positions: React.PropTypes.array.isRequired,
     program: React.PropTypes.object.isRequired,
     staff: React.PropTypes.object
   },
@@ -133,40 +91,22 @@ var OfferedParticipantGroupPanel = React.createClass({
   handleConfirm: function(event) {
     this.setState({ sending: true });
 
-    var node = this.getDOMNode(),
-        url = null,
-        data = {},
-        success = null;
+    var node = this.getDOMNode();
 
     if (this.state.sendingJobOffer) {
-      url = "/offered_participant_groups/" + this.props.offeredParticipantGroup.id + "/job_offers.json";
-      success = function(data) {
+      JobOfferActions.send(this.props.offeredParticipantGroup.id, function () {
         this.setState({
           sending: false,
           sendingJobOffer: false,
           rejecting: false
         });
-
-        this.props.jobOffersLink.requestChange(this.props.jobOffersLink.value.concat(data.job_offers));
-      }.bind(this);
+      }.bind(this));
     } else if (this.state.rejecting) {
-      url = "/offered_participant_groups/" + this.props.offeredParticipantGroup.id;
-      data = { "_method": "DELETE" };
-      success = function () {
+      OfferedParticipantGroupActions.reject(this.props.offeredParticipantGroup.id, function () {
         React.unmountComponentAtNode(node);
         $(node).remove();
-      };
+      });
     }
-
-    $.ajax({
-      url: url,
-      type: "POST",
-      data: data,
-      success: success,
-      error: function(data) {
-        window.location = window.location;
-      }
-    });
   },
 
   render: function() {
@@ -183,7 +123,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             return;
           }
 
-          var position = this.props.positions.findById(offer.position_id);
+          var position = PositionStore.findById(offer.position_id);
           var jobOfferParticipantAgreement = hasJobOffers
             ? this.props.jobOfferParticipantAgreements.findById(offer.id, "job_offer_id")
             : null;

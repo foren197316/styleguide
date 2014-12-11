@@ -99,7 +99,8 @@ gulp.task('javascript', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
       'bower_components/q/q.js',
-      'bower_components/react-bootstrap/react-bootstrap.js'
+      'bower_components/react-bootstrap/react-bootstrap.js',
+      'bower_components/reflux/dist/reflux.js'
     ])
     .pipe(concat('interexchange.js'))
     .pipe(gulp.dest('build/js'))

@@ -3,10 +3,9 @@
 var CheckBoxFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    options: React.PropTypes.array.isRequired,
-    dataLink: React.PropTypes.object.isRequired, /* ReactLink */
-    nestedAttribute: React.PropTypes.string,
-    allUnselectedLink: React.PropTypes.object    /* ReactLink */
+    store: React.PropTypes.object.isRequired, /* TODO: require Reflux Store */
+    actions: React.PropTypes.object.isRequired, /* TODO: require Reflux Actions */
+    nestedAttribute: React.PropTypes.string
   },
 
   onChange: function (event) {
@@ -22,28 +21,28 @@ var CheckBoxFilter = React.createClass({
           : function (option) {
               return checkedIds.indexOf(option.id.toString()) >= 0;
             },
-        checkedOptions = this.props.options.filter(filterFunc),
+        checkedOptions = this.props.store.filter(filterFunc),
         noneChecked = checkedOptions.length === 0;
 
     if (noneChecked) {
-      checkedOptions = this.props.options;
+      checkedOptions = this.props.store.staticData;
     }
 
-    if (this.props.allUnselectedLink != undefined) {
-      this.props.allUnselectedLink.requestChange(noneChecked);
+    if (this.props.actions.setAllUnselectedState != undefined) {
+      this.props.actions.setAllUnselectedState(noneChecked);
     }
 
-    this.props.dataLink.requestChange(checkedOptions);
+    this.props.actions.setData(checkedOptions);
   },
 
   render: function () {
     if (this.isMounted()) {
-      if (this.props.options.length > 0) {
+      if (this.props.store.permission) {
         return (
           <div className="panel panel-default">
             <div className="panel-heading">{this.props.title}</div>
             <div className="list-group list-group-scrollable">
-              {this.props.options.map(function (option) {
+              {this.props.store.staticData.map(function (option) {
                 var filterOption = this.props.nestedAttribute
                   ? option[this.props.nestedAttribute]
                   : option;
