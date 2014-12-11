@@ -8,8 +8,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
         { id: "Unsigned", name: "Any Unsigned" }
       ],
       offerSent: [
-        { id: "sent", name: "Sent" },
-        { id: "unsent", name: "Unsent" }
+        { id: "Sent", name: "Sent" },
+        { id: "Unsent", name: "Unsent" }
       ],
       allStaffsUnselected: true
     };
@@ -93,13 +93,13 @@ var OfferedParticipantGroupsIndex = React.createClass({
     return this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
       var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
       var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
+      var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
+      var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
       var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
       var participants = this.state.participants.findById(participantGroup.participant_ids);
-      var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
-      var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
       var program = this.state.programs.findById(participants[0].program_id);
 
-      if (!program || !employer) {
+      if (!program || !employer || (draftJobOffers.length == 0 && jobOffers.length == 0)) {
         return null;
       }
 
@@ -111,15 +111,15 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
       if (this.state.offerSent.length === 1) {
         if (
-            (this.state.offerSent[0].id === "sent" && jobOffers.length === 0)
-            || (this.state.offerSent[0].id === "unsent" && jobOffers.length > 0)
+            (this.state.offerSent[0].id === "Sent" && jobOffers.length === 0)
+            || (this.state.offerSent[0].id === "Unsent" && jobOffers.length > 0)
         ) return;
       }
 
       if (
           this.state.participantSigned.length === 2
-          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === 'Signed' && jobOfferParticipantAgreements.length === participants.length)
-          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === 'Unsigned' && jobOfferParticipantAgreements.length < participants.length)
+          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === "Signed" && jobOfferParticipantAgreements.length === participants.length)
+          || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === "Unsigned" && jobOfferParticipantAgreements.length < participants.length)
          )
       {
         return {
