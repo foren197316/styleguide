@@ -1,6 +1,6 @@
 function initStores (URLS) {
 
-window.genericStoreActions = ["setData"];
+window.genericStoreActions = ["setData", "setStaticData"];
 
 var defaultError = function () {
   window.location = window.location;
@@ -37,6 +37,11 @@ Reflux.StoreMethods.onSetData = function (data) {
   this.trigger(this.data);
 }
 
+Reflux.StoreMethods.onSetStaticData = function (data) {
+  this.staticData = this.data = data;
+  this.trigger(this.data);
+}
+
 Reflux.StoreMethods.findById = function (id, attrName) {
   return this.data.findById(id, attrName);
 }
@@ -49,21 +54,34 @@ Reflux.StoreMethods.filter = function (func) {
   return this.data.filter(func);
 }
 
+Reflux.StoreMethods.mapAttribute = function (func) {
+  return this.data.mapAttribute(func);
+}
+
 window.OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
   ["reject"]
 ));
 
 window.OfferedParticipantGroupStore = Reflux.createStore({
   resourceName: "offeredParticipantGroups",
-  listenables: OfferedParticipantGroupActions,
 
   init: function () {
     this.ajaxLoad();
+    this.listenToMany(OfferedParticipantGroupActions);
+  },
+
+  initPostAjaxListeners: function () {
+    this.filterListener = this.joinLeading(ParticipantGroupStore, EmployerStore, function () {
+      this.filterListener.stop();
+      this.listenTo(ParticipantGroupStore, this.filterOfferedParticipantGroups);
+      this.listenTo(EmployerStore, this.filterOfferedParticipantGroups);
+    }.bind(this));
   },
 
   onReject: function (offeredParticipantGroupId, callback) {
     $.ajax({
       url: "/offered_participant_groups/" + offeredParticipantGroupId,
+      type: "POST",
       data: { "_method": "DELETE" },
       success: function (data) {
         this.staticData = this.data = this.data.filter(function (offeredParticipantGroup) {
@@ -78,6 +96,15 @@ window.OfferedParticipantGroupStore = Reflux.createStore({
       }.bind(this),
       error: defaultError
     });
+  },
+
+  filterOfferedParticipantGroups: function () {
+    this.data = this.staticData.filter(function (offeredParticipantGroup) {
+      return (ParticipantGroupStore.findById(offeredParticipantGroup.participant_group_id) != undefined)
+          && (EmployerStore.findById(offeredParticipantGroup.employer_id) != undefined);
+    });
+
+    this.trigger(this.data);
   }
 });
 
@@ -85,18 +112,14 @@ window.ParticipantGroupActions = Reflux.createActions(genericStoreActions);
 
 window.ParticipantGroupStore = Reflux.createStore({
   resourceName: "participantGroups",
-  listenables: ParticipantGroupActions,
 
   init: function () {
     this.listener = this.listenTo(OfferedParticipantGroupStore, this.load);
+    this.listenToMany(ParticipantGroupActions);
   },
 
   initPostAjaxListeners: function () {
-    this.listenTo(OfferedParticipantGroupStore, this.onChange);
-  },
-
-  onChange: function (data) {
-    // console.log(data);
+    this.listenTo(ParticipantStore, this.onParticipantStore);
   },
 
   load: function (offeredParticipantGroups) {
@@ -104,6 +127,14 @@ window.ParticipantGroupStore = Reflux.createStore({
     this.ajaxLoad({
       ids: offeredParticipantGroups.mapAttribute("participant_group_id")
     });
+  },
+
+  onParticipantStore: function (participants) {
+    this.data = this.staticData.filter(function (participantGroup) {
+      return participants.findById(participantGroup.participant_ids).length > 0;
+    });
+
+    this.trigger(this.data);
   }
 });
 
@@ -111,18 +142,15 @@ window.ParticipantActions = Reflux.createActions(genericStoreActions);
 
 window.ParticipantStore = Reflux.createStore({
   resourceName: "participants",
-  listenables: ParticipantActions,
 
   init: function () {
     this.groupListener = this.joinLeading(OfferedParticipantGroupStore, ParticipantGroupStore, this.load);
+    this.listenToMany(ParticipantActions);
   },
 
   initPostAjaxListeners: function () {
     this.setParticipantNames();
-  },
-
-  onChange: function (data) {
-    // console.log(data);
+    this.listenTo(ProgramStore, this.onProgramStore);
   },
 
   load: function (offeredParticipantGroupResults, participantGroupResults) {
@@ -142,7 +170,15 @@ window.ParticipantStore = Reflux.createStore({
       return offeredParticipantGroup;
     });
 
-    OfferedParticipantGroupActions.setData(offeredParticipantGroupsWithNames);
+    OfferedParticipantGroupActions.setStaticData(offeredParticipantGroupsWithNames);
+  },
+
+  onProgramStore: function (programs) {
+    this.data = this.staticData.filter(function (participant) {
+      return programs.findById(participant.program_id) != null;
+    });
+
+    this.trigger(this.data);
   }
 });
 
@@ -153,7 +189,7 @@ window.ProgramStore = Reflux.createStore({
   listenables: ProgramActions,
 
   init: function () {
-    this.participantListener = this.listenTo(ParticipantGroupStore, this.load);
+    this.participantListener = this.listenTo(ParticipantStore, this.load);
   },
 
   load: function (participants) {
@@ -174,11 +210,23 @@ window.EmployerStore = Reflux.createStore({
     this.offeredParticipantGroupListener = this.listenTo(OfferedParticipantGroupStore, this.load);
   },
 
+  initPostAjaxListeners: function () {
+    this.listenTo(StaffStore, this.onStaffStore);
+  },
+
   load: function (offeredParticipantGroups) {
     this.offeredParticipantGroupListener.stop();
     this.ajaxLoad({
       ids: offeredParticipantGroups.mapAttribute("employer_id")
     });
+  },
+
+  onStaffStore: function (staffs) {
+    this.data = this.staticData.filter(function (employer) {
+      return staffs.findById(employer.staff_id) != null;
+    });
+
+    this.trigger(this.data);
   }
 });
 

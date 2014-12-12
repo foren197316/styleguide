@@ -77,17 +77,17 @@ var OfferedParticipantGroupsIndex = React.createClass({
     var forceUpdate = function () { this.forceUpdate(); }.bind(this);
 
     this.listenTo(OfferedParticipantGroupStore, forceUpdate);
-    this.listenTo(ParticipantGroupStore, forceUpdate);
-    this.listenTo(ParticipantStore, forceUpdate);
-    this.listenTo(ProgramStore, forceUpdate);
-    this.listenTo(EmployerStore, forceUpdate);
-    this.listenTo(StaffStore, forceUpdate);
-    this.listenTo(DraftJobOfferStore, forceUpdate);
-    this.listenTo(JobOfferStore, forceUpdate);
-    this.listenTo(JobOfferParticipantAgreementStore, forceUpdate);
-    this.listenTo(PositionStore, forceUpdate);
-    this.listenTo(OfferSentStore, forceUpdate);
-    this.listenTo(ParticipantSignedStore, forceUpdate);
+    // this.listenTo(ParticipantGroupStore, forceUpdate);
+    // this.listenTo(ParticipantStore, forceUpdate);
+    // this.listenTo(ProgramStore, forceUpdate);
+    // this.listenTo(EmployerStore, forceUpdate);
+    // this.listenTo(StaffStore, forceUpdate);
+    // this.listenTo(DraftJobOfferStore, forceUpdate);
+    // this.listenTo(JobOfferStore, forceUpdate);
+    // this.listenTo(JobOfferParticipantAgreementStore, forceUpdate);
+    // this.listenTo(PositionStore, forceUpdate);
+    // this.listenTo(OfferSentStore, forceUpdate);
+    // this.listenTo(ParticipantSignedStore, forceUpdate);
   },
 
   render: function () {
@@ -163,7 +163,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
   },
 
   renderLoaded: function () {
-    var offeredParticipantGroupsCache = this.getOfferedParticipantGroupsCache();
+    // var offeredParticipantGroupsCache = this.getOfferedParticipantGroupsCache();
 
     return (
       <div className="row">
@@ -174,23 +174,32 @@ var OfferedParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Offer Sent" store={OfferSentStore} actions={OfferSentActions} />
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
           <CheckBoxFilter title="Employer" store={EmployerStore} actions={EmployerActions} />
-          <ExportButton url={this.props.urls.export} ids={offeredParticipantGroupsCache.mapAttribute("id")} />
+          <ExportButton url={this.props.urls.export} ids={OfferedParticipantGroupStore.mapAttribute("id")} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
-            {offeredParticipantGroupsCache.map(function (cache) {
+            {OfferedParticipantGroupStore.map(function (offeredParticipantGroup) {
+              var draftJobOffers = DraftJobOfferStore.findById(offeredParticipantGroup.draft_job_offer_ids);
+              var employer = EmployerStore.findById(offeredParticipantGroup.employer_id);
+              var jobOfferParticipantAgreements = JobOfferParticipantAgreementStore.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
+              var jobOffers = JobOfferStore.findById(offeredParticipantGroup.job_offer_ids);
+              var participantGroup = ParticipantGroupStore.findById(offeredParticipantGroup.participant_group_id);
+              var participants = ParticipantStore.findById(participantGroup.participant_ids);
+              var program = ProgramStore.findById(participants[0].program_id);
+              var staff = StaffStore.findById(employer.staff_id);
+
               return <OfferedParticipantGroupPanel
-                      draftJobOffers={cache.draftJobOffers}
-                      employer={cache.employer}
-                      jobOffers={cache.jobOffers}
-                      jobOfferParticipantAgreements={cache.jobOfferParticipantAgreements}
-                      key={"offered_participant_group_"+cache.id}
-                      offeredParticipantGroup={cache.offeredParticipantGroup}
-                      participantGroup={cache.participantGroup}
-                      participants={cache.participants}
-                      program={cache.program}
-                      staff={cache.staff} />
-            }.bind(this))}
+                      draftJobOffers={draftJobOffers}
+                      employer={employer}
+                      jobOffers={jobOffers}
+                      jobOfferParticipantAgreements={jobOfferParticipantAgreements}
+                      key={"offered_participant_group_"+offeredParticipantGroup.id}
+                      offeredParticipantGroup={offeredParticipantGroup}
+                      participantGroup={participantGroup}
+                      participants={participants}
+                      program={program}
+                      staff={staff} />
+            })}
           </div>
         </div>
       </div>

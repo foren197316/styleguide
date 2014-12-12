@@ -1,24 +1,34 @@
 var OfferedParticipantGroupPanels = React.createClass({
-  mixins: [React.addons.LinkedStateMixin],
-
   getInitialState: function () {
     return {};
   },
 
   componentDidMount: function() {
     initStores(this.props.urls);
+
+    this.renderListener = this.joinTrailing(
+      OfferedParticipantGroupStore,
+      ParticipantGroupStore,
+      ParticipantStore,
+      ProgramStore,
+      EmployerStore,
+      StaffStore,
+      DraftJobOfferStore,
+      JobOfferStore,
+      JobOfferParticipantAgreementStore,
+      PositionStore,
+      this.setLoadedState
+    );
   },
 
   renderLoaded: function () {
-    var jobOffersLink = this.linkState("jobOffers");
-
     return (
       <div id="participant-group-panels">
         {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
           var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
           var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
           var participants = this.state.participants.findById(participantGroup.participant_ids);
-          var jobOffers = jobOffersLink.value.findById(participants.mapAttribute("id"), "participant_id");
+          var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
           var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
           var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(offeredParticipantGroup.job_offer_file_maker_reference_ids);
           var program = this.state.programs.findById(participants[0].program_id);
@@ -29,8 +39,6 @@ var OfferedParticipantGroupPanels = React.createClass({
               employer={this.state.employer}
               jobOffers={jobOffers}
               jobOfferParticipantAgreements={jobOfferParticipantAgreements}
-              jobOfferFileMakerReferences={jobOfferFileMakerReferences}
-              jobOffersLink={jobOffersLink}
               key={"offered_participant_group_"+offeredParticipantGroup.id}
               offeredParticipantGroup={offeredParticipantGroup}
               participantGroup={participantGroup}
