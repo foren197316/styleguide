@@ -125,10 +125,10 @@ window.ParticipantStore = Reflux.createStore({
     // console.log(data);
   },
 
-  load: function (offeredParticipantGroups, participantGroups) {
+  load: function (offeredParticipantGroupResults, participantGroupResults) {
     this.groupListener.stop();
     this.ajaxLoad({
-      ids: participantGroups.mapAttribute("participant_ids").flatten()
+      ids: participantGroupResults[0].mapAttribute("participant_ids").flatten()
     });
   },
 
