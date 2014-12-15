@@ -16,7 +16,8 @@
       "draft_job_offer_ids": [],
       "employer_id": 2,
       "job_offer_ids": [1],
-      "job_offer_participant_agreement_ids": [1]
+      "job_offer_participant_agreement_ids": [1],
+      "job_offer_file_maker_reference_ids": [1]
     },
     {
       "id": 3,
