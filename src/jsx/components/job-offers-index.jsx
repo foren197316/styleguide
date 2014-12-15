@@ -3,10 +3,10 @@ var JobOffersIndex = React.createClass({
 
   getInitialState: function () {
     return {
-      signedAllUnselected: true,
+      jobOfferParticipantSignedUnselected: true,
       jobOfferFileMakerReferenceUnselected: true,
       signed: [
-        { id: "true", name: "Signed" }
+        { id: "true", name: "Participant Signed" }
       ],
       jobOfferFileMakerReference: [
         { id: "false", name: "Not in FileMaker" }
@@ -61,7 +61,7 @@ var JobOffersIndex = React.createClass({
     var participants = this.state.participants;
     var employers = this.state.employers;
     var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements;
-    var signedAllUnselected = this.state.signedAllUnselected;
+    var jobOfferParticipantSignedUnselected = this.state.jobOfferParticipantSignedUnselected;
     var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences;
     var jobOfferFileMakerReferenceUnselected = this.state.jobOfferFileMakerReferenceUnselected;
 
@@ -72,7 +72,7 @@ var JobOffersIndex = React.createClass({
       <div className="row">
         <div className="col-md-3">
           <SearchFilter title="Search" searchOn={["name", "email", "uuid"]} options={this.props.participants} dataLink={this.linkState("participants")} />
-          <CheckBoxFilter title="Job Offers" options={this.props.signed} dataLink={this.linkState("signed")} allUnselectedLink={this.linkState("signedAllUnselected")} />
+          <CheckBoxFilter title="Job Offers" options={this.props.signed} dataLink={this.linkState("signed")} allUnselectedLink={this.linkState("jobOfferParticipantSignedUnselected")} />
           <CheckBoxFilter title="FileMaker Reference" options={this.props.jobOfferFileMakerReference} dataLink={jobOfferFileMakerReferenceLink} allUnselectedLink={jobOfferFileMakerReferenceUnselectedLink} />
         </div>
         <div className="col-md-9">
@@ -85,7 +85,7 @@ var JobOffersIndex = React.createClass({
 
                 var jobOffer = jobOffers.findById(participant.id, "participant_id");
 
-                if (!signedAllUnselected) {
+                if (!jobOfferParticipantSignedUnselected) {
                   if (!jobOfferParticipantAgreements.findById(jobOffer.id, "job_offer_id")) {
                     return false;
                   }
