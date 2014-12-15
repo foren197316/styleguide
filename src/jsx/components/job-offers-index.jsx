@@ -1,8 +1,17 @@
 var JobOffersIndex = React.createClass({
-  mixins: [LoadResourceMixin],
+  mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
 
   getInitialState: function () {
-    return {};
+    return {
+      signedAllUnselected: true,
+      jobOfferFileMakerReferenceUnselected: true,
+      signed: [
+        { id: "true", name: "Signed" }
+      ],
+      jobOfferFileMakerReference: [
+        { id: "false", name: "Not in FileMaker" }
+      ]
+    };
   },
 
   componentDidMount: function () {
@@ -25,11 +34,25 @@ var JobOffersIndex = React.createClass({
       .then(this.extractIds("job_offer_participant_agreement_id"))
       .then(this.loadResource("jobOfferParticipantAgreements"));
 
+    var jobOfferFileMakerReferencesPromise =
+      jobOffersPromise
+      .then(this.extractIds("file_maker_reference_id"))
+      .then(this.loadResource("jobOfferFileMakerReferences"));
+
     this.loadAll([
       programsPromise,
       employersPromise,
-      jobOfferParticipantAgreementsPromise
-    ]);
+      jobOfferParticipantAgreementsPromise,
+      jobOfferFileMakerReferencesPromise
+    ]).done(this.afterLoad);
+  },
+
+  afterLoad: function () {
+    this.setProps({
+      participants: this.state.participants,
+      signed: this.state.signed,
+      jobOfferFileMakerReference: this.state.jobOfferFileMakerReference
+    });
   },
 
   renderLoaded: function () {
@@ -38,18 +61,48 @@ var JobOffersIndex = React.createClass({
     var participants = this.state.participants;
     var employers = this.state.employers;
     var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements;
+    var signedAllUnselected = this.state.signedAllUnselected;
+    var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences;
+    var jobOfferFileMakerReferenceUnselected = this.state.jobOfferFileMakerReferenceUnselected;
+
+    var jobOfferFileMakerReferenceLink = this.linkState("jobOfferFileMakerReference");
+    var jobOfferFileMakerReferenceUnselectedLink = this.linkState("jobOfferFileMakerReferenceUnselected");
 
     return (
       <div className="row">
         <div className="col-md-3">
-          <div>Im the search</div>
+          <SearchFilter title="Search" searchOn={["name", "email", "uuid"]} options={this.props.participants} dataLink={this.linkState("participants")} />
+          <CheckBoxFilter title="Job Offers" options={this.props.signed} dataLink={this.linkState("signed")} allUnselectedLink={this.linkState("signedAllUnselected")} />
+          <CheckBoxFilter title="FileMaker Reference" options={this.props.jobOfferFileMakerReference} dataLink={jobOfferFileMakerReferenceLink} allUnselectedLink={jobOfferFileMakerReferenceUnselectedLink} />
         </div>
         <div className="col-md-9">
           <div id="job-offer-panels">
             {programs.map(function (program) {
               var programParticipants = participants.filter(function (participant) {
-                return participant.program_id === program.id;
+                if (participant.program_id !== program.id) {
+                  return false;
+                }
+
+                var jobOffer = jobOffers.findById(participant.id, "participant_id");
+
+                if (!signedAllUnselected) {
+                  if (!jobOfferParticipantAgreements.findById(jobOffer.id, "job_offer_id")) {
+                    return false;
+                  }
+                }
+
+                if (!jobOfferFileMakerReferenceUnselected) {
+                  if (jobOfferFileMakerReferences.findById(jobOffer.id, "job_offer_id")) {
+                    return false;
+                  }
+                }
+
+                return true;
               });
+
+              if (programParticipants.length === 0) {
+                return;
+              }
 
               return (
                 <div className="programs" key={"in_matching_participant_group_program_"+program.id}>
@@ -66,15 +119,15 @@ var JobOffersIndex = React.createClass({
                       <div id="job-offer-panels">
                         {jobOffers.findById(programParticipants.mapAttribute("id"), "participant_id").map(function (jobOffer) {
                           var participant = programParticipants.findById(jobOffer.participant_id);
+                          var jobOfferParticipantAgreement = jobOfferParticipantAgreements.findById(jobOffer.id, "job_offer_id");
 
                           return (
                             <JobOfferPanel
                               key={"job_offer" + jobOffer.id}
                               participant={participant}
                               jobOffer={jobOffer}
-                              program={program}
-                              employer={employers.findById(jobOffer.employer_id)}
-                              jobOfferParticipantAgreement={jobOfferParticipantAgreements.findById(jobOffer.job_offer_participant_agreement_id)} />
+                              jobOfferParticipantAgreement={jobOfferParticipantAgreement}
+                              program={program} />
                           )
                         })}
                       </div>
@@ -98,9 +151,7 @@ var JobOfferPanel = React.createClass({
   propTypes: {
     jobOffer: React.PropTypes.object.isRequired,
     participant: React.PropTypes.object.isRequired,
-    program: React.PropTypes.object.isRequired,
-    employer: React.PropTypes.object.isRequired,
-    jobOfferParticipantAgreement: React.PropTypes.object
+    program: React.PropTypes.object.isRequired
   },
 
   render: function () {

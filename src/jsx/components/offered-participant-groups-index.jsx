@@ -135,7 +135,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
       if (!this.state.fileMakerReferenceUnselected) {
         participants = participants.filter(function(participant) {
           var jobOffer = jobOffers.filter(function(jobOffer) { return jobOffer.participant_id === participant.id; })[0];
-          var jobOfferFileMakerReference = jobOfferFileMakerReferences.filter(function(jobOfferFileMakerReference) { return jobOfferFileMakerReference.job_offer_id === jobOffer.id; })[0];
+          var jobOfferFileMakerReference = jobOfferFileMakerReferences.filter(function(jobOfferFileMakerReference) {
+            return jobOfferFileMakerReference.job_offer_id === jobOffer.id;
+          })[0];
 
           return !jobOffer || !jobOfferFileMakerReference;
         });
