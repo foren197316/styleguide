@@ -31,7 +31,7 @@ var JobOffersIndex = React.createClass({
 
     var jobOfferParticipantAgreementsPromise =
       jobOffersPromise
-      .then(this.extractIds("job_offer_participant_agreement_id"))
+      .then(this.extractIds("participant_agreement_id"))
       .then(this.loadResource("jobOfferParticipantAgreements"));
 
     var jobOfferFileMakerReferencesPromise =
