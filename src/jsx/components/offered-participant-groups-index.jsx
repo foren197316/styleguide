@@ -14,7 +14,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
       fileMakerReference: [
         { id: "false", name: "Not in FileMaker" }
       ],
-      allStaffsUnselected: true
+      allStaffsUnselected: true,
+      fileMakerReferenceUnselected: true
     };
   },
 
@@ -131,6 +132,19 @@ var OfferedParticipantGroupsIndex = React.createClass({
         ) return;
       }
 
+      if (!this.state.fileMakerReferenceUnselected) {
+        participants = participants.filter(function(participant) {
+          var jobOffer = jobOffers.filter(function(jobOffer) { return jobOffer.participant_id === participant.id; })[0];
+          var jobOfferFileMakerReference = jobOfferFileMakerReferences.filter(function(jobOfferFileMakerReference) { return jobOfferFileMakerReference.job_offer_id === jobOffer.id; })[0];
+
+          return !jobOffer || !jobOfferFileMakerReference;
+        });
+
+        if (participants.length === 0) {
+          return;
+        }
+      }
+
       if (
           this.state.participantSigned.length === 2
           || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === "Signed" && jobOfferParticipantAgreements.length === participants.length)
@@ -166,6 +180,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
     var employersLink = this.linkState("employers");
     var staffsLink = this.linkState("staffs");
     var allStaffsUnselectedLink = this.linkState("allStaffsUnselected");
+    var fileMakerReferenceUnselectedLink = this.linkState("fileMakerReferenceUnselected");
 
     var offeredParticipantGroupsCache = this.getOfferedParticipantGroupsCache();
 
@@ -176,7 +191,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
           <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
           <CheckBoxFilter title="Offer Sent" options={this.props.offerSent} dataLink={offerSentLink} />
-          <CheckBoxFilter title="FileMaker Reference" options={this.props.fileMakerReference} dataLink={fileMakerReferenceLink} />
+          <CheckBoxFilter title="FileMaker Reference" options={this.props.fileMakerReference} dataLink={fileMakerReferenceLink} allUnselectedLink={fileMakerReferenceUnselectedLink} />
           <CheckBoxFilter title="Coordinator" options={this.props.staffs} dataLink={staffsLink} allUnselectedLink={allStaffsUnselectedLink} />
           <CheckBoxFilter title="Employer" options={this.props.employers} dataLink={employersLink} />
           <ExportButton url={this.props.urls.export} ids={offeredParticipantGroupsCache.mapAttribute("id")} />
