@@ -58,17 +58,7 @@ var OfferedParticipantGroupPanels = React.createClass({
 
 var OfferedParticipantGroupPanel = React.createClass({
   propTypes: {
-    draftJobOffers: React.PropTypes.array.isRequired,
-    employer: React.PropTypes.object.isRequired,
-    jobOffers: React.PropTypes.array.isRequired,
-    jobOfferParticipantAgreements: React.PropTypes.array.isRequired,
-    jobOfferFileMakerReferences: React.PropTypes.array.isRequired,
-    jobOffersLink: React.PropTypes.object.isRequired, /* ReactLink */
-    offeredParticipantGroup: React.PropTypes.object.isRequired,
-    participantGroup: React.PropTypes.object.isRequired,
-    participants: React.PropTypes.array.isRequired,
-    program: React.PropTypes.object.isRequired,
-    staff: React.PropTypes.object
+    offeredParticipantGroup: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
@@ -81,7 +71,7 @@ var OfferedParticipantGroupPanel = React.createClass({
   },
 
   hasJobOffers: function () {
-    return this.props.jobOffers.length > 0;
+    return this.props.offeredParticipantGroup.job_offers.length > 0;
   },
 
   handleSendToParticipant: function (event) {
@@ -119,21 +109,22 @@ var OfferedParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actions,
-        footerName = this.props.participantGroup.name + " - " + this.props.program.name,
-        staffName = this.props.staff ? this.props.staff.name : null,
+        footerName = this.props.offeredParticipantGroup.participant_group.name + " - " + this.props.offeredParticipantGroup.participant_group.participants[0].program.name,
+        staffName = this.props.offeredParticipantGroup.employer.staff ? this.props.offeredParticipantGroup.employer.staff.name : null,
         hasJobOffers = this.hasJobOffers(),
-        offers = hasJobOffers ? this.props.jobOffers : this.props.draftJobOffers,
+        offers = hasJobOffers ? this.props.offeredParticipantGroup.job_offers : this.props.offeredParticipantGroup.draft_job_offers,
         offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
         participantNodes = offers.map(function (offer) {
-          var participant = this.props.participants.findById(offer.participant_id);
 
-          if (participant === null) {
+          var participant = this.props.offeredParticipantGroup.participant_group.participants.findById(offer.participant_id);
+
+          if (participant == undefined) {
             return;
           }
 
           var position = PositionStore.findById(offer.position_id);
           var jobOfferParticipantAgreement = hasJobOffers
-            ? this.props.jobOfferParticipantAgreements.findById(offer.id, "job_offer_id")
+            ? this.props.offeredParticipantGroup.job_offer_participant_agreements.findById(offer.id, "job_offer_id")
             : null;
           var jobOfferFileMakerReference = hasJobOffers
             ? this.props.jobOfferFileMakerReferences.findById(offer.id, "job_offer_id")
@@ -174,7 +165,7 @@ var OfferedParticipantGroupPanel = React.createClass({
       )
     } else if (!this.props.offeredParticipantGroup.can_send) {
       actions = null;
-    } else if (!this.props.employer.vetted) {
+    } else if (!this.props.offeredParticipantGroup.employer.vetted) {
       actions = (
         <div>
           <span className="label label-warning pull-left">Employer Not Vetted</span>
@@ -197,7 +188,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             <span className="pull-right text-muted">
               {staffName}
             </span>
-            <LinkToIf name={this.props.employer.name} href={this.props.employer.href} />
+            <LinkToIf name={this.props.offeredParticipantGroup.employer.name} href={this.props.offeredParticipantGroup.employer.href} />
           </h1>
         </div>
         <div className="list-group">

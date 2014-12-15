@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp        = require('gulp'),
+    addsrc      = require('gulp-add-src'),
     argv        = require('yargs').argv,
     concat      = require('gulp-concat'),
     consolidate = require('gulp-consolidate'),
@@ -8,7 +9,7 @@ var gulp        = require('gulp'),
     hologram    = require('gulp-hologram'),
     iconfont    = require('gulp-iconfont'),
     _if         = require('gulp-if'),
-    jshit       = require('gulp-jshint'),
+    jshint       = require('gulp-jshint'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
     react       = require('gulp-react'),
@@ -114,6 +115,7 @@ gulp.task('javascript-components', function() {
     .pipe(concat('interexchange-components.jsx'))
     .pipe(gulp.dest('build/jsx'))
     .pipe(react())
+    .pipe(addsrc('src/js/stores/*.js'))
     .pipe(concat('interexchange-components.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))

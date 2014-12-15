@@ -21,11 +21,11 @@ var CheckBoxFilter = React.createClass({
           : function (option) {
               return checkedIds.indexOf(option.id.toString()) >= 0;
             },
-        checkedOptions = this.props.store.staticData.filter(filterFunc),
+        checkedOptions = this.props.store.data.filter(filterFunc),
         noneChecked = checkedOptions.length === 0;
 
     if (noneChecked) {
-      checkedOptions = this.props.store.staticData;
+      checkedOptions = this.props.store.data;
     }
 
     if (this.props.actions.setAllUnselectedState != undefined) {
@@ -41,7 +41,7 @@ var CheckBoxFilter = React.createClass({
         <div className="panel panel-default">
           <div className="panel-heading">{this.props.title}</div>
           <div className="list-group list-group-scrollable">
-            {this.props.store.staticData.map(function (option) {
+            {this.props.store.data.map(function (option) {
               var filterOption = this.props.nestedAttribute
                 ? option[this.props.nestedAttribute]
                 : option;

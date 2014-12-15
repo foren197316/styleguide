@@ -41,7 +41,7 @@ var SearchFilter = React.createClass({
       if (this.state.lastSearch !== null && value.indexOf(this.state.lastSearch) >= 0) {
         filteredData = this.props.store.data;
       } else {
-        filteredData = this.props.store.staticData;
+        filteredData = this.props.store.data;
       }
 
       var containsFunc = function (entry, term) {
@@ -58,7 +58,7 @@ var SearchFilter = React.createClass({
 
       this.props.actions.setData(filteredData);
     } else {
-      this.props.actions.setData(this.props.store.staticData);
+      this.props.actions.setData(this.props.store.data);
     }
 
     this.setState({
