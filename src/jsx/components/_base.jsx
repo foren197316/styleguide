@@ -433,6 +433,10 @@ var LoadResourceMixin = {
     }
 
     return function (entries) {
+      if (console && entries == undefined) {
+        console.warn(idsAttribute + " is undefined");
+      }
+
       return {
         ids: prepareArray(entries.mapAttribute(idsAttribute)).notEmpty().uniq().sort()
       };
