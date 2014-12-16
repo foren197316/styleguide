@@ -6,7 +6,7 @@ var JobOffersIndex = React.createClass({
       jobOfferParticipantSignedUnselected: true,
       jobOfferFileMakerReferenceUnselected: true,
       signed: [
-        { id: "true", name: "Participant Signed" }
+        { id: "true", name: "Signed" }
       ],
       jobOfferFileMakerReference: [
         { id: "false", name: "Not in FileMaker" }
@@ -116,7 +116,7 @@ var JobOffersIndex = React.createClass({
       <div className="row">
         <div className="col-md-3">
           <SearchFilter title="Search" searchOn={["name", "email", "uuid"]} options={this.props.participants} dataLink={this.linkState("participants")} />
-          <CheckBoxFilter title="Job Offers" options={this.props.signed} dataLink={this.linkState("signed")} allUnselectedLink={this.linkState("jobOfferParticipantSignedUnselected")} />
+          <CheckBoxFilter title="Participant Agreement" options={this.props.signed} dataLink={this.linkState("signed")} allUnselectedLink={this.linkState("jobOfferParticipantSignedUnselected")} />
           <CheckBoxFilter title="FileMaker Reference" options={this.props.jobOfferFileMakerReference} dataLink={jobOfferFileMakerReferenceLink} allUnselectedLink={jobOfferFileMakerReferenceUnselectedLink} />
           <ExportButton url={this.props.urls.export} ids={jobOfferIds} />
         </div>
@@ -128,7 +128,7 @@ var JobOffersIndex = React.createClass({
                   <div className="col-md-12">
                     <h2 className="page-header">
                       {cache.program.name}
-                      <small className="pull-right">{cache.jobOffers.length} Job Offers</small>
+                      <small className="pull-right">{cache.jobOffers.length} {"Job Offer".pluralize(cache.jobOffers.length)}</small>
                     </h2>
                   </div>
                 </div>

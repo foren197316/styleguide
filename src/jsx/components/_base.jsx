@@ -62,6 +62,14 @@ Array.prototype.notEmpty = function () {
   });
 };
 
+String.prototype.pluralize = function (count) {
+  if (count === 1) {
+    return this;
+  } else {
+    return this + "s";
+  }
+};
+
 Array.prototype.uniq = function () {
   return this.reduce(function (prev, curr) {
     if (prev.indexOf(curr) < 0) {
