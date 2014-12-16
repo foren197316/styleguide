@@ -127,7 +127,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             ? this.props.offeredParticipantGroup.job_offer_participant_agreements.findById(offer.id, "job_offer_id")
             : null;
           var jobOfferFileMakerReference = hasJobOffers
-            ? this.props.jobOfferFileMakerReferences.findById(offer.id, "job_offer_id")
+            ? this.props.offeredParticipantGroup.job_offer_file_maker_references.findById(offer.id, "job_offer_id")
             : null;
 
           return (

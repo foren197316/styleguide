@@ -50,6 +50,12 @@ Array.prototype.intersects = function (array) {
   return false;
 };
 
+Array.prototype.intersection = function (a) {
+  return this.filter(function (entry) {
+    return a.indexOf(entry) >= 0;
+  });
+}
+
 Array.prototype.mapAttribute = function (attribute) {
   return this.map(function (entry) {
     return entry[attribute];

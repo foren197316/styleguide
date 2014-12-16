@@ -93,7 +93,6 @@ var OfferedParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Offer Sent" store={OfferSentStore} actions={OfferSentActions} />
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
           <CheckBoxFilter title="Employer" store={EmployerStore} actions={EmployerActions} />
-          <ExportButton url={this.props.urls.export} ids={OfferedParticipantGroupStore.mapAttribute("id")} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
