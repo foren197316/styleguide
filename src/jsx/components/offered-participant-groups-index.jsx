@@ -24,6 +24,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
       var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
       var offeredParticipants = participants.findById(participantGroup.participant_ids);
       offeredParticipantGroup.participant_names = offeredParticipants.mapAttribute("name").join(",");
+      offeredParticipantGroup.participant_uuids = offeredParticipants.mapAttribute("uuid").join(",");
+      offeredParticipantGroup.participant_emails = offeredParticipants.mapAttribute("email").join(",");
 
       return offeredParticipantGroup;
     }.bind(this));
@@ -189,7 +191,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
     return (
       <div className="row">
         <div className="col-md-3">
-          <SearchFilter title="offered_names" searchOn="participant_names" options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
+          <SearchFilter title="offered_names" searchOn={["participant_names", "participant_uuids", "participant_emails"]} options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
           <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
           <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
           <CheckBoxFilter title="Offer Sent" options={this.props.offerSent} dataLink={offerSentLink} />
