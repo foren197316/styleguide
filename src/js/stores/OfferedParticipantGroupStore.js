@@ -1,7 +1,6 @@
 var OfferedParticipantGroupStore = Reflux.createStore({
   resourceName: "offeredParticipantGroups",
   listenables: OfferedParticipantGroupActions,
-
   filterIds: {},
 
   init: function () {
@@ -77,5 +76,20 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     });
 
     this.trigger(this.data);
+
+    ProgramStore.listen(this.filterPrograms);
+  },
+
+  filterPrograms: function (programs) {
+    var program_ids = programs.mapAttribute("id");
+
+    this.filterIds["programs"] = this.data.reduce(function (ids, offeredParticipantGroup) {
+      if (program_ids.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0) {
+        ids.push(offeredParticipantGroup.id);
+      }
+      return ids;
+    }, []);
+
+    this.filter();
   }
 });

@@ -3,36 +3,19 @@
 var CheckBoxFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    store: React.PropTypes.object.isRequired, /* TODO: require Reflux Store */
     actions: React.PropTypes.object.isRequired, /* TODO: require Reflux Actions */
-    nestedAttribute: React.PropTypes.string
+    nestedAttribute: React.PropTypes.oneOf([
+      React.PropTypes.string,
+      React.PropTypes.array
+    ])
   },
 
   onChange: function (event) {
-    var node = this.getDOMNode(),
-        nestedAttribute = this.props.nestedAttribute,
-        checkedIds = $.map($(node).find('input[type="checkbox"]:checked'), function (checkbox) {
+    var checkedIds = $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
           return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
-        }),
-        filterFunc = nestedAttribute
-          ? function (option) {
-              return checkedIds.indexOf(option[nestedAttribute].id.toString()) >= 0;
-            }
-          : function (option) {
-              return checkedIds.indexOf(option.id.toString()) >= 0;
-            },
-        checkedOptions = this.props.store.data.filter(filterFunc),
-        noneChecked = checkedOptions.length === 0;
+        });
 
-    if (noneChecked) {
-      checkedOptions = this.props.store.data;
-    }
-
-    if (this.props.actions.setAllUnselectedState != undefined) {
-      this.props.actions.setAllUnselectedState(noneChecked);
-    }
-
-    this.props.actions.setData(checkedOptions);
+    this.props.actions.filterByIds(this.props.title, checkedIds, this.props.nestedAttribute);
   },
 
   render: function () {

@@ -1,8 +1,25 @@
-var genericStoreActions    = ["setData", "ajaxLoad"];
+var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds"];
 var filterableStoreActions = ["search", "resetSearch"];
 
 var defaultStoreError = function () {
   window.location = window.location;
+}
+
+var traverse = function (subject, attributes) {
+  var curr = subject;
+
+  if (typeof attributes === "string") {
+    return curr[attributes];
+  }
+
+  for (var i in attributes) {
+    if (!curr) {
+      return null;
+    }
+    curr = subject[attributes[i]];
+  }
+
+  return curr;
 }
 
 Reflux.StoreMethods.onAjaxLoad = function (ids) {
@@ -36,16 +53,16 @@ Reflux.StoreMethods.onSetData = function (data) {
   this.trigger(this.data);
 }
 
+Reflux.StoreMethods.onFilterData = function (data) {
+  this.trigger(data);
+}
+
 Reflux.StoreMethods.findById = function (id, attrName) {
   return this.data.findById(id, attrName);
 }
 
 Reflux.StoreMethods.map = function (func) {
   return this.data.map(func);
-}
-
-Reflux.StoreMethods.filter = function (func) {
-  return this.data.filter(func);
 }
 
 Reflux.StoreMethods.mapAttribute = function (func) {
@@ -96,6 +113,20 @@ Reflux.StoreMethods.onSearch = function (indentifier, term, searchOn) {
   this.filterIds[identifier] = filterIds;
   this[lastSearchAttribute] = term;
   this.filter();
+}
+
+Reflux.StoreMethods.onFilterByIds = function (identifier, ids, findBy) {
+  var attribute = findBy || "id";
+
+  if (!ids || ids.length === 0) {
+    this.trigger(this.data);
+  }
+
+  this.trigger(
+    this.data.filter(function (entry) {
+      return ids.indexOf(traverse(entry, attribute).toString()) >= 0;
+    })
+  );
 }
 
 Reflux.StoreMethods.filter = function () {
