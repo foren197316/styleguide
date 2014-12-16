@@ -39,11 +39,17 @@ var JobOffersIndex = React.createClass({
       .then(this.extractIds("file_maker_reference_id"))
       .then(this.loadResource("jobOfferFileMakerReferences"));
 
+    var positionsPromise =
+      jobOffersPromise
+      .then(this.extractIds("position_id"))
+      .then(this.loadResource("positions"));
+
     this.loadAll([
       programsPromise,
       employersPromise,
       jobOfferParticipantAgreementsPromise,
-      jobOfferFileMakerReferencesPromise
+      jobOfferFileMakerReferencesPromise,
+      positionsPromise
     ]).done(this.afterLoad);
   },
 
@@ -61,6 +67,7 @@ var JobOffersIndex = React.createClass({
       var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
       var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(jobOffers.mapAttribute("id"), "job_offer_id");
       var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(jobOffers.mapAttribute("id"), "job_offer_id");
+      var positions = this.state.positions.findById(jobOffers.mapAttribute("position_id"));
 
       if (!this.state.jobOfferParticipantSignedUnselected) {
         jobOffers = jobOffers.findById(jobOfferParticipantAgreements.mapAttribute("job_offer_id"));
@@ -75,11 +82,12 @@ var JobOffersIndex = React.createClass({
       }
 
       return {
-        program: program,
-        participants: participants,
         jobOffers: jobOffers,
         jobOfferParticipantAgreements: jobOfferParticipantAgreements,
-        jobOfferFileMakerReferences: jobOfferFileMakerReferences
+        jobOfferFileMakerReferences: jobOfferFileMakerReferences,
+        participants: participants,
+        positions: positions,
+        program: program
       }
     }.bind(this)).filter(function (cache) {
       return cache !== null;
@@ -111,42 +119,42 @@ var JobOffersIndex = React.createClass({
           <ExportButton url={this.props.urls.export} ids={jobOfferIds} />
         </div>
         <div className="col-md-9">
-          <div id="job-offer-panels">
-            {programsJobOffersCache.map(function (cache) {
-              return (
-                <div className="programs" key={"in_matching_participant_group_program_"+cache.program.id}>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <h2 className="page-header">
-                        {cache.program.name}
-                        <small className="pull-right">{cache.participants.length} Participants</small>
-                      </h2>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div id="job-offer-panels">
-                        {cache.jobOffers.map(function (jobOffer) {
-                          var participant = cache.participants.findById(jobOffer.participant_id);
-                          var jobOfferParticipantAgreement = cache.jobOfferParticipantAgreements.findById(jobOffer.id, "job_offer_id");
-                          var jobOfferFileMakerReference = cache.jobOfferFileMakerReferences.findById(jobOffer.id, "job_offer_id");
-
-                          return (
-                            <JobOfferPanel
-                              key={"job_offer" + jobOffer.id}
-                              participant={participant}
-                              jobOffer={jobOffer}
-                              jobOfferParticipantAgreement={jobOfferParticipantAgreement}
-                              program={cache.program} />
-                          )
-                        })}
-                      </div>
-                    </div>
+          {programsJobOffersCache.map(function (cache) {
+            return (
+              <div key={"program"+cache.program.id} className="program">
+                <div className="row">
+                  <div className="col-md-12">
+                    <h2 className="page-header">
+                      {cache.program.name}
+                      <small className="pull-right">{cache.participants.length} Participants</small>
+                    </h2>
                   </div>
                 </div>
-              )
-            })}
-          </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    {cache.jobOffers.map(function (jobOffer) {
+                      var jobOfferParticipantAgreement = cache.jobOfferParticipantAgreements.findById(jobOffer.id, "job_offer_id");
+                      var jobOfferFileMakerReference = cache.jobOfferFileMakerReferences.findById(jobOffer.id, "job_offer_id");
+                      var participant = cache.participants.findById(jobOffer.participant_id);
+                      var position = cache.positions.findById(jobOffer.position_id);
+
+                      return (
+                        <div className="participant-group-panel list-group">
+                          <OfferedParticipantGroupParticipant key={"participant_" + participant.id}
+                            participant={participant}
+                            position={position}
+                            offer={jobOffer}
+                            jobOfferParticipantAgreement={jobOfferParticipantAgreement}
+                            jobOfferFileMakerReference={jobOfferFileMakerReference}
+                            offerLinkTitle="View" />
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     )
@@ -154,27 +162,5 @@ var JobOffersIndex = React.createClass({
 
   render: function () {
     return this.waitForLoadAll(this.renderLoaded);
-  }
-});
-
-var JobOfferPanel = React.createClass({
-  propTypes: {
-    jobOffer: React.PropTypes.object.isRequired,
-    participant: React.PropTypes.object.isRequired,
-    program: React.PropTypes.object.isRequired
-  },
-
-  render: function () {
-    /**
-     * TODO: Refactor so that there's no ParticipantGroup specific stuff
-     */
-    return (
-      <div className="panel panel-default job-offer-panel">
-        <div className="list-group">
-          <ParticipantGroupParticipant key={this.props.participant.id} data={this.props.participant} />
-        </div>
-        <ParticipantGroupPanelFooter name={this.props.jobOfferParticipantAgreement ? "Agreement Signed" : "Unsigned"} />
-      </div>
-    )
   }
 });
