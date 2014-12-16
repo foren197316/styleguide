@@ -32,12 +32,18 @@ var OfferedParticipantGroupPanels = React.createClass({
       .then(this.extractIds("job_offer_participant_agreement_ids"))
       .then(this.loadResource("jobOfferParticipantAgreements"));
 
+    var jobOfferFileMakerReferencesPromise =
+      offeredParticipantGroupsPromise
+      .then(this.extractIds("job_offer_file_maker_reference_ids"))
+      .then(this.loadResource("jobOfferFileMakerReferences"));
+
     this.loadAll([
       this.loadResource("employer")(),
       participantsPromise,
       draftJobOffersPromise,
       jobOffersPromise,
       jobOfferParticipantAgreementsPromise,
+      jobOfferFileMakerReferencesPromise,
       this.loadResource("positions")(),
       this.loadResource("staff")()
     ]).done();
@@ -54,6 +60,7 @@ var OfferedParticipantGroupPanels = React.createClass({
           var participants = this.state.participants.findById(participantGroup.participant_ids);
           var jobOffers = jobOffersLink.value.findById(participants.mapAttribute("id"), "participant_id");
           var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
+          var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(offeredParticipantGroup.job_offer_file_maker_reference_ids);
           var program = this.state.programs.findById(participants[0].program_id);
 
           return (
@@ -62,6 +69,7 @@ var OfferedParticipantGroupPanels = React.createClass({
               employer={this.state.employer}
               jobOffers={jobOffers}
               jobOfferParticipantAgreements={jobOfferParticipantAgreements}
+              jobOfferFileMakerReferences={jobOfferFileMakerReferences}
               jobOffersLink={jobOffersLink}
               key={"offered_participant_group_"+offeredParticipantGroup.id}
               offeredParticipantGroup={offeredParticipantGroup}
@@ -87,6 +95,7 @@ var OfferedParticipantGroupPanel = React.createClass({
     employer: React.PropTypes.object.isRequired,
     jobOffers: React.PropTypes.array.isRequired,
     jobOfferParticipantAgreements: React.PropTypes.array.isRequired,
+    jobOfferFileMakerReferences: React.PropTypes.array.isRequired,
     jobOffersLink: React.PropTypes.object.isRequired, /* ReactLink */
     offeredParticipantGroup: React.PropTypes.object.isRequired,
     participantGroup: React.PropTypes.object.isRequired,
@@ -169,9 +178,17 @@ var OfferedParticipantGroupPanel = React.createClass({
         offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
         participantNodes = offers.map(function (offer) {
           var participant = this.props.participants.findById(offer.participant_id);
+
+          if (participant === null) {
+            return;
+          }
+
           var position = this.props.positions.findById(offer.position_id);
           var jobOfferParticipantAgreement = hasJobOffers
             ? this.props.jobOfferParticipantAgreements.findById(offer.id, "job_offer_id")
+            : null;
+          var jobOfferFileMakerReference = hasJobOffers
+            ? this.props.jobOfferFileMakerReferences.findById(offer.id, "job_offer_id")
             : null;
 
           return (
@@ -181,6 +198,7 @@ var OfferedParticipantGroupPanel = React.createClass({
               position={position}
               offer={offer}
               jobOfferParticipantAgreement={jobOfferParticipantAgreement}
+              jobOfferFileMakerReference={jobOfferFileMakerReference}
               offerLinkTitle={offerLinkTitle} />
           )
         }.bind(this));
@@ -255,6 +273,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
   render: function () {
     var overtimeRate = null,
         jobOfferParticipantAgreement = null,
+        jobOfferFileMakerReference = null,
         jobOfferLink = this.props.offer.href
           ? <a href={this.props.offer.href}>{this.props.offerLinkTitle}</a>
           : null;
@@ -271,6 +290,12 @@ var OfferedParticipantGroupParticipant = React.createClass({
       );
     }
 
+    if (this.props.jobOfferFileMakerReference != null) {
+      jobOfferFileMakerReference = (
+        <ReadOnlyFormGroup label="Imported on" value={Date.parse(this.props.jobOfferFileMakerReference.created_at).toString(dateFormat)} />
+      );
+    }
+
     return (
       <ParticipantGroupItemWrapper participant={this.props.participant}>
         <div className="form form-horizontal">
@@ -281,6 +306,7 @@ var OfferedParticipantGroupParticipant = React.createClass({
           <ReadOnlyFormGroup label="Overtime?" value={this.props.offer.overtime.capitaliseWord()} />
           {overtimeRate}
           {jobOfferParticipantAgreement}
+          {jobOfferFileMakerReference}
           <ReadOnlyFormGroup label="" value={jobOfferLink} />
         </div>
       </ParticipantGroupItemWrapper>

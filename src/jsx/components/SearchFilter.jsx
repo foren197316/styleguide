@@ -1,18 +1,19 @@
 var SearchFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    searchOn: React.PropTypes.string.isRequired,
+    searchOn: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.array
+    ]).isRequired,
     options: React.PropTypes.array.isRequired,
     dataLink: React.PropTypes.object.isRequired,
     inputCharacterMinimum: React.PropTypes.number,
-    caseSensitive: React.PropTypes.bool,
     autoFocus: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
     return {
       inputCharacterMinimum: 3,
-      caseSensitive: false,
       autoFocus: true
     }
   },
@@ -31,7 +32,9 @@ var SearchFilter = React.createClass({
 
   handleChange: function (event) {
     var value = event.target.value,
-        searchOn = this.props.searchOn;
+        searchOn = this.props.searchOn instanceof Array
+          ? this.props.searchOn
+          : [this.props.searchOn];
 
     if (value.length >= this.props.inputCharacterMinimum) {
       var filteredData;
@@ -41,20 +44,17 @@ var SearchFilter = React.createClass({
         filteredData = this.props.options;
       }
 
-      var filterFunc = this.props.caseSensitive
-            ? function (entry) {
-                return value.split(/\s+/).reduce(function (prev, curr) {
-                  return prev && entry[searchOn].indexOf(curr) >= 0;
-                }, true);
-              }
-            : function (entry) {
-                var lowerEntry = entry[searchOn].toLowerCase();
-                return value.toLowerCase().split(/\s+/).reduce(function (prev, curr) {
-                  return prev && lowerEntry.indexOf(curr) >= 0;
-                }, true);
-              };
+      var containsFunc = function (entry, term) {
+        return searchOn.reduce(function (prev, curr) {
+          return prev || (entry[curr] || "").toLowerCase().indexOf(term) >= 0;
+        }, false);
+      }
 
-      filteredData = filteredData.filter(filterFunc);
+      filteredData = filteredData.filter(function (entry) {
+        return value.toLowerCase().split(/\s+/).reduce(function (prev, curr) {
+          return prev && containsFunc(entry, curr);
+        }, true);
+      });
 
       this.props.dataLink.requestChange(filteredData);
     } else {

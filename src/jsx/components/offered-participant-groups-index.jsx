@@ -11,7 +11,11 @@ var OfferedParticipantGroupsIndex = React.createClass({
         { id: "Sent", name: "Sent" },
         { id: "Unsent", name: "Unsent" }
       ],
-      allStaffsUnselected: true
+      fileMakerReference: [
+        { id: "false", name: "Not in FileMaker" }
+      ],
+      allStaffsUnselected: true,
+      fileMakerReferenceUnselected: true
     };
   },
 
@@ -20,6 +24,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
       var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
       var offeredParticipants = participants.findById(participantGroup.participant_ids);
       offeredParticipantGroup.participant_names = offeredParticipants.mapAttribute("name").join(",");
+      offeredParticipantGroup.participant_uuids = offeredParticipants.mapAttribute("uuid").join(",");
+      offeredParticipantGroup.participant_emails = offeredParticipants.mapAttribute("email").join(",");
 
       return offeredParticipantGroup;
     }.bind(this));
@@ -37,7 +43,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
       offeredParticipantGroups: this.state.offeredParticipantGroups,
       jobOffers: this.state.jobOffers,
       jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements,
+      jobOfferFileMakerReferences: this.state.jobOfferFileMakerReferences,
       offerSent: this.state.draftJobOffers.length > 0 ? this.state.offerSent : [],
+      fileMakerReference: this.state.fileMakerReference,
       participantSigned: this.state.participantSigned,
       programs: this.state.programs,
       staffs: this.state.staffs
@@ -79,13 +87,22 @@ var OfferedParticipantGroupsIndex = React.createClass({
       .then(this.extractIds("job_offer_participant_agreement_ids"))
       .then(this.loadResource("jobOfferParticipantAgreements"));
 
+    var jobOfferFileMakerReferencesPromise =
+      offeredParticipantGroupsPromise
+      .then(this.extractIds("job_offer_file_maker_reference_ids"))
+      .then(this.loadResource("jobOfferFileMakerReferences"));
+
+    var positionsPromise =
+      this.loadResource("positions")();
+
     this.loadAll([
       staffsPromise,
       participantsPromise,
       draftJobOffersPromise,
       jobOffersPromise,
       jobOfferParticipantAgreementsPromise,
-      this.loadResource("positions")()
+      jobOfferFileMakerReferencesPromise,
+      positionsPromise
     ]).done(this.setInitialData);
   },
 
@@ -94,6 +111,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
       var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
       var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
       var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
+      var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(offeredParticipantGroup.job_offer_file_maker_reference_ids);
       var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
       var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
       var participants = this.state.participants.findById(participantGroup.participant_ids);
@@ -116,6 +134,21 @@ var OfferedParticipantGroupsIndex = React.createClass({
         ) return;
       }
 
+      if (!this.state.fileMakerReferenceUnselected) {
+        participants = participants.filter(function(participant) {
+          var jobOffer = jobOffers.filter(function(jobOffer) { return jobOffer.participant_id === participant.id; })[0];
+          var jobOfferFileMakerReference = jobOfferFileMakerReferences.filter(function(jobOfferFileMakerReference) {
+            return jobOfferFileMakerReference.job_offer_id === jobOffer.id;
+          })[0];
+
+          return !jobOffer || !jobOfferFileMakerReference;
+        });
+
+        if (participants.length === 0) {
+          return;
+        }
+      }
+
       if (
           this.state.participantSigned.length === 2
           || (this.state.participantSigned.length === 1 && this.state.participantSigned[0].id === "Signed" && jobOfferParticipantAgreements.length === participants.length)
@@ -128,6 +161,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
           employer: employer,
           jobOffers: jobOffers,
           jobOfferParticipantAgreements: jobOfferParticipantAgreements,
+          jobOfferFileMakerReferences: jobOfferFileMakerReferences,
           offeredParticipantGroup: offeredParticipantGroup,
           participantGroup: participantGroup,
           participants: participants,
@@ -145,23 +179,24 @@ var OfferedParticipantGroupsIndex = React.createClass({
     var offeredParticipantGroupsLink = this.linkState("offeredParticipantGroups");
     var participantSignedLink = this.linkState("participantSigned");
     var offerSentLink = this.linkState("offerSent");
+    var fileMakerReferenceLink = this.linkState("fileMakerReference");
     var programsLink = this.linkState("programs");
     var employersLink = this.linkState("employers");
     var staffsLink = this.linkState("staffs");
     var allStaffsUnselectedLink = this.linkState("allStaffsUnselected");
+    var fileMakerReferenceUnselectedLink = this.linkState("fileMakerReferenceUnselected");
 
     var offeredParticipantGroupsCache = this.getOfferedParticipantGroupsCache();
 
     return (
       <div className="row">
         <div className="col-md-3">
-          <SearchFilter title="offered_names" searchOn="participant_names" options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
+          <SearchFilter title="offered_names" searchOn={["participant_names", "participant_uuids", "participant_emails"]} options={this.props.offeredParticipantGroups} dataLink={offeredParticipantGroupsLink} />
           <CheckBoxFilter title="Program" options={this.props.programs} dataLink={programsLink} />
           <CheckBoxFilter title="Participant Agreement" options={this.props.participantSigned} dataLink={participantSignedLink} />
           <CheckBoxFilter title="Offer Sent" options={this.props.offerSent} dataLink={offerSentLink} />
           <CheckBoxFilter title="Coordinator" options={this.props.staffs} dataLink={staffsLink} allUnselectedLink={allStaffsUnselectedLink} />
           <CheckBoxFilter title="Employer" options={this.props.employers} dataLink={employersLink} />
-          <ExportButton url={this.props.urls.export} ids={offeredParticipantGroupsCache.mapAttribute("id")} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
@@ -171,6 +206,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
                       employer={cache.employer}
                       jobOffers={cache.jobOffers}
                       jobOfferParticipantAgreements={cache.jobOfferParticipantAgreements}
+                      jobOfferFileMakerReferences={cache.jobOfferFileMakerReferences}
                       jobOffersLink={jobOffersLink}
                       key={"offered_participant_group_"+cache.id}
                       offeredParticipantGroup={cache.offeredParticipantGroup}
