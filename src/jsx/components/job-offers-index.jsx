@@ -81,6 +81,8 @@ var JobOffersIndex = React.createClass({
         return null;
       }
 
+      participants = participants.findById(jobOffers.mapAttribute("participant_id"));
+
       return {
         jobOffers: jobOffers,
         jobOfferParticipantAgreements: jobOfferParticipantAgreements,
@@ -108,7 +110,7 @@ var JobOffersIndex = React.createClass({
     var jobOfferFileMakerReferenceUnselectedLink = this.linkState("jobOfferFileMakerReferenceUnselected");
 
     var programsJobOffersCache = this.getProgramsJobOffersCache();
-    var jobOfferIds = programsJobOffersCache.map(function (cache) { return cache.jobOffers }).flatten().mapAttribute("id")
+    var jobOfferIds = programsJobOffersCache.map(function (cache) { return cache.jobOffers }).flatten().mapAttribute("id");
 
     return (
       <div className="row">
@@ -126,7 +128,7 @@ var JobOffersIndex = React.createClass({
                   <div className="col-md-12">
                     <h2 className="page-header">
                       {cache.program.name}
-                      <small className="pull-right">{cache.participants.length} Participants</small>
+                      <small className="pull-right">{cache.jobOffers.length} Job Offers</small>
                     </h2>
                   </div>
                 </div>
