@@ -70,18 +70,18 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 }
 
 Reflux.StoreMethods.onResetSearch = function (identifier) {
-  this.filterIds[indentifier] = null;
-  this["lastSearchTerm-" + indentifier] = null;
+  this.filterIds[identifier] = null;
+  this["lastSearchTerm-" + identifier] = null;
   this.emitFilteredData();
 }
 
-Reflux.StoreMethods.onSearch = function (indentifier, term, searchOn) {
+Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
   this.filterIds = this.filterIds || {};
 
   var searchIds = null;
   var searchFields = [].concat(searchOn);
   var terms = term.toLowerCase().split(/\s+/);
-  var lastSearchAttribute = "lastSearchTerm-" + indentifier;
+  var lastSearchAttribute = "lastSearchTerm-" + identifier;
   var lastSearchTerm = this[lastSearchAttribute];
 
   if (lastSearchTerm && term.indexOf(lastSearchTerm) === 0) {
