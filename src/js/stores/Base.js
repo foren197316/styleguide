@@ -140,7 +140,9 @@ Reflux.StoreMethods.emitFilteredData = function () {
     }
   }
 
-  if (!isFiltered) ids = this.data.mapAttribute("id");
+  if (!isFiltered) {
+    ids = this.data.mapAttribute("id");
+  }
 
   this.trigger(
     this.data.filter(function (entry) {

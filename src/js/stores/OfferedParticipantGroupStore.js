@@ -81,25 +81,30 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     ParticipantSignedStore.listen(this.filterParticipantSigned);
     OfferSentStore.listen(this.filterOfferSent);
     StaffStore.listen(this.filterStaffs);
+    EmployerStore.listen(this.filterEmployers);
   },
 
-  filterPrograms: function (programs) {
-    var filterKey = "programs";
-
-    if (programs === null) {
+  filterGeneric: function (filterKey, data, condition) {
+    if (data === null) {
       this.filterIds[filterKey] = null;
     } else {
-      var program_ids = programs.mapAttribute("id");
+      var data_ids = data.mapAttribute("id");
 
-      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
-        if (program_ids.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0) {
-          ids.push(offeredParticipantGroup.id);
+      this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
+        if (condition(data_ids, entry)) {
+          ids.push(entry.id);
         }
         return ids;
       }, []);
     }
 
     this.emitFilteredData();
+  },
+
+  filterPrograms: function (programs) {
+    this.filterGeneric("programs", programs, function (programIds, offeredParticipantGroup) {
+      return programIds.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0;
+    });
   },
 
   filterParticipantSigned: function (participantSigneds) {
@@ -167,21 +172,14 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   },
 
   filterStaffs: function (staffs) {
-    var filterKey = "staffs";
+    this.filterGeneric("staffs", staffs, function (staffIds, offeredParticipantGroup) {
+      return offeredParticipantGroup.employer.staff && staff_ids.indexOf(offeredParticipantGroup.employer.staff.id) >= 0;
+    });
+  },
 
-    if (staffs === null) {
-      this.filterIds[filterKey] = null;
-    } else {
-      var staff_ids = staffs.mapAttribute("id");
-
-      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
-        if (offeredParticipantGroup.employer.staff && staff_ids.indexOf(offeredParticipantGroup.employer.staff.id) >= 0) {
-          ids.push(offeredParticipantGroup.id);
-        }
-        return ids;
-      }, []);
-    }
-
-    this.emitFilteredData();
+  filterEmployers: function (employers) {
+    this.filterGeneric("employers", employers, function (employerIds, offeredParticipantGroup) {
+      return employerIds.indexOf(offeredParticipantGroup.employer.id) >= 0;
+    });
   }
 });
