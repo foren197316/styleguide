@@ -4,6 +4,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   filterIds: {},
 
   init: function () {
+    this.listenTo(newJobOffer, this.onNewJobOffer);
   },
 
   initPostAjaxLoad: function () {
@@ -35,7 +36,13 @@ var OfferedParticipantGroupStore = Reflux.createStore({
           return offeredParticipantGroup.id !== offeredParticipantGroupId;
         });
 
-        this.trigger(this.data);
+        DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offer_ids").flatten());
+        JobOfferActions.removeByIds(this.data.mapAttribute("job_offer_ids").flatten());
+        JobOfferParticipantAgreementActions.removeByIds(this.data.mapAttribute("job_offer_participant_agreement_ids").flatten());
+        JobOfferFileMakerReferenceActions.removeByIds(this.data.mapAttribute("job_offer_file_maker_reference_ids").flatten());
+        ParticipantGroupActions.removeByIds(this.data.mapAttribute("participant_group_id"));
+
+        this.emitFilteredData();
 
         if (typeof callback === "function") {
           callback(data);
@@ -43,6 +50,19 @@ var OfferedParticipantGroupStore = Reflux.createStore({
       }.bind(this),
       error: defaultStoreError
     });
+  },
+
+  onNewJobOffer: function (jobOffers, offeredParticipantGroupId) {
+    console.log('hey')
+    this.data = this.data.map(function (offeredParticipantGroup) {
+      if (offeredParticipantGroup.id === offeredParticipantGroupId) {
+        offeredParticipantGroup.job_offers = jobOffers;
+        offeredParticipantGroup.job_offer_ids = jobOffers.mapAttribute("id");
+      }
+      return offeredParticipantGroup;
+    });
+
+    this.emitFilteredData();
   },
 
   aggregate: function (

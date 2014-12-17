@@ -16,5 +16,10 @@ var ParticipantGroupStore = Reflux.createStore({
     });
 
     this.trigger(this.data);
+  },
+
+  cleanup: function (deletedGroups) {
+    var participantIds = deletedGroups.mapAttribute("participant_ids").flatten();
+    ParticipantActions.removeByIds(participantIds);
   }
 });

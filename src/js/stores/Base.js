@@ -1,4 +1,4 @@
-var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds"];
+var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds"];
 var filterableStoreActions = ["search", "resetSearch"];
 
 var defaultStoreError = function () {
@@ -53,20 +53,33 @@ Reflux.StoreMethods.onSetData = function (data) {
   this.trigger(this.data);
 }
 
-Reflux.StoreMethods.onFilterData = function (data) {
-  this.trigger(data);
+Reflux.StoreMethods.onForceTrigger = function (data) {
+  this.trigger(this.data);
 }
 
-Reflux.StoreMethods.findById = function (id, attrName) {
-  return this.data.findById(id, attrName);
-}
+Reflux.StoreMethods.onRemoveByIds = function (args, trigger) {
+  if (typeof trigger === "undefined") {
+    trigger = true;
+  }
 
-Reflux.StoreMethods.map = function (func) {
-  return this.data.map(func);
-}
+  var ids = [].concat(args);
+  var deleted = [];
 
-Reflux.StoreMethods.mapAttribute = function (func) {
-  return this.data.mapAttribute(func);
+  this.data = this.data.filter(function (entry) {
+    if (ids.indexOf(entry.id) === 0) {
+      return true;
+    }
+    deleted.push(entry);
+    return false;
+  });
+
+  if (typeof this.cleanup === "function") {
+    this.cleanup(deleted);
+  }
+
+  if (trigger) {
+    this.trigger(this.data);
+  }
 }
 
 Reflux.StoreMethods.onResetSearch = function (identifier) {
@@ -151,6 +164,20 @@ Reflux.StoreMethods.emitFilteredData = function () {
   );
 }
 
+/* Convenience methods */
+Reflux.StoreMethods.findById = function (id, attrName) {
+  return this.data.findById(id, attrName);
+}
+
+Reflux.StoreMethods.map = function (func) {
+  return this.data.map(func);
+}
+
+Reflux.StoreMethods.mapAttribute = function (func) {
+  return this.data.mapAttribute(func);
+}
+
+var newJobOffer = Reflux.createAction("newJobOffer");
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["reject"]
     )),

@@ -15,7 +15,7 @@ var JobOfferStore = Reflux.createStore({
       type: "POST",
       success: function (data) {
         this.data = this.data instanceof Array ? this.data.concat(data.job_offers) : data.job_offers;
-        this.trigger(this.data);
+        newJobOffer(data.job_offers, offeredParticipantGroupId);
         if (typeof callback === "function") {
           callback(data);
         }
