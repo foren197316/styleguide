@@ -107,6 +107,18 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     });
   },
 
+  filterStaffs: function (staffs) {
+    this.filterGeneric("staffs", staffs, function (staffIds, offeredParticipantGroup) {
+      return offeredParticipantGroup.employer.staff && staff_ids.indexOf(offeredParticipantGroup.employer.staff.id) >= 0;
+    });
+  },
+
+  filterEmployers: function (employers) {
+    this.filterGeneric("employers", employers, function (employerIds, offeredParticipantGroup) {
+      return employerIds.indexOf(offeredParticipantGroup.employer.id) >= 0;
+    });
+  },
+
   filterParticipantSigned: function (participantSigneds) {
     var filterKey = "participantSigneds";
 
@@ -169,17 +181,5 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     }
 
     this.emitFilteredData();
-  },
-
-  filterStaffs: function (staffs) {
-    this.filterGeneric("staffs", staffs, function (staffIds, offeredParticipantGroup) {
-      return offeredParticipantGroup.employer.staff && staff_ids.indexOf(offeredParticipantGroup.employer.staff.id) >= 0;
-    });
-  },
-
-  filterEmployers: function (employers) {
-    this.filterGeneric("employers", employers, function (employerIds, offeredParticipantGroup) {
-      return employerIds.indexOf(offeredParticipantGroup.employer.id) >= 0;
-    });
   }
 });
