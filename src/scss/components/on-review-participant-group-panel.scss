@@ -12,7 +12,7 @@ category: Components - Participant Group
 ```
 
 ```js_example
-React.renderComponent(
+React.render(
   OnReviewParticipantGroupPanels({
     source:"/json/on-review-participant-groups.json",
     employerId: "1",

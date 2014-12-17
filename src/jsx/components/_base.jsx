@@ -2,16 +2,22 @@
 
 var dateFormat = "MM/dd/yyyy";
 
+String.prototype.capitaliseWord = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+String.prototype.camelCaseToUnderscore = function () {
+  return this.replace(/([A-Z])/g, "_$1").toLowerCase();
+};
+
 Array.prototype.flatten = function () {
   return this.reduce(function (prev, curr) {
     return prev.concat(curr);
   }, []);
 };
 
-Array.prototype.mapAttribute = function (attribute) {
-  return this.map(function (entry) {
-    return entry[attribute];
-  });
+Array.prototype.diff = function(array) {
+  return this.filter(function(i) {return array.indexOf(i) < 0;});
 };
 
 Array.prototype.findById = function (id, alternateKey) {
@@ -44,6 +50,26 @@ Array.prototype.intersects = function (array) {
   return false;
 };
 
+Array.prototype.mapAttribute = function (attribute) {
+  return this.map(function (entry) {
+    return entry[attribute];
+  });
+};
+
+Array.prototype.notEmpty = function () {
+  return this.filter(function (entry) {
+    return entry != undefined;
+  });
+};
+
+String.prototype.pluralize = function (count) {
+  if (count === 1) {
+    return this;
+  } else {
+    return this + "s";
+  }
+};
+
 Array.prototype.uniq = function () {
   return this.reduce(function (prev, curr) {
     if (prev.indexOf(curr) < 0) {
@@ -51,14 +77,6 @@ Array.prototype.uniq = function () {
     }
     return prev;
   }, []);
-};
-
-String.prototype.capitaliseWord = function () {
-  return this.charAt(0).toUpperCase() + this.slice(1);
-};
-
-String.prototype.camelCaseToUnderscore = function () {
-  return this.replace(/([A-Z])/g, "_$1").toLowerCase();
 };
 
 var Spinner = React.createClass({
@@ -405,6 +423,14 @@ var LoadResourceMixin = {
           this.setState(state);
           return data;
         }
+      }.bind(this))
+      .catch(function (error) {
+        var state = {},
+            data = [];
+
+        state[resourceName] = data;
+        this.setState(state);
+        return data;
       }.bind(this));
     }.bind(this);
   },
@@ -419,26 +445,35 @@ var LoadResourceMixin = {
     }
 
     return function (entries) {
+      if (console && entries == undefined) {
+        console.warn(idsAttribute + " is undefined");
+      }
+
       return {
-        ids: prepareArray(entries.mapAttribute(idsAttribute)).sort()
+        ids: prepareArray(entries.mapAttribute(idsAttribute)).notEmpty().uniq().sort()
       };
     }
   },
 
   loadAll: function (promiseList) {
+    var printError = function (error) {
+      console.log(error.stack);
+      console.log(this.state);
+    }.bind(this);
+
     if (this.state.isLoaded) {
       this.setState({ isLoaded: false });
     }
 
-    return Q.allSettled(promiseList)
+    return Q.allSettled(promiseList.map(function (promise) {
+      return promise.catch(printError);
+    }))
     .then(function () {
       if (this.isMounted()) {
         this.setState({ isLoaded: true });
       }
     }.bind(this))
-    .catch(function (error) {
-      console.log(error.stack);
-    });
+    .catch(printError);
   },
 
   waitForLoadAll: function (loadedCallback) {

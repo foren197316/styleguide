@@ -19,7 +19,7 @@ category: Components - Participant Group
 ```
 
 ```js_example
-React.renderComponent(
+React.render(
   InMatchingParticipantGroupPanels({
     urls: {
       employer: "/json/employer.json",

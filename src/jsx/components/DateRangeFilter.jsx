@@ -3,8 +3,7 @@
 var DateRangeFilter = React.createClass({
   propTypes: {
     dataLink: React.PropTypes.object.isRequired,
-    options:  React.PropTypes.array.isRequired,
-    searchOn: React.PropTypes.string.isRequired
+    options:  React.PropTypes.array.isRequired
   },
 
   componentDidMount: function () {

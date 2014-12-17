@@ -12,7 +12,7 @@ category: Components - Filtered Participant Group
 ```
 
 ```js_example
-React.renderComponent(
+React.render(
   InMatchingParticipantGroupsIndex({
     urls: {
       employer: "/json/employer.json",

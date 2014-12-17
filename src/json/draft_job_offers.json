@@ -1,0 +1,54 @@
+{
+  "draft_job_offers": [
+    {
+      "id": 1,
+      "href": "#/draft_job_offers/1",
+      "participant_id": 1,
+      "position_id": 2,
+      "tipped": true,
+      "wage": "5.50",
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6
+    },
+    {
+      "id": 2,
+      "participant_id": 2,
+      "position_id": 3,
+      "tipped": true,
+      "wage": 5,
+      "hours": 35,
+      "overtime": "no"
+    },
+    {
+      "id": 3,
+      "participant_id": 4,
+      "position_id": 1,
+      "tipped": true,
+      "wage": 5,
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6
+    },
+    {
+      "id": 4,
+      "participant_id": 5,
+      "position_id": 1,
+      "tipped": true,
+      "wage": 5,
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6
+    },
+    {
+      "id": 5,
+      "participant_id": 6,
+      "position_id": 1,
+      "tipped": true,
+      "wage": 5.25,
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6.50
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "job_offers": [
+    {
+      "id": 1,
+      "href": "#/job_offers/1",
+      "participant_id": 3,
+      "job_offer_participant_agreement_id": 1,
+      "position_id": 2,
+      "tipped": true,
+      "wage": 5,
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6
+    },
+    {
+      "id": 2,
+      "href": "#/job_offers/2",
+      "participant_id": 1,
+      "job_offer_participant_agreement_id": null,
+      "position_id": 3,
+      "tipped": true,
+      "wage": 5,
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6
+    },
+    {
+      "id": 3,
+      "href": "#/job_offers/3",
+      "participant_id": 2,
+      "job_offer_participant_agreement_id": 2,
+      "position_id": 3,
+      "tipped": true,
+      "wage": 5,
+      "hours": 35,
+      "overtime": "yes",
+      "overtime_rate": 6
+    }
+  ]
+}

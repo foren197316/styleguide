@@ -1,0 +1,7 @@
+.alert-failure {
+  @include alert-variant($alert-danger-bg, $alert-danger-border, $alert-danger-text);
+}
+
+.alert-ignored {
+  @include alert-variant($alert-warning-bg, $alert-warning-border, $alert-warning-text);
+}

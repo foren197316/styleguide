@@ -12,9 +12,20 @@ category: Components - Participant Group
 ```
 
 ```js_example
-React.renderComponent(
+React.render(
   OfferedParticipantGroupPanels({
-    source: "/json/offered-participant-groups.json"
+    urls: {
+      employer: "/json/employer.json",
+      offeredParticipantGroups: "/json/offered_participant_groups.json",
+      participantGroups: "/json/participant_groups.json",
+      participants: "/json/participants.json",
+      programs: "/json/programs.json",
+      positions: "/json/positions.json",
+      draftJobOffers: "/json/draft_job_offers.json",
+      jobOffers: "/json/job_offers.json",
+      jobOfferParticipantAgreements: "/json/job_offer_participant_agreements.json",
+      staff: "/json/staff.json"
+    }
   }),
   document.getElementById("OfferedParticipantGroups")
 );

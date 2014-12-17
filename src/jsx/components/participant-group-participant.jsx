@@ -61,7 +61,7 @@ var ParticipantGroupItemWrapper = React.createClass({
                 <strong>{participant.country_name}</strong>
                 <br/>
                 <strong><YearCalculator from={participant.date_of_birth} to={participant.arrival_date} /></strong>
-                <strong style={{ "padding-left": "5px" }}>{participant.gender}</strong>
+                <strong style={{ "paddingLeft": "5px" }}>{participant.gender}</strong>
               </div>
             </div>
             <hr/>
