@@ -249,9 +249,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             <span className="pull-right text-muted">
               {staffName}
             </span>
-            <a href={"/employers/" + this.props.employer.id + "/offered_participant_groups"}>
-              {this.props.employer.name}
-            </a>
+            <LinkToParticipantName name={this.props.employer.name} url={this.props.employer.url} />
           </h1>
         </div>
         <div className="list-group">
