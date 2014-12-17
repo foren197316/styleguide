@@ -1,6 +1,5 @@
 var ParticipantSignedStore = Reflux.createStore({
   listenables: ParticipantSignedActions,
-
   permission: true,
 
   init: function () {

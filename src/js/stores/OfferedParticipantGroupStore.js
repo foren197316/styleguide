@@ -78,18 +78,53 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     this.trigger(this.data);
 
     ProgramStore.listen(this.filterPrograms);
+    ParticipantSignedStore.listen(this.filterParticipantSigned);
   },
 
   filterPrograms: function (programs) {
-    var program_ids = programs.mapAttribute("id");
+    if (programs === null) {
+      this.filterIds["program"] = null;
+    } else {
+      var program_ids = programs.mapAttribute("id");
 
-    this.filterIds["programs"] = this.data.reduce(function (ids, offeredParticipantGroup) {
-      if (program_ids.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0) {
-        ids.push(offeredParticipantGroup.id);
+      this.filterIds["programs"] = this.data.reduce(function (ids, offeredParticipantGroup) {
+        if (program_ids.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0) {
+          ids.push(offeredParticipantGroup.id);
+        }
+        return ids;
+      }, []);
+    }
+
+    this.emitFilteredData();
+  },
+
+  filterParticipantSigned: function (participantSigneds) {
+    if (participantSigneds === null || participantSigneds.length === 2) {
+      this.filterIds["participantSigned"] = null;
+    } else {
+      var key = participantSigneds[0].id;
+      var compareFunc;
+
+      switch (key) {
+        case "Signed":
+          compareFunc = function (offeredParticipantGroup) {
+            return offeredParticipantGroup.job_offer_participant_agreements.length === offeredParticipantGroup.participant_group.participants.length;
+          }
+          break;
+        case "Unsigned":
+          compareFunc = function (offeredParticipantGroup) {
+            return offeredParticipantGroup.job_offer_participant_agreements.length !== offeredParticipantGroup.participant_group.participants.length;
+          }
       }
-      return ids;
-    }, []);
 
-    this.filter();
+      this.filterIds["participantSigned"] = this.data.reduce(function (ids, offeredParticipantGroup) {
+        if (compareFunc(offeredParticipantGroup)) {
+          ids.push(offeredParticipantGroup.id);
+        }
+        return ids;
+      }, []);
+    }
+
+    this.emitFilteredData();
   }
 });

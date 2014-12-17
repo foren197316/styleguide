@@ -72,7 +72,7 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 Reflux.StoreMethods.onResetSearch = function (identifier) {
   this.filterIds[indentifier] = null;
   this["lastSearchTerm-" + indentifier] = null;
-  this.filter();
+  this.emitFilteredData();
 }
 
 Reflux.StoreMethods.onSearch = function (indentifier, term, searchOn) {
@@ -112,24 +112,24 @@ Reflux.StoreMethods.onSearch = function (indentifier, term, searchOn) {
 
   this.filterIds[identifier] = filterIds;
   this[lastSearchAttribute] = term;
-  this.filter();
+  this.emitFilteredData();
 }
 
-Reflux.StoreMethods.onFilterByIds = function (identifier, ids, findBy) {
+Reflux.StoreMethods.onFilterByIds = function (ids, findBy) {
   var attribute = findBy || "id";
 
   if (!ids || ids.length === 0) {
-    this.trigger(this.data);
+    this.trigger(null);
+  } else {
+    this.trigger(
+      this.data.filter(function (entry) {
+        return ids.indexOf(traverse(entry, attribute).toString()) >= 0;
+      })
+    );
   }
-
-  this.trigger(
-    this.data.filter(function (entry) {
-      return ids.indexOf(traverse(entry, attribute).toString()) >= 0;
-    })
-  );
 }
 
-Reflux.StoreMethods.filter = function () {
+Reflux.StoreMethods.emitFilteredData = function () {
   var ids = null;
   var isFiltered = false;
 
