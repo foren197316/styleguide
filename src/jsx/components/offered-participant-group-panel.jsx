@@ -249,7 +249,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             <span className="pull-right text-muted">
               {staffName}
             </span>
-            <LinkToParticipantName name={this.props.employer.name} url={this.props.employer.url} />
+            <LinkToIf name={this.props.employer.name} href={this.props.employer.href} />
           </h1>
         </div>
         <div className="list-group">

@@ -22,7 +22,7 @@ var draftJobOfferFormId = function (key, field) {
   return "draft_job_offers_" + key + "_" + field;
 };
 
-var LinkToParticipantName = React.createClass({
+var LinkToIf = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     href: React.PropTypes.string
@@ -52,7 +52,7 @@ var ParticipantGroupItemWrapper = React.createClass({
             <div className="row">
               <div className="col-xs-12">
                 <h4 className="media-heading">
-                  <LinkToParticipantName name={participant.name} href={participant.href} />
+                  <LinkToIf name={participant.name} href={participant.href} />
                 </h4>
               </div>
             </div>
