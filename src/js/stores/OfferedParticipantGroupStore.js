@@ -80,15 +80,18 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     ProgramStore.listen(this.filterPrograms);
     ParticipantSignedStore.listen(this.filterParticipantSigned);
     OfferSentStore.listen(this.filterOfferSent);
+    StaffStore.listen(this.filterStaffs);
   },
 
   filterPrograms: function (programs) {
+    var filterKey = "programs";
+
     if (programs === null) {
-      this.filterIds["program"] = null;
+      this.filterIds[filterKey] = null;
     } else {
       var program_ids = programs.mapAttribute("id");
 
-      this.filterIds["programs"] = this.data.reduce(function (ids, offeredParticipantGroup) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
         if (program_ids.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0) {
           ids.push(offeredParticipantGroup.id);
         }
@@ -100,8 +103,10 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   },
 
   filterParticipantSigned: function (participantSigneds) {
+    var filterKey = "participantSigneds";
+
     if (participantSigneds === null || participantSigneds.length === 2) {
-      this.filterIds["participantSigned"] = null;
+      this.filterIds[filterKey] = null;
     } else {
       var key = participantSigneds[0].id;
       var compareFunc;
@@ -118,7 +123,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
           }
       }
 
-      this.filterIds["participantSigned"] = this.data.reduce(function (ids, offeredParticipantGroup) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
         if (compareFunc(offeredParticipantGroup)) {
           ids.push(offeredParticipantGroup.id);
         }
@@ -130,8 +135,10 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   },
 
   filterOfferSent: function (offerSents) {
+    var filterKey = "offerSents";
+
     if (offerSents === null || offerSents.length === 2) {
-      this.filterIds["offerSent"] = null;
+      this.filterIds[filterKey] = null;
     } else {
       var key = offerSents[0].id;
       var compareFunc;
@@ -148,8 +155,27 @@ var OfferedParticipantGroupStore = Reflux.createStore({
           }
       }
 
-      this.filterIds["offerSent"] = this.data.reduce(function (ids, offeredParticipantGroup) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
         if (compareFunc(offeredParticipantGroup)) {
+          ids.push(offeredParticipantGroup.id);
+        }
+        return ids;
+      }, []);
+    }
+
+    this.emitFilteredData();
+  },
+
+  filterStaffs: function (staffs) {
+    var filterKey = "staffs";
+
+    if (staffs === null) {
+      this.filterIds[filterKey] = null;
+    } else {
+      var staff_ids = staffs.mapAttribute("id");
+
+      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
+        if (offeredParticipantGroup.employer.staff && staff_ids.indexOf(offeredParticipantGroup.employer.staff.id) >= 0) {
           ids.push(offeredParticipantGroup.id);
         }
         return ids;
