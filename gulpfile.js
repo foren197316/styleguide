@@ -125,7 +125,6 @@ gulp.task('javascript-components', function() {
 
 gulp.task('javascript-development', ['javascript'], function() {
   return gulp.src([
-      'build/js/interexchange.js',
       'src/js/development.js'
     ])
     .pipe(concat('interexchange-development.js'))
