@@ -54,20 +54,6 @@ var ParticipantGroupStore = Reflux.createStore({
     }).notEmpty();
 
     this.trigger(this.data);
-
-      // if (regionIds.indexOf(this.state.employer.region_id) >= 0) {
-        // participantGroup.participant_names = participantGroupParticipants.mapAttribute("name").join(",");
-        // participantGroup.start_dates = participantGroupParticipants.map(function (participant) {
-          // return Date.parse(participant.arrival_date).add(2).days();
-        // }).flatten();
-        // participantGroup.finish_dates = participantGroupParticipants.map(function (participant) {
-          // return Date.parse(participant.departure_date);
-        // }).flatten();
-      // } else {
-        // participantGroup.participant_names = "";
-        // participantGroup.start_dates = [];
-        // participantGroup.finish_dates = [];
-      // }
   },
 
   cleanup: function (deletedGroups) {

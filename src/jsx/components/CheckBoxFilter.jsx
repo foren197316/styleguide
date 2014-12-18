@@ -3,6 +3,7 @@
 var CheckBoxFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
+    store: React.PropTypes.object.isRequired, /* TODO: require Reflux Store */
     actions: React.PropTypes.object.isRequired, /* TODO: require Reflux Actions */
     nestedAttribute: React.PropTypes.oneOf([
       React.PropTypes.string,

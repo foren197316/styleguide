@@ -32,94 +32,6 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     });
   },
 
-  // getProgramCache: function (program) {
-    // var employer = this.state.employer,
-        // enrollments = this.state.enrollments,
-        // enrollmentsLink = this.linkState("enrollments"),
-        // enrollment = enrollments.findById(program.id, "program_id"),
-        // inMatchingParticipantGroupPanels = null,
-        // participantCount = 0,
-        // programParticipants = this.state.participants.filter(function (participant) {
-                                // return participant.program_id === program.id;
-                              // });
-
-    // inMatchingParticipantGroupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-      // var participantGroup = this.state.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
-
-      // if (participantGroup === undefined || participantGroup === null) {
-        // return;
-      // }
-
-      // if (this.state.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
-        // return;
-      // }
-
-      // var participantGroupParticipants = programParticipants.findById(participantGroup.participant_ids),
-          // participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
-
-      // if (!participantGroupParticipantPositionIds.intersects(this.state.positions.mapAttribute("id"))) {
-        // return;
-      // }
-
-      // var participantGenders = participantGroupParticipants.mapAttribute("gender");
-
-      // if (!this.state.genders.mapAttribute("id").intersects(participantGenders)) {
-        // return;
-      // }
-
-      // if (this.state.ageAtArrival.length === 1) {
-        // var meetsAgeRequirement;
-
-        // if (this.state.ageAtArrival[0].id === "21_and_over") {
-          // meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
-            // return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
-          // }, false);
-        // } else {
-          // meetsAgeRequirement = participantGroupParticipants.reduce(function (prev, curr) {
-            // return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) < 21;
-          // }, false);
-        // }
-
-        // if (! meetsAgeRequirement) {
-          // return;
-        // }
-      // }
-
-      // var participantCountries = participantGroupParticipants.mapAttribute("country_name");
-
-      // if (!this.state.countries.mapAttribute("name").intersects(participantCountries)) {
-        // return;
-      // }
-
-      // var participantEnglishLevels = participantGroupParticipants.mapAttribute("english_level");
-
-      // if (!this.state.englishLevels.mapAttribute("id").intersects(participantEnglishLevels)) {
-        // return;
-      // }
-
-      // participantCount += participantGroupParticipants.length;
-
-      // return <InMatchingParticipantGroupPanel
-                // employer={employer}
-                // enrollment={enrollment}
-                // enrollments={enrollments}
-                // enrollmentsLink={enrollmentsLink}
-                // inMatchingParticipantGroup={inMatchingParticipantGroup}
-                // key={inMatchingParticipantGroup.id}
-                // participantGroup={participantGroup}
-                // participants={participantGroupParticipants}
-                // program={program} />;
-    // }.bind(this)).notEmpty();
-
-    // if (inMatchingParticipantGroupPanels.length > 0) {
-      // return {
-        // program: program,
-        // inMatchingParticipantGroupPanels: inMatchingParticipantGroupPanels,
-        // participantCount: participantCount
-      // }
-    // }
-  // },
-
   renderLoaded: function () {
     var employer = this.state.employer[0];
     var programIds = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
@@ -129,12 +41,12 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     return (
       <div className="row">
         <div className="col-md-3">
-          <SearchFilter title="Search" searchOn="participant_names" store={InMatchingParticipantGroupStore} actions={InMatchingParticipantGroupActions} />
+          <SearchFilter title="Search" searchOn="participant_names" actions={InMatchingParticipantGroupActions} />
           <CheckBoxFilter title="Age at Arrival" store={AgeAtArrivalStore} actions={AgeAtArrivalActions} />
           <CheckBoxFilter title="Group" store={ParticipantGroupNameStore} actions={ParticipantGroupNameActions} />
           <CheckBoxFilter title="Gender" store={GenderStore} actions={GenderActions} />
           <CheckBoxFilter title="English Level" store={EnglishLevelStore} actions={EnglishLevelActions} />
-          <DateRangeFilter searchFrom="start_dates" searchTo="finish_dates" actions={InMatchingParticipantGroupActions} />
+          <DateRangeFilter searchFrom="participant_start_dates" searchTo="participant_finish_dates" actions={InMatchingParticipantGroupActions} />
           <CheckBoxFilter title="Positions" store={PositionStore} actions={PositionActions} />
           <CheckBoxFilter title="Country" store={CountryStore} actions={CountryActions} />
         </div>

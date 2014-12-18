@@ -103,23 +103,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     EmployerStore.listen(this.filterEmployers);
   },
 
-  filterGeneric: function (filterKey, data, condition) {
-    if (data === null) {
-      this.filterIds[filterKey] = null;
-    } else {
-      var data_ids = data.mapAttribute("id");
-
-      this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
-        if (condition(data_ids, entry)) {
-          ids.push(entry.id);
-        }
-        return ids;
-      }, []);
-    }
-
-    this.emitFilteredData();
-  },
-
   filterPrograms: function (programs) {
     this.filterGeneric("programs", programs, function (programIds, offeredParticipantGroup) {
       return programIds.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0;

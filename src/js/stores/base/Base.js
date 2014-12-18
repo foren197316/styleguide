@@ -83,6 +83,23 @@ Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
   this.permission = false;
 }
 
+Reflux.StoreMethods.filterGeneric = function (filterKey, data, condition) {
+  if (data === null) {
+    this.filterIds[filterKey] = null;
+  } else {
+    var data_ids = data.mapAttribute("id");
+
+    this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
+      if (condition(data_ids, entry)) {
+        ids.push(entry.id);
+      }
+      return ids;
+    }, []);
+  }
+
+  this.emitFilteredData();
+}
+
 Reflux.StoreMethods.onSetData = function (data) {
   this.data = data;
   this.trigger(this.data);
@@ -245,7 +262,7 @@ var newJobOffer = Reflux.createAction("newJobOffer");
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["reject"]
     )),
-    InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
+    InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["offer"]
     )),
     JobOfferActions = Reflux.createActions(genericStoreActions.concat(
