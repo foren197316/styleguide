@@ -16,5 +16,9 @@ var ParticipantStore = Reflux.createStore({
     }
 
     this.trigger(this.data);
+  },
+
+  cleanup: function (_deletedParticipants) {
+    CountryActions.setCountries(this.data);
   }
 });

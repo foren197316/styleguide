@@ -37,15 +37,18 @@ var ParticipantGroupStore = Reflux.createStore({
     var employer = employerResults[0][0];
     var participants = participantResults[0];
     var programIds = programResults[0].mapAttribute("id");
+    var deletedGroups = [];
 
     this.data = this.data.map(function (participantGroup) {
       var groupParticipants = participants.findById(participantGroup.participant_ids);
 
       if (programIds.indexOf(groupParticipants[0].program_id) < 0) {
+        deletedGroups.push(participantGroup);
         return null;
       }
 
       if (groupParticipants.mapAttribute("region_ids").flatten().indexOf(employer.region_id) < 0) {
+        deletedGroups.push(participantGroup);
         return null;
       }
 
@@ -53,6 +56,7 @@ var ParticipantGroupStore = Reflux.createStore({
       return participantGroup;
     }).notEmpty();
 
+    this.cleanup(deletedGroups);
     this.trigger(this.data);
   },
 

@@ -92,8 +92,21 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
 
     AgeAtArrivalStore.listen(this.filterAgeAtArrival);
     ParticipantGroupNameStore.listen(this.filterParticipantGroupNames);
+    CountryStore.listen(this.filterCountries);
 
     this.trigger(this.data);
+  },
+
+  filterParticipantGroupNames: function (participantGroupNames) {
+    this.filterGeneric("participantGroupNames", participantGroupNames, function (names, inMatchingParticipantGroup) {
+      return names.indexOf(inMatchingParticipantGroup.participant_group.name) >= 0;
+    });
+  },
+
+  filterCountries: function (countries) {
+    this.filterGeneric("countries", countries, function (names, inMatchingParticipantGroup) {
+      return names.intersects(inMatchingParticipantGroup.participant_group.participants.mapAttribute("country_name"));
+    });
   },
 
   filterAgeAtArrival: function (ageAtArrivals) {
@@ -126,12 +139,6 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     }
 
     this.emitFilteredData();
-  },
-
-  filterParticipantGroupNames: function (participantGroupNames) {
-    this.filterGeneric("participantGroupNames", participantGroupNames, function (names, inMatchingParticipantGroup) {
-      return names.indexOf(inMatchingParticipantGroup.participant_group.name) >= 0;
-    });
   },
 
   onOffer: function (inMatchingParticipantGroup, employer, enrollment, onReviewExpiresOn, onComplete) {

@@ -123,7 +123,7 @@ Reflux.StoreMethods.onRemoveByIds = function (args, trigger) {
   var deleted = [];
 
   this.data = this.data.filter(function (entry) {
-    if (ids.indexOf(entry.id) === 0) {
+    if (ids.indexOf(entry.id) < 0) {
       return true;
     }
     deleted.push(entry);

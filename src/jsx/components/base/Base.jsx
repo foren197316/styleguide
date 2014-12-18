@@ -28,16 +28,11 @@ Array.prototype.findById = function (id, alternateKey) {
       return id.indexOf(entry[key]) >= 0;
     });
   } else {
-    try {
-      for (var i in this) {
-        if (this[i][key] === id) {
-          return this[i];
-        }
+    for (var i in this) {
+      if (this[i][key] === id) {
+        return this[i];
       }
-    } catch (e) {
-      console.log(e.stack);
     }
-
     return null;
   }
 };

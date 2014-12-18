@@ -9,5 +9,7 @@ var CountryStore = Reflux.createStore({
     this.data = participants.mapAttribute("country_name").sort().uniq().map(function (countryName) {
       return { id: countryName, name: countryName };
     });
+
+    this.trigger(this.data);
   }
 });
