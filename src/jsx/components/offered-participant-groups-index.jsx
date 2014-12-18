@@ -112,9 +112,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
       var employer = this.state.employers.findById(offeredParticipantGroup.employer_id);
       var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
       var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(offeredParticipantGroup.job_offer_file_maker_reference_ids);
-      var jobOffers = this.state.jobOffers.findById(offeredParticipantGroup.job_offer_ids);
       var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
       var participants = this.state.participants.findById(participantGroup.participant_ids);
+      var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
       var program = this.state.programs.findById(participants[0].program_id);
 
       if (!program || !employer || (draftJobOffers.length == 0 && jobOffers.length == 0)) {
@@ -136,12 +136,11 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
       if (!this.state.fileMakerReferenceUnselected) {
         participants = participants.filter(function(participant) {
-          var jobOffer = jobOffers.filter(function(jobOffer) { return jobOffer.participant_id === participant.id; })[0];
-          var jobOfferFileMakerReference = jobOfferFileMakerReferences.filter(function(jobOfferFileMakerReference) {
-            return jobOfferFileMakerReference.job_offer_id === jobOffer.id;
-          })[0];
+          var jobOffer = jobOffers.findById(participant.id, "participant_id");
+          if (!jobOffer) return true;
 
-          return !jobOffer || !jobOfferFileMakerReference;
+          var jobOfferFileMakerReference = jobOfferFileMakerReferences.findById(jobOffer.id, "job_offer_id");
+          return !jobOfferFileMakerReference;
         });
 
         if (participants.length === 0) {
