@@ -117,7 +117,7 @@ var OfferedParticipantGroupPanel = React.createClass({
         offers = hasJobOffers ? this.props.offeredParticipantGroup.job_offers : this.props.offeredParticipantGroup.draft_job_offers,
         offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
         participantNodes = offers.map(function (offer) {
-          var participant = this.props.offeredParticipantGroup.participant_group.participants.findById(offer.participant_id);
+          var participant = ParticipantStore.findById(offer.participant_id);
 
           if (participant == undefined) { return; }
 
