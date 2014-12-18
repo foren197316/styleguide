@@ -109,7 +109,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
 
   filterStaffs: function (staffs) {
     this.filterGeneric("staffs", staffs, function (staffIds, offeredParticipantGroup) {
-      return offeredParticipantGroup.employer.staff && staff_ids.indexOf(offeredParticipantGroup.employer.staff.id) >= 0;
+      return staffIds.indexOf(offeredParticipantGroup.employer.staff_id) >= 0;
     });
   },
 
