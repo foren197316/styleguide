@@ -16,6 +16,7 @@ var OfferedParticipantGroupPanels = React.createClass({
       DraftJobOfferStore,
       JobOfferStore,
       JobOfferParticipantAgreementStore,
+      JobOfferFileMakerReferenceStore,
       PositionStore,
       this.setLoadedState
     );
@@ -29,8 +30,8 @@ var OfferedParticipantGroupPanels = React.createClass({
           var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
           var participants = this.state.participants.findById(participantGroup.participant_ids);
           var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
-          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids);
-          var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(offeredParticipantGroup.job_offer_file_maker_reference_ids);
+          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(jobOffers.mapAttribute("id"), "job_offer_id");
+          var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(jobOffers.mapAttribute("id"), "job_offer_id");
           var program = this.state.programs.findById(participants[0].program_id);
 
           return (
@@ -39,6 +40,7 @@ var OfferedParticipantGroupPanels = React.createClass({
               employer={this.state.employer}
               jobOffers={jobOffers}
               jobOfferParticipantAgreements={jobOfferParticipantAgreements}
+              jobOfferFileMakerReferences={jobOfferFileMakerReferences}
               key={"offered_participant_group_"+offeredParticipantGroup.id}
               offeredParticipantGroup={offeredParticipantGroup}
               participantGroup={participantGroup}
@@ -115,20 +117,13 @@ var OfferedParticipantGroupPanel = React.createClass({
         offers = hasJobOffers ? this.props.offeredParticipantGroup.job_offers : this.props.offeredParticipantGroup.draft_job_offers,
         offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
         participantNodes = offers.map(function (offer) {
-
           var participant = this.props.offeredParticipantGroup.participant_group.participants.findById(offer.participant_id);
 
-          if (participant == undefined) {
-            return;
-          }
+          if (participant == undefined) { return; }
 
           var position = PositionStore.findById(offer.position_id);
-          var jobOfferParticipantAgreement = hasJobOffers
-            ? this.props.offeredParticipantGroup.job_offer_participant_agreements.findById(offer.id, "job_offer_id")
-            : null;
-          var jobOfferFileMakerReference = hasJobOffers
-            ? this.props.offeredParticipantGroup.job_offer_file_maker_references.findById(offer.id, "job_offer_id")
-            : null;
+          var jobOfferParticipantAgreement = JobOfferParticipantAgreementStore.findById(offer.id, "job_offer_id");
+          var jobOfferFileMakerReference = JobOfferFileMakerReferenceStore.findById(offer.id, "job_offer_id");
 
           return (
             <OfferedParticipantGroupParticipant
