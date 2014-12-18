@@ -6,6 +6,6 @@ var ProgramStore = Reflux.createStore({
   },
 
   initPostAjaxLoad: function () {
-    ParticipantActions.setPrograms(this.data);
+    this.trigger(this.data);
   }
 });

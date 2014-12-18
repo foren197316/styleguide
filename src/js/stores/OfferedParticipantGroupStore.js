@@ -10,10 +10,10 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   initPostAjaxLoad: function () {
     DraftJobOfferActions.ajaxLoad(this.data.mapAttribute("draft_job_offer_ids").flatten());
     JobOfferActions.ajaxLoad(this.data.mapAttribute("job_offer_ids").flatten());
-    EmployerActions.ajaxLoad(this.data.mapAttribute("employer_id"));
     JobOfferParticipantAgreementActions.ajaxLoad(this.data.mapAttribute("job_offer_participant_agreement_ids").flatten());
     JobOfferFileMakerReferenceActions.ajaxLoad(this.data.mapAttribute("job_offer_file_maker_reference_ids").flatten());
-    ParticipantGroupActions.ajaxLoad(this.data.mapAttribute("participant_group_id"));
+    EmployerActions.ajaxLoad(this.data.mapAttribute("employer_id"), CONTEXT.OFFERED);
+    ParticipantGroupActions.ajaxLoad(this.data.mapAttribute("participant_group_id"), CONTEXT.OFFERED);
 
     this.joinListener = this.joinTrailing(
       DraftJobOfferStore,
@@ -53,7 +53,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   },
 
   onNewJobOffer: function (jobOffers, offeredParticipantGroupId) {
-    console.log('hey')
     this.data = this.data.map(function (offeredParticipantGroup) {
       if (offeredParticipantGroup.id === offeredParticipantGroupId) {
         offeredParticipantGroup.job_offers = jobOffers;

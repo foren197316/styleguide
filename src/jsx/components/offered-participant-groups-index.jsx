@@ -1,22 +1,18 @@
 var OfferedParticipantGroupsIndex = React.createClass({
-  mixins: [Reflux.ListenerMixin, Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups")],
+  mixins: [
+    Reflux.ListenerMixin,
+    Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups"),
+    RenderLoadedMixin("offeredParticipantGroups")
+  ],
 
   getInitialState: function () {
     return { offeredParticipantGroups: null };
   },
 
   componentDidMount: function() {
-    window.RESOURCE_URLS = this.props.urls;
+    window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
     OfferedParticipantGroupActions.ajaxLoad();
     PositionActions.ajaxLoad();
-  },
-
-  render: function () {
-    if (this.state.offeredParticipantGroups) {
-      return this.renderLoaded();
-    } else {
-      return <Spinner />
-    }
   },
 
   renderLoaded: function () {

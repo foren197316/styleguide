@@ -1,4 +1,9 @@
-var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds"];
+var CONTEXT = {
+  IN_MATCHING: 1,
+  OFFERED:     2
+}
+
+var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
 var filterableStoreActions = ["search", "resetSearch"];
 
 var defaultStoreError = function () {
@@ -22,24 +27,42 @@ var traverse = function (subject, attributes) {
   return curr;
 }
 
+/**
+ * You can pass arbitrary arguments to `ajaxLoad` and they will
+ * be passed on to `initPostAjaxLoad` along with the AJAX response.
+ */
 Reflux.StoreMethods.onAjaxLoad = function (ids) {
-  var data = ids instanceof Array ? { ids: ids.notEmpty().uniq().sort() } : null;
+  var data = ids instanceof Array ? { ids: ids.notEmpty().sort().uniq() } : null;
+  var args = arguments;
 
   $.ajax({
     url: window.RESOURCE_URLS[this.resourceName],
     type: "GET",
     data: data,
-    success: this.onLoadSuccess.bind(this),
+    success: function (response) {
+      [].shift.call(args);
+      [].unshift.call(args, response);
+      this.onLoadSuccess.apply(this, args);
+    }.bind(this),
     error: this.onLoadError.bind(this)
   });
 }
 
 Reflux.StoreMethods.onLoadSuccess = function (response) {
+  var args = arguments;
+
   this.data = response[this.resourceName.camelCaseToUnderscore()];
+
+  if (!(this.data instanceof Array)) {
+    this.data = [this.data];
+  }
+
   this.permission = true;
 
   if (typeof this.initPostAjaxLoad === "function") {
-    this.initPostAjaxLoad();
+    [].shift.call(args);
+    [].unshift.call(args, this.data);
+    this.initPostAjaxLoad.apply(this, args);
   }
 }
 
@@ -56,6 +79,11 @@ Reflux.StoreMethods.onSetData = function (data) {
 Reflux.StoreMethods.onForceTrigger = function (data) {
   this.trigger(this.data);
 }
+
+Reflux.StoreMethods.onSetSingleton = function (customSingularResourceName) {
+  this.singleton = true;
+  this.resourceName = customSingularResourceName || this.resourceName.replace(/s$/, "");
+};
 
 Reflux.StoreMethods.onRemoveByIds = function (args, trigger) {
   if (typeof trigger === "undefined") {
@@ -181,6 +209,9 @@ var newJobOffer = Reflux.createAction("newJobOffer");
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["reject"]
     )),
+    InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
+      ["offer"]
+    )),
     JobOfferActions = Reflux.createActions(genericStoreActions.concat(
       ["send"]
     )),
@@ -190,13 +221,23 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     EmployerActions = Reflux.createActions(genericStoreActions.concat(
       ["setStaff"]
     )),
-    ParticipantActions = Reflux.createActions(genericStoreActions.concat(
-      ["setPrograms"]
+    ParticipantGroupNameActions = Reflux.createActions(genericStoreActions.concat(
+      ["setNames"]
     )),
+    CountryActions = Reflux.createActions(genericStoreActions.concat(
+      ["setCountries"]
+    )),
+    EnrollmentActions = Reflux.createActions(genericStoreActions.concat(
+      ["updateOnReviewCount"]
+    )),
+    ParticipantActions = Reflux.createActions(genericStoreActions),
     StaffActions = Reflux.createActions(genericStoreActions),
     DraftJobOfferActions = Reflux.createActions(genericStoreActions),
     JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions),
     OfferSentActions = Reflux.createActions(genericStoreActions),
+    EnglishLevelActions = Reflux.createActions(genericStoreActions),
+    AgeAtArrivalActions = Reflux.createActions(genericStoreActions),
+    GenderActions = Reflux.createActions(genericStoreActions),
     ParticipantSignedActions = Reflux.createActions(genericStoreActions),
     ProgramActions = Reflux.createActions(genericStoreActions),
     PositionActions = Reflux.createActions(genericStoreActions),

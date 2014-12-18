@@ -1,5 +1,5 @@
 var JobOffersIndex = React.createClass({
-  mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
+  mixins: [React.addons.LinkedStateMixin],
 
   getInitialState: function () {
     return {

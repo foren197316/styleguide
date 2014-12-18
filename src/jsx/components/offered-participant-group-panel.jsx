@@ -111,7 +111,7 @@ var OfferedParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actions,
-        footerName = this.props.offeredParticipantGroup.participant_group.name + " - " + this.props.offeredParticipantGroup.participant_group.participants[0].program.name,
+        footerName = this.props.offeredParticipantGroup.participant_group.name + " - " + ProgramStore.findById(this.props.offeredParticipantGroup.participant_group.participants[0].program_id).name,
         staffName = this.props.offeredParticipantGroup.employer.staff ? this.props.offeredParticipantGroup.employer.staff.name : null,
         hasJobOffers = this.hasJobOffers(),
         offers = hasJobOffers ? this.props.offeredParticipantGroup.job_offers : this.props.offeredParticipantGroup.draft_job_offers,

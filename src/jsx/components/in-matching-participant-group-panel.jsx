@@ -1,5 +1,5 @@
 var InMatchingParticipantGroupPanels = React.createClass({
-  mixins: [React.addons.LinkedStateMixin, LoadResourceMixin],
+  mixins: [React.addons.LinkedStateMixin],
 
   getInitialState: function () {
     return {};
@@ -60,6 +60,12 @@ var InMatchingParticipantGroupPanels = React.createClass({
 });
 
 var InMatchingParticipantGroupPanel = React.createClass({
+  propTypes: {
+    employer: React.PropTypes.object.isRequired,
+    enrollment: React.PropTypes.object.isRequired,
+    inMatchingParticipantGroup: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     return {
       sending: false,
@@ -70,7 +76,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
 
   canPutOnReview: function () {
     return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum
-        && this.props.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
+        && this.props.inMatchingParticipantGroup.participant_group.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
   },
 
   handlePutOnReview: function(event) {
@@ -96,55 +102,33 @@ var InMatchingParticipantGroupPanel = React.createClass({
   handleConfirm: function(event) {
     this.setState({ sending: true });
 
-    Intercom('trackEvent', 'confirmed-employer-participants-review', {
-      employer_id: this.props.employer.id,
-      employer_name: this.props.employer.name,
-      participant_names: this.participantNames()
-    });
 
-    var node = this.getDOMNode(),
-        data = {
-          on_review_participant_group: {
-            in_matching_participant_group_id: this.props.inMatchingParticipantGroup.id,
-            employer_id: this.props.employer.id,
-            expires_on: this.state.onReviewExpiresOn
-          }
-        };
-
-    $.ajax({
-      url: "/on_review_participant_groups.json",
-      type: "POST",
-      data: data,
-      dataType: "json",
-      success: function(data) {
-        var currentEnrollments = this.props.enrollmentsLink.value.map(function (enrollment, index) {
-          if (enrollment.id === this.props.enrollment.id) {
-            this.props.enrollment.on_review_count += data.on_review_participant_group.participants.length;
-            return this.props.enrollment;
-          }
-
-          return enrollment;
-        }.bind(this));
-
-        this.props.enrollmentsLink.requestChange(currentEnrollments);
-      }.bind(this),
-      complete: function(data) {
+    InMatchingParticipantGroupActions.offer(
+      this.props.inMatchingParticipantGroup,
+      this.props.employer,
+      this.props.enrollment,
+      this.state.onReviewExpiresOn,
+      function (data) {
         this.setState({status: data.responseJSON.status});
+
+        Intercom('trackEvent', 'confirmed-employer-participants-review', {
+          employer_id: this.props.employer.id,
+          employer_name: this.props.employer.name,
+          participant_names: this.participantNames()
+        });
       }.bind(this)
-    });
+    );
   },
 
   participantNames: function () {
-    return this.props.participants.map(function (participant) {
-      return participant.name;
-    }).join(", ");
+    return this.props.inMatchingParticipantGroup.participant_group.participants.mapAttribute("name").join(", ");
   },
 
   render: function() {
     var action,
         legalese,
-        footerName = this.props.participantGroup.name,
-        participantPluralized = this.props.participants.length > 1 ? 'participants' : 'participant';
+        footerName = this.props.inMatchingParticipantGroup.participant_group.name,
+        participantPluralized = this.props.inMatchingParticipantGroup.participant_group.participants.length > 1 ? 'participants' : 'participant';
 
     if (this.state.status) {
       var status = this.state.status;
@@ -172,7 +156,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
       return (
         <div className="panel panel-default participant-group-panel" data-participant-names={this.participantNames()}>
           <div className="list-group">
-            {this.props.participants.map(function (participant) {
+            {this.props.inMatchingParticipantGroup.participant_group.participants.map(function (participant) {
               return <ParticipantGroupParticipant key={participant.id} data={participant} />;
             })}
           </div>

@@ -5,16 +5,16 @@ var ParticipantStore = Reflux.createStore({
   init: function () {
   },
 
-  initPostAjaxLoad: function () {
-    ProgramActions.ajaxLoad(this.data.mapAttribute("program_id"));
-  },
+  initPostAjaxLoad: function (participants, context) {
+    switch (context) {
+      case CONTEXT.OFFERED:
+        ProgramActions.ajaxLoad(this.data.mapAttribute("program_id"));
+        break;
+      case CONTEXT.IN_MATCHING:
+        CountryActions.setCountries(participants);
+        break;
+    }
 
-  onSetPrograms: function (programs) {
-    this.data = this.data.map(function (participant) {
-      participant.program = programs.findById(participant.program_id);
-      return participant;
-    });
-
-    ParticipantGroupActions.setParticipants(this.data);
+    this.trigger(this.data);
   }
 });

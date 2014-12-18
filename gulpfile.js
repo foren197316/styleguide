@@ -99,7 +99,6 @@ gulp.task('javascript', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
-      'bower_components/q/q.js',
       'bower_components/react-bootstrap/react-bootstrap.js',
       'bower_components/reflux/dist/reflux.js'
     ])
@@ -112,10 +111,12 @@ gulp.task('javascript', function() {
 
 gulp.task('javascript-components', function() {
   return gulp.src('src/jsx/components/*.jsx')
+    .pipe(addsrc.prepend('src/jsx/components/base/*.jsx'))
     .pipe(concat('interexchange-components.jsx'))
     .pipe(gulp.dest('build/jsx'))
     .pipe(react())
-    .pipe(addsrc('src/js/stores/*.js'))
+    .pipe(addsrc.prepend('src/js/stores/*.js'))
+    .pipe(addsrc.prepend('src/js/stores/base/*.js'))
     .pipe(concat('interexchange-components.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))

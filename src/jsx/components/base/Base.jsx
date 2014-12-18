@@ -28,10 +28,14 @@ Array.prototype.findById = function (id, alternateKey) {
       return id.indexOf(entry[key]) >= 0;
     });
   } else {
-    for (var i in this) {
-      if (this[i][key] === id) {
-        return this[i];
+    try {
+      for (var i in this) {
+        if (this[i][key] === id) {
+          return this[i];
+        }
       }
+    } catch (e) {
+      console.log(e.stack);
     }
 
     return null;
@@ -413,78 +417,24 @@ var ValidatingInputMixin = {
   }
 };
 
-var LoadResourceMixin = {
-  loadResource: function (resourceName, ignoreParams) {
-    return function (params) {
-      return Q($.ajax({
-        url: this.props.urls[resourceName],
-        type: "GET",
-        data: ignoreParams ? null : params
-      })).then(function (response) {
-        if (this.isMounted()) {
-          var state = {},
-              data = response[resourceName.camelCaseToUnderscore()];
+var RenderLoadedMixin = function (stateAttribute) {
+  if (!stateAttribute) {
+    throw new Error("RenderLoadedMixin takes one argument, the state attribute to watch.");
+  }
 
-          state[resourceName] = data;
-          this.setState(state);
-          return data;
-        }
-      }.bind(this))
-      .catch(function (error) {
-        var state = {},
-            data = [];
+  var attributes = [].concat(stateAttribute);
 
-        state[resourceName] = data;
-        this.setState(state);
-        return data;
-      }.bind(this));
-    }.bind(this);
-  },
+  return {
+    render: function () {
+      var loaded = attributes.reduce(function (prev, curr) {
+        return prev && this.state[curr];
+      }.bind(this), true);
 
-  extractIds: function (idsAttribute) {
-    var prepareArray;
-
-    if ('ids' === idsAttribute.substr(idsAttribute.length - 3)) {
-      prepareArray = function (array) { return array.flatten(); }
-    } else {
-      prepareArray = function (array) { return array; }
-    }
-
-    return function (entries) {
-      if (console && entries == undefined) {
-        console.warn(idsAttribute + " is undefined");
+      if (loaded) {
+        return this.renderLoaded();
+      } else {
+        return <Spinner />
       }
-
-      return {
-        ids: prepareArray(entries.mapAttribute(idsAttribute)).notEmpty().uniq().sort()
-      };
     }
-  },
-
-  loadAll: function (promiseList) {
-    var printError = function (error) {
-      console.log(error.stack);
-      console.log(this.state);
-    }.bind(this);
-
-    if (this.state.isLoaded) {
-      this.setState({ isLoaded: false });
-    }
-
-    return Q.allSettled(promiseList.map(function (promise) {
-      return promise.catch(printError);
-    }))
-    .then(function () {
-      if (this.isMounted()) {
-        this.setState({ isLoaded: true });
-      }
-    }.bind(this))
-    .catch(printError);
-  },
-
-  waitForLoadAll: function (loadedCallback) {
-    return this.state.isLoaded
-      ? loadedCallback()
-      : <Spinner />;
   }
 };
