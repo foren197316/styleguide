@@ -29,70 +29,13 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
       }
       return null;
     }).notEmpty();
-    // inMatchingParticipantGroupPanels = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-      // var participantGroup = this.state.participantGroups.findById(inMatchingParticipantGroup.participant_group_id);
-
-      // if (participantGroup === undefined || participantGroup === null) {
-        // return;
-      // }
-
-      // if (this.state.participantGroupNames.mapAttribute("name").indexOf(participantGroup.name) < 0) {
-        // return;
-      // }
-
-      // var participantGroupParticipants = programParticipants.findById(participantGroup.participant_ids),
-          // participantGroupParticipantPositionIds = participantGroupParticipants.mapAttribute("position_ids").flatten();
-
-      // if (!participantGroupParticipantPositionIds.intersects(this.state.positions.mapAttribute("id"))) {
-        // return;
-      // }
-
-      // var participantGenders = participantGroupParticipants.mapAttribute("gender");
-
-      // if (!this.state.genders.mapAttribute("id").intersects(participantGenders)) {
-        // return;
-      // }
-
-
-      // var participantCountries = participantGroupParticipants.mapAttribute("country_name");
-
-      // if (!this.state.countries.mapAttribute("name").intersects(participantCountries)) {
-        // return;
-      // }
-
-      // var participantEnglishLevels = participantGroupParticipants.mapAttribute("english_level");
-
-      // if (!this.state.englishLevels.mapAttribute("id").intersects(participantEnglishLevels)) {
-        // return;
-      // }
-
-      // participantCount += participantGroupParticipants.length;
-
-      // return <InMatchingParticipantGroupPanel
-                // employer={employer}
-                // enrollment={enrollment}
-                // enrollments={enrollments}
-                // enrollmentsLink={enrollmentsLink}
-                // inMatchingParticipantGroup={inMatchingParticipantGroup}
-                // key={inMatchingParticipantGroup.id}
-                // participantGroup={participantGroup}
-                // participants={participantGroupParticipants}
-                // program={program} />;
-    // }.bind(this)).notEmpty();
-
-    // if (inMatchingParticipantGroupPanels.length > 0) {
-      // return {
-        // program: program,
-        // inMatchingParticipantGroupPanels: inMatchingParticipantGroupPanels,
-        // participantCount: participantCount
-      // }
-    // }
-  // },
-    //
 
     AgeAtArrivalStore.listen(this.filterAgeAtArrival);
     ParticipantGroupNameStore.listen(this.filterParticipantGroupNames);
     CountryStore.listen(this.filterCountries);
+    PositionStore.listen(this.filterPositions);
+    GenderStore.listen(this.filterGenders);
+    EnglishLevelStore.listen(this.filterEnglishLevels);
 
     this.trigger(this.data);
   },
@@ -106,6 +49,24 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   filterCountries: function (countries) {
     this.filterGeneric("countries", countries, function (names, inMatchingParticipantGroup) {
       return names.intersects(inMatchingParticipantGroup.participant_group.participants.mapAttribute("country_name"));
+    });
+  },
+
+  filterPositions: function (positions) {
+    this.filterGeneric("positions", positions, function (positionIds, inMatchingParticipantGroup) {
+      return positionIds.intersects(inMatchingParticipantGroup.participant_group.participants.mapAttribute("position_ids").flatten());
+    });
+  },
+
+  filterGenders: function (genders) {
+    this.filterGeneric("genders", genders, function (genders, inMatchingParticipantGroup) {
+      return genders.intersects(inMatchingParticipantGroup.participant_group.participants.mapAttribute("gender"));
+    });
+  },
+
+  filterEnglishLevels: function (englishLevels) {
+    this.filterGeneric("englishLevels", englishLevels, function (englishLevels, inMatchingParticipantGroup) {
+      return englishLevels.intersects(inMatchingParticipantGroup.participant_group.participants.mapAttribute("english_level"));
     });
   },
 
