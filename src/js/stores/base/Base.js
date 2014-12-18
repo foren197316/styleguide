@@ -4,10 +4,22 @@ var CONTEXT = {
 }
 
 var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
-var filterableStoreActions = ["search", "resetSearch"];
+var filterableStoreActions = ["search", "resetSearch", "dateFilter"];
 
 var defaultStoreError = function () {
   window.location = window.location;
+}
+
+var dateGreaterThan = function (dateList, comparisonDate) {
+  return dateList.reduce(function (prev, curr) {
+    return prev || Date.compare(curr, comparisonDate) >= 0;
+  }, false);
+}
+
+var dateLessThan = function (dateList, comparisonDate) {
+  return dateList.reduce(function (prev, curr) {
+    return prev || Date.compare(curr, comparisonDate) <= 0;
+  }, false);
 }
 
 var traverse = function (subject, attributes) {
@@ -153,6 +165,30 @@ Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
 
   this.filterIds[identifier] = filterIds;
   this[lastSearchAttribute] = term;
+  this.emitFilteredData();
+}
+
+Reflux.StoreMethods.onDateFilter = function (searchFrom, searchTo, startFromDate, startToDate, finishFromDate, finishToDate) {
+  var identifier = searchFrom + "-" + searchTo;
+
+  if (startFromDate === null && startToDate === null && finishFromDate === null && finishToDate === null) {
+    this.filterIds[identifier] = null;
+  } else {
+    this.filterIds[identifier] = this.data.reduce(function (ids, datum) {
+      var fromDates = datum[searchFrom];
+      var toDates = datum[searchTo];
+
+      if (
+          (startFromDate  === null || dateGreaterThan(fromDates, startFromDate))   &&
+          (startToDate    === null || dateLessThan(toDates, startToDate))      &&
+          (finishFromDate === null || dateLessThan(fromDates, finishFromDate))  &&
+          (finishToDate   === null || dateLessThan(toDates, finishToDate))
+         ) ids.push(datum.id);
+
+      return ids;
+    }, []);
+  }
+
   this.emitFilteredData();
 }
 

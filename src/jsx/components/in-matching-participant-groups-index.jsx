@@ -134,7 +134,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Group" store={ParticipantGroupNameStore} actions={ParticipantGroupNameActions} />
           <CheckBoxFilter title="Gender" store={GenderStore} actions={GenderActions} />
           <CheckBoxFilter title="English Level" store={EnglishLevelStore} actions={EnglishLevelActions} />
-          <DateRangeFilter searchFrom="start_dates" searchTo="finish_dates" store={InMatchingParticipantGroupStore} actions={InMatchingParticipantGroupActions} />
+          <DateRangeFilter searchFrom="start_dates" searchTo="finish_dates" actions={InMatchingParticipantGroupActions} />
           <CheckBoxFilter title="Positions" store={PositionStore} actions={PositionActions} />
           <CheckBoxFilter title="Country" store={CountryStore} actions={CountryActions} />
         </div>
