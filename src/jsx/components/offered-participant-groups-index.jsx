@@ -1,6 +1,5 @@
 var OfferedParticipantGroupsIndex = React.createClass({
   mixins: [
-    Reflux.ListenerMixin,
     Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups"),
     Reflux.connect(ProgramStore, "programs"),
     RenderLoadedMixin(["offeredParticipantGroups", "programs"])

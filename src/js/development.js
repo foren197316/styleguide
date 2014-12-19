@@ -2,12 +2,9 @@ function Intercom(action, name, data) {
   console.log("Intercom", action, name, data);
 }
 
-/**
- * Uncomment ReportStore for a console debug message extravaganza.
- * Reports every time a store emits data.
- */
-/*
 var ReportStore = Reflux.createStore({
+  history: [],
+
   init: function () {
     for (var i in window) {
       if (/Store$/.test(i) && i !== "ReportStore") {
@@ -17,7 +14,10 @@ var ReportStore = Reflux.createStore({
   },
 
   report: function (storeName, data) {
-    console.log("Data emitted from " + storeName, data);
+    this.history.push({
+      storeName: storeName,
+      data: data,
+      time: new Date().toString()
+    })
   }
 });
-*/

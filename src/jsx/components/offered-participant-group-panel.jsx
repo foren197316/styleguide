@@ -1,60 +1,30 @@
 var OfferedParticipantGroupPanels = React.createClass({
+  mixins: [
+    Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups"),
+    Reflux.connect(ProgramStore, "programs"),
+    RenderLoadedMixin(["offeredParticipantGroups", "programs"])
+  ],
+
   getInitialState: function () {
     return {};
   },
 
   componentDidMount: function() {
-    initStores(this.props.urls);
-
-    this.renderListener = this.joinTrailing(
-      OfferedParticipantGroupStore,
-      ParticipantGroupStore,
-      ParticipantStore,
-      ProgramStore,
-      EmployerStore,
-      StaffStore,
-      DraftJobOfferStore,
-      JobOfferStore,
-      JobOfferParticipantAgreementStore,
-      JobOfferFileMakerReferenceStore,
-      PositionStore,
-      this.setLoadedState
-    );
+    window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
+    EmployerActions.setSingleton();
+    StaffActions.setSingleton();
+    OfferedParticipantGroupActions.ajaxLoad();
+    PositionActions.ajaxLoad();
   },
 
   renderLoaded: function () {
     return (
       <div id="participant-group-panels">
         {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
-          var draftJobOffers = this.state.draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids);
-          var participantGroup = this.state.participantGroups.findById(offeredParticipantGroup.participant_group_id);
-          var participants = this.state.participants.findById(participantGroup.participant_ids);
-          var jobOffers = this.state.jobOffers.findById(participants.mapAttribute("id"), "participant_id");
-          var jobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.findById(jobOffers.mapAttribute("id"), "job_offer_id");
-          var jobOfferFileMakerReferences = this.state.jobOfferFileMakerReferences.findById(jobOffers.mapAttribute("id"), "job_offer_id");
-          var program = this.state.programs.findById(participants[0].program_id);
-
-          return (
-            <OfferedParticipantGroupPanel
-              draftJobOffers={draftJobOffers}
-              employer={this.state.employer}
-              jobOffers={jobOffers}
-              jobOfferParticipantAgreements={jobOfferParticipantAgreements}
-              jobOfferFileMakerReferences={jobOfferFileMakerReferences}
-              key={"offered_participant_group_"+offeredParticipantGroup.id}
-              offeredParticipantGroup={offeredParticipantGroup}
-              participantGroup={participantGroup}
-              participants={participants}
-              program={program}
-              staff={this.state.staff} />
-          )
-        }.bind(this))}
+          return <OfferedParticipantGroupPanel offeredParticipantGroup={offeredParticipantGroup} key={"offered_participant_group_"+offeredParticipantGroup.id} />;
+        })}
       </div>
     )
-  },
-
-  render: function() {
-    return this.waitForLoadAll(this.renderLoaded);
   }
 });
 

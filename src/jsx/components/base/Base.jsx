@@ -23,21 +23,25 @@ Array.prototype.diff = function(array) {
 Array.prototype.findById = function (id, alternateKey) {
   var key = alternateKey || "id";
 
-  if (id instanceof Array) {
-    return this.filter(function (entry) {
-      return id.indexOf(entry[key]) >= 0;
-    });
-  } else {
-    for (var i in this) {
-      try {
-        if (this[i][key] === id) {
-          return this[i];
+  try {
+    if (id instanceof Array) {
+      return this.filter(function (entry) {
+        return id.indexOf(entry[key]) >= 0;
+      });
+    } else {
+      for (var i in this) {
+        try {
+          if (this[i][key] === id) {
+            return this[i];
+          }
+        } catch (e) {
+          console.log(e.stack)
         }
-      } catch (e) {
-        console.log(e.stack)
       }
+      return null;
     }
-    return null;
+  } catch (e) {
+    console.log(e.stack);
   }
 };
 
