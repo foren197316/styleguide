@@ -1,6 +1,7 @@
 var CONTEXT = {
   IN_MATCHING: 1,
-  OFFERED:     2
+  OFFERED:     2,
+  JOB_OFFER:   3
 }
 
 var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
@@ -29,11 +30,11 @@ var traverse = function (subject, attributes) {
     return curr[attributes];
   }
 
-  for (var i in attributes) {
+  for (var i=0; i<attributes.length; i++) {
     if (!curr) {
       return null;
     }
-    curr = subject[attributes[i]];
+    curr = curr[attributes[i]];
   }
 
   return curr;
@@ -162,7 +163,7 @@ Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
 
   var searchFieldsMatch = function (entry, value) {
     return searchFields.reduce(function (prev, curr) {
-      return prev || (entry[curr] || "").toLowerCase().indexOf(value) >= 0;
+      return prev || (traverse(entry, curr) || "").toLowerCase().indexOf(value) >= 0;
     }, false);
   }
 
@@ -265,7 +266,7 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["offer"]
     )),
-    JobOfferActions = Reflux.createActions(genericStoreActions.concat(
+    JobOfferActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["send"]
     )),
     ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
@@ -294,4 +295,6 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     ParticipantSignedActions = Reflux.createActions(genericStoreActions),
     ProgramActions = Reflux.createActions(genericStoreActions),
     PositionActions = Reflux.createActions(genericStoreActions),
+    NotInFileMakerActions = Reflux.createActions(genericStoreActions),
+    JobOfferSignedActions = Reflux.createActions(genericStoreActions),
     JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions);

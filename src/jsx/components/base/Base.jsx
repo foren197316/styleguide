@@ -29,8 +29,12 @@ Array.prototype.findById = function (id, alternateKey) {
     });
   } else {
     for (var i in this) {
-      if (this[i][key] === id) {
-        return this[i];
+      try {
+        if (this[i][key] === id) {
+          return this[i];
+        }
+      } catch (e) {
+        console.log(e.stack)
       }
     }
     return null;
@@ -56,9 +60,13 @@ Array.prototype.intersection = function (a) {
 }
 
 Array.prototype.mapAttribute = function (attribute) {
-  return this.map(function (entry) {
-    return entry[attribute];
-  });
+  try {
+    return this.map(function (entry) {
+      return entry[attribute];
+    });
+  } catch (e) {
+    console.log(e.stack)
+  }
 };
 
 Array.prototype.notEmpty = function () {

@@ -198,6 +198,14 @@ var OfferedParticipantGroupPanel = React.createClass({
 });
 
 var OfferedParticipantGroupParticipant = React.createClass({
+  propTypes: {
+    offer: React.PropTypes.object.isRequired,
+    participant: React.PropTypes.object.isRequired,
+    position: React.PropTypes.object.isRequired,
+    jobOfferParticipantAgreement: React.PropTypes.object,
+    jobOfferFileMakerReference: React.PropTypes.object
+  },
+
   getInitialState: function () {
     return {};
   },

@@ -8,6 +8,7 @@ var ParticipantStore = Reflux.createStore({
   initPostAjaxLoad: function (participants, context) {
     switch (context) {
       case CONTEXT.OFFERED:
+      case CONTEXT.JOB_OFFER:
         ProgramActions.ajaxLoad(this.data.mapAttribute("program_id"));
         break;
       case CONTEXT.IN_MATCHING:
