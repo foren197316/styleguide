@@ -10,7 +10,8 @@ var ParticipantGroupStore = Reflux.createStore({
 
     switch (context) {
       case CONTEXT.OFFERED:
-        this.participantsListener = ParticipantStore.listen(this.setParticipants);
+        this.participantsListener = this.listenTo(ParticipantStore, this.setParticipants);
+        break;
       case CONTEXT.IN_MATCHING:
         ParticipantGroupNameActions.setNames(participantGroups);
         EmployerActions.setSingleton();

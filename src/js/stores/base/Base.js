@@ -248,7 +248,11 @@ Reflux.StoreMethods.emitFilteredData = function () {
 
 /* Convenience methods */
 Reflux.StoreMethods.findById = function (id, attrName) {
-  return this.data.findById(id, attrName);
+  try {
+    return this.data.findById(id, attrName);
+  } catch (e) {
+    console.log(e.stack)
+  }
 }
 
 Reflux.StoreMethods.map = function (func) {
