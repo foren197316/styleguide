@@ -1,6 +1,6 @@
 var CountryStore = Reflux.createStore({
   listenables: CountryActions,
-  permission: true,
+  permission: false,
 
   init: function () {
   },
@@ -10,6 +10,7 @@ var CountryStore = Reflux.createStore({
       return { id: countryName, name: countryName };
     });
 
+    this.permission = true;
     this.trigger(this.data);
   }
 });
