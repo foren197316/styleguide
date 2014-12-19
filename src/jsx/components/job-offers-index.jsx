@@ -50,19 +50,16 @@ var JobOffersIndex = React.createClass({
                 <div className="row">
                   <div className="col-md-12">
                     {programJobOffers.map(function (jobOffer) {
-                      var jobOfferParticipantAgreement = jobOffer.participant_agreement;
-                      var jobOfferFileMakerReference = jobOffer.file_maker_reference;
-                      var participant = jobOffer.participant;
                       var position = PositionStore.findById(jobOffer.position_id);
 
                       return (
                         <div className="participant-group-panel list-group">
                           <OfferedParticipantGroupParticipant key={"participant_" + participant.id}
-                            participant={participant}
+                            participant={jobOffer.participant}
                             position={position}
                             offer={jobOffer}
-                            jobOfferParticipantAgreement={jobOfferParticipantAgreement}
-                            jobOfferFileMakerReference={jobOfferFileMakerReference}
+                            jobOfferParticipantAgreement={jobOffer.participant_agreement}
+                            jobOfferFileMakerReference={jobOffer.file_maker_reference}
                             offerLinkTitle="View" />
                         </div>
                       )
