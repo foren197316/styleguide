@@ -54,7 +54,7 @@ var JobOffersIndex = React.createClass({
 
                       return (
                         <div className="participant-group-panel list-group">
-                          <OfferedParticipantGroupParticipant key={"participant_" + participant.id}
+                          <OfferedParticipantGroupParticipant key={"participant_" + jobOffer.participant.id}
                             participant={jobOffer.participant}
                             position={position}
                             offer={jobOffer}
