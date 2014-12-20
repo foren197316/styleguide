@@ -1,33 +1,3 @@
-var OfferedParticipantGroupPanels = React.createClass({
-  mixins: [
-    Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups"),
-    Reflux.connect(ProgramStore, "programs"),
-    RenderLoadedMixin(["offeredParticipantGroups", "programs"])
-  ],
-
-  getInitialState: function () {
-    return {};
-  },
-
-  componentDidMount: function() {
-    window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
-    EmployerActions.setSingleton();
-    StaffActions.setSingleton();
-    OfferedParticipantGroupActions.ajaxLoad();
-    PositionActions.ajaxLoad();
-  },
-
-  renderLoaded: function () {
-    return (
-      <div id="participant-group-panels">
-        {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
-          return <OfferedParticipantGroupPanel offeredParticipantGroup={offeredParticipantGroup} key={"offered_participant_group_"+offeredParticipantGroup.id} />;
-        })}
-      </div>
-    )
-  }
-});
-
 var OfferedParticipantGroupPanel = React.createClass({
   propTypes: {
     offeredParticipantGroup: React.PropTypes.object.isRequired
@@ -163,63 +133,6 @@ var OfferedParticipantGroupPanel = React.createClass({
           {actions}
         </ParticipantGroupPanelFooter>
       </div>
-    )
-  }
-});
-
-var OfferedParticipantGroupParticipant = React.createClass({
-  propTypes: {
-    offer: React.PropTypes.object.isRequired,
-    participant: React.PropTypes.object.isRequired,
-    position: React.PropTypes.object.isRequired,
-    jobOfferParticipantAgreement: React.PropTypes.object,
-    jobOfferFileMakerReference: React.PropTypes.object
-  },
-
-  getInitialState: function () {
-    return {};
-  },
-
-  render: function () {
-    var overtimeRate = null,
-        jobOfferParticipantAgreement = null,
-        jobOfferFileMakerReference = null,
-        jobOfferLink = this.props.offer.href
-          ? <a href={this.props.offer.href}>{this.props.offerLinkTitle}</a>
-          : null;
-
-    if (this.props.offer.overtime === 'yes') {
-      overtimeRate = (
-        <ReadOnlyFormGroup label="Overtime rate per hour" value={"$" + parseFloat(this.props.offer.overtime_rate).toFixed(2)} />
-      );
-    }
-
-    if (this.props.jobOfferParticipantAgreement != null) {
-      jobOfferParticipantAgreement = (
-        <ReadOnlyFormGroup label="Signed by" value={this.props.jobOfferParticipantAgreement.full_name + " on " + Date.parse(this.props.jobOfferParticipantAgreement.created_at).toString(dateFormat)} />
-      );
-    }
-
-    if (this.props.jobOfferFileMakerReference != null) {
-      jobOfferFileMakerReference = (
-        <ReadOnlyFormGroup label="Imported on" value={Date.parse(this.props.jobOfferFileMakerReference.created_at).toString(dateFormat)} />
-      );
-    }
-
-    return (
-      <ParticipantGroupItemWrapper participant={this.props.participant}>
-        <div className="form form-horizontal">
-          <ReadOnlyFormGroup label="Position" value={this.props.position.name} />
-          <ReadOnlyFormGroup label="Wage per hour" value={"$" + parseFloat(this.props.offer.wage).toFixed(2)} />
-          <ReadOnlyFormGroup label="Tipped?" value={this.props.offer.tipped ? 'Yes' : 'No'} />
-          <ReadOnlyFormGroup label="Hours per week" value={this.props.offer.hours} />
-          <ReadOnlyFormGroup label="Overtime?" value={this.props.offer.overtime.capitaliseWord()} />
-          {overtimeRate}
-          {jobOfferParticipantAgreement}
-          {jobOfferFileMakerReference}
-          <ReadOnlyFormGroup label="" value={jobOfferLink} />
-        </div>
-      </ParticipantGroupItemWrapper>
     )
   }
 });

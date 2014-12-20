@@ -11,7 +11,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     DraftJobOfferActions.ajaxLoad(this.data.mapAttribute("draft_job_offer_ids").flatten());
     JobOfferActions.ajaxLoad(this.data.mapAttribute("job_offer_ids").flatten());
     JobOfferParticipantAgreementActions.ajaxLoad(this.data.mapAttribute("job_offer_participant_agreement_ids").flatten());
-    JobOfferFileMakerReferenceActions.ajaxLoad(this.data.mapAttribute("job_offer_file_maker_reference_ids").flatten());
     EmployerActions.ajaxLoad(this.data.mapAttribute("employer_id"), CONTEXT.OFFERED);
     ParticipantGroupActions.ajaxLoad(this.data.mapAttribute("participant_group_id"), CONTEXT.OFFERED);
 
@@ -19,7 +18,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
       DraftJobOfferStore,
       JobOfferStore,
       JobOfferParticipantAgreementStore,
-      JobOfferFileMakerReferenceStore,
       ParticipantGroupStore,
       EmployerStore,
       this.aggregate
@@ -39,7 +37,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
         DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offer_ids").flatten());
         JobOfferActions.removeByIds(this.data.mapAttribute("job_offer_ids").flatten());
         JobOfferParticipantAgreementActions.removeByIds(this.data.mapAttribute("job_offer_participant_agreement_ids").flatten());
-        JobOfferFileMakerReferenceActions.removeByIds(this.data.mapAttribute("job_offer_file_maker_reference_ids").flatten());
         ParticipantGroupActions.removeByIds(this.data.mapAttribute("participant_group_id"));
 
         this.emitFilteredData();
@@ -68,7 +65,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     DraftJobOfferStoreResponse,
     JobOfferStoreResponse,
     JobOfferParticipantAgreementStoreResponse,
-    JobOfferFileMakerReferenceStoreResponse,
     ParticipantGroupStoreResponse,
     EmployerStoreResponse
   ) {
@@ -77,7 +73,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     var draftJobOffers = DraftJobOfferStoreResponse[0];
     var jobOffers = JobOfferStoreResponse[0];
     var jobOfferParticipantAgreements = JobOfferParticipantAgreementStoreResponse[0];
-    var jobOfferFileMakerReferences = JobOfferFileMakerReferenceStoreResponse[0];
     var participantGroups = ParticipantGroupStoreResponse[0];
     var employers = EmployerStoreResponse[0];
 
@@ -85,7 +80,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
       offeredParticipantGroup.draft_job_offers = draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids) || [];
       offeredParticipantGroup.job_offers = jobOffers.findById(offeredParticipantGroup.job_offer_ids) || [];
       offeredParticipantGroup.job_offer_participant_agreements = jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids) || [];
-      offeredParticipantGroup.job_offer_file_maker_references = jobOfferFileMakerReferences.findById(offeredParticipantGroup.job_offer_file_maker_reference_ids) || [];
       offeredParticipantGroup.participant_group = participantGroups.findById(offeredParticipantGroup.participant_group_id);
       offeredParticipantGroup.employer = employers.findById(offeredParticipantGroup.employer_id);
       offeredParticipantGroup.participant_names = offeredParticipantGroup.participant_group.participants.mapAttribute("name").join(",");
