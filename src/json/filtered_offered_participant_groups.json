@@ -1,0 +1,43 @@
+{
+  "offered_participant_groups": [
+    {
+      "id": 1,
+      "participant_group_id": 1,
+      "can_send": true,
+      "draft_job_offer_ids": [1],
+      "employer_id": 1,
+      "job_offer_ids": [1, 2],
+      "job_offer_participant_agreement_ids": [],
+      "job_offer_file_maker_reference_ids": []
+    },
+    {
+      "id": 2,
+      "participant_group_id": 2,
+      "can_send": true,
+      "draft_job_offer_ids": [],
+      "employer_id": 2,
+      "job_offer_ids": [3],
+      "job_offer_participant_agreement_ids": [1],
+      "job_offer_file_maker_reference_ids": [1]
+    },
+    {
+      "id": 3,
+      "participant_group_id": 3,
+      "can_send": true,
+      "draft_job_offer_ids": [3, 4],
+      "employer_id": 1,
+      "job_offer_ids": [],
+      "job_offer_participant_agreement_ids": [],
+      "job_offer_file_maker_reference_ids": []
+    },
+    {
+      "id": 4,
+      "participant_group_id": 4,
+      "draft_job_offer_ids": [5],
+      "employer_id": 2,
+      "job_offer_ids": [],
+      "job_offer_participant_agreement_ids": [],
+      "job_offer_file_maker_reference_ids": []
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp        = require('gulp'),
+    addsrc      = require('gulp-add-src'),
     argv        = require('yargs').argv,
     concat      = require('gulp-concat'),
     consolidate = require('gulp-consolidate'),
@@ -8,7 +9,7 @@ var gulp        = require('gulp'),
     hologram    = require('gulp-hologram'),
     iconfont    = require('gulp-iconfont'),
     _if         = require('gulp-if'),
-    jshit       = require('gulp-jshint'),
+    jshint      = require('gulp-jshint'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
     react       = require('gulp-react'),
@@ -98,8 +99,8 @@ gulp.task('javascript', function() {
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
       'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
-      'bower_components/q/q.js',
-      'bower_components/react-bootstrap/react-bootstrap.js'
+      'bower_components/react-bootstrap/react-bootstrap.js',
+      'bower_components/reflux/dist/reflux.js'
     ])
     .pipe(concat('interexchange.js'))
     .pipe(gulp.dest('build/js'))
@@ -110,9 +111,12 @@ gulp.task('javascript', function() {
 
 gulp.task('javascript-components', function() {
   return gulp.src('src/jsx/components/*.jsx')
+    .pipe(addsrc.prepend('src/jsx/components/base/*.jsx'))
     .pipe(concat('interexchange-components.jsx'))
     .pipe(gulp.dest('build/jsx'))
     .pipe(react())
+    .pipe(addsrc.prepend('src/js/stores/*.js'))
+    .pipe(addsrc.prepend('src/js/stores/base/*.js'))
     .pipe(concat('interexchange-components.js'))
     .pipe(gulp.dest('build/js'))
     .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
@@ -122,7 +126,6 @@ gulp.task('javascript-components', function() {
 
 gulp.task('javascript-development', ['javascript'], function() {
   return gulp.src([
-      'build/js/interexchange.js',
       'src/js/development.js'
     ])
     .pipe(concat('interexchange-development.js'))

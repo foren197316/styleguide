@@ -1,0 +1,447 @@
+/** @jsx React.DOM */
+
+var dateFormat = "MM/dd/yyyy";
+
+String.prototype.capitaliseWord = function () {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
+String.prototype.camelCaseToUnderscore = function () {
+  return this.replace(/([A-Z])/g, "_$1").toLowerCase();
+};
+
+Array.prototype.flatten = function () {
+  return this.reduce(function (prev, curr) {
+    return prev.concat(curr);
+  }, []);
+};
+
+Array.prototype.diff = function(array) {
+  return this.filter(function(i) {return array.indexOf(i) < 0;});
+};
+
+Array.prototype.findById = function (id, alternateKey) {
+  var key = alternateKey || "id";
+
+  try {
+    if (id instanceof Array) {
+      return this.filter(function (entry) {
+        return id.indexOf(entry[key]) >= 0;
+      });
+    } else {
+      for (var i in this) {
+        try {
+          if (this[i][key] === id) {
+            return this[i];
+          }
+        } catch (e) {
+          console.log(e.stack)
+        }
+      }
+      return null;
+    }
+  } catch (e) {
+    console.log(e.stack);
+  }
+};
+
+Array.prototype.intersects = function (array) {
+  if (array.length > 0 && this.length > 0) {
+    for (var i in this) {
+      if (array.indexOf(this[i]) >= 0) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+Array.prototype.intersection = function (a) {
+  return this.filter(function (entry) {
+    return a.indexOf(entry) >= 0;
+  });
+}
+
+Array.prototype.mapAttribute = function (attribute) {
+  try {
+    return this.map(function (entry) {
+      return entry[attribute];
+    });
+  } catch (e) {
+    console.log(e.stack)
+  }
+};
+
+Array.prototype.notEmpty = function () {
+  return this.filter(function (entry) {
+    return entry != undefined;
+  });
+};
+
+String.prototype.pluralize = function (count) {
+  if (count === 1) {
+    return this;
+  } else {
+    return this + "s";
+  }
+};
+
+Array.prototype.uniq = function () {
+  return this.reduce(function (prev, curr) {
+    if (prev.indexOf(curr) < 0) {
+      prev.push(curr);
+    }
+    return prev;
+  }, []);
+};
+
+var Spinner = React.createClass({
+  render: function() {
+    return (
+      <i className="fa fa-spinner fa-spin"></i>
+    )
+  }
+});
+
+var YearCalculator = React.createClass({
+  componentDidMount: function() {
+    $(this.getDOMNode()).tooltip();
+  },
+
+  render: function() {
+    return (
+      <span>{calculateAgeAtArrival(this.props.to, this.props.from)}</span>
+    )
+  }
+});
+
+var calculateAgeAtArrival = function (to, from) {
+  return new TimePeriod(Date.parse(to), Date.parse(from)).years;
+};
+
+var RadioGroupButton = React.createClass({
+  handleChange: function(event) {
+    var $buttonGroup = event.target.parentNode.parentNode,
+        $buttons = $buttonGroup.querySelectorAll('.btn'),
+        $radios = $buttonGroup.querySelectorAll('input[type="radio"]');
+
+    for (var i=0; i < $buttons.length; i++) {
+      var $button = $buttons[i],
+          $radio = $radios[i];
+
+      $button.className = $button.className.replace("active", "");
+
+      if ($radio.checked) {
+        $button.className = $button.className + " active";
+      }
+    }
+  },
+
+  render: function() {
+    return (
+      <label className="btn btn-default btn-sm" htmlFor={this.props.htmlFor}>
+        <input type="radio" id={this.props.id} value={this.props.inputValue} onChange={this.handleChange} />
+        <i className={this.props.iconClass}></i>
+        {this.props.title}
+      </label>
+    )
+  }
+});
+
+var ReviewableParticipantGroupPanel = React.createClass({
+  getInitialState: function() {
+    return { sending: false, puttingOnReview: false };
+  },
+
+  componentWillMount: function() {
+    this.props.onReviewExpiresOn = Date.today().add(3).days().toString(dateFormat);
+  },
+
+  handlePutOnReview: function(event) {
+    this.setState({ puttingOnReview: true });
+  },
+
+  handleCancel: function(event) {
+    this.setState({ puttingOnReview: false });
+  },
+
+  handleConfirm: function(event) {
+    this.setState({ sending: true });
+
+    var node = this.getDOMNode(),
+        data = {
+          on_review_participant_group: {
+            employer_id: this.props.employerId,
+            expires_on: this.props.onReviewExpiresOn
+          }
+        };
+
+    data.on_review_participant_group[this.props.idType] = this.props.data.id;
+
+    $.ajax({
+      url: "/on_review_participant_groups.json",
+      type: "POST",
+      data: data,
+      success: function(data) {
+        React.unmountComponentAtNode(node);
+        $(node).remove();
+      },
+      error: function(data) {
+        window.location = window.location;
+      }
+    });
+  },
+
+  render: function() {
+    var actions,
+        additionalContent,
+        footerName = this.props.data.name,
+        participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
+        participantNodes = this.props.data.participants.map(function (participant) {
+          return (
+            <ParticipantGroupParticipant key={participant.id} data={participant} />
+          )
+        });
+
+    if (this.state.puttingOnReview) {
+      actions = (
+        <div className="btn-group">
+          <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
+          <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
+        </div>
+      );
+
+      additionalContent = (
+        <div>
+          <p className="panel-text">You will have until <strong>{this.props.onReviewExpiresOn}</strong> to offer a position or decline the {participantPluralized}.</p>
+          <p className="panel-text">If you take no action by <strong>{this.props.onReviewExpiresOn}</strong>, the {participantPluralized} will automatically be removed from your On Review list.</p>
+        </div>
+      )
+    } else {
+      actions = (
+        <button className="btn btn-success" onClick={this.handlePutOnReview}>Put on Review</button>
+      )
+    }
+
+    return (
+      <div className="panel panel-default participant-group-panel">
+        <div className="list-group">
+          {participantNodes}
+        </div>
+        <ParticipantGroupPanelFooter name={footerName}>
+          {actions}
+          {additionalContent}
+        </ParticipantGroupPanelFooter>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupPanelFooterName = React.createClass({
+  propTypes: { name: React.PropTypes.string.isRequired },
+
+  render: function () {
+    return (
+      <div className="row">
+        <div className="col-xs-6 col-sm-6">
+          <div className="panel-title pull-left" style={{ "whiteSpace": "nowrap"}}>
+            {this.props.name}
+          </div>
+        </div>
+        <div className="col-xs-6 col-sm-6">
+          <div className="pull-right">
+            {this.props.children}
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+
+var ParticipantGroupPanelFooter = React.createClass({
+  propTypes: {
+    name: React.PropTypes.string.isRequired
+  },
+
+  render: function () {
+    var name = this.props.name,
+        children = React.Children.map(this.props.children, function (child, index) {
+          if (child == undefined) return;
+
+          if (index === 0) {
+            return <ParticipantGroupPanelFooterName name={name}>{child}</ParticipantGroupPanelFooterName>
+          } else {
+            return (
+              <div className="row">
+                <div className="col-xs-12 text-right">
+                  <hr />
+                  {child}
+                </div>
+              </div>
+            );
+          }
+        }) || <ParticipantGroupPanelFooterName name={name} />;
+
+    return (
+      <div className="panel-footer clearfix">
+        {children}
+      </div>
+    )
+  }
+});
+
+var ReadOnlyFormGroup = React.createClass({
+  render: function () {
+    var label = this.props.label,
+        value = this.props.value;
+
+    return (
+      <div className="form-group">
+        <label className="control-label col-xs-12 col-sm-4">{label}</label>
+        <span className="control-label col-xs-12 col-sm-8" style={{ "textAlign": "left" }}>{value}</span>
+      </div>
+    )
+  }
+});
+
+var ValidatingFormGroup = React.createClass({
+  mixins: [React.addons.LinkedStateMixin],
+
+  /**
+   * TODO:
+   * I'd like validate that validationState is a ReactLink,
+   * but I'm not sure if React exposes the class.
+   */
+  propTypes: {
+    validationState: React.PropTypes.object.isRequired,
+    resourceId: React.PropTypes.number
+  },
+
+  stateName: function (index) {
+    return 'childValid'+index.toString();
+  },
+
+  getInitialState: function () {
+    var state = {};
+
+    React.Children.forEach(this.props.children, function (child, index) {
+      state[this.stateName(index)] = ! child.type.validates;
+    }.bind(this));
+
+    return state;
+  },
+
+  componentDidUpdate: function () {
+    var valid = true;
+
+    React.Children.forEach(this.props.children, function (child, index) {
+      valid = valid && this.state[this.stateName(index)];
+    }.bind(this));
+
+    if (valid !== this.props.validationState.value) {
+      this.props.validationState.requestChange(valid);
+    }
+  },
+
+  render: function () {
+    return (
+      <div>
+        {React.Children.map(this.props.children, function (child, index) {
+          var props = {
+            validationState: this.linkState(this.stateName(index))
+          };
+
+          if (this.props.resourceId) {
+            props.resourceId = this.props.resourceId;
+          }
+
+          return React.addons.cloneWithProps(child, props);
+        }.bind(this))}
+      </div>
+    )
+  }
+});
+
+/** Mixins **/
+var GroupPanelsMixin = {
+  getInitialState: function () {
+    return {
+      groups: null
+    };
+  },
+
+  getIdType: function () {
+    return this.resourceName.replace(/s$/, '_id');
+  },
+
+  componentDidMount: function() {
+    $.get(this.props.source, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          groups: data[this.resourceName]
+        });
+      }
+    }.bind(this));
+  },
+
+  render: function() {
+    if (this.isMounted()) {
+      var employerId = this.props.employerId,
+          employerName = this.props.employerName,
+          participantGroupPanelType = this.participantGroupPanelType,
+          idType = this.getIdType(),
+          groupPanels = this.state.groups.map(function (group) {
+            return (
+              <participantGroupPanelType key={group.id} data={group} employerId={employerId} employerName={employerName} idType={idType} />
+            );
+          });
+
+      return (
+        <div id="participant-group-panels">
+          {groupPanels}
+        </div>
+      );
+    } else {
+      return <Spinner />
+    };
+  }
+};
+
+var ValidatingInputMixin = {
+  statics: { validates: true},
+
+  propTypes: { validationState: React.PropTypes.object.isRequired },
+
+  getInitialState: function() {
+    return {value: null};
+  },
+
+  handleChange: function (event) {
+    var newState = this.validate(event.target.value);
+    this.setState({value: event.target.value});
+    this.props.validationState.requestChange(newState);
+  }
+};
+
+var RenderLoadedMixin = function (stateAttribute) {
+  if (!stateAttribute) {
+    throw new Error("RenderLoadedMixin takes one argument, the state attribute to watch.");
+  }
+
+  var attributes = [].concat(stateAttribute);
+
+  return {
+    render: function () {
+      var loaded = attributes.reduce(function (prev, curr) {
+        return prev && this.state[curr];
+      }.bind(this), true);
+
+      if (loaded) {
+        return this.renderLoaded();
+      } else {
+        return <Spinner />
+      }
+    }
+  }
+};

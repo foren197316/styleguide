@@ -4,7 +4,7 @@
 ---
 title: Offered Participant Groups Index
 name: offered-participant-groups-index
-category: Components - Offered Participant Group
+category: Components - Filtered Offered Participant Group
 ---
 
 ```html_example
@@ -16,7 +16,7 @@ React.render(
   OfferedParticipantGroupsIndex({
     urls: {
       employers: "/json/employers.json",
-      offeredParticipantGroups: "/json/offered_participant_groups.json",
+      offeredParticipantGroups: "/json/filtered_offered_participant_groups.json",
       participantGroups: "/json/participant_groups.json",
       participants: "/json/participants.json",
       programs: "/json/programs.json",
