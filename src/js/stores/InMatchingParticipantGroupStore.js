@@ -36,6 +36,7 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     PositionStore.listen(this.filterPositions);
     GenderStore.listen(this.filterGenders);
     EnglishLevelStore.listen(this.filterEnglishLevels);
+    PreviousParticipationStore.listen(this.filterPreviousParticipations);
 
     this.trigger(this.data);
   },
@@ -68,6 +69,24 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     this.filterGeneric("englishLevels", englishLevels, function (englishLevels, inMatchingParticipantGroup) {
       return englishLevels.intersects(inMatchingParticipantGroup.participant_group.participants.mapAttribute("english_level"));
     });
+  },
+
+  filterPreviousParticipations: function (previousParticipations) {
+    var filterKey = "previousParticipation";
+
+    if (previousParticipations === null || previousParticipations.length === 0) {
+      this.filterIds[filterKey] = null;
+    } else {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
+        if (inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
+          return prev || curr.has_had_j1;
+        }, false)) ids.push(inMatchingParticipantGroup.id);
+
+        return ids;
+      }, []);
+    }
+
+    this.emitFilteredData();
   },
 
   filterAgeAtArrival: function (ageAtArrivals) {
