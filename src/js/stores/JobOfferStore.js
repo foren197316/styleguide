@@ -31,6 +31,8 @@ var JobOfferStore = Reflux.createStore({
   },
 
   aggregate: function (participantResults, jobOfferParticipantAgreementResults, jobOfferFileMakerReferenceResults, _programResults, employerResults) {
+    this.joinListener.stop();
+
     var participants = participantResults[0];
     var jobOfferParticipantAgreements = jobOfferParticipantAgreementResults[0];
     var jobOfferFileMakerReferences = jobOfferFileMakerReferenceResults[0];
@@ -47,6 +49,7 @@ var JobOfferStore = Reflux.createStore({
     NotInFileMakerStore.listen(this.filterNotInFileMaker);
     JobOfferSignedStore.listen(this.filterJobOfferSigned);
     StaffStore.listen(this.filterStaffs);
+    ProgramStore.listen(this.filterPrograms);
 
     this.trigger(this.data);
   },
@@ -54,6 +57,12 @@ var JobOfferStore = Reflux.createStore({
   filterStaffs: function (staffs) {
     this.filterGeneric("staffs", staffs, function (staffIds, jobOffer) {
       return staffIds.indexOf(jobOffer.employer.staff_id) >= 0;
+    });
+  },
+
+  filterPrograms: function (programs) {
+    this.filterGeneric("programs", programs, function (programIds, jobOffer) {
+      return programIds.indexOf(jobOffer.participant.program_id) >= 0;
     });
   },
 

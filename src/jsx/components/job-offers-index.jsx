@@ -3,7 +3,7 @@ var JobOffersIndex = React.createClass({
     Reflux.ListenerMixin,
     Reflux.connect(JobOfferStore, "jobOffers"),
     Reflux.connect(ProgramStore, "programs"),
-    RenderLoadedMixin(["jobOffers", "programs"])
+    RenderLoadedMixin("jobOffers")
   ],
 
   getInitialState: function () {
@@ -18,18 +18,20 @@ var JobOffersIndex = React.createClass({
   renderLoaded: function () {
     var jobOffers = this.state.jobOffers;
     var jobOfferIds = jobOffers.mapAttribute("id");
+    var programs = this.state.programs || ProgramStore.data;
 
     return (
       <div className="row">
         <div className="col-md-3">
           <SearchFilter title="Search" searchOn={[["participant", "name"], ["participant", "email"], ["participant", "uuid"]]} actions={JobOfferActions} />
+          <CheckBoxFilter title="Program" store={ProgramStore} actions={ProgramActions} />
           <CheckBoxFilter title="Participant Agreement" store={JobOfferSignedStore} actions={JobOfferSignedActions} />
           <CheckBoxFilter title="FileMaker Reference" store={NotInFileMakerStore} actions={NotInFileMakerActions} />
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
           <ExportButton url={this.props.urls.export} ids={jobOfferIds} />
         </div>
         <div className="col-md-9">
-          {this.state.programs.map(function (program) {
+          {programs.map(function (program) {
             var programJobOffers = jobOffers.filter(function (jobOffer) {
               return jobOffer.participant.program_id === program.id;
             });
