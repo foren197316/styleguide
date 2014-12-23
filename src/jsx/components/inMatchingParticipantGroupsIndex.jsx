@@ -50,6 +50,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           <CheckBoxFilter title="Positions" store={PositionStore} actions={PositionActions} />
           <CheckBoxFilter title="Country" store={CountryStore} actions={CountryActions} />
           <CheckBoxFilter title="Previous Participation" store={PreviousParticipationStore} actions={PreviousParticipationActions} />
+          <CheckBoxFilter title="Drivers License" store={DriversLicenseStore} actions={DriversLicenseActions} />
         </div>
         <div className="col-md-9">
           {function () {

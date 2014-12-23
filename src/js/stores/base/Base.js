@@ -302,4 +302,5 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     NotInFileMakerActions = Reflux.createActions(genericStoreActions),
     JobOfferSignedActions = Reflux.createActions(genericStoreActions),
     JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions),
-    PreviousParticipationActions = Reflux.createActions(genericStoreActions);
+    PreviousParticipationActions = Reflux.createActions(genericStoreActions),
+    DriversLicenseActions = Reflux.createActions(genericStoreActions);

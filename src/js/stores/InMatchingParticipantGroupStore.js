@@ -37,6 +37,7 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     GenderStore.listen(this.filterGenders);
     EnglishLevelStore.listen(this.filterEnglishLevels);
     PreviousParticipationStore.listen(this.filterPreviousParticipations);
+    DriversLicenseStore.listen(this.filterDriversLicense);
 
     this.trigger(this.data);
   },
@@ -71,22 +72,35 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     });
   },
 
-  filterPreviousParticipations: function (previousParticipations) {
-    var filterKey = "previousParticipation";
-
-    if (previousParticipations === null || previousParticipations.length === 0) {
+  filterSingleton: function (filterKey, data, matchesFunc) {
+    if (data === null || data.length === 0) {
       this.filterIds[filterKey] = null;
     } else {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
-        if (inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
-          return prev || curr.has_had_j1;
-        }, false)) ids.push(inMatchingParticipantGroup.id);
-
+      this.filterIds[filterKey] = this.data.reduce(function (ids, group) {
+        if (matchesFunc(group)) {
+          ids.push(group.id);
+        }
         return ids;
       }, []);
     }
 
     this.emitFilteredData();
+  },
+
+  filterPreviousParticipations: function (previousParticipations) {
+    this.filterSingleton("previousParticipation", previousParticipations, function (inMatchingParticipantGroup) {
+      return inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
+        return prev || curr.has_had_j1;
+      }, false)
+    });
+  },
+
+  filterDriversLicense: function (driversLicenses) {
+    this.filterSingleton("driversLicenses", driversLicenses, function (inMatchingParticipantGroup) {
+      return inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
+        return prev || curr.has_international_drivers_license;
+      }, false)
+    });
   },
 
   filterAgeAtArrival: function (ageAtArrivals) {
