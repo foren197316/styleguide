@@ -199,7 +199,7 @@ Reflux.StoreMethods.onDateFilter = function (searchFrom, searchTo, startFromDate
       if (
           (startFromDate  === null || dateGreaterThan(fromDates, startFromDate))   &&
           (startToDate    === null || dateLessThan(toDates, startToDate))      &&
-          (finishFromDate === null || dateLessThan(fromDates, finishFromDate))  &&
+          (finishFromDate === null || dateGreaterThan(fromDates, finishFromDate))  &&
           (finishToDate   === null || dateLessThan(toDates, finishToDate))
          ) ids.push(datum.id);
 
@@ -226,24 +226,23 @@ Reflux.StoreMethods.onFilterByIds = function (ids, findBy) {
 
 Reflux.StoreMethods.emitFilteredData = function () {
   var ids = null;
-  var isFiltered = false;
+  var data;
 
   for (var i in this.filterIds) {
     if (this.filterIds.hasOwnProperty(i) && this.filterIds[i] !== null) {
       ids = (ids === null) ? this.filterIds[i] : ids.intersection(this.filterIds[i]);
-      isFiltered = true;
     }
   }
 
-  if (!isFiltered) {
-    ids = this.data.mapAttribute("id");
-  }
-
-  this.trigger(
-    this.data.filter(function (entry) {
+  if (ids === null) {
+    data = this.data;
+  } else {
+    data = this.data.filter(function (entry) {
       return ids.indexOf(entry.id) >= 0;
     })
-  );
+  }
+
+  this.trigger(data);
 }
 
 /* Convenience methods */
@@ -301,4 +300,6 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     PositionActions = Reflux.createActions(genericStoreActions),
     NotInFileMakerActions = Reflux.createActions(genericStoreActions),
     JobOfferSignedActions = Reflux.createActions(genericStoreActions),
-    JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions);
+    JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions),
+    PreviousParticipationActions = Reflux.createActions(genericStoreActions),
+    DriversLicenseActions = Reflux.createActions(genericStoreActions);

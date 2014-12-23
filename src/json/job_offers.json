@@ -2,6 +2,7 @@
   "job_offers": [
     {
       "id": 1,
+      "employer_id": 1,
       "file_maker_reference_id": 1,
       "hours": 35,
       "href": "#/job_offers/2",
@@ -15,6 +16,7 @@
     },
     {
       "id": 2,
+      "employer_id": 2,
       "file_maker_reference_id": null,
       "hours": 35,
       "href": "#/job_offers/3",
@@ -28,6 +30,7 @@
     },
     {
       "id": 3,
+      "employer_id": 2,
       "file_maker_reference_id": null,
       "hours": 35,
       "href": "#/job_offers/1",

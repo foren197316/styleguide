@@ -7,6 +7,7 @@ var EmployerStore = Reflux.createStore({
 
   initPostAjaxLoad: function (_employers, context) {
     switch (context) {
+      case CONTEXT.JOB_OFFER:
       case CONTEXT.OFFERED:
         StaffActions.ajaxLoad(this.data.mapAttribute("staff_id"));
         break;

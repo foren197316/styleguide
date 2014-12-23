@@ -20,8 +20,46 @@ var OfferedParticipantGroupStore = Reflux.createStore({
       JobOfferParticipantAgreementStore,
       ParticipantGroupStore,
       EmployerStore,
+      ProgramStore,
       this.aggregate
     );
+  },
+
+  aggregate: function (
+    DraftJobOfferStoreResponse,
+    JobOfferStoreResponse,
+    JobOfferParticipantAgreementStoreResponse,
+    ParticipantGroupStoreResponse,
+    EmployerStoreResponse,
+    _ProgramStoreResponse
+  ) {
+    this.joinListener.stop();
+
+    var draftJobOffers = DraftJobOfferStoreResponse[0];
+    var jobOffers = JobOfferStoreResponse[0];
+    var jobOfferParticipantAgreements = JobOfferParticipantAgreementStoreResponse[0];
+    var participantGroups = ParticipantGroupStoreResponse[0];
+    var employers = EmployerStoreResponse[0];
+
+    this.data = this.data.map(function (offeredParticipantGroup) {
+      offeredParticipantGroup.draft_job_offers = draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids) || [];
+      offeredParticipantGroup.job_offers = jobOffers.findById(offeredParticipantGroup.job_offer_ids) || [];
+      offeredParticipantGroup.job_offer_participant_agreements = jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids) || [];
+      offeredParticipantGroup.participant_group = participantGroups.findById(offeredParticipantGroup.participant_group_id);
+      offeredParticipantGroup.employer = employers.findById(offeredParticipantGroup.employer_id);
+      offeredParticipantGroup.participant_names = offeredParticipantGroup.participant_group.participants.mapAttribute("name").join(",");
+      offeredParticipantGroup.participant_email = offeredParticipantGroup.participant_group.participants.mapAttribute("email").join(",");
+      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participant_group.participants.mapAttribute("uuid").join(",");
+      return offeredParticipantGroup;
+    });
+
+    this.trigger(this.data);
+
+    ProgramStore.listen(this.filterPrograms);
+    ParticipantSignedStore.listen(this.filterParticipantSigned);
+    OfferSentStore.listen(this.filterOfferSent);
+    StaffStore.listen(this.filterStaffs);
+    EmployerStore.listen(this.filterEmployers);
   },
 
   onReject: function (offeredParticipantGroupId, callback) {
@@ -59,42 +97,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     });
 
     this.emitFilteredData();
-  },
-
-  aggregate: function (
-    DraftJobOfferStoreResponse,
-    JobOfferStoreResponse,
-    JobOfferParticipantAgreementStoreResponse,
-    ParticipantGroupStoreResponse,
-    EmployerStoreResponse
-  ) {
-    this.joinListener.stop();
-
-    var draftJobOffers = DraftJobOfferStoreResponse[0];
-    var jobOffers = JobOfferStoreResponse[0];
-    var jobOfferParticipantAgreements = JobOfferParticipantAgreementStoreResponse[0];
-    var participantGroups = ParticipantGroupStoreResponse[0];
-    var employers = EmployerStoreResponse[0];
-
-    this.data = this.data.map(function (offeredParticipantGroup) {
-      offeredParticipantGroup.draft_job_offers = draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids) || [];
-      offeredParticipantGroup.job_offers = jobOffers.findById(offeredParticipantGroup.job_offer_ids) || [];
-      offeredParticipantGroup.job_offer_participant_agreements = jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids) || [];
-      offeredParticipantGroup.participant_group = participantGroups.findById(offeredParticipantGroup.participant_group_id);
-      offeredParticipantGroup.employer = employers.findById(offeredParticipantGroup.employer_id);
-      offeredParticipantGroup.participant_names = offeredParticipantGroup.participant_group.participants.mapAttribute("name").join(",");
-      offeredParticipantGroup.participant_email = offeredParticipantGroup.participant_group.participants.mapAttribute("email").join(",");
-      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participant_group.participants.mapAttribute("uuid").join(",");
-      return offeredParticipantGroup;
-    });
-
-    this.trigger(this.data);
-
-    ProgramStore.listen(this.filterPrograms);
-    ParticipantSignedStore.listen(this.filterParticipantSigned);
-    OfferSentStore.listen(this.filterOfferSent);
-    StaffStore.listen(this.filterStaffs);
-    EmployerStore.listen(this.filterEmployers);
   },
 
   filterPrograms: function (programs) {

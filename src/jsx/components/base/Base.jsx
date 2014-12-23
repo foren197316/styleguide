@@ -30,12 +30,8 @@ Array.prototype.findById = function (id, alternateKey) {
       });
     } else {
       for (var i in this) {
-        try {
-          if (this[i][key] === id) {
-            return this[i];
-          }
-        } catch (e) {
-          console.log(e.stack)
+        if (this[i][key] === id) {
+          return this[i];
         }
       }
       return null;

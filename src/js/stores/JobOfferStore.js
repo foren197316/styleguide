@@ -12,11 +12,14 @@ var JobOfferStore = Reflux.createStore({
         ParticipantActions.ajaxLoad(jobOffers.mapAttribute("participant_id"), context);
         JobOfferParticipantAgreementActions.ajaxLoad(jobOffers.mapAttribute("participant_agreement_id"), context);
         PositionActions.ajaxLoad(jobOffers.mapAttribute("position_id"), context);
+        EmployerActions.ajaxLoad(jobOffers.mapAttribute("employer_id"), context);
+
         this.joinListener = this.joinTrailing(
           ParticipantStore,
           JobOfferParticipantAgreementStore,
           JobOfferFileMakerReferenceStore,
           ProgramStore,
+          EmployerStore,
           this.aggregate
         );
         break;
@@ -27,22 +30,40 @@ var JobOfferStore = Reflux.createStore({
     JobOfferFileMakerReferenceActions.ajaxLoad(jobOffers.mapAttribute("file_maker_reference_id"), context);
   },
 
-  aggregate: function (participantResults, jobOfferParticipantAgreementResults, jobOfferFileMakerReferenceResults, _programResults) {
+  aggregate: function (participantResults, jobOfferParticipantAgreementResults, jobOfferFileMakerReferenceResults, _programResults, employerResults) {
+    this.joinListener.stop();
+
     var participants = participantResults[0];
     var jobOfferParticipantAgreements = jobOfferParticipantAgreementResults[0];
     var jobOfferFileMakerReferences = jobOfferFileMakerReferenceResults[0];
+    var employers = employerResults[0];
 
     this.data = this.data.map(function (jobOffer) {
       jobOffer.participant = participants.findById(jobOffer.participant_id);
       jobOffer.participant_agreement = jobOfferParticipantAgreements.findById(jobOffer.participant_agreement_id);
       jobOffer.file_maker_reference = jobOfferFileMakerReferences.findById(jobOffer.file_maker_reference_id);
+      jobOffer.employer = employers.findById(jobOffer.employer_id);
       return jobOffer;
     });
 
     NotInFileMakerStore.listen(this.filterNotInFileMaker);
     JobOfferSignedStore.listen(this.filterJobOfferSigned);
+    StaffStore.listen(this.filterStaffs);
+    ProgramStore.listen(this.filterPrograms);
 
     this.trigger(this.data);
+  },
+
+  filterStaffs: function (staffs) {
+    this.filterGeneric("staffs", staffs, function (staffIds, jobOffer) {
+      return staffIds.indexOf(jobOffer.employer.staff_id) >= 0;
+    });
+  },
+
+  filterPrograms: function (programs) {
+    this.filterGeneric("programs", programs, function (programIds, jobOffer) {
+      return programIds.indexOf(jobOffer.participant.program_id) >= 0;
+    });
   },
 
   filterNotInFileMaker: function (notInFileMakers) {
