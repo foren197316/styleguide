@@ -199,7 +199,7 @@ Reflux.StoreMethods.onDateFilter = function (searchFrom, searchTo, startFromDate
       if (
           (startFromDate  === null || dateGreaterThan(fromDates, startFromDate))   &&
           (startToDate    === null || dateLessThan(toDates, startToDate))      &&
-          (finishFromDate === null || dateLessThan(fromDates, finishFromDate))  &&
+          (finishFromDate === null || dateGreaterThan(fromDates, finishFromDate))  &&
           (finishToDate   === null || dateLessThan(toDates, finishToDate))
          ) ids.push(datum.id);
 
