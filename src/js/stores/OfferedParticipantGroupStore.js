@@ -65,7 +65,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
       offeredParticipantGroup.employer = employers.findById(offeredParticipantGroup.employer_id);
       offeredParticipantGroup.participants = participants.findById(offeredParticipantGroup.draft_job_offers.mapAttribute("participant_id"));
       offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute("name").join(",");
-      offeredParticipantGroup.participant_email = offeredParticipantGroup.participants.mapAttribute("email").join(",");
+      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute("email").join(",");
       offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute("uuid").join(",");
       return offeredParticipantGroup;
     });
