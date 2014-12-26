@@ -51,29 +51,21 @@ var OfferedParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actions,
-        footerName = this.props.offeredParticipantGroup.participant_group.name + " - " + ProgramStore.findById(this.props.offeredParticipantGroup.participant_group.participants[0].program_id).name,
+        footerName = this.props.offeredParticipantGroup.name,
         staffName = this.props.offeredParticipantGroup.employer.staff ? this.props.offeredParticipantGroup.employer.staff.name : null,
-        hasJobOffers = this.hasJobOffers(),
-        offers = hasJobOffers ? this.props.offeredParticipantGroup.job_offers : this.props.offeredParticipantGroup.draft_job_offers,
-        offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
-        participantNodes = offers.map(function (offer) {
-          var participant = ParticipantStore.findById(offer.participant_id);
-
-          if (participant == undefined) { return; }
-
-          var position = PositionStore.findById(offer.position_id);
-          var jobOfferParticipantAgreement = JobOfferParticipantAgreementStore.findById(offer.id, "job_offer_id");
-          var jobOfferFileMakerReference = JobOfferFileMakerReferenceStore.findById(offer.id, "job_offer_id");
+        draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers,
+        participants = this.props.offeredParticipantGroup.participants,
+        participantNodes = draftJobOffers.map(function (draftJobOffer) {
+          var participant = participants.findById(draftJobOffer.participant_id);
+          var position = PositionStore.findById(draftJobOffer.position_id);
 
           return (
             <OfferedParticipantGroupParticipant
               key={participant.id}
               participant={participant}
               position={position}
-              offer={offer}
-              jobOfferParticipantAgreement={jobOfferParticipantAgreement}
-              jobOfferFileMakerReference={jobOfferFileMakerReference}
-              offerLinkTitle={offerLinkTitle} />
+              offer={draftJobOffer}
+              offerLinkTitle="Preview" />
           )
         }.bind(this));
 
@@ -89,13 +81,6 @@ var OfferedParticipantGroupPanel = React.createClass({
         <div className="btn-group">
           <button className="btn btn-danger" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
           <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
-        </div>
-      )
-    } else if (hasJobOffers) {
-      actions = (
-        <div>
-          <span className="label label-success pull-left">Sent</span>
-          {this.props.offeredParticipantGroup.can_send ? <button className="btn btn-small btn-danger" onClick={this.handleReject}>Reject</button> : null}
         </div>
       )
     } else if (!this.props.offeredParticipantGroup.can_send) {

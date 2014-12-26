@@ -20,8 +20,6 @@ var OfferedParticipantGroupsIndex = React.createClass({
         <div className="col-md-3">
           <SearchFilter title="offered_names" searchOn={["participant_names", "participant_emails", "participant_uuids"]} store={OfferedParticipantGroupStore} actions={OfferedParticipantGroupActions} />
           <CheckBoxFilter title="Program" store={ProgramStore} actions={ProgramActions} />
-          <CheckBoxFilter title="Participant Agreement" store={ParticipantSignedStore} actions={ParticipantSignedActions} />
-          <CheckBoxFilter title="Offer Sent" store={OfferSentStore} actions={OfferSentActions} />
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
           <CheckBoxFilter title="Employer" store={EmployerStore} actions={EmployerActions} />
         </div>
