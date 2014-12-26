@@ -15,6 +15,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
   },
 
   renderLoaded: function () {
+    var offeredParticipantGroups = this.state.offeredParticipantGroups;
+
     return (
       <div className="row">
         <div className="col-md-3">
@@ -25,8 +27,27 @@ var OfferedParticipantGroupsIndex = React.createClass({
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">
-            {this.state.offeredParticipantGroups.map(function (offeredParticipantGroup) {
-              return <OfferedParticipantGroupPanel offeredParticipantGroup={offeredParticipantGroup} key={"offered_participant_group_"+offeredParticipantGroup.id} />
+            {this.state.programs.map(function (program) {
+              var programOfferedParticipantGroups = offeredParticipantGroups.filter(function (offeredParticipantGroup) {
+                return offeredParticipantGroup.participants[0].program_id === program.id;
+              });
+
+              if (programOfferedParticipantGroups.length === 0) {
+                return null;
+              }
+
+              return (
+                <div>
+                  <h2 className="page-header">
+                    {program.name}
+                    <small className="pull-right">{programOfferedParticipantGroups.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_ids").flatten().length} {"Job Offer".pluralize(programOfferedParticipantGroups.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_ids").flatten().length)}</small>
+                  </h2>
+
+                  {programOfferedParticipantGroups.map(function (offeredParticipantGroup) {
+                    return <OfferedParticipantGroupPanel offeredParticipantGroup={offeredParticipantGroup} key={"offered_participant_group_"+offeredParticipantGroup.id} />
+                  })}
+                </div>
+              )
             })}
           </div>
         </div>
