@@ -11,9 +11,7 @@ var JobOfferStore = Reflux.createStore({
       case CONTEXT.JOB_OFFER:
         ParticipantActions.ajaxLoad(jobOffers.mapAttribute("participant_id"), context);
         JobOfferParticipantAgreementActions.ajaxLoad(jobOffers.mapAttribute("participant_agreement_id"), context);
-        PositionActions.ajaxLoad(jobOffers.mapAttribute("position_id"), context);
-        EmployerActions.ajaxLoad(jobOffers.mapAttribute("employer_id"), context);
-
+        PositionActions.ajaxLoad();
         this.joinListener = this.joinTrailing(
           ParticipantStore,
           JobOfferParticipantAgreementStore,

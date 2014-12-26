@@ -34,20 +34,20 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
               if (programOfferedParticipantGroups.length === 0) {
                 return null;
+              } else {
+                return (
+                  <div>
+                    <h2 className="page-header">
+                      {program.name}
+                      <small className="pull-right">{programOfferedParticipantGroups.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_ids").flatten().length} Offered</small>
+                    </h2>
+
+                    {programOfferedParticipantGroups.map(function (offeredParticipantGroup) {
+                      return <OfferedParticipantGroupPanel offeredParticipantGroup={offeredParticipantGroup} key={"offered_participant_group_"+offeredParticipantGroup.id} />
+                    })}
+                  </div>
+                )
               }
-
-              return (
-                <div>
-                  <h2 className="page-header">
-                    {program.name}
-                    <small className="pull-right">{programOfferedParticipantGroups.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_ids").flatten().length} Offered</small>
-                  </h2>
-
-                  {programOfferedParticipantGroups.map(function (offeredParticipantGroup) {
-                    return <OfferedParticipantGroupPanel offeredParticipantGroup={offeredParticipantGroup} key={"offered_participant_group_"+offeredParticipantGroup.id} />
-                  })}
-                </div>
-              )
             })}
           </div>
         </div>
