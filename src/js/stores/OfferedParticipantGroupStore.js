@@ -28,7 +28,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
           return offeredParticipantGroup.id !== offeredParticipantGroupId;
         });
 
-        DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offer").mapAttribute("id").flatten());
+        DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("id").flatten());
         ParticipantActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("participant_group_id").flatten());
 
         this.emitFilteredData();
@@ -42,13 +42,12 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   },
 
   onNewJobOffer: function (jobOffers, offeredParticipantGroupId) {
-    this.data = this.data.map(function (offeredParticipantGroup) {
-      if (offeredParticipantGroup.id === offeredParticipantGroupId) {
-        offeredParticipantGroup.job_offers = jobOffers;
-        offeredParticipantGroup.job_offer_ids = jobOffers.mapAttribute("id");
-      }
-      return offeredParticipantGroup;
+    this.data = this.data.filter(function (offeredParticipantGroup) {
+      return offeredParticipantGroup.id !== offeredParticipantGroupId;
     });
+
+    DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("id").flatten());
+    ParticipantActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("participant_group_id").flatten());
 
     this.emitFilteredData();
   },
