@@ -40,7 +40,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
                 <div>
                   <h2 className="page-header">
                     {program.name}
-                    <small className="pull-right">{programOfferedParticipantGroups.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_ids").flatten().length} {"Job Offer".pluralize(programOfferedParticipantGroups.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_ids").flatten().length)}</small>
+                    <small className="pull-right">{programOfferedParticipantGroups.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_ids").flatten().length} Offered</small>
                   </h2>
 
                   {programOfferedParticipantGroups.map(function (offeredParticipantGroup) {
