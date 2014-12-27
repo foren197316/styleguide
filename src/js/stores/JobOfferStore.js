@@ -11,6 +11,7 @@ var JobOfferStore = Reflux.createStore({
       case CONTEXT.JOB_OFFER:
         ParticipantActions.ajaxLoad(jobOffers.mapAttribute("participant_id"), context);
         JobOfferParticipantAgreementActions.ajaxLoad(jobOffers.mapAttribute("participant_agreement_id"), context);
+        JobOfferFileMakerReferenceActions.ajaxLoad(jobOffers.mapAttribute("file_maker_reference_id"), context);
         PositionActions.ajaxLoad();
         this.joinListener = this.joinTrailing(
           ParticipantStore,
@@ -25,7 +26,6 @@ var JobOfferStore = Reflux.createStore({
         this.trigger(this.data);
     }
 
-    JobOfferFileMakerReferenceActions.ajaxLoad(jobOffers.mapAttribute("file_maker_reference_id"), context);
   },
 
   aggregate: function (participantResults, jobOfferParticipantAgreementResults, jobOfferFileMakerReferenceResults, _programResults, employerResults) {
