@@ -41,7 +41,6 @@ var InMatchingParticipantGroupPanel = React.createClass({
   handleConfirm: function(event) {
     this.setState({ sending: true });
 
-
     InMatchingParticipantGroupActions.offer(
       this.props.inMatchingParticipantGroup,
       this.props.employer,
