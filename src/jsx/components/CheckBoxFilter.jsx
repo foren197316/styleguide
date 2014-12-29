@@ -16,6 +16,12 @@ var CheckBoxFilter = React.createClass({
           return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
         });
 
+    if (checkedIds.length === 0) {
+      checkedIds = $.map($(this.getDOMNode()).find('input[type="checkbox"]'), function (checkbox) {
+        return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
+      });
+    }
+
     this.props.actions.filterByIds(checkedIds, this.props.nestedAttribute);
   },
 
