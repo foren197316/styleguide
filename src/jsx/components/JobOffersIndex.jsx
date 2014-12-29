@@ -18,7 +18,7 @@ var JobOffersIndex = React.createClass({
   renderLoaded: function () {
     var jobOffers = this.state.jobOffers;
     var jobOfferIds = jobOffers.mapAttribute("id");
-    var jobOfferFileMakerReferenceFilter = JobOfferFileMakerReferenceStore.permission ? <BooleanFilter title="FileMaker Reference" label="Not in Filemaker" action={toggleNotInFileMaker} /> : null;
+    var jobOfferFileMakerReferenceFilter = JobOfferFileMakerReferenceStore.permission ? <BooleanFilter title="FileMaker Reference" label="Not in FileMaker" action={toggleNotInFileMaker} /> : null;
 
     return (
       <div className="row">
