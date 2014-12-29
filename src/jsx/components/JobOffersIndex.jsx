@@ -18,7 +18,7 @@ var JobOffersIndex = React.createClass({
   renderLoaded: function () {
     var jobOffers = this.state.jobOffers;
     var jobOfferIds = jobOffers.mapAttribute("id");
-    var programs = this.state.programs || ProgramStore.data;
+    var jobOfferFileMakerReferenceFilter = JobOfferFileMakerReferenceStore.permission ? <BooleanFilter title="FileMaker Reference" label="Not in Filemaker" action={toggleNotInFileMaker} /> : null;
 
     return (
       <div className="row">
@@ -27,7 +27,7 @@ var JobOffersIndex = React.createClass({
           <CheckBoxFilter title="Program" store={ProgramStore} actions={ProgramActions} />
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
           <BooleanFilter title="Participant Agreement" label="Signed" action={toggleJobOfferSigned} />
-          <BooleanFilter title="FileMaker Reference" label="Not in Filemaker" action={toggleNotInFileMaker} />
+          {jobOfferFileMakerReferenceFilter}
           <ExportButton url={this.props.urls.export} ids={jobOfferIds} />
         </div>
         <div className="col-md-9">
