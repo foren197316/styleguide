@@ -25,9 +25,9 @@ var JobOffersIndex = React.createClass({
         <div className="col-md-3">
           <SearchFilter title="Search" searchOn={[["participant", "name"], ["participant", "email"], ["participant", "uuid"]]} actions={JobOfferActions} />
           <CheckBoxFilter title="Program" store={ProgramStore} actions={ProgramActions} />
-          <CheckBoxFilter title="Participant Agreement" store={JobOfferSignedStore} actions={JobOfferSignedActions} />
-          <CheckBoxFilter title="FileMaker Reference" store={NotInFileMakerStore} actions={NotInFileMakerActions} />
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
+          <BooleanFilter title="Participant Agreement" label="Signed" action={toggleJobOfferSigned} />
+          <BooleanFilter title="FileMaker Reference" label="Not in Filemaker" action={toggleNotInFileMaker} />
           <ExportButton url={this.props.urls.export} ids={jobOfferIds} />
         </div>
         <div className="col-md-9">

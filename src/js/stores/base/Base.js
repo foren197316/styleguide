@@ -264,6 +264,8 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 }
 
 var newJobOffer = Reflux.createAction("newJobOffer");
+var toggleJobOfferSigned = Reflux.createAction("toggleJobOfferSigned");
+var toggleNotInFileMaker = Reflux.createAction("toggleNotInFileMaker");
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["reject"]
     )),
@@ -299,8 +301,4 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     ParticipantSignedActions = Reflux.createActions(genericStoreActions),
     ProgramActions = Reflux.createActions(genericStoreActions),
     PositionActions = Reflux.createActions(genericStoreActions),
-    NotInFileMakerActions = Reflux.createActions(genericStoreActions),
-    JobOfferSignedActions = Reflux.createActions(genericStoreActions),
-    JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions),
-    PreviousParticipationActions = Reflux.createActions(genericStoreActions),
-    DriversLicenseActions = Reflux.createActions(genericStoreActions);
+    JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions);

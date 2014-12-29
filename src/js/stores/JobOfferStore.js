@@ -4,6 +4,8 @@ var JobOfferStore = Reflux.createStore({
   filterIds: {},
 
   init: function () {
+    this.listenTo(toggleJobOfferSigned, this.onToggleJobOfferSigned);
+    this.listenTo(toggleNotInFileMaker, this.onToggleNotInFileMaker);
   },
 
   initPostAjaxLoad: function (jobOffers, context) {
@@ -25,7 +27,6 @@ var JobOfferStore = Reflux.createStore({
       default:
         this.trigger(this.data);
     }
-
   },
 
   aggregate: function (participantResults, jobOfferParticipantAgreementResults, jobOfferFileMakerReferenceResults, _programResults, employerResults) {
@@ -44,53 +45,36 @@ var JobOfferStore = Reflux.createStore({
       return jobOffer;
     });
 
-    NotInFileMakerStore.listen(this.filterNotInFileMaker);
-    JobOfferSignedStore.listen(this.filterJobOfferSigned);
-    StaffStore.listen(this.filterStaffs);
-    ProgramStore.listen(this.filterPrograms);
-
     this.trigger(this.data);
   },
 
-  filterStaffs: function (staffs) {
-    this.filterGeneric("staffs", staffs, function (staffIds, jobOffer) {
-      return staffIds.indexOf(jobOffer.employer.staff_id) >= 0;
-    });
-  },
-
-  filterPrograms: function (programs) {
-    this.filterGeneric("programs", programs, function (programIds, jobOffer) {
-      return programIds.indexOf(jobOffer.participant.program_id) >= 0;
-    });
-  },
-
-  filterNotInFileMaker: function (notInFileMakers) {
-    var filterKey = "notInFilemaker";
-    if (notInFileMakers === null || notInFileMakers.length === 0) {
-      this.filterIds[filterKey] = null;
-    } else {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
-        if (!jobOffer.file_maker_reference) {
-          ids.push(jobOffer.id);
-        }
-        return ids;
-      }, []);
-    }
-
-    this.emitFilteredData();
-  },
-
-  filterJobOfferSigned: function (jobOfferSigneds) {
+  onToggleJobOfferSigned: function (toggle) {
     var filterKey = "jobOfferSigned";
-    if (jobOfferSigneds === null || jobOfferSigneds.length === 0) {
-      this.filterIds[filterKey] = null;
-    } else {
+    if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
         if (jobOffer.participant_agreement) {
           ids.push(jobOffer.id);
         }
         return ids;
       }, []);
+    } else {
+      this.filterIds[filterKey] = null;
+    }
+
+    this.emitFilteredData();
+  },
+
+  onToggleNotInFileMaker: function (toggle) {
+    var filterKey = "notInFileMaker";
+    if (toggle) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
+        if (!jobOffer.file_maker_reference) {
+          ids.push(jobOffer.id);
+        }
+        return ids;
+      }, []);
+    } else {
+      this.filterIds[filterKey] = null;
     }
 
     this.emitFilteredData();
