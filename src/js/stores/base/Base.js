@@ -215,7 +215,7 @@ Reflux.StoreMethods.onFilterByIds = function (ids, findBy) {
   var attribute = findBy || "id";
 
   if (!ids || ids.length === 0) {
-    this.trigger(null);
+    this.trigger(this.data);
   } else {
     this.trigger(
       this.data.filter(function (entry) {
