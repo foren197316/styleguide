@@ -27,6 +27,9 @@ var JobOfferGroupsIndex = React.createClass({
                 return (
                   <div>
                     <ProgramHeader program={program} collectionName="Job Offer" collection={programJobOfferGroups.mapAttribute("job_offers")} />
+                    {programJobOfferGroups.map(function (jobOfferGroup) {
+                      return <JobOfferGroup jobOfferGroup={jobOfferGroup} />
+                    })}
                   </div>
                 )
               }
