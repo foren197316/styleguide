@@ -82,6 +82,7 @@ Reflux.StoreMethods.onLoadSuccess = function (response) {
 Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
   this.data = [];
   this.permission = false;
+  this.trigger(this.data);
 }
 
 Reflux.StoreMethods.filterGeneric = function (filterKey, data, condition) {
