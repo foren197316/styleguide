@@ -275,6 +275,9 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     JobOfferActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["send"]
     )),
+    JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(
+      ["create"]
+    )),
     ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
       ["setParticipants"]
     )),

@@ -34,12 +34,8 @@ var OfferedParticipantGroupPanel = React.createClass({
     var node = this.getDOMNode();
 
     if (this.state.sendingJobOffer) {
-      JobOfferActions.send(this.props.offeredParticipantGroup.id, function () {
-        this.setState({
-          sending: false,
-          sendingJobOffer: false,
-          rejecting: false
-        });
+      JobOfferGroupActions.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
+        this.setState({ status: response.responseJSON.status });
       }.bind(this));
     } else if (this.state.rejecting) {
       OfferedParticipantGroupActions.reject(this.props.offeredParticipantGroup.id, function () {
@@ -69,7 +65,10 @@ var OfferedParticipantGroupPanel = React.createClass({
           )
         }.bind(this));
 
-    if (this.state.sendingJobOffer) {
+    if (this.state.status) {
+      var status = this.state.status;
+      return <Alert type={status.type} message={status.message} instructions={status.instructions} action={new AlertAction(status.action.title, status.action.url)} />
+    } else if (this.state.sendingJobOffer) {
       actions = (
         <div className="btn-group">
           <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
