@@ -4,7 +4,7 @@ var BooleanFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     label: React.PropTypes.string.isRequired,
-    action: React.PropTypes.object.isRequired /* TODO: require Reflux Actions */
+    action: React.PropTypes.func.isRequired
   },
 
   onChange: function (event) {
