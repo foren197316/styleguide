@@ -15,6 +15,8 @@ var JobOfferGroupsIndex = React.createClass({
     return (
       <div className="row">
         <div className="col-md-3">
+          <SearchFilter title="Search" searchOn="participant_names" actions={JobOfferGroupActions} />
+          <BooleanFilter title="Participant Agreement" label="All Signed" action={JobOfferGroupActions.toggleAllSigned} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">

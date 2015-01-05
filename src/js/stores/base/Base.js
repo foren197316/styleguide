@@ -86,6 +86,8 @@ Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
 }
 
 Reflux.StoreMethods.filterGeneric = function (filterKey, data, condition) {
+  this.filterIds = this.filterIds || {};
+
   if (data === null) {
     this.filterIds[filterKey] = null;
   } else {
@@ -142,6 +144,8 @@ Reflux.StoreMethods.onRemoveByIds = function (args, trigger) {
 }
 
 Reflux.StoreMethods.onResetSearch = function (identifier) {
+  this.filterIds = this.filterIds || {};
+
   this.filterIds[identifier] = null;
   this["lastSearchTerm-" + identifier] = null;
   this.emitFilteredData();
@@ -275,8 +279,8 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     JobOfferActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["send"]
     )),
-    JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(
-      ["create"]
+    JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
+      ["create", "toggleAllSigned"]
     )),
     ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
       ["setParticipants"]
