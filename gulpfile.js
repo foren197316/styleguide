@@ -15,7 +15,8 @@ var gulp        = require('gulp'),
     react       = require('gulp-react'),
     sass        = require('gulp-sass'),
     uglify      = require('gulp-uglify'),
-    del         = require('del');
+    del         = require('del'),
+    sourcemaps  = require('gulp-sourcemaps');
 
 var browserSync = require('browser-sync'),
     reload      = browserSync.reload,
@@ -65,16 +66,6 @@ gulp.task('styles', ['fonts'], function() {
         .pipe(gulp.dest('build/css'))
         .pipe(minifyCSS())
         .pipe(rename('interexchange.min.css'))
-        .pipe(gulp.dest('build/css'));
-});
-
-gulp.task('styles-app', function() {
-  return gulp.src('src/scss/app/*.scss')
-        .pipe(sass({keepSpecialComments: 0}))
-        .pipe(concat('interexchange-app.css'))
-        .pipe(gulp.dest('build/css'))
-        .pipe(minifyCSS())
-        .pipe(rename('interexchange-app.min.css'))
         .pipe(gulp.dest('build/css'));
 });
 
@@ -132,14 +123,6 @@ gulp.task('javascript-development', ['javascript'], function() {
     .pipe(gulp.dest('build/js'));
 });
 
-gulp.task('javascript-app', function() {
-  return gulp.src('src/js/app/*.js')
-    .pipe(concat('interexchange-app.js'))
-    .pipe(gulp.dest('build/js'))
-    .pipe(concat('interexchange-app.min.js'))
-    .pipe(gulp.dest('build/js'));
-});
-
 gulp.task('jshint', function () {
   return gulp.src('build/js/*js')
     .pipe(jshint())
@@ -152,7 +135,7 @@ gulp.task('styleguide', function () {
     .pipe(hologram());
 });
 
-gulp.task('build', ['fonts', 'images', 'json', 'styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'javascript-app', 'styleguide']);
+gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
 
 gulp.task('serve', ['build'], function () {
   browserSync({
