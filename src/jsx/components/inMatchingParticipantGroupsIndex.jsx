@@ -4,7 +4,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     Reflux.connect(InMatchingParticipantGroupStore, "inMatchingParticipantGroups"),
     Reflux.connect(EmployerStore, "employer"),
     Reflux.connect(EnrollmentStore, "enrollments"),
-    RenderLoadedMixin(["inMatchingParticipantGroups", "employer", "enrollments"])
+    RenderLoadedMixin("inMatchingParticipantGroups", "employer", "enrollments")
   ],
 
   statics: {

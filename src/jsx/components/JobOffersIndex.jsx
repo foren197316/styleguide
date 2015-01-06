@@ -3,7 +3,7 @@ var JobOffersIndex = React.createClass({
     Reflux.ListenerMixin,
     Reflux.connect(JobOfferStore, "jobOffers"),
     Reflux.connect(ProgramStore, "programs"),
-    RenderLoadedMixin("jobOffers")
+    RenderLoadedMixin("jobOffers", "programs")
   ],
 
   getInitialState: function () {

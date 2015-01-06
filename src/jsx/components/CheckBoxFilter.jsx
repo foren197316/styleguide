@@ -7,6 +7,17 @@ var CheckBoxFilter = React.createClass({
     actions: React.PropTypes.object.isRequired /* TODO: require Reflux Actions */
   },
 
+  getInitialState: function () {
+    return { isLoaded: false };
+  },
+
+  componentDidMount: function () {
+    this.stopListener = this.props.store.listen(function () {
+      this.stopListener();
+      this.setState({ isLoaded: true });
+    }.bind(this));
+  },
+
   onChange: function (event) {
     this.props.actions.filterByIds(
       $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
@@ -16,7 +27,7 @@ var CheckBoxFilter = React.createClass({
   },
 
   render: function () {
-    if (this.props.store.permission && this.props.store.data.length > 0) {
+    if (this.props.store.permission && this.props.store.data.length > 0 && this.state.isLoaded) {
       return (
         <div className="panel panel-default">
           <div className="panel-heading">{this.props.title}</div>
