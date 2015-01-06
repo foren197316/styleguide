@@ -120,6 +120,9 @@ gulp.task('javascript-development', ['javascript'], function() {
       'src/js/development.js'
     ])
     .pipe(concat('interexchange-development.js'))
+    .pipe(gulp.dest('build/js'))
+    .pipe(uglify())
+    .pipe(concat('interexchange-development.min.js'))
     .pipe(gulp.dest('build/js'));
 });
 
