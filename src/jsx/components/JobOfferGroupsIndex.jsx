@@ -2,12 +2,14 @@ var JobOfferGroupsIndex = React.createClass({
   mixins: [
     Reflux.connect(JobOfferGroupStore, "jobOfferGroups"),
     Reflux.connect(ProgramStore, "programs"),
-    RenderLoadedMixin(["jobOfferGroups", "programs"])
+    Reflux.connect(EmployerStore, "employers"),
+    Reflux.connect(StaffStore, "staffs"),
+    RenderLoadedMixin(["jobOfferGroups", "programs", "employers", "staffs"])
   ],
 
   componentDidMount: function () {
     window.RESOURCE_URLS = this.props.urls;
-    JobOfferGroupActions.ajaxLoad();
+    JobOfferGroupActions.ajaxLoad(GlobalActions.loadFromJobOfferGroups);
     ProgramActions.ajaxLoad();
   },
 
@@ -17,6 +19,9 @@ var JobOfferGroupsIndex = React.createClass({
         <div className="col-md-3">
           <SearchFilter title="Search" searchOn="participant_names" actions={JobOfferGroupActions} />
           <BooleanFilter title="Participant Agreement" label="All Signed" action={JobOfferGroupActions.toggleAllSigned} />
+          <CheckBoxFilter title="Program" store={ProgramStore} actions={ProgramActions} />
+          <CheckBoxFilter title="Employer" store={EmployerStore} actions={EmployerActions} />
+          <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
         </div>
         <div className="col-md-9">
           <div id="participant-group-panels">

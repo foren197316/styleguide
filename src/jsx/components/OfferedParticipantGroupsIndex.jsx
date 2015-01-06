@@ -10,8 +10,8 @@ var OfferedParticipantGroupsIndex = React.createClass({
 
   componentDidMount: function() {
     window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
-    OfferedParticipantGroupActions.ajaxLoad();
-    PositionActions.ajaxLoad();
+    OfferedParticipantGroupActions.deprecatedAjaxLoad();
+    PositionActions.deprecatedAjaxLoad();
   },
 
   renderLoaded: function () {

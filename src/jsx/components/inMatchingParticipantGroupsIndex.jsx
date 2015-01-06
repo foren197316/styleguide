@@ -18,9 +18,9 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   componentDidMount: function() {
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
     window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
-    InMatchingParticipantGroupActions.ajaxLoad();
-    EnrollmentActions.ajaxLoad();
-    PositionActions.ajaxLoad();
+    InMatchingParticipantGroupActions.deprecatedAjaxLoad();
+    EnrollmentActions.deprecatedAjaxLoad();
+    PositionActions.deprecatedAjaxLoad();
   },
 
   intercom: function (employers) {

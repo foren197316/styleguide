@@ -6,6 +6,11 @@ var StaffStore = Reflux.createStore({
   },
 
   initPostAjaxLoad: function () {
-    EmployerActions.setStaff(this.data);
+    this.trigger(this.data);
+    // EmployerActions.setStaff(this.data);
+  },
+
+  onLoadFromEmployer: function (employers) {
+    StaffActions.ajaxLoad(employers.mapAttribute("staff_id"));
   }
 });

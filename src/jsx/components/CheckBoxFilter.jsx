@@ -4,35 +4,28 @@ var CheckBoxFilter = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     store: React.PropTypes.object.isRequired, /* TODO: require Reflux Store */
-    actions: React.PropTypes.object.isRequired, /* TODO: require Reflux Actions */
-    nestedAttribute: React.PropTypes.oneOf([
-      React.PropTypes.string,
-      React.PropTypes.array
-    ])
+    actions: React.PropTypes.object.isRequired /* TODO: require Reflux Actions */
   },
 
   onChange: function (event) {
-    var checkedIds = $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
-          return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
-        });
-
-    this.props.actions.filterByIds(checkedIds, this.props.nestedAttribute);
+    this.props.actions.filterByIds(
+      $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
+        return parseInt(checkbox.getAttribute("name").match(/\[(.*)\]/)[1]);
+      })
+    );
   },
 
   render: function () {
-    if (this.props.store.permission) {
+    if (this.props.store.permission && this.props.store.data.length > 0) {
       return (
         <div className="panel panel-default">
           <div className="panel-heading">{this.props.title}</div>
           <div className="list-group list-group-scrollable">
             {this.props.store.data.map(function (option) {
-              var filterOption = this.props.nestedAttribute
-                ? option[this.props.nestedAttribute]
-                : option;
 
-              return <label key={this.props.title+"_checkbox_"+filterOption.id} className="list-group-item">
-                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + filterOption.id + "]"} onChange={this.onChange} />
-                <span className="title">{filterOption.name}</span>
+              return <label key={this.props.title+"_checkbox_"+option.id} className="list-group-item">
+                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} />
+                <span className="title">{option.name}</span>
               </label>
             }.bind(this))}
           </div>

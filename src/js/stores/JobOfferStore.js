@@ -4,17 +4,15 @@ var JobOfferStore = Reflux.createStore({
   filterIds: {},
 
   init: function () {
-    this.listenTo(toggleJobOfferSigned, this.onToggleJobOfferSigned);
-    this.listenTo(toggleNotInFileMaker, this.onToggleNotInFileMaker);
   },
 
   initPostAjaxLoad: function (jobOffers, context) {
     switch (context) {
       case CONTEXT.JOB_OFFER:
-        ParticipantActions.ajaxLoad(jobOffers.mapAttribute("participant_id"), context);
-        JobOfferParticipantAgreementActions.ajaxLoad(jobOffers.mapAttribute("participant_agreement_id"), context);
-        JobOfferFileMakerReferenceActions.ajaxLoad(jobOffers.mapAttribute("file_maker_reference_id"), context);
-        PositionActions.ajaxLoad();
+        ParticipantActions.deprecatedAjaxLoad(jobOffers.mapAttribute("participant_id"), context);
+        JobOfferParticipantAgreementActions.deprecatedAjaxLoad(jobOffers.mapAttribute("participant_agreement_id"), context);
+        JobOfferFileMakerReferenceActions.deprecatedAjaxLoad(jobOffers.mapAttribute("file_maker_reference_id"), context);
+        PositionActions.deprecatedAjaxLoad();
         this.joinListener = this.joinTrailing(
           ParticipantStore,
           JobOfferParticipantAgreementStore,
@@ -86,7 +84,7 @@ var JobOfferStore = Reflux.createStore({
       type: "POST",
       success: function (data) {
         this.data = this.data instanceof Array ? this.data.concat(data.job_offers) : data.job_offers;
-        newJobOffer(data.job_offers, offeredParticipantGroupId);
+        GlobalActions.newJobOffer(data.job_offers, offeredParticipantGroupId);
         if (typeof callback === "function") {
           callback(data);
         }

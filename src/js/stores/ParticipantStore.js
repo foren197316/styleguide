@@ -9,7 +9,7 @@ var ParticipantStore = Reflux.createStore({
     switch (context) {
       case CONTEXT.OFFERED:
       case CONTEXT.JOB_OFFER:
-        ProgramActions.ajaxLoad(this.data.mapAttribute("program_id"));
+        ProgramActions.deprecatedAjaxLoad(this.data.mapAttribute("program_id"));
         break;
       case CONTEXT.IN_MATCHING:
         CountryActions.setCountries(participants);

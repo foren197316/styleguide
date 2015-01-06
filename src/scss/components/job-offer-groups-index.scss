@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+/*doc
+---
+title: Job Offer Groups Index
+name: job-offer-groups-index
+category: Components - Filtered Job Offer Groups
+---
+
+```html_example
+<div id="JobOfferGroupsIndex"></div>
+```
+
+```js_example
+React.render(
+  JobOfferGroupsIndex({
+    urls: {
+      jobOfferGroups: "/json/job_offer_groups.json",
+      employers: "/json/employers.json",
+      positions: "/json/positions.json",
+      programs: "/json/programs.json",
+      staffs: "/json/staffs.json"
+    }
+  }),
+  document.getElementById("JobOfferGroupsIndex")
+);
+```
+*/

@@ -4,7 +4,7 @@ var CONTEXT = {
   JOB_OFFER:   3
 }
 
-var genericStoreActions    = ["setData", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
+var genericStoreActions    = ["setData", "deprecatedAjaxLoad", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
 var filterableStoreActions = ["search", "resetSearch", "dateFilter"];
 
 var defaultStoreError = function () {
@@ -40,11 +40,62 @@ var traverse = function (subject, attributes) {
   return curr;
 }
 
+Reflux.StoreMethods.onAjaxLoad = function () {
+  var args = arguments;
+  var data = null;
+
+  /* first argument may be an array of ids, the rest are treated as callbacks */
+  if (args[0] instanceof Array) {
+    data = { ids: args[0].notEmpty().sort().uniq() };
+  }
+
+  $.ajax({
+    url: window.RESOURCE_URLS[this.resourceName],
+    type: "GET",
+    data: data,
+    success: function (response) {
+      /* replace first argument unless it's a callback */
+      if (data !== null) {
+        [].shift.call(args);
+      }
+      [].unshift.call(args, response);
+      this.onLoadSuccess.apply(this, args);
+    }.bind(this),
+    error: this.onLoadError.bind(this)
+  });
+};
+
+Reflux.StoreMethods.onLoadSuccess = function (response) {
+  var args = arguments;
+
+  this.data = response[this.resourceName.camelCaseToUnderscore()];
+
+  if (!(this.data instanceof Array)) {
+    this.data = [this.data].notEmpty();
+  }
+
+  this.permission = true;
+
+  if (typeof this.initPostAjaxLoad === "function") {
+    [].shift.call(args);
+    [].unshift.call(args, this.data);
+    this.initPostAjaxLoad.apply(this, args);
+  }
+
+  if (args.length > 1) {
+    for (var i=1; i<args.length; i++) {
+      args[i](this.data);
+    }
+  }
+}
+
 /**
- * You can pass arbitrary arguments to `ajaxLoad` and they will
+ * You can pass arbitrary arguments to `deprecatedAjaxLoad` and they will
  * be passed on to `initPostAjaxLoad` along with the AJAX response.
+ *
+ * TODO: this is deprecated. we want to move away from passing a context object to passing a generic action callback
  */
-Reflux.StoreMethods.onAjaxLoad = function (ids) {
+Reflux.StoreMethods.onDeprecatedAjaxLoad = function (ids) {
   var data = ids instanceof Array ? { ids: ids.notEmpty().sort().uniq() } : null;
   var args = arguments;
 
@@ -55,13 +106,13 @@ Reflux.StoreMethods.onAjaxLoad = function (ids) {
     success: function (response) {
       [].shift.call(args);
       [].unshift.call(args, response);
-      this.onLoadSuccess.apply(this, args);
+      this.onDeprecatedLoadSuccess.apply(this, args);
     }.bind(this),
     error: this.onLoadError.bind(this)
   });
 }
 
-Reflux.StoreMethods.onLoadSuccess = function (response) {
+Reflux.StoreMethods.onDeprecatedLoadSuccess = function (response) {
   var args = arguments;
 
   this.data = response[this.resourceName.camelCaseToUnderscore()];
@@ -95,6 +146,24 @@ Reflux.StoreMethods.filterGeneric = function (filterKey, data, condition) {
 
     this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
       if (condition(data_ids, entry)) {
+        ids.push(entry.id);
+      }
+      return ids;
+    }, []);
+  }
+
+  this.emitFilteredData();
+}
+
+/* TODO: replace filterGeneric with this method */
+Reflux.StoreMethods.genericIdFilter = function (filterKey, filter_ids, condition) {
+  this.filterIds = this.filterIds || {};
+
+  if (filter_ids == undefined || filter_ids.length === 0) {
+    this.filterIds[filterKey] = null;
+  } else {
+    this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
+      if (condition(entry)) {
         ids.push(entry.id);
       }
       return ids;
@@ -215,15 +284,13 @@ Reflux.StoreMethods.onDateFilter = function (searchFrom, searchTo, startFromDate
   this.emitFilteredData();
 }
 
-Reflux.StoreMethods.onFilterByIds = function (ids, findBy) {
-  var attribute = findBy || "id";
-
+Reflux.StoreMethods.onFilterByIds = function (ids) {
   if (!ids || ids.length === 0) {
     this.trigger(this.data);
   } else {
     this.trigger(
       this.data.filter(function (entry) {
-        return ids.indexOf(traverse(entry, attribute).toString()) >= 0;
+        return ids.indexOf(entry.id) >= 0;
       })
     );
   }
@@ -267,9 +334,11 @@ Reflux.StoreMethods.mapAttribute = function (func) {
   return this.data.mapAttribute(func);
 }
 
-var newJobOffer = Reflux.createAction("newJobOffer");
-var toggleJobOfferSigned = Reflux.createAction("toggleJobOfferSigned");
-var toggleNotInFileMaker = Reflux.createAction("toggleNotInFileMaker");
+var GlobalActions = Reflux.createActions([
+  "newJobOffer",
+  "loadFromJobOfferGroups"
+]);
+
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["reject"]
     )),
@@ -277,7 +346,7 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
       ["offer"]
     )),
     JobOfferActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["send"]
+      ["send", "toggleJobOfferSigned", "toggleNotInFileMaker"]
     )),
     JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["create", "toggleAllSigned"]
@@ -297,8 +366,10 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     EnrollmentActions = Reflux.createActions(genericStoreActions.concat(
       ["updateOnReviewCount"]
     )),
+    StaffActions = Reflux.createActions(genericStoreActions.concat(
+      ["loadFromEmployer"]
+    )),
     ParticipantActions = Reflux.createActions(genericStoreActions),
-    StaffActions = Reflux.createActions(genericStoreActions),
     DraftJobOfferActions = Reflux.createActions(genericStoreActions),
     JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions),
     OfferSentActions = Reflux.createActions(genericStoreActions),

@@ -4,12 +4,12 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   filterIds: {},
 
   init: function () {
-    this.listenTo(newJobOffer, this.onNewJobOffer);
+    this.listenTo(GlobalActions.newJobOffer, this.onNewJobOffer);
   },
 
   initPostAjaxLoad: function () {
-    EmployerActions.ajaxLoad(this.data.mapAttribute("employer_id"), CONTEXT.OFFERED);
-    ParticipantActions.ajaxLoad(this.data.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_id").flatten(), CONTEXT.OFFERED);
+    EmployerActions.deprecatedAjaxLoad(this.data.mapAttribute("employer_id"), CONTEXT.OFFERED);
+    ParticipantActions.deprecatedAjaxLoad(this.data.mapAttribute("draft_job_offers").flatten().mapAttribute("participant_id").flatten(), CONTEXT.OFFERED);
 
     this.joinListener = this.joinTrailing(
       EmployerStore,

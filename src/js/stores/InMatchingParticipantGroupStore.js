@@ -7,7 +7,7 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   },
 
   initPostAjaxLoad: function () {
-    ParticipantGroupActions.ajaxLoad(this.data.mapAttribute("participant_group_id"), CONTEXT.IN_MATCHING);
+    ParticipantGroupActions.deprecatedAjaxLoad(this.data.mapAttribute("participant_group_id"), CONTEXT.IN_MATCHING);
     this.participantGroupListener = this.listenTo(ParticipantGroupStore, this.aggregateAndFilter);
   },
 
