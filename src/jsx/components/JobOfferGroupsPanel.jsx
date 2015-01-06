@@ -2,7 +2,8 @@ var JobOfferGroupsPanel = React.createClass({
   mixins: [
     Reflux.connect(JobOfferGroupStore, "jobOfferGroups"),
     Reflux.connect(ProgramStore, "programs"),
-    RenderLoadedMixin("jobOfferGroups", "programs")
+    Reflux.connect(PositionStore, "positions"),
+    RenderLoadedMixin("jobOfferGroups", "programs", "positions")
   ],
 
   propTypes: {
@@ -13,6 +14,7 @@ var JobOfferGroupsPanel = React.createClass({
     window.RESOURCE_URLS = this.props.urls;
     JobOfferGroupActions.ajaxLoad(GlobalActions.loadFromJobOfferGroups);
     ProgramActions.ajaxLoad();
+    PositionActions.ajaxLoad();
   },
 
   renderLoaded: function () {

@@ -3,5 +3,9 @@ var PositionStore = Reflux.createStore({
   listenables: PositionActions,
 
   init: function () {
+  },
+
+  initPostAjaxLoad: function () {
+    this.trigger(this.data);
   }
 });
