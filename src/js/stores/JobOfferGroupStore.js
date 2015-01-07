@@ -73,7 +73,7 @@ var JobOfferGroupStore = Reflux.createStore({
         this.data = this.data.filter(function (jobOfferGroup) {
           return jobOfferGroup.id !== jobOfferGroupId;
         });
-        this.trigger(this.data);
+        this.emitFilteredData();
       }.bind(this),
       error: function () {
         window.location = window.location;
