@@ -9,24 +9,24 @@ var JobOffer = React.createClass({
         jobOfferParticipantAgreement = null,
         jobOfferFileMakerReference = null,
         jobOfferLink = this.props.jobOffer.href
-          ? <a href={this.props.jobOffer.href}>{this.props.jobOfferLinkTitle}</a>
+          ? <a href={this.props.jobOffer.href}>View</a>
           : null;
 
-    if (this.props.jobOffer.overtime === 'yes') {
+    if (this.props.jobOffer.overtime.toLowerCase() === 'yes') {
       overtimeRate = (
         <ReadOnlyFormGroup label="Overtime rate per hour" value={"$" + parseFloat(this.props.jobOffer.overtime_rate).toFixed(2)} />
       );
     }
 
-    if (this.props.jobOfferParticipantAgreement != null) {
+    if (this.props.jobOffer.participant_agreement != undefined) {
       jobOfferParticipantAgreement = (
-        <ReadOnlyFormGroup label="Signed by" value={this.props.jobOfferParticipantAgreement.full_name + " on " + Date.parse(this.props.jobOfferParticipantAgreement.created_at).toString(dateFormat)} />
+        <ReadOnlyFormGroup label="Signed by" value={this.props.jobOffer.participant_agreement.full_name + " on " + Date.parse(this.props.jobOffer.participant_agreement.created_at).toString(dateFormat)} />
       );
     }
 
-    if (this.props.jobOfferFileMakerReference != null) {
+    if (this.props.jobOffer.file_maker_reference != undefined) {
       jobOfferFileMakerReference = (
-        <ReadOnlyFormGroup label="Imported on" value={Date.parse(this.props.jobOfferFileMakerReference.created_at).toString(dateFormat)} />
+        <ReadOnlyFormGroup label="Imported on" value={Date.parse(this.props.jobOffer.file_maker_reference.created_at).toString(dateFormat)} />
       );
     }
 

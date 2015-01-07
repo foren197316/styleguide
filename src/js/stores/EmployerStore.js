@@ -10,8 +10,7 @@ var EmployerStore = Reflux.createStore({
     switch (context) {
       case CONTEXT.JOB_OFFER:
       case CONTEXT.OFFERED:
-        StaffActions.deprecatedAjaxLoad(this.data.mapAttribute("staff_id"));
-        this.staffListener = StaffStore.listen(this.onSetStaff);
+        StaffActions.ajaxLoad(this.data.mapAttribute("staff_id"), EmployerActions.setStaff);
         break;
       default:
         this.trigger(this.data);

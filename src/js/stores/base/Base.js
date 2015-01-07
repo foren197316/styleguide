@@ -351,7 +351,7 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
       ["send", "toggleJobOfferSigned", "toggleNotInFileMaker"]
     )),
     JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["create", "toggleAllSigned"]
+      ["create", "destroy", "toggleAllSigned"]
     )),
     ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
       ["setParticipants"]

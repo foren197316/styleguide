@@ -61,5 +61,23 @@ var JobOfferGroupStore = Reflux.createStore({
       data: { job_offer_group: data },
       complete: callback
     });
+  },
+
+  onDestroy: function (jobOfferGroupId) {
+    $.ajax({
+      url: "/job_offer_groups/" + parseInt(jobOfferGroupId) + ".json",
+      type: "POST",
+      dataType: "json",
+      data: { _method: "DELETE" },
+      success: function (resp) {
+        this.data = this.data.filter(function (jobOfferGroup) {
+          return jobOfferGroup.id !== jobOfferGroupId;
+        });
+        this.trigger(this.data);
+      }.bind(this),
+      error: function () {
+        window.location = window.location;
+      }
+    });
   }
 });
