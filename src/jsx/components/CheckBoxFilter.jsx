@@ -8,11 +8,15 @@ var CheckBoxFilter = React.createClass({
   },
 
   getInitialState: function () {
-    return { isLoaded: false };
+    return {
+      isLoaded: !!this.props.store.data,
+      dataLength: this.props.store.data ? this.props.store.data.length : 0
+    };
   },
 
   componentDidMount: function () {
     this.stopListener = this.props.store.listen(function () {
+      if (this.props.store.data)
       this.stopListener();
       this.setState({ isLoaded: true });
     }.bind(this));

@@ -13,7 +13,6 @@ var JobOfferGroupsPanel = React.createClass({
   componentDidMount: function () {
     window.RESOURCE_URLS = this.props.urls;
     JobOfferGroupActions.ajaxLoad(GlobalActions.loadFromJobOfferGroups);
-    ProgramActions.ajaxLoad();
     PositionActions.ajaxLoad();
   },
 

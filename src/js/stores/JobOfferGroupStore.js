@@ -3,9 +3,6 @@ var JobOfferGroupStore = Reflux.createStore({
   listenables: JobOfferGroupActions,
   filterIds: {},
 
-  init: function () {
-  },
-
   initPostAjaxLoad: function () {
     var getParticipantAttrString = function (jobOfferGroup, attr) {
       return jobOfferGroup.job_offers.map(function (jobOffer) {
