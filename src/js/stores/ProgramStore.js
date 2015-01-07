@@ -5,7 +5,7 @@ var ProgramStore = Reflux.createStore({
   init: function () {
   },
 
-  initPostAjaxLoad: function (_programs, _context) {
+  initPostAjaxLoad: function () {
     this.trigger(this.data);
   }
 });

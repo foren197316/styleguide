@@ -3,9 +3,5 @@ var DraftJobOfferStore = Reflux.createStore({
   listenables: DraftJobOfferActions,
 
   init: function () {
-  },
-
-  initPostAjaxLoad: function () {
-    this.trigger(this.data);
   }
 });

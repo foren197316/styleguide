@@ -80,6 +80,8 @@ Reflux.StoreMethods.onLoadSuccess = function (response) {
     [].shift.call(args);
     [].unshift.call(args, this.data);
     this.initPostAjaxLoad.apply(this, args);
+  } else {
+    this.trigger(this.data);
   }
 
   if (args.length > 1) {
