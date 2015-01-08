@@ -36,8 +36,6 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     PositionStore.listen(this.filterPositions);
     GenderStore.listen(this.filterGenders);
     EnglishLevelStore.listen(this.filterEnglishLevels);
-    PreviousParticipationStore.listen(this.filterPreviousParticipations);
-    DriversLicenseStore.listen(this.filterDriversLicense);
 
     this.trigger(this.data);
   },
@@ -87,20 +85,44 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     this.emitFilteredData();
   },
 
-  filterPreviousParticipations: function (previousParticipations) {
-    this.filterSingleton("previousParticipation", previousParticipations, function (inMatchingParticipantGroup) {
-      return inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
-        return prev || curr.has_had_j1;
-      }, false)
-    });
+  onToggleInternationalDriversLicense: function (toggle) {
+    var filterKey = "internationalDriversLicense";
+    if (toggle) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
+        var hasInternationalDriversLicense = inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
+          return prev || curr.has_international_drivers_license;
+        }, false);
+
+        if (hasInternationalDriversLicense) {
+          ids.push(inMatchingParticipantGroup.id);
+        }
+        return ids;
+      }, []);
+    } else {
+      this.filterIds[filterKey] = null;
+    }
+
+    this.emitFilteredData();
   },
 
-  filterDriversLicense: function (driversLicenses) {
-    this.filterSingleton("driversLicenses", driversLicenses, function (inMatchingParticipantGroup) {
-      return inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
-        return prev || curr.has_international_drivers_license;
-      }, false)
-    });
+  onTogglePreviousParticipation: function (toggle) {
+    var filterKey = "previousParticipation";
+    if (toggle) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
+        var hasHadJ1 = inMatchingParticipantGroup.participant_group.participants.reduce(function (prev, curr) {
+          return prev || curr.has_had_j1;
+        }, false);
+
+        if (hasHadJ1) {
+          ids.push(inMatchingParticipantGroup.id);
+        }
+        return ids;
+      }, []);
+    } else {
+      this.filterIds[filterKey] = null;
+    }
+
+    this.emitFilteredData();
   },
 
   filterAgeAtArrival: function (ageAtArrivals) {

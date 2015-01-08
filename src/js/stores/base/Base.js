@@ -345,10 +345,10 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
       ["reject"]
     )),
     InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["offer"]
+      ["offer", "toggleInternationalDriversLicense", "togglePreviousParticipation"]
     )),
     JobOfferActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["send", "toggleJobOfferSigned", "toggleNotInFileMaker", "toggleInternationalDriversLicense", "togglePreviousParticipation"]
+      ["send", "toggleJobOfferSigned", "toggleNotInFileMaker"]
     )),
     JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ["create", "destroy", "toggleAllSigned"]
