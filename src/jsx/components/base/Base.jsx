@@ -422,16 +422,25 @@ var ValidatingInputMixin = {
 
 var RenderLoadedMixin = function () {
   var args = arguments;
+  var placeholder = <Spinner />;
 
   if (args.length === 0) {
     throw new Error("RenderLoadedMixin takes at least one string argument.");
   }
 
+  /* last arg may be a configuration object */
+  var lastArg = args[args.length-1];
+  if (typeof lastArg === "object" && lastArg != undefined) {
+    if (lastArg.placeholder !== undefined) {
+      placeholder = lastArg.placeholder;
+    }
+  }
+
   return {
     render: function () {
       for (var i=0; i<args.length; i++) {
-        if (!this.state[args[i]]) {
-          return <Spinner />;
+        if (typeof args[i] === "string" && !this.state[args[i]]) {
+          return placeholder;
         }
       }
       return this.renderLoaded();

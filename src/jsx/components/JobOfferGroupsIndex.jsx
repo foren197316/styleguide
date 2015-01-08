@@ -1,4 +1,6 @@
 var JobOfferGroupsIndex = React.createClass({
+  mixins: [SetUrlsMixin],
+
   render: function () {
     return (
       <div className="row">
@@ -10,7 +12,7 @@ var JobOfferGroupsIndex = React.createClass({
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
         </div>
         <div className="col-md-9">
-          <JobOfferGroupsPanel urls={this.props.urls} />
+          <JobOfferGroupsPanel />
         </div>
       </div>
     )

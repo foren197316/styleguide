@@ -4,8 +4,19 @@ var CONTEXT = {
   JOB_OFFER:   3
 }
 
+var RESOURCE_URLS;
 var genericStoreActions    = ["setData", "deprecatedAjaxLoad", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
 var filterableStoreActions = ["search", "resetSearch", "dateFilter"];
+
+var SetUrlsMixin = {
+  propTypes: {
+    urls: React.PropTypes.array.isRequired
+  },
+
+  componentDidMount: function () {
+    RESOURCE_URLS = this.props.urls;
+  }
+}
 
 var defaultStoreError = function () {
   window.location = window.location;
@@ -50,7 +61,7 @@ Reflux.StoreMethods.onAjaxLoad = function () {
   }
 
   $.ajax({
-    url: window.RESOURCE_URLS[this.resourceName],
+    url: RESOURCE_URLS[this.resourceName],
     type: "GET",
     data: data,
     success: function (response) {

@@ -6,12 +6,7 @@ var JobOfferGroupsPanel = React.createClass({
     RenderLoadedMixin("jobOfferGroups", "programs", "positions")
   ],
 
-  propTypes: {
-    urls: React.PropTypes.array.isRequired
-  },
-
   componentDidMount: function () {
-    window.RESOURCE_URLS = this.props.urls;
     JobOfferGroupActions.ajaxLoad(GlobalActions.loadFromJobOfferGroups);
     PositionActions.ajaxLoad();
   },

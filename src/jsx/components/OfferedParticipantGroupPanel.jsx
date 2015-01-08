@@ -104,14 +104,7 @@ var OfferedParticipantGroupPanel = React.createClass({
 
     return (
       <div className="panel panel-default participant-group-panel">
-        <div className="panel-heading">
-          <h1 className="panel-title">
-            <span className="pull-right text-muted">
-              {staffName}
-            </span>
-            <LinkToIf name={employer.name} href={employer.href} />
-          </h1>
-        </div>
+        <EmployerHeader employer={employer} />
         <div className="list-group">
           {participantNodes}
         </div>
