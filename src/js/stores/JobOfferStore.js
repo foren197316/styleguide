@@ -3,9 +3,6 @@ var JobOfferStore = Reflux.createStore({
   listenables: JobOfferActions,
   filterIds: {},
 
-  init: function () {
-  },
-
   initPostAjaxLoad: function (jobOffers, context) {
     switch (context) {
       case CONTEXT.JOB_OFFER:
@@ -67,6 +64,38 @@ var JobOfferStore = Reflux.createStore({
     if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
         if (!jobOffer.file_maker_reference) {
+          ids.push(jobOffer.id);
+        }
+        return ids;
+      }, []);
+    } else {
+      this.filterIds[filterKey] = null;
+    }
+
+    this.emitFilteredData();
+  },
+
+  onToggleInternationalDriversLicense: function (toggle) {
+    var filterKey = "internationalDriversLicense";
+    if (toggle) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
+        if (jobOffer.participant.has_international_drivers_license) {
+          ids.push(jobOffer.id);
+        }
+        return ids;
+      }, []);
+    } else {
+      this.filterIds[filterKey] = null;
+    }
+
+    this.emitFilteredData();
+  },
+
+  onTogglePreviousParticipation: function (toggle) {
+    var filterKey = "previousParticipation";
+    if (toggle) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
+        if (jobOffer.participant.has_had_j1) {
           ids.push(jobOffer.id);
         }
         return ids;

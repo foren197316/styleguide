@@ -49,8 +49,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           <DateRangeFilter searchFrom="participant_start_dates" searchTo="participant_finish_dates" actions={InMatchingParticipantGroupActions} />
           <CheckBoxFilter title="Positions" store={PositionStore} actions={PositionActions} />
           <CheckBoxFilter title="Country" store={CountryStore} actions={CountryActions} />
-          <CheckBoxFilter title="Previous Participation" store={PreviousParticipationStore} actions={PreviousParticipationActions} />
-          <CheckBoxFilter title="Drivers License" store={DriversLicenseStore} actions={DriversLicenseActions} />
+          <BooleanFilter title="Previous Participation" label="Returning Participant" action={JobOfferActions.togglePreviousParticipation} />
+          <BooleanFilter title="Drivers License" label="International Drivers License" action={JobOfferActions.toggleInternationalDriversLicense} />
         </div>
         <div className="col-md-9">
           {function () {
