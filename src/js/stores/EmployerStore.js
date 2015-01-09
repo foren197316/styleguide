@@ -4,12 +4,12 @@ var EmployerStore = Reflux.createStore({
 
   init: function () {
     this.listenTo(GlobalActions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
+    this.listenTo(GlobalActions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
   },
 
   initPostAjaxLoad: function (_employers, context) {
     switch (context) {
       case CONTEXT.JOB_OFFER:
-      case CONTEXT.OFFERED:
         StaffActions.ajaxLoad(this.data.mapAttribute("staff_id"), EmployerActions.setStaff);
         break;
       default:
@@ -20,6 +20,13 @@ var EmployerStore = Reflux.createStore({
   onLoadFromJobOfferGroups: function (jobOfferGroups) {
     EmployerActions.ajaxLoad(
       jobOfferGroups.mapAttribute("employer_id"),
+      StaffActions.loadFromEmployer
+    );
+  },
+
+  onLoadFromOfferedParticipantGroups: function (offeredParticipantGroups) {
+    EmployerActions.ajaxLoad(
+      offeredParticipantGroups.mapAttribute("employer_id"),
       StaffActions.loadFromEmployer
     );
   },

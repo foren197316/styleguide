@@ -48,7 +48,9 @@ var OfferedParticipantGroupPanel = React.createClass({
   render: function() {
     var actions,
         footerName = this.props.offeredParticipantGroup.name,
-        staffName = this.props.offeredParticipantGroup.employer.staff ? this.props.offeredParticipantGroup.employer.staff.name : null,
+        employer = EmployerStore.findById(this.props.offeredParticipantGroup.employer_id),
+        staff = StaffStore.findById(employer.staff_id),
+        staffName = staff ? staff.name : null,
         draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers,
         participants = this.props.offeredParticipantGroup.participants,
         participantNodes = draftJobOffers.map(function (draftJobOffer) {
@@ -84,7 +86,7 @@ var OfferedParticipantGroupPanel = React.createClass({
       )
     } else if (!this.props.offeredParticipantGroup.can_send) {
       actions = null;
-    } else if (!this.props.offeredParticipantGroup.employer.vetted) {
+    } else if (!employer.vetted) {
       actions = (
         <div>
           <span className="label label-warning pull-left">Employer Not Vetted</span>
@@ -107,7 +109,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             <span className="pull-right text-muted">
               {staffName}
             </span>
-            <LinkToIf name={this.props.offeredParticipantGroup.employer.name} href={this.props.offeredParticipantGroup.employer.href} />
+            <LinkToIf name={employer.name} href={employer.href} />
           </h1>
         </div>
         <div className="list-group">

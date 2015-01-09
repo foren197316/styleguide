@@ -2,22 +2,18 @@ var OfferedParticipantGroupsIndex = React.createClass({
   mixins: [
     Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups"),
     Reflux.connect(ProgramStore, "programs"),
-    RenderLoadedMixin("offeredParticipantGroups", "programs")
+    Reflux.connect(PositionStore, "positions"),
+    Reflux.connect(StaffStore, "staffs"),
+    RenderLoadedMixin("offeredParticipantGroups", "programs", "positions", "staffs")
   ],
 
-  getInitialState: function () {
-    return { offeredParticipantGroups: null };
-  },
-
   componentDidMount: function() {
-    window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
-    OfferedParticipantGroupActions.deprecatedAjaxLoad();
-    PositionActions.deprecatedAjaxLoad();
+    window.RESOURCE_URLS = this.props.urls;
+    OfferedParticipantGroupActions.ajaxLoad(GlobalActions.loadFromOfferedParticipantGroups);
+    PositionActions.ajaxLoad();
   },
 
   renderLoaded: function () {
-    var offeredParticipantGroups = this.state.offeredParticipantGroups;
-
     return (
       <div className="row">
         <div className="col-md-3">
@@ -29,7 +25,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
         <div className="col-md-9">
           <div id="participant-group-panels">
             {this.state.programs.map(function (program) {
-              var programOfferedParticipantGroups = offeredParticipantGroups.filter(function (offeredParticipantGroup) {
+              var programOfferedParticipantGroups = this.state.offeredParticipantGroups.filter(function (offeredParticipantGroup) {
                 return offeredParticipantGroup.participants[0].program_id === program.id;
               });
 
@@ -49,7 +45,7 @@ var OfferedParticipantGroupsIndex = React.createClass({
                   </div>
                 )
               }
-            })}
+            }, this)}
           </div>
         </div>
       </div>

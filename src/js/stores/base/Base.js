@@ -338,7 +338,8 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 
 var GlobalActions = Reflux.createActions([
   "newJobOffer",
-  "loadFromJobOfferGroups"
+  "loadFromJobOfferGroups",
+  "loadFromOfferedParticipantGroups"
 ]);
 
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
