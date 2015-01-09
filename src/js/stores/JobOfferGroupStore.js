@@ -4,14 +4,10 @@ var JobOfferGroupStore = Reflux.createStore({
   filterIds: {},
 
   initPostAjaxLoad: function () {
-    var getParticipantAttrString = function (jobOfferGroup, attr) {
-      return jobOfferGroup.job_offers.map(function (jobOffer) {
-        return jobOffer.participant[attr];
-      }).join(",");
-    };
-
     this.data = this.data.map(function (jobOfferGroup) {
-      jobOfferGroup.participant_names = getParticipantAttrString(jobOfferGroup, "name");
+      jobOfferGroup.participant_names = jobOfferGroup.job_offers.map(function (jobOffer) {
+        return jobOffer.participant.name;
+      }).join(",");
       return jobOfferGroup;
     });
 

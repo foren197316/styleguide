@@ -5,6 +5,7 @@ var ProgramStore = Reflux.createStore({
 
   init: function () {
     this.listenTo(GlobalActions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
+    this.listenTo(GlobalActions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
   },
 
   initPostAjaxLoad: function () {
@@ -20,6 +21,14 @@ var ProgramStore = Reflux.createStore({
   onLoadFromJobOfferGroups: function (jobOfferGroups) {
     this.applicableIds = jobOfferGroups.map(function (jobOfferGroup) {
       return jobOfferGroup.job_offers[0].participant.program_id;
+    }).uniq();
+
+    ProgramActions.ajaxLoad();
+  },
+
+  onLoadFromOfferedParticipantGroups: function (offeredParticipantGroups) {
+    this.applicableIds = offeredParticipantGroups.map(function (offeredParticipantGroup) {
+      return offeredParticipantGroup.participants[0].program_id;
     }).uniq();
 
     ProgramActions.ajaxLoad();
