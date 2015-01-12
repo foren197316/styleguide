@@ -8,6 +8,7 @@ var JobOfferParticipantAgreementsIndex = React.createClass({
     var jobOfferIds = this.state.jobOfferParticipantAgreements
       ? this.state.jobOfferParticipantAgreements.mapAttribute("job_offer").mapAttribute("id")
       : [];
+
     return (
       <div className="row">
         <div className="col-md-3">
