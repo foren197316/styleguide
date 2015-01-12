@@ -3,41 +3,88 @@
     {
       "id": 1,
       "participant_group_id": 1,
-      "can_send": true,
-      "draft_job_offer_ids": [1],
       "employer_id": 1,
-      "job_offer_ids": [1, 2],
-      "job_offer_participant_agreement_ids": [],
-      "job_offer_file_maker_reference_ids": []
+      "can_send": true,
+      "name": "Individual",
+      "draft_job_offers": [
+        {
+          "id": 1,
+          "href": "#/draft_job_offers/1",
+          "participant_id": 1,
+          "position_id": 2,
+          "tipped": true,
+          "wage": "5.50",
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
+        }
+      ]
     },
     {
       "id": 2,
       "participant_group_id": 2,
-      "can_send": true,
-      "draft_job_offer_ids": [],
       "employer_id": 1,
-      "job_offer_ids": [3],
-      "job_offer_participant_agreement_ids": [1],
-      "job_offer_file_maker_reference_ids": [1]
+      "can_send": true,
+      "name": "Couple",
+      "draft_job_offers": [
+        {
+          "id": 2,
+          "participant_id": 2,
+          "position_id": 3,
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "no"
+        }
+      ]
     },
     {
       "id": 3,
       "participant_group_id": 3,
+      "employer_id": 2,
       "can_send": true,
-      "draft_job_offer_ids": [3, 4],
-      "employer_id": 1,
-      "job_offer_ids": [],
-      "job_offer_participant_agreement_ids": [],
-      "job_offer_file_maker_reference_ids": []
+      "name": "Friends",
+      "draft_job_offers": [
+        {
+          "id": 3,
+          "participant_id": 4,
+          "position_id": 1,
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
+        },
+        {
+          "id": 4,
+          "participant_id": 5,
+          "position_id": 1,
+          "tipped": true,
+          "wage": 5,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6
+        }
+      ]
     },
     {
       "id": 4,
       "participant_group_id": 4,
-      "draft_job_offer_ids": [5],
-      "employer_id": 1,
-      "job_offer_ids": [],
-      "job_offer_participant_agreement_ids": [],
-      "job_offer_file_maker_reference_ids": []
+      "employer_id": 2,
+      "can_send": false,
+      "name": "Individual",
+      "draft_job_offers": [
+        {
+          "id": 5,
+          "participant_id": 6,
+          "position_id": 1,
+          "tipped": true,
+          "wage": 5.25,
+          "hours": 35,
+          "overtime": "yes",
+          "overtime_rate": 6.50
+        }
+      ]
     }
   ]
 }

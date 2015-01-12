@@ -3,7 +3,7 @@ var JobOffersIndex = React.createClass({
     Reflux.ListenerMixin,
     Reflux.connect(JobOfferStore, "jobOffers"),
     Reflux.connect(ProgramStore, "programs"),
-    RenderLoadedMixin("jobOffers")
+    RenderLoadedMixin("jobOffers", "programs")
   ],
 
   getInitialState: function () {
@@ -12,22 +12,24 @@ var JobOffersIndex = React.createClass({
 
   componentDidMount: function () {
     window.RESOURCE_URLS = this.props.urls;
-    JobOfferActions.ajaxLoad(null, CONTEXT.JOB_OFFER);
+    JobOfferActions.deprecatedAjaxLoad(null, CONTEXT.JOB_OFFER);
   },
 
   renderLoaded: function () {
     var jobOffers = this.state.jobOffers;
     var jobOfferIds = jobOffers.mapAttribute("id");
-    var programs = this.state.programs || ProgramStore.data;
+    var jobOfferFileMakerReferenceFilter = JobOfferFileMakerReferenceStore.permission
+      ? <BooleanFilter title="FileMaker Reference" label="Not in FileMaker" action={JobOfferActions.toggleNotInFileMaker} />
+      : null;
 
     return (
       <div className="row">
         <div className="col-md-3">
           <SearchFilter title="Search" searchOn={[["participant", "name"], ["participant", "email"], ["participant", "uuid"]]} actions={JobOfferActions} />
           <CheckBoxFilter title="Program" store={ProgramStore} actions={ProgramActions} />
-          <CheckBoxFilter title="Participant Agreement" store={JobOfferSignedStore} actions={JobOfferSignedActions} />
-          <CheckBoxFilter title="FileMaker Reference" store={NotInFileMakerStore} actions={NotInFileMakerActions} />
           <CheckBoxFilter title="Coordinator" store={StaffStore} actions={StaffActions} />
+          <BooleanFilter title="Participant Agreement" label="Signed" action={JobOfferActions.toggleJobOfferSigned} />
+          {jobOfferFileMakerReferenceFilter}
           <ExportButton url={this.props.urls.export} ids={jobOfferIds} />
         </div>
         <div className="col-md-9">

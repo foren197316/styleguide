@@ -4,7 +4,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     Reflux.connect(InMatchingParticipantGroupStore, "inMatchingParticipantGroups"),
     Reflux.connect(EmployerStore, "employer"),
     Reflux.connect(EnrollmentStore, "enrollments"),
-    RenderLoadedMixin(["inMatchingParticipantGroups", "employer", "enrollments"])
+    RenderLoadedMixin("inMatchingParticipantGroups", "employer", "enrollments")
   ],
 
   statics: {
@@ -18,9 +18,9 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   componentDidMount: function() {
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
     window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
-    InMatchingParticipantGroupActions.ajaxLoad();
-    EnrollmentActions.ajaxLoad();
-    PositionActions.ajaxLoad();
+    InMatchingParticipantGroupActions.deprecatedAjaxLoad();
+    EnrollmentActions.deprecatedAjaxLoad();
+    PositionActions.deprecatedAjaxLoad();
   },
 
   intercom: function (employers) {
@@ -49,8 +49,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           <DateRangeFilter searchFrom="participant_start_dates" searchTo="participant_finish_dates" actions={InMatchingParticipantGroupActions} />
           <CheckBoxFilter title="Positions" store={PositionStore} actions={PositionActions} />
           <CheckBoxFilter title="Country" store={CountryStore} actions={CountryActions} />
-          <CheckBoxFilter title="Previous Participation" store={PreviousParticipationStore} actions={PreviousParticipationActions} />
-          <CheckBoxFilter title="Drivers License" store={DriversLicenseStore} actions={DriversLicenseActions} />
+          <BooleanFilter title="Previous Participation" label="Returning Participant" action={InMatchingParticipantGroupActions.togglePreviousParticipation} />
+          <BooleanFilter title="Drivers License" label="International Drivers License" action={InMatchingParticipantGroupActions.toggleInternationalDriversLicense} />
         </div>
         <div className="col-md-9">
           {function () {

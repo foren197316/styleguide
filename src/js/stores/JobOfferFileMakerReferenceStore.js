@@ -3,9 +3,5 @@ var JobOfferFileMakerReferenceStore = Reflux.createStore({
   listenables: JobOfferFileMakerReferenceActions,
 
   init: function () {
-  },
-
-  initPostAjaxLoad: function () {
-    this.trigger(this.data);
   }
 });

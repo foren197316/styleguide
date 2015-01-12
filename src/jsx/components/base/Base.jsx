@@ -420,24 +420,21 @@ var ValidatingInputMixin = {
   }
 };
 
-var RenderLoadedMixin = function (stateAttribute) {
-  if (!stateAttribute) {
-    throw new Error("RenderLoadedMixin takes one argument, the state attribute to watch.");
-  }
+var RenderLoadedMixin = function () {
+  var args = arguments;
 
-  var attributes = [].concat(stateAttribute);
+  if (args.length === 0) {
+    throw new Error("RenderLoadedMixin takes at least one string argument.");
+  }
 
   return {
     render: function () {
-      var loaded = attributes.reduce(function (prev, curr) {
-        return prev && this.state[curr];
-      }.bind(this), true);
-
-      if (loaded) {
-        return this.renderLoaded();
-      } else {
-        return <Spinner />
+      for (var i=0; i<args.length; i++) {
+        if (!this.state[args[i]]) {
+          return <Spinner />;
+        }
       }
+      return this.renderLoaded();
     }
   }
 };

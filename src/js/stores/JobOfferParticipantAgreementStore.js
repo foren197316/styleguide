@@ -3,9 +3,5 @@ var JobOfferParticipantAgreementStore = Reflux.createStore({
   listenables: JobOfferParticipantAgreementActions,
 
   init: function () {
-  },
-
-  initPostAjaxLoad: function () {
-    this.trigger(this.data);
   }
 });

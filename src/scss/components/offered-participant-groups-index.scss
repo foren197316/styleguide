@@ -4,7 +4,7 @@
 ---
 title: Offered Participant Groups Index
 name: offered-participant-groups-index
-category: Components - Filtered Offered Participant Group
+category: Components - Offered Participant Groups Index
 ---
 
 ```html_example
@@ -16,17 +16,11 @@ React.render(
   OfferedParticipantGroupsIndex({
     urls: {
       employers: "/json/employers.json",
-      offeredParticipantGroups: "/json/filtered_offered_participant_groups.json",
-      participantGroups: "/json/participant_groups.json",
+      offeredParticipantGroups: "/json/offered_participant_groups.json",
       participants: "/json/participants.json",
       programs: "/json/programs.json",
-      draftJobOffers: "/json/draft_job_offers.json",
-      jobOffers: "/json/job_offers.json",
-      jobOfferParticipantAgreements: "/json/job_offer_participant_agreements.json",
-      jobOfferFileMakerReferences: "/json/job_offer_file_maker_references.json",
       positions: "/json/positions.json",
-      staffs: "/json/staffs.json",
-      export: "#/export.csv"
+      staffs: "/json/staffs.json"
     }
   }),
   document.getElementById("OfferedParticipantGroupsIndex")

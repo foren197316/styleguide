@@ -3,63 +3,18 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   listenables: OfferedParticipantGroupActions,
   filterIds: {},
 
-  init: function () {
-    this.listenTo(newJobOffer, this.onNewJobOffer);
-  },
-
   initPostAjaxLoad: function () {
-    DraftJobOfferActions.ajaxLoad(this.data.mapAttribute("draft_job_offer_ids").flatten());
-    JobOfferActions.ajaxLoad(this.data.mapAttribute("job_offer_ids").flatten());
-    JobOfferParticipantAgreementActions.ajaxLoad(this.data.mapAttribute("job_offer_participant_agreement_ids").flatten());
-    EmployerActions.ajaxLoad(this.data.mapAttribute("employer_id"), CONTEXT.OFFERED);
-    ParticipantGroupActions.ajaxLoad(this.data.mapAttribute("participant_group_id"), CONTEXT.OFFERED);
-
-    this.joinListener = this.joinTrailing(
-      DraftJobOfferStore,
-      JobOfferStore,
-      JobOfferParticipantAgreementStore,
-      ParticipantGroupStore,
-      EmployerStore,
-      ProgramStore,
-      this.aggregate
-    );
-  },
-
-  aggregate: function (
-    DraftJobOfferStoreResponse,
-    JobOfferStoreResponse,
-    JobOfferParticipantAgreementStoreResponse,
-    ParticipantGroupStoreResponse,
-    EmployerStoreResponse,
-    _ProgramStoreResponse
-  ) {
-    this.joinListener.stop();
-
-    var draftJobOffers = DraftJobOfferStoreResponse[0];
-    var jobOffers = JobOfferStoreResponse[0];
-    var jobOfferParticipantAgreements = JobOfferParticipantAgreementStoreResponse[0];
-    var participantGroups = ParticipantGroupStoreResponse[0];
-    var employers = EmployerStoreResponse[0];
-
     this.data = this.data.map(function (offeredParticipantGroup) {
-      offeredParticipantGroup.draft_job_offers = draftJobOffers.findById(offeredParticipantGroup.draft_job_offer_ids) || [];
-      offeredParticipantGroup.job_offers = jobOffers.findById(offeredParticipantGroup.job_offer_ids) || [];
-      offeredParticipantGroup.job_offer_participant_agreements = jobOfferParticipantAgreements.findById(offeredParticipantGroup.job_offer_participant_agreement_ids) || [];
-      offeredParticipantGroup.participant_group = participantGroups.findById(offeredParticipantGroup.participant_group_id);
-      offeredParticipantGroup.employer = employers.findById(offeredParticipantGroup.employer_id);
-      offeredParticipantGroup.participant_names = offeredParticipantGroup.participant_group.participants.mapAttribute("name").join(",");
-      offeredParticipantGroup.participant_email = offeredParticipantGroup.participant_group.participants.mapAttribute("email").join(",");
-      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participant_group.participants.mapAttribute("uuid").join(",");
+      offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute("name");
+      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute("email");
+      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute("uuid");
       return offeredParticipantGroup;
     });
 
-    this.trigger(this.data);
+    this.listenTo(EmployerActions.filterByIds, this.filterEmployers);
+    this.listenTo(StaffActions.filterByIds, this.filterStaffs);
 
-    ProgramStore.listen(this.filterPrograms);
-    ParticipantSignedStore.listen(this.filterParticipantSigned);
-    OfferSentStore.listen(this.filterOfferSent);
-    StaffStore.listen(this.filterStaffs);
-    EmployerStore.listen(this.filterEmployers);
+    this.trigger(this.data);
   },
 
   onReject: function (offeredParticipantGroupId, callback) {
@@ -72,10 +27,8 @@ var OfferedParticipantGroupStore = Reflux.createStore({
           return offeredParticipantGroup.id !== offeredParticipantGroupId;
         });
 
-        DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offer_ids").flatten());
-        JobOfferActions.removeByIds(this.data.mapAttribute("job_offer_ids").flatten());
-        JobOfferParticipantAgreementActions.removeByIds(this.data.mapAttribute("job_offer_participant_agreement_ids").flatten());
-        ParticipantGroupActions.removeByIds(this.data.mapAttribute("participant_group_id"));
+        DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("id").flatten());
+        ParticipantActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("participant_group_id").flatten());
 
         this.emitFilteredData();
 
@@ -88,96 +41,32 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   },
 
   onNewJobOffer: function (jobOffers, offeredParticipantGroupId) {
-    this.data = this.data.map(function (offeredParticipantGroup) {
-      if (offeredParticipantGroup.id === offeredParticipantGroupId) {
-        offeredParticipantGroup.job_offers = jobOffers;
-        offeredParticipantGroup.job_offer_ids = jobOffers.mapAttribute("id");
-      }
-      return offeredParticipantGroup;
+    this.data = this.data.filter(function (offeredParticipantGroup) {
+      return offeredParticipantGroup.id !== offeredParticipantGroupId;
     });
+
+    DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("id").flatten());
+    ParticipantActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("participant_group_id").flatten());
 
     this.emitFilteredData();
   },
 
   filterPrograms: function (programs) {
     this.filterGeneric("programs", programs, function (programIds, offeredParticipantGroup) {
-      return programIds.indexOf(offeredParticipantGroup.participant_group.participants[0].program_id) >= 0;
+      return programIds.indexOf(offeredParticipantGroup.participants[0].program_id) >= 0;
     });
   },
 
-  filterStaffs: function (staffs) {
-    this.filterGeneric("staffs", staffs, function (staffIds, offeredParticipantGroup) {
-      return staffIds.indexOf(offeredParticipantGroup.employer.staff_id) >= 0;
+  filterStaffs: function (staff_ids) {
+    this.genericIdFilter("staffs", staff_ids, function (offeredParticipantGroup) {
+      var employer = EmployerStore.findById(offeredParticipantGroup.employer_id);
+      return employer && staff_ids.indexOf(employer.staff_id) >= 0;
     });
   },
 
-  filterEmployers: function (employers) {
-    this.filterGeneric("employers", employers, function (employerIds, offeredParticipantGroup) {
-      return employerIds.indexOf(offeredParticipantGroup.employer.id) >= 0;
+  filterEmployers: function (employer_ids) {
+    this.genericIdFilter("employers", employer_ids, function (offeredParticipantGroup) {
+      return employer_ids.indexOf(offeredParticipantGroup.employer_id) >= 0;
     });
-  },
-
-  filterParticipantSigned: function (participantSigneds) {
-    var filterKey = "participantSigneds";
-
-    if (participantSigneds === null || participantSigneds.length === 2) {
-      this.filterIds[filterKey] = null;
-    } else {
-      var key = participantSigneds[0].id;
-      var compareFunc;
-
-      switch (key) {
-        case "Signed":
-          compareFunc = function (offeredParticipantGroup) {
-            return offeredParticipantGroup.job_offer_participant_agreements.length === offeredParticipantGroup.participant_group.participants.length;
-          }
-          break;
-        case "Unsigned":
-          compareFunc = function (offeredParticipantGroup) {
-            return offeredParticipantGroup.job_offer_participant_agreements.length !== offeredParticipantGroup.participant_group.participants.length;
-          }
-      }
-
-      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
-        if (compareFunc(offeredParticipantGroup)) {
-          ids.push(offeredParticipantGroup.id);
-        }
-        return ids;
-      }, []);
-    }
-
-    this.emitFilteredData();
-  },
-
-  filterOfferSent: function (offerSents) {
-    var filterKey = "offerSents";
-
-    if (offerSents === null || offerSents.length === 2) {
-      this.filterIds[filterKey] = null;
-    } else {
-      var key = offerSents[0].id;
-      var compareFunc;
-
-      switch (key) {
-        case "Sent":
-          compareFunc = function (offeredParticipantGroup) {
-            return offeredParticipantGroup.job_offers.length > 0;
-          }
-          break;
-        case "Unsent":
-          compareFunc = function (offeredParticipantGroup) {
-            return offeredParticipantGroup.job_offers.length === 0;
-          }
-      }
-
-      this.filterIds[filterKey] = this.data.reduce(function (ids, offeredParticipantGroup) {
-        if (compareFunc(offeredParticipantGroup)) {
-          ids.push(offeredParticipantGroup.id);
-        }
-        return ids;
-      }, []);
-    }
-
-    this.emitFilteredData();
   }
 });

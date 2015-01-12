@@ -7,7 +7,7 @@ var EnrollmentStore = Reflux.createStore({
 
   initPostAjaxLoad: function () {
     this.filterSearchableEnrollments();
-    ProgramActions.ajaxLoad(this.data.mapAttribute("program_id"));
+    ProgramActions.deprecatedAjaxLoad(this.data.mapAttribute("program_id"));
   },
 
   filterSearchableEnrollments: function () {

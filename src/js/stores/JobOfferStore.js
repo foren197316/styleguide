@@ -3,17 +3,13 @@ var JobOfferStore = Reflux.createStore({
   listenables: JobOfferActions,
   filterIds: {},
 
-  init: function () {
-  },
-
   initPostAjaxLoad: function (jobOffers, context) {
     switch (context) {
       case CONTEXT.JOB_OFFER:
-        ParticipantActions.ajaxLoad(jobOffers.mapAttribute("participant_id"), context);
-        JobOfferParticipantAgreementActions.ajaxLoad(jobOffers.mapAttribute("participant_agreement_id"), context);
-        PositionActions.ajaxLoad(jobOffers.mapAttribute("position_id"), context);
-        EmployerActions.ajaxLoad(jobOffers.mapAttribute("employer_id"), context);
-
+        ParticipantActions.deprecatedAjaxLoad(jobOffers.mapAttribute("participant_id"), context);
+        JobOfferParticipantAgreementActions.deprecatedAjaxLoad(jobOffers.mapAttribute("participant_agreement_id"), context);
+        JobOfferFileMakerReferenceActions.deprecatedAjaxLoad(jobOffers.mapAttribute("file_maker_reference_id"), context);
+        PositionActions.deprecatedAjaxLoad();
         this.joinListener = this.joinTrailing(
           ParticipantStore,
           JobOfferParticipantAgreementStore,
@@ -26,8 +22,6 @@ var JobOfferStore = Reflux.createStore({
       default:
         this.trigger(this.data);
     }
-
-    JobOfferFileMakerReferenceActions.ajaxLoad(jobOffers.mapAttribute("file_maker_reference_id"), context);
   },
 
   aggregate: function (participantResults, jobOfferParticipantAgreementResults, jobOfferFileMakerReferenceResults, _programResults, employerResults) {
@@ -46,53 +40,36 @@ var JobOfferStore = Reflux.createStore({
       return jobOffer;
     });
 
-    NotInFileMakerStore.listen(this.filterNotInFileMaker);
-    JobOfferSignedStore.listen(this.filterJobOfferSigned);
-    StaffStore.listen(this.filterStaffs);
-    ProgramStore.listen(this.filterPrograms);
-
     this.trigger(this.data);
   },
 
-  filterStaffs: function (staffs) {
-    this.filterGeneric("staffs", staffs, function (staffIds, jobOffer) {
-      return staffIds.indexOf(jobOffer.employer.staff_id) >= 0;
-    });
-  },
-
-  filterPrograms: function (programs) {
-    this.filterGeneric("programs", programs, function (programIds, jobOffer) {
-      return programIds.indexOf(jobOffer.participant.program_id) >= 0;
-    });
-  },
-
-  filterNotInFileMaker: function (notInFileMakers) {
-    var filterKey = "notInFilemaker";
-    if (notInFileMakers === null || notInFileMakers.length === 0) {
-      this.filterIds[filterKey] = null;
-    } else {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
-        if (!jobOffer.file_maker_reference) {
-          ids.push(jobOffer.id);
-        }
-        return ids;
-      }, []);
-    }
-
-    this.emitFilteredData();
-  },
-
-  filterJobOfferSigned: function (jobOfferSigneds) {
+  onToggleJobOfferSigned: function (toggle) {
     var filterKey = "jobOfferSigned";
-    if (jobOfferSigneds === null || jobOfferSigneds.length === 0) {
-      this.filterIds[filterKey] = null;
-    } else {
+    if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
         if (jobOffer.participant_agreement) {
           ids.push(jobOffer.id);
         }
         return ids;
       }, []);
+    } else {
+      this.filterIds[filterKey] = null;
+    }
+
+    this.emitFilteredData();
+  },
+
+  onToggleNotInFileMaker: function (toggle) {
+    var filterKey = "notInFileMaker";
+    if (toggle) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
+        if (!jobOffer.file_maker_reference) {
+          ids.push(jobOffer.id);
+        }
+        return ids;
+      }, []);
+    } else {
+      this.filterIds[filterKey] = null;
     }
 
     this.emitFilteredData();
@@ -104,7 +81,7 @@ var JobOfferStore = Reflux.createStore({
       type: "POST",
       success: function (data) {
         this.data = this.data instanceof Array ? this.data.concat(data.job_offers) : data.job_offers;
-        newJobOffer(data.job_offers, offeredParticipantGroupId);
+        GlobalActions.newJobOffer(data.job_offers, offeredParticipantGroupId);
         if (typeof callback === "function") {
           callback(data);
         }

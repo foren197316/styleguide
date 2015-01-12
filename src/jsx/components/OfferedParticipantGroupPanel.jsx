@@ -34,12 +34,8 @@ var OfferedParticipantGroupPanel = React.createClass({
     var node = this.getDOMNode();
 
     if (this.state.sendingJobOffer) {
-      JobOfferActions.send(this.props.offeredParticipantGroup.id, function () {
-        this.setState({
-          sending: false,
-          sendingJobOffer: false,
-          rejecting: false
-        });
+      JobOfferGroupActions.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
+        this.setState({ status: response.responseJSON.status });
       }.bind(this));
     } else if (this.state.rejecting) {
       OfferedParticipantGroupActions.reject(this.props.offeredParticipantGroup.id, function () {
@@ -51,33 +47,30 @@ var OfferedParticipantGroupPanel = React.createClass({
 
   render: function() {
     var actions,
-        footerName = this.props.offeredParticipantGroup.participant_group.name + " - " + ProgramStore.findById(this.props.offeredParticipantGroup.participant_group.participants[0].program_id).name,
-        staffName = this.props.offeredParticipantGroup.employer.staff ? this.props.offeredParticipantGroup.employer.staff.name : null,
-        hasJobOffers = this.hasJobOffers(),
-        offers = hasJobOffers ? this.props.offeredParticipantGroup.job_offers : this.props.offeredParticipantGroup.draft_job_offers,
-        offerLinkTitle = hasJobOffers ? 'View' : 'Preview',
-        participantNodes = offers.map(function (offer) {
-          var participant = ParticipantStore.findById(offer.participant_id);
-
-          if (participant == undefined) { return; }
-
-          var position = PositionStore.findById(offer.position_id);
-          var jobOfferParticipantAgreement = JobOfferParticipantAgreementStore.findById(offer.id, "job_offer_id");
-          var jobOfferFileMakerReference = JobOfferFileMakerReferenceStore.findById(offer.id, "job_offer_id");
+        footerName = this.props.offeredParticipantGroup.name,
+        employer = EmployerStore.findById(this.props.offeredParticipantGroup.employer_id),
+        staff = StaffStore.findById(employer.staff_id),
+        staffName = staff ? staff.name : null,
+        draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers,
+        participants = this.props.offeredParticipantGroup.participants,
+        participantNodes = draftJobOffers.map(function (draftJobOffer) {
+          var participant = participants.findById(draftJobOffer.participant_id);
+          var position = PositionStore.findById(draftJobOffer.position_id);
 
           return (
             <OfferedParticipantGroupParticipant
               key={participant.id}
               participant={participant}
               position={position}
-              offer={offer}
-              jobOfferParticipantAgreement={jobOfferParticipantAgreement}
-              jobOfferFileMakerReference={jobOfferFileMakerReference}
-              offerLinkTitle={offerLinkTitle} />
+              offer={draftJobOffer}
+              offerLinkTitle="Preview" />
           )
         }.bind(this));
 
-    if (this.state.sendingJobOffer) {
+    if (this.state.status) {
+      var status = this.state.status;
+      return <Alert type={status.type} message={status.message} instructions={status.instructions} action={new AlertAction(status.action.title, status.action.url)} />
+    } else if (this.state.sendingJobOffer) {
       actions = (
         <div className="btn-group">
           <button className="btn btn-success" onClick={this.handleConfirm} disabled={this.state.sending ? 'disabled' : ''}>Confirm</button>
@@ -91,16 +84,9 @@ var OfferedParticipantGroupPanel = React.createClass({
           <button className="btn btn-default" onClick={this.handleCancel}>Cancel</button>
         </div>
       )
-    } else if (hasJobOffers) {
-      actions = (
-        <div>
-          <span className="label label-success pull-left">Sent</span>
-          {this.props.offeredParticipantGroup.can_send ? <button className="btn btn-small btn-danger" onClick={this.handleReject}>Reject</button> : null}
-        </div>
-      )
     } else if (!this.props.offeredParticipantGroup.can_send) {
       actions = null;
-    } else if (!this.props.offeredParticipantGroup.employer.vetted) {
+    } else if (!employer.vetted) {
       actions = (
         <div>
           <span className="label label-warning pull-left">Employer Not Vetted</span>
@@ -123,7 +109,7 @@ var OfferedParticipantGroupPanel = React.createClass({
             <span className="pull-right text-muted">
               {staffName}
             </span>
-            <LinkToIf name={this.props.offeredParticipantGroup.employer.name} href={this.props.offeredParticipantGroup.employer.href} />
+            <LinkToIf name={employer.name} href={employer.href} />
           </h1>
         </div>
         <div className="list-group">

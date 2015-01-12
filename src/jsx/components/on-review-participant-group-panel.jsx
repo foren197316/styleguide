@@ -50,8 +50,7 @@ var OnReviewParticipantGroupPanel = React.createClass({
       type: "POST",
       data: data,
       success: function(data) {
-        React.unmountComponentAtNode(node);
-        $(node).remove();
+        this.setState({status: data.status});
 
         Intercom('trackEvent', trackEventName, {
           employer_id: this.props.employerId,
@@ -70,13 +69,18 @@ var OnReviewParticipantGroupPanel = React.createClass({
         isDecliningState        = this.linkState('isDeclining'),
         draftJobOfferValidState = this.linkState('draftJobOfferValid');
 
-    return (
-      <form className="panel panel-default participant-group-panel form-horizontal" role="form" onSubmit={this.handleSubmit}>
-        <OnReviewParticipantGroupPanelHeading data={this.props.data} />
-        <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOfferingState={isOfferingState} isDecliningState={isDecliningState} draftJobOfferValidState={draftJobOfferValidState} />
-        <OnReviewParticipantGroupPanelFooter data={this.props.data} employerId={this.props.employerId} employerName={this.props.employerName} participantNames={this.participantNames()} isOfferingState={isOfferingState} isDecliningState={isDecliningState} draftJobOfferValidState={draftJobOfferValidState} />
-      </form>
-    )
+    if (this.state.status) {
+      var status = this.state.status;
+      return <Alert type={status.type} message={status.message} instructions={status.instructions} action={new AlertAction(status.action.title, status.action.url)} />
+    } else {
+      return (
+        <form className="panel panel-default participant-group-panel form-horizontal" role="form" onSubmit={this.handleSubmit}>
+          <OnReviewParticipantGroupPanelHeading data={this.props.data} />
+          <OnReviewParticipantGroupPanelListGroup data={this.props.data} isOfferingState={isOfferingState} isDecliningState={isDecliningState} draftJobOfferValidState={draftJobOfferValidState} />
+          <OnReviewParticipantGroupPanelFooter data={this.props.data} employerId={this.props.employerId} employerName={this.props.employerName} participantNames={this.participantNames()} isOfferingState={isOfferingState} isDecliningState={isDecliningState} draftJobOfferValidState={draftJobOfferValidState} />
+        </form>
+      )
+    }
   }
 });
 

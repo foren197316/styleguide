@@ -6,7 +6,7 @@ var ParticipantGroupStore = Reflux.createStore({
   },
 
   initPostAjaxLoad: function (participantGroups, context) {
-    ParticipantActions.ajaxLoad(this.data.mapAttribute("participant_ids").flatten(), context);
+    ParticipantActions.deprecatedAjaxLoad(this.data.mapAttribute("participant_ids").flatten(), context);
 
     switch (context) {
       case CONTEXT.OFFERED:
@@ -15,7 +15,7 @@ var ParticipantGroupStore = Reflux.createStore({
       case CONTEXT.IN_MATCHING:
         ParticipantGroupNameActions.setNames(participantGroups);
         EmployerActions.setSingleton();
-        EmployerActions.ajaxLoad();
+        EmployerActions.deprecatedAjaxLoad();
         this.joinListener = this.joinTrailing(EmployerStore, ParticipantStore, ProgramStore, this.filterByRegionAndProgram);
         break;
     }
