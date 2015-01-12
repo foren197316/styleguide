@@ -12,7 +12,7 @@ var JobOfferParticipantAgreement = React.createClass({
       <div className="panel panel-default participant-group-panel">
         <EmployerHeader employer_id={this.props.jobOfferParticipantAgreement.job_offer.employer_id} />
         <div className="list-group">
-          <JobOffer jobOffer={this.props.jobOfferParticipantAgreement.job_offer} />
+          <JobOffer jobOffer={this.props.jobOfferParticipantAgreement.job_offer} jobOfferParticipantAgreement={this.props.jobOfferParticipantAgreement} />
         </div>
       </div>
     )
