@@ -3,7 +3,9 @@ var JobOfferParticipantAgreementsPanel = React.createClass({
     Reflux.connect(JobOfferParticipantAgreementStore, "jobOfferParticipantAgreements"),
     Reflux.connect(ProgramStore, "programs"),
     Reflux.connect(PositionStore, "positions"),
-    RenderLoadedMixin("jobOfferParticipantAgreements", "programs", "positions")
+    Reflux.connect(EmployerStore, "employers"),
+    Reflux.connect(StaffStore, "staffs"),
+    RenderLoadedMixin("jobOfferParticipantAgreements", "programs", "positions", "employers", "staffs")
   ],
 
   componentDidMount: function () {
