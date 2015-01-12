@@ -27,9 +27,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
           return offeredParticipantGroup.id !== offeredParticipantGroupId;
         });
 
-        DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("id").flatten());
-        ParticipantActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("participant_group_id").flatten());
-
         this.emitFilteredData();
 
         if (typeof callback === "function") {

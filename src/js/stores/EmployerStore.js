@@ -9,6 +9,10 @@ var EmployerStore = Reflux.createStore({
     this.listenTo(GlobalActions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
   },
 
+  initPostAjaxLoad: function () {
+    this.trigger(this.data);
+  },
+
   onLoadFromJobOfferGroups: function (jobOfferGroups) {
     EmployerActions.ajaxLoad(
       jobOfferGroups.mapAttribute("employer_id"),
