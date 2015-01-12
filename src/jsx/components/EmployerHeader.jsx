@@ -1,17 +1,11 @@
 var EmployerHeader = React.createClass({
-  mixins: [
-    Reflux.connect(StaffStore, "staffs"),
-    Reflux.connect(EmployerStore, "employers"),
-    RenderLoadedMixin("staffs", "employers", { placeholder: null })
-  ],
-
   propTypes: {
-    employer_id: React.PropTypes.number.isRequired
+    employer: React.PropTypes.object.isRequired
   },
 
-  renderLoaded: function () {
-    var employer = this.state.employers.findById(this.props.employer_id);
-    var staff = this.state.staffs.findById(employer.staff_id) || {};
+  render: function () {
+    var employer = this.props.employer;
+    var staff = StaffStore.findById(employer.staff_id) || {};
 
     return (
       <div className="panel-heading">

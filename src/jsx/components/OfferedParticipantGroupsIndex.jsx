@@ -3,8 +3,9 @@ var OfferedParticipantGroupsIndex = React.createClass({
     Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups"),
     Reflux.connect(ProgramStore, "programs"),
     Reflux.connect(PositionStore, "positions"),
+    Reflux.connect(EmployerStore, "employers"),
     Reflux.connect(StaffStore, "staffs"),
-    RenderLoadedMixin("offeredParticipantGroups", "programs", "positions", "staffs")
+    RenderLoadedMixin("offeredParticipantGroups", "programs", "positions", "staffs", "employers")
   ],
 
   componentDidMount: function() {
