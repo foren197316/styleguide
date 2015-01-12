@@ -16,15 +16,15 @@ var JobOfferParticipantAgreementsPanel = React.createClass({
       <div id="participant-group-panels">
         {this.state.programs.map(function (program) {
           var programJobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.filter(function (jobOfferParticipantAgreement) {
-            return jobOfferParticipantAgreement.job_offer.program_id === program.id;
+            return jobOfferParticipantAgreement.job_offer.participant.program_id === program.id;
           });
 
           if (programJobOfferParticipantAgreements.length > 0) {
             return (
-              <div>
-                <ProgramHeader program={program} collectionName="Participant Agreements" collection={programJobOfferParticipantAgreements} />
+              <div key={"program_"+program.id}>
+                <ProgramHeader program={program} collectionName="Participant Agreement" collection={programJobOfferParticipantAgreements} />
                 {programJobOfferParticipantAgreements.map(function (jobOfferParticipantAgreement) {
-                  return <JobOfferParticipantAgreement jobOfferParticipantAgreement={jobOfferParticipantAgreement} key={"participant_agreement_"+program.id+"-"+jobOfferParticipantAgreement.id} />
+                  return <JobOfferParticipantAgreement jobOfferParticipantAgreement={jobOfferParticipantAgreement} key={"jobOfferParticipantAgreement_"+jobOfferParticipantAgreement.id} />
                 })}
               </div>
             )

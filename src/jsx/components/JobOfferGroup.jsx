@@ -25,7 +25,6 @@ var JobOfferGroup = React.createClass({
 
   render: function () {
     var actions = null;
-    var employer = EmployerStore.findById(this.props.jobOfferGroup.employer_id);
 
     if (this.state.rejecting) {
       actions = (
@@ -42,7 +41,7 @@ var JobOfferGroup = React.createClass({
 
     return (
       <div className="panel panel-default participant-group-panel">
-        <EmployerHeader employer={employer} />
+        <EmployerHeader employer_id={this.props.jobOfferGroup.employer_id} />
         <div className="list-group">
           {this.props.jobOfferGroup.job_offers.map(function (jobOffer) {
             return <JobOffer jobOffer={jobOffer} key={"job_offer_"+jobOffer.id} />;

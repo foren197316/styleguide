@@ -350,7 +350,9 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 var GlobalActions = Reflux.createActions([
   "newJobOffer",
   "loadFromJobOfferGroups",
-  "loadFromOfferedParticipantGroups"
+  "loadFromOfferedParticipantGroups",
+  "loadFromJobOfferParticipantAgreements",
+  "loadFromInMatchingParticipantGroups"
 ]);
 
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
@@ -368,9 +370,6 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
       ["setParticipants"]
     )),
-    EmployerActions = Reflux.createActions(genericStoreActions.concat(
-      ["setStaff"]
-    )),
     ParticipantGroupNameActions = Reflux.createActions(genericStoreActions.concat(
       ["setNames"]
     )),
@@ -383,6 +382,10 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     StaffActions = Reflux.createActions(genericStoreActions.concat(
       ["loadFromEmployer"]
     )),
+    ProgramActions = Reflux.createActions(genericStoreActions.concat(
+      ["loadFromEmployer"]
+    )),
+    EmployerActions = Reflux.createActions(genericStoreActions),
     ParticipantActions = Reflux.createActions(genericStoreActions),
     DraftJobOfferActions = Reflux.createActions(genericStoreActions),
     JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions),
@@ -391,6 +394,5 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     AgeAtArrivalActions = Reflux.createActions(genericStoreActions),
     GenderActions = Reflux.createActions(genericStoreActions),
     ParticipantSignedActions = Reflux.createActions(genericStoreActions),
-    ProgramActions = Reflux.createActions(genericStoreActions),
     PositionActions = Reflux.createActions(genericStoreActions),
     JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions);

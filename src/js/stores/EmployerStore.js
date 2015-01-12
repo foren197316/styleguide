@@ -5,16 +5,8 @@ var EmployerStore = Reflux.createStore({
   init: function () {
     this.listenTo(GlobalActions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
     this.listenTo(GlobalActions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
-  },
-
-  initPostAjaxLoad: function (_employers, context) {
-    switch (context) {
-      case CONTEXT.JOB_OFFER:
-        StaffActions.ajaxLoad(this.data.mapAttribute("staff_id"), EmployerActions.setStaff);
-        break;
-      default:
-        this.trigger(this.data);
-    }
+    this.listenTo(GlobalActions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
+    this.listenTo(GlobalActions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
   },
 
   onLoadFromJobOfferGroups: function (jobOfferGroups) {
@@ -31,16 +23,10 @@ var EmployerStore = Reflux.createStore({
     );
   },
 
-  onSetStaff: function (staffs) {
-    if (this.staffListener) {
-      this.staffListener();
-    }
-
-    this.data = this.data.map(function (employer) {
-      employer.staff = staffs.findById(employer.staff_id);
-      return employer;
-    });
-
-    this.trigger(this.data);
+  onLoadFromJobOfferParticipantAgreements: function (jobOfferParticipantAgreements) {
+    EmployerActions.ajaxLoad(
+      jobOfferParticipantAgreements.mapAttribute("job_offer").mapAttribute("employer_id"),
+      StaffActions.loadFromEmployer
+    );
   }
 });

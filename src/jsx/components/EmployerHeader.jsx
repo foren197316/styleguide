@@ -1,21 +1,23 @@
 var EmployerHeader = React.createClass({
   mixins: [
     Reflux.connect(StaffStore, "staffs"),
-    RenderLoadedMixin("staffs", { placeholder: null })
+    Reflux.connect(EmployerStore, "employers"),
+    RenderLoadedMixin("staffs", "employers", { placeholder: null })
   ],
 
   propTypes: {
-    employer: React.PropTypes.object.isRequired
+    employer_id: React.PropTypes.number.isRequired
   },
 
   renderLoaded: function () {
-    var staff = this.state.staffs.findById(this.props.employer.staff_id) || {};
+    var employer = this.state.employers.findById(this.props.employer_id);
+    var staff = this.state.staffs.findById(employer.staff_id) || {};
 
     return (
       <div className="panel-heading">
         <h1 className="panel-title">
           <span className="pull-right text-muted">{staff.name}</span>
-          <LinkToIf name={this.props.employer.name} href={this.props.employer.href} />
+          <LinkToIf name={employer.name} href={employer.href} />
         </h1>
       </div>
     )

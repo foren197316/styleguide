@@ -5,7 +5,6 @@ var JobOfferParticipantAgreementsIndex = React.createClass({
     return (
       <div className="row">
         <div className="col-md-3">
-          <div>Ooooooh, hello.</div>
         </div>
         <div className="col-md-9">
           <JobOfferParticipantAgreementsPanel />

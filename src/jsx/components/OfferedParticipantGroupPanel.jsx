@@ -104,7 +104,7 @@ var OfferedParticipantGroupPanel = React.createClass({
 
     return (
       <div className="panel panel-default participant-group-panel">
-        <EmployerHeader employer={employer} />
+        <EmployerHeader employer_id={employer.id} />
         <div className="list-group">
           {participantNodes}
         </div>
