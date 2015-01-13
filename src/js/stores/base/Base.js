@@ -1,16 +1,10 @@
-var CONTEXT = {
-  IN_MATCHING: 1,
-  OFFERED:     2,
-  JOB_OFFER:   3
-}
-
 var RESOURCE_URLS;
-var genericStoreActions    = ["setData", "deprecatedAjaxLoad", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
+var genericStoreActions    = ["setData", "deprecatedAjaxLoad", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton", "ajaxLoadSingleton"];
 var filterableStoreActions = ["search", "resetSearch", "dateFilter"];
 
 var SetUrlsMixin = {
   propTypes: {
-    urls: React.PropTypes.array.isRequired
+    urls: React.PropTypes.object.isRequired
   },
 
   componentDidMount: function () {
@@ -74,6 +68,12 @@ Reflux.StoreMethods.onAjaxLoad = function () {
     }.bind(this),
     error: this.onLoadError.bind(this)
   });
+};
+
+Reflux.StoreMethods.onAjaxLoadSingleton = function () {
+  this.onSetSingleton();
+  var args = arguments;
+  this.onAjaxLoad.apply(this, args);
 };
 
 Reflux.StoreMethods.onLoadSuccess = function (response) {

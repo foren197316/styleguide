@@ -1,26 +1,22 @@
 var InMatchingParticipantGroupsIndex = React.createClass({
   mixins: [
-    Reflux.ListenerMixin,
     Reflux.connect(InMatchingParticipantGroupStore, "inMatchingParticipantGroups"),
     Reflux.connect(EmployerStore, "employer"),
-    Reflux.connect(EnrollmentStore, "enrollments"),
-    RenderLoadedMixin("inMatchingParticipantGroups", "employer", "enrollments")
+    Reflux.connect(ProgramStore, "programs"),
+    RenderLoadedMixin("inMatchingParticipantGroups", "employer", "programs")
   ],
 
   statics: {
     noResultsMessage: "There are currently no participants available who match your criteria. Check back soon!"
   },
 
-  getInitialState: function () {
-    return { inMatchingParticipantGroups: null };
-  },
-
   componentDidMount: function() {
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
-    window.RESOURCE_URLS = this.props.urls; /* TODO: I hate that you have to do this. */
-    InMatchingParticipantGroupActions.deprecatedAjaxLoad();
-    EnrollmentActions.deprecatedAjaxLoad();
-    PositionActions.deprecatedAjaxLoad();
+    window.RESOURCE_URLS = this.props.urls;
+    InMatchingParticipantGroupActions.ajaxLoad(GlobalActions.loadFromInMatchingParticipantGroups);
+    EmployerActions.ajaxLoadSingleton();
+    PositionActions.ajaxLoad();
+    ProgramActions.ajaxLoad();
   },
 
   intercom: function (employers) {
@@ -35,7 +31,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
   renderLoaded: function () {
     var employer = this.state.employer[0];
     var programIds = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-      return inMatchingParticipantGroup.participant_group.participants[0].program_id;
+      return inMatchingParticipantGroup.participants[0].program_id;
     }).sort().uniq();
 
     return (
@@ -56,12 +52,12 @@ var InMatchingParticipantGroupsIndex = React.createClass({
           {function () {
             if (programIds.length > 0) {
               return programIds.map(function (programId) {
-                var program = ProgramStore.findById(programId);
-                var enrollment = EnrollmentStore.findById(program.id, "program_id");
+                var program = this.state.programs.findById(programId);
+                var enrollment = employer.enrollments.findById(program.id, "program_id");
                 var participantCount = 0;
                 var inMatchingParticipantGroups = this.state.inMatchingParticipantGroups.filter(function (inMatchingParticipantGroup) {
-                  if (inMatchingParticipantGroup.participant_group.participants[0].program_id === program.id) {
-                    participantCount += inMatchingParticipantGroup.participant_group.participants.length;
+                  if (inMatchingParticipantGroup.participants[0].program_id === program.id) {
+                    participantCount += inMatchingParticipantGroup.participants.length;
                     return true;
                   }
                   return false;

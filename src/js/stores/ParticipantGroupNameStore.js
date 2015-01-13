@@ -1,13 +1,23 @@
 var ParticipantGroupNameStore = Reflux.createStore({
   listenables: ParticipantGroupNameActions,
-  permission: true,
+  permission: false,
 
   init: function () {
+    this.listenTo(GlobalActions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
   },
 
-  onSetNames: function (participantGroups) {
-    this.data = participantGroups.mapAttribute("name").sort().uniq().map(function (participantGroupName) {
-      return { id: participantGroupName, name: participantGroupName };
-    });
+  onLoadFromInMatchingParticipantGroups: function (inMatchingParticipantGroups) {
+    this.permission = true;
+
+    this.data = inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+      return inMatchingParticipantGroup.name;
+    }).sort().uniq().map(function (name) {
+      return {
+        id: name,
+        name: name
+      };
+    });;
+
+    this.trigger(this.data);
   }
 });

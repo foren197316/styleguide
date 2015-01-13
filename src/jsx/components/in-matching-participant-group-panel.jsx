@@ -15,7 +15,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
 
   canPutOnReview: function () {
     return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum
-        && this.props.inMatchingParticipantGroup.participant_group.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
+        && this.props.inMatchingParticipantGroup.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
   },
 
   handlePutOnReview: function(event) {
@@ -59,14 +59,14 @@ var InMatchingParticipantGroupPanel = React.createClass({
   },
 
   participantNames: function () {
-    return this.props.inMatchingParticipantGroup.participant_group.participants.mapAttribute("name").join(", ");
+    return this.props.inMatchingParticipantGroup.participants.mapAttribute("name").join(", ");
   },
 
   render: function() {
     var action,
         legalese,
-        footerName = this.props.inMatchingParticipantGroup.participant_group.name,
-        participantPluralized = this.props.inMatchingParticipantGroup.participant_group.participants.length > 1 ? 'participants' : 'participant';
+        footerName = this.props.inMatchingParticipantGroup.name,
+        participantPluralized = this.props.inMatchingParticipantGroup.participants.length > 1 ? 'participants' : 'participant';
 
     if (this.state.status) {
       var status = this.state.status;
@@ -94,7 +94,7 @@ var InMatchingParticipantGroupPanel = React.createClass({
       return (
         <div className="panel panel-default participant-group-panel" data-participant-names={this.participantNames()}>
           <div className="list-group">
-            {this.props.inMatchingParticipantGroup.participant_group.participants.map(function (participant) {
+            {this.props.inMatchingParticipantGroup.participants.map(function (participant) {
               return <ParticipantGroupParticipant key={participant.id} data={participant} />;
             })}
           </div>

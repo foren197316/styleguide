@@ -9,25 +9,24 @@ var CheckBoxFilter = React.createClass({
 
   getInitialState: function () {
     return {
-      isLoaded: !!this.props.store.data,
-      dataLength: this.props.store.data ? this.props.store.data.length : 0
+      isLoaded: !!this.props.store.data
     };
   },
 
   componentDidMount: function () {
-    this.stopListener = this.props.store.listen(function () {
-      if (this.props.store.data)
-      this.stopListener();
-      this.setState({ isLoaded: true });
-    }.bind(this));
+    if (!this.state.isLoaded) {
+      this.stopListener = this.props.store.listen(function () {
+        this.stopListener();
+        this.setState({ isLoaded: true });
+      }.bind(this));
+    }
   },
 
   onChange: function (event) {
-    this.props.actions.filterByIds(
-      $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
-        return parseInt(checkbox.getAttribute("name").match(/\[(.*)\]/)[1]);
-      })
-    );
+    var ids = $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
+      return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
+    });
+    this.props.actions.filterByIds(ids);
   },
 
   render: function () {

@@ -2,20 +2,16 @@ var EnrollmentStore = Reflux.createStore({
   resourceName: "enrollments",
   listenables: EnrollmentActions,
 
-  init: function () {
-  },
-
   initPostAjaxLoad: function () {
     this.filterSearchableEnrollments();
-    ProgramActions.deprecatedAjaxLoad(this.data.mapAttribute("program_id"));
+    ProgramActions.ajaxLoad(this.data.mapAttribute("program_id"));
+    this.trigger(this.data);
   },
 
   filterSearchableEnrollments: function () {
     this.data = this.data.filter(function (enrollment) {
       return enrollment.searchable;
     });
-
-    this.trigger(this.data);
   },
 
   onUpdateOnReviewCount: function (enrollmentId, count) {
