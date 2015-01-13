@@ -15,6 +15,11 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
       return inMatchingParticipantGroup;
     });
 
+    this.initFilters();
+    this.trigger(this.data);
+  },
+
+  initFilters: function () {
     this.listenTo(AgeAtArrivalActions.filterByIds, this.filterAgeAtArrival);
     this.listenTo(ParticipantGroupNameActions.filterByIds, this.filterParticipantGroupNames);
     this.listenTo(GenderActions.filterByIds, this.filterGenders);
