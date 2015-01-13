@@ -283,7 +283,7 @@ Reflux.StoreMethods.onFilterByIds = function (ids) {
   } else {
     this.trigger(
       this.data.filter(function (entry) {
-        return ids.indexOf(entry.id) >= 0;
+        return ids.indexOf(entry.id.toString()) >= 0;
       })
     );
   }
