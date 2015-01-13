@@ -24,7 +24,7 @@ var CheckBoxFilter = React.createClass({
 
   onChange: function (event) {
     var ids = $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
-      return checkbox.getAttribute("name").match(/\[(.*)\]/)[1];
+      return checkbox.getAttribute("value");
     });
     this.props.actions.filterByIds(ids);
   },
@@ -38,7 +38,7 @@ var CheckBoxFilter = React.createClass({
             {this.props.store.data.map(function (option) {
 
               return <label key={this.props.title+"_checkbox_"+option.id} className="list-group-item">
-                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} onChange={this.onChange} />
+                <input type="checkbox" name={this.props.title.toLowerCase() + "[" + option.id + "]"} value={option.id} onChange={this.onChange} />
                 <span className="title">{option.name}</span>
               </label>
             }.bind(this))}
