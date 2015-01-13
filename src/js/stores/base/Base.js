@@ -356,16 +356,15 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     CountryActions = Reflux.createActions(genericStoreActions.concat(
       ["setCountries"]
     )),
-    EnrollmentActions = Reflux.createActions(genericStoreActions.concat(
-      ["updateOnReviewCount"]
-    )),
     StaffActions = Reflux.createActions(genericStoreActions.concat(
       ["loadFromEmployer"]
     )),
     ProgramActions = Reflux.createActions(genericStoreActions.concat(
       ["loadFromEmployer"]
     )),
-    EmployerActions = Reflux.createActions(genericStoreActions),
+    EmployerActions = Reflux.createActions(genericStoreActions.concat(
+      ["updateOnReviewCount"]
+    )),
     ParticipantActions = Reflux.createActions(genericStoreActions),
     DraftJobOfferActions = Reflux.createActions(genericStoreActions),
     JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions)),

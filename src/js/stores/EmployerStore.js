@@ -31,5 +31,21 @@ var EmployerStore = Reflux.createStore({
       jobOfferParticipantAgreements.mapAttribute("job_offer").mapAttribute("employer_id"),
       StaffActions.loadFromEmployer
     );
+  },
+
+  onUpdateOnReviewCount: function (employerId, enrollmentId, count) {
+    this.data = this.data.map(function (employer) {
+      if (employer.id === employerId) {
+        employer.enrollments = employer.enrollments.map(function (enrollment) {
+          if (enrollment.id === enrollmentId) {
+            enrollment.on_review_count += count;
+          }
+          return enrollment;
+        });
+      }
+      return employer;
+    });
+
+    this.trigger(this.data);
   }
 });

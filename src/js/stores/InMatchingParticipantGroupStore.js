@@ -145,8 +145,8 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
       dataType: "json",
       success: function (data) {
         var onReviewCount = data.on_review_participant_group.participants.length;
-        EnrollmentActions.updateOnReviewCount(enrollment.id, onReviewCount);
-      },
+        EmployerActions.updateOnReviewCount(employer.id, enrollment.id, onReviewCount);
+      }.bind(this),
       complete: onComplete
     });
   }
