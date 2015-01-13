@@ -3,14 +3,16 @@ var CountryStore = Reflux.createStore({
   permission: false,
 
   init: function () {
+    this.listenTo(GlobalActions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
   },
 
-  onSetCountries: function (participants) {
-    this.data = participants.mapAttribute("country_name").sort().uniq().map(function (countryName) {
+  onLoadFromInMatchingParticipantGroups: function (inMatchingParticipantGroups) {
+    this.permission = true;
+
+    this.data = inMatchingParticipantGroups.mapAttribute("participants").flatten().mapAttribute("country_name").flatten().sort().uniq().map(function (countryName) {
       return { id: countryName, name: countryName };
     });
 
-    this.permission = true;
     this.trigger(this.data);
   }
 });

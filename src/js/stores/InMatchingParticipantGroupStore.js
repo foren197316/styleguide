@@ -19,6 +19,8 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     this.listenTo(ParticipantGroupNameActions.filterByIds, this.filterParticipantGroupNames);
     this.listenTo(GenderActions.filterByIds, this.filterGenders);
     this.listenTo(EnglishLevelActions.filterByIds, this.filterEnglishLevels);
+    this.listenTo(PositionActions.filterByIds, this.filterPositions);
+    this.listenTo(CountryActions.filterByIds, this.filterCountries);
 
     this.trigger(this.data);
   },
@@ -75,28 +77,35 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     });
   },
 
-  filterCountries: function (countries) {
-    this.filterGeneric("countries", countries, function (names, inMatchingParticipantGroup) {
-      return names.intersects(inMatchingParticipantGroup.participants.mapAttribute("country_name"));
-    });
-  },
+  filterPositions: function (positionIds) {
+    positionIds = positionIds.map(parseInt);
 
-  filterPositions: function (positions) {
-    this.filterGeneric("positions", positions, function (positionIds, inMatchingParticipantGroup) {
+    this.genericIdFilter("positions", positionIds, function (inMatchingParticipantGroup) {
       return positionIds.intersects(inMatchingParticipantGroup.participants.mapAttribute("position_ids").flatten());
     });
   },
 
-  filterSingleton: function (filterKey, data, matchesFunc) {
-    if (data === null || data.length === 0) {
-      this.filterIds[filterKey] = null;
-    } else {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, group) {
-        if (matchesFunc(group)) {
-          ids.push(group.id);
+  filterCountries: function (countryNames) {
+    this.genericIdFilter("countries", countryNames, function (inMatchingParticipantGroup) {
+      return countryNames.intersects(inMatchingParticipantGroup.participants.mapAttribute("country_name"));
+    });
+  },
+
+  onTogglePreviousParticipation: function (toggle) {
+    var filterKey = "previousParticipation";
+    if (toggle) {
+      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
+        var hasHadJ1 = inMatchingParticipantGroup.participants.reduce(function (prev, curr) {
+          return prev || curr.has_had_j1;
+        }, false);
+
+        if (hasHadJ1) {
+          ids.push(inMatchingParticipantGroup.id);
         }
         return ids;
       }, []);
+    } else {
+      this.filterIds[filterKey] = null;
     }
 
     this.emitFilteredData();
@@ -111,26 +120,6 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
         }, false);
 
         if (hasInternationalDriversLicense) {
-          ids.push(inMatchingParticipantGroup.id);
-        }
-        return ids;
-      }, []);
-    } else {
-      this.filterIds[filterKey] = null;
-    }
-
-    this.emitFilteredData();
-  },
-
-  onTogglePreviousParticipation: function (toggle) {
-    var filterKey = "previousParticipation";
-    if (toggle) {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
-        var hasHadJ1 = inMatchingParticipantGroup.participants.reduce(function (prev, curr) {
-          return prev || curr.has_had_j1;
-        }, false);
-
-        if (hasHadJ1) {
           ids.push(inMatchingParticipantGroup.id);
         }
         return ids;

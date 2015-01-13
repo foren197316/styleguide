@@ -12,11 +12,8 @@ var ParticipantGroupNameStore = Reflux.createStore({
     this.data = inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
       return inMatchingParticipantGroup.name;
     }).sort().uniq().map(function (name) {
-      return {
-        id: name,
-        name: name
-      };
-    });;
+      return { id: name, name: name };
+    });
 
     this.trigger(this.data);
   }
