@@ -368,6 +368,7 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     ParticipantActions = Reflux.createActions(genericStoreActions),
     DraftJobOfferActions = Reflux.createActions(genericStoreActions),
     JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions)),
+    JobOfferSignedActions = Reflux.createActions(genericStoreActions),
     OfferSentActions = Reflux.createActions(genericStoreActions),
     EnglishLevelActions = Reflux.createActions(genericStoreActions),
     AgeAtArrivalActions = Reflux.createActions(genericStoreActions),
