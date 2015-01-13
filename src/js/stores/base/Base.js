@@ -149,26 +149,6 @@ Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
   this.trigger(this.data);
 }
 
-Reflux.StoreMethods.filterGeneric = function (filterKey, data, condition) {
-  this.filterIds = this.filterIds || {};
-
-  if (data === null) {
-    this.filterIds[filterKey] = null;
-  } else {
-    var data_ids = data.mapAttribute("id");
-
-    this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
-      if (condition(data_ids, entry)) {
-        ids.push(entry.id);
-      }
-      return ids;
-    }, []);
-  }
-
-  this.emitFilteredData();
-}
-
-/* TODO: replace filterGeneric with this method */
 Reflux.StoreMethods.genericIdFilter = function (filterKey, filter_ids, condition) {
   this.filterIds = this.filterIds || {};
 

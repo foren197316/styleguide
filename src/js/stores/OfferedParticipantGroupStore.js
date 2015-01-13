@@ -48,8 +48,10 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     this.emitFilteredData();
   },
 
-  filterPrograms: function (programs) {
-    this.filterGeneric("programs", programs, function (programIds, offeredParticipantGroup) {
+  filterPrograms: function (programIds) {
+    programIds = programIds.map(parseInt);
+
+    this.genericIdFilter("programs", programIds, function (offeredParticipantGroup) {
       return programIds.indexOf(offeredParticipantGroup.participants[0].program_id) >= 0;
     });
   },
