@@ -12,7 +12,6 @@ var gulp        = require('gulp'),
     jshint      = require('gulp-jshint'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
-    react       = require('gulp-react'),
     sass        = require('gulp-sass'),
     uglify      = require('gulp-uglify'),
     del         = require('del'),
@@ -106,28 +105,18 @@ gulp.task('javascript-components', function() {
     .pipe(addsrc.prepend('src/js/stores/*.js'))
     .pipe(addsrc.prepend('src/js/stores/base/*.js'))
     .pipe(sourcemaps.init({ debug: true }))
-      .pipe(concat('interexchange-components.js'))
-      .pipe(gulp.dest('build/js'))
       .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
       .pipe(concat('interexchange-components.min.js'))
     .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest('build/js'));
 });
 
-gulp.task('no-jsx', function() {
-  return gulp.src('src/jsx/components/**/*.jsx')
-    .pipe(react())
-    .pipe(gulp.dest('build/js/components'));
-});
-
 gulp.task('javascript-development', ['javascript'], function() {
-  return gulp.src([
-      'src/js/development.js'
-    ])
-    .pipe(concat('interexchange-development.js'))
-    .pipe(gulp.dest('build/js'))
-    .pipe(uglify())
-    .pipe(concat('interexchange-development.min.js'))
+  return gulp.src('src/js/development.js')
+    .pipe(sourcemaps.init({ debug: true }))
+      .pipe(uglify())
+      .pipe(concat('interexchange-development.min.js'))
+    .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest('build/js'));
 });
 
@@ -153,7 +142,7 @@ gulp.task('serve', ['build'], function () {
     open: false
   });
   gulp.watch(['**/*.html'], reload);
-  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/jsx/**/*.jsx', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
+  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
     runSequence('build', reload);
   });
 });
