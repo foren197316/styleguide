@@ -101,11 +101,8 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('javascript-components', function() {
-  return gulp.src('src/jsx/components/*.jsx')
-    .pipe(addsrc.prepend('src/jsx/components/base/*.jsx'))
-    .pipe(concat('interexchange-components.jsx'))
-    .pipe(gulp.dest('build/jsx'))
-    .pipe(react())
+  return gulp.src('src/js/components/*.js')
+    .pipe(addsrc.prepend('src/js/components/base/*.js'))
     .pipe(addsrc.prepend('src/js/stores/*.js'))
     .pipe(addsrc.prepend('src/js/stores/base/*.js'))
     .pipe(concat('interexchange-components.js'))
@@ -113,6 +110,12 @@ gulp.task('javascript-components', function() {
     .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
     .pipe(concat('interexchange-components.min.js'))
     .pipe(gulp.dest('build/js'));
+});
+
+gulp.task('no-jsx', function() {
+  return gulp.src('src/jsx/components/**/*.jsx')
+    .pipe(react())
+    .pipe(gulp.dest('build/js/components'));
 });
 
 gulp.task('javascript-development', ['javascript'], function() {

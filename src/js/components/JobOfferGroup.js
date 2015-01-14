@@ -1,0 +1,58 @@
+/** @jsx React.DOM */
+var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
+  propTypes: {
+    jobOfferGroup: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function () {
+    return {};
+  },
+
+  handleReject: function () {
+    this.setState({ rejecting: true });
+  },
+
+  handleCancel: function(event) {
+    this.setState({ rejecting: false });
+  },
+
+  handleConfirm: function(event) {
+    this.setState({ sending: true });
+
+    var node = this.getDOMNode();
+
+    JobOfferGroupActions.destroy(this.props.jobOfferGroup.id);
+  },
+
+  render: function () {
+    var actions = null;
+    var employer = EmployerStore.findById(this.props.jobOfferGroup.employer_id);
+
+    if (this.state.rejecting) {
+      actions = (
+        React.DOM.div({className: "btn-group"},
+          React.DOM.button({className: "btn btn-danger", onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, "Confirm"),
+          React.DOM.button({className: "btn btn-default", onClick: this.handleCancel}, "Cancel")
+        )
+      )
+    } else if (this.props.jobOfferGroup.can_reject) {
+      actions = (
+        React.DOM.button({className: "btn btn-small btn-danger", onClick: this.handleReject}, "Reject")
+      )
+    }
+
+    return (
+      React.DOM.div({className: "panel panel-default participant-group-panel"},
+        EmployerHeader({employer: employer}),
+        React.DOM.div({className: "list-group"},
+          this.props.jobOfferGroup.job_offers.map(function (jobOffer) {
+            return JobOffer({jobOffer: jobOffer, key: "job_offer_"+jobOffer.id});
+          })
+        ),
+        ParticipantGroupPanelFooter({name: this.props.jobOfferGroup.name},
+          actions
+        )
+      )
+    )
+  }
+});
