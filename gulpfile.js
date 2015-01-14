@@ -105,10 +105,12 @@ gulp.task('javascript-components', function() {
     .pipe(addsrc.prepend('src/js/components/base/*.js'))
     .pipe(addsrc.prepend('src/js/stores/*.js'))
     .pipe(addsrc.prepend('src/js/stores/base/*.js'))
-    .pipe(concat('interexchange-components.js'))
-    .pipe(gulp.dest('build/js'))
-    .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
-    .pipe(concat('interexchange-components.min.js'))
+    .pipe(sourcemaps.init({ debug: true }))
+      .pipe(concat('interexchange-components.js'))
+      .pipe(gulp.dest('build/js'))
+      .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
+      .pipe(concat('interexchange-components.min.js'))
+    .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest('build/js'));
 });
 
