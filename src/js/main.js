@@ -210,7 +210,7 @@ Reflux.StoreMethods.onLoadError = function () {
 Reflux.StoreMethods.genericIdFilter = function (filterKey, filterIds, condition) {
   this.filterIds = this.filterIds || {};
 
-  if (filterIds === undefined || filterIds === null || filterIds.length === 0) {
+  if (filterIds == null || filterIds.length === 0) {
     this.filterIds[filterKey] = null;
   } else {
     this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
