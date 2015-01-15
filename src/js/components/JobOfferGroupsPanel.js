@@ -24,7 +24,7 @@ var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
           if (programJobOfferGroups.length > 0) {
             return (
               React.DOM.div(null,
-                ProgramHeader({program: program, collectionName: 'Job Offer', collection: programJobOfferGroups.mapAttribute('job_offers')}),
+                ProgramHeader({program: program, collectionName: 'Job Offer', collection: programJobOfferGroups.mapAttribute('job_offers').flatten()}),
                 programJobOfferGroups.map(function (jobOfferGroup) {
                   return JobOfferGroup({jobOfferGroup: jobOfferGroup, key: 'program_job_offer_group'+program.id+'-'+jobOfferGroup.id});
                 })
