@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewParticipantGroupPanel',
   mixins: [React.addons.LinkedStateMixin],
 

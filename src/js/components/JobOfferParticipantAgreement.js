@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferParticipantAgreement',
   propTypes: {
     jobOfferParticipantAgreement: React.PropTypes.object.isRequired

@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var validateMoney = function (value) {
   if (value) {
     if (!/^\d+([\.,]\d{1,2})?$/.test(value)) {

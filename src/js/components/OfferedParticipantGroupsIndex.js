@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedParticipantGroupsIndex',
   mixins: [
     Reflux.connect(OfferedParticipantGroupStore, "offeredParticipantGroups"),

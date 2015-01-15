@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanel',
   getInitialState: function() {
     return {

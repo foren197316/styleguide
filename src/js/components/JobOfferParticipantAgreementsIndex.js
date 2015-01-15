@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOfferParticipantAgreementsIndex',
   mixins: [
     SetUrlsMixin,

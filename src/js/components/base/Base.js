@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var dateFormat = "MM/dd/yyyy";
 
 String.prototype.capitaliseWord = function () {
@@ -405,7 +403,7 @@ var GroupPanelsMixin = {
 };
 
 var ValidatingInputMixin = {
-  statics: { validates: true},
+  statics: { validates: true },
 
   propTypes: { validationState: React.PropTypes.object.isRequired },
 

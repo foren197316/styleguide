@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
     offeredParticipantGroup: React.PropTypes.object.isRequired

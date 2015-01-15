@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var CheckBoxFilter = React.createClass({displayName: 'CheckBoxFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,

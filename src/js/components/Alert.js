@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 function AlertAction (title, url) {
   this.title = title;
   this.url = url;

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var HiddenIdInput = React.createClass({displayName: 'HiddenIdInput',
   propTypes: {
     id: React.PropTypes.number.isRequired

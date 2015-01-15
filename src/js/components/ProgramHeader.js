@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var ProgramHeader = React.createClass({displayName: 'ProgramHeader',
   propTypes: {
     program: React.PropTypes.object.isRequired,

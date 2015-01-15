@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var EmployerHeader = React.createClass({displayName: 'EmployerHeader',
   propTypes: {
     employer: React.PropTypes.object.isRequired

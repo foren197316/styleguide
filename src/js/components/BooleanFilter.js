@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var BooleanFilter = React.createClass({displayName: 'BooleanFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,

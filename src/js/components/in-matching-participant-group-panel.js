@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchingParticipantGroupPanel',
   propTypes: {
     employer: React.PropTypes.object.isRequired,

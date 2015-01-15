@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
   propTypes: {
     searchFrom: React.PropTypes.string.isRequired,

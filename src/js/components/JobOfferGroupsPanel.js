@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
   mixins: [
     Reflux.connect(JobOfferGroupStore, "jobOfferGroups"),

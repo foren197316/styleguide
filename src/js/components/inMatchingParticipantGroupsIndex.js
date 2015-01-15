@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, "inMatchingParticipantGroups"),

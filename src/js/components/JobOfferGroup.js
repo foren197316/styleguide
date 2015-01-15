@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
   propTypes: {
     jobOfferGroup: React.PropTypes.object.isRequired
