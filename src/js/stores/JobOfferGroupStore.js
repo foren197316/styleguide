@@ -21,7 +21,7 @@ var JobOfferGroupStore = Reflux.createStore({
   filterEmployers: function (employerIds) {
     var intEmployerIds = employerIds.map(parseIntBase10);
 
-    this.genericIdFilter("employers", intEmployerIds, function (jobOfferGroup) {
+    this.genericIdFilter('employers', intEmployerIds, function (jobOfferGroup) {
       return intEmployerIds.indexOf(jobOfferGroup.employer_id) >= 0;
     });
   },
@@ -29,7 +29,7 @@ var JobOfferGroupStore = Reflux.createStore({
   filterStaffs: function (staffIds) {
     var intStaffIds = staffIds.map(parseIntBase10);
 
-    this.genericIdFilter("staffs", intStaffIds, function (jobOfferGroup) {
+    this.genericIdFilter('staffs', intStaffIds, function (jobOfferGroup) {
       var employer = EmployerStore.findById(jobOfferGroup.employer_id);
       return employer && intStaffIds.indexOf(employer.staff_id) >= 0;
     });

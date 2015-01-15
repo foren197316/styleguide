@@ -77,16 +77,16 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   filterEnglishLevels: function (englishLevels) {
     var intEnglishLevels = englishLevels.map(parseIntBase10);
 
-    this.genericIdFilter("englishLevels", intEnglishLevels, function (inMatchingParticipantGroup) {
-      return intEnglishLevels.intersects(inMatchingParticipantGroup.participants.mapAttribute("english_level"));
+    this.genericIdFilter('englishLevels', intEnglishLevels, function (inMatchingParticipantGroup) {
+      return intEnglishLevels.intersects(inMatchingParticipantGroup.participants.mapAttribute('english_level'));
     });
   },
 
   filterPositions: function (positionIds) {
     var intPositionIds = positionIds.map(parseIntBase10);
 
-    this.genericIdFilter("positions", intPositionIds, function (inMatchingParticipantGroup) {
-      return intPositionIds.intersects(inMatchingParticipantGroup.participants.mapAttribute("position_ids").flatten());
+    this.genericIdFilter('positions', intPositionIds, function (inMatchingParticipantGroup) {
+      return intPositionIds.intersects(inMatchingParticipantGroup.participants.mapAttribute('position_ids').flatten());
     });
   },
 

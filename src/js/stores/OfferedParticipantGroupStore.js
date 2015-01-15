@@ -5,9 +5,9 @@ var OfferedParticipantGroupStore = Reflux.createStore({
 
   initPostAjaxLoad: function () {
     this.data = this.data.map(function (offeredParticipantGroup) {
-      offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute("name").join(",");
-      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute("email").join(",");
-      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute("uuid").join(",");
+      offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute('name').join(',');
+      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute('email').join(',');
+      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute('uuid').join(',');
       return offeredParticipantGroup;
     });
 
@@ -40,7 +40,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   filterPrograms: function (programIds) {
     var intProgramIds = programIds.map(parseIntBase10);
 
-    this.genericIdFilter("programs", intProgramIds, function (offeredParticipantGroup) {
+    this.genericIdFilter('programs', intProgramIds, function (offeredParticipantGroup) {
       return intProgramIds.indexOf(offeredParticipantGroup.participants[0].program_id) >= 0;
     });
   },
@@ -48,7 +48,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   filterStaffs: function (staffIds) {
     var intStaffIds = staffIds.map(parseIntBase10);
 
-    this.genericIdFilter("staffs", intStaffIds, function (offeredParticipantGroup) {
+    this.genericIdFilter('staffs', intStaffIds, function (offeredParticipantGroup) {
       var employer = EmployerStore.findById(offeredParticipantGroup.employer_id);
       return employer && intStaffIds.indexOf(employer.staff_id) >= 0;
     });
@@ -57,7 +57,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   filterEmployers: function (employerIds) {
     var intEmployerIds = employerIds.map(parseIntBase10);
 
-    this.genericIdFilter("employers", intEmployerIds, function (offeredParticipantGroup) {
+    this.genericIdFilter('employers', intEmployerIds, function (offeredParticipantGroup) {
       return intEmployerIds.indexOf(offeredParticipantGroup.employer_id) >= 0;
     });
   }
