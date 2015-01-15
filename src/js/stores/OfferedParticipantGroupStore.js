@@ -56,16 +56,20 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     });
   },
 
-  filterStaffs: function (staff_ids) {
-    this.genericIdFilter("staffs", staff_ids, function (offeredParticipantGroup) {
+  filterStaffs: function (staffIds) {
+    staffIds = staffIds.map(parseInt);
+
+    this.genericIdFilter("staffs", staffIds, function (offeredParticipantGroup) {
       var employer = EmployerStore.findById(offeredParticipantGroup.employer_id);
-      return employer && staff_ids.indexOf(employer.staff_id) >= 0;
+      return employer && staffIds.indexOf(employer.staff_id) >= 0;
     });
   },
 
-  filterEmployers: function (employer_ids) {
-    this.genericIdFilter("employers", employer_ids, function (offeredParticipantGroup) {
-      return employer_ids.indexOf(offeredParticipantGroup.employer_id) >= 0;
+  filterEmployers: function (employerIds) {
+    employerIds = employerIds.map(parseInt);
+
+    this.genericIdFilter("employers", employerIds, function (offeredParticipantGroup) {
+      return employerIds.indexOf(offeredParticipantGroup.employer_id) >= 0;
     });
   }
 });
