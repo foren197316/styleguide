@@ -92,10 +92,10 @@ gulp.task('javascript', function() {
       'bower_components/react-bootstrap/react-bootstrap.js',
       'bower_components/reflux/dist/reflux.js'
     ])
-    .pipe(concat('interexchange.js'))
-    .pipe(gulp.dest('build/js'))
-    .pipe(uglify())
-    .pipe(concat('interexchange.min.js'))
+    .pipe(sourcemaps.init({ debug: true }))
+      .pipe(uglify())
+      .pipe(concat('interexchange.min.js'))
+    .pipe(sourcemaps.write('../maps'))
     .pipe(gulp.dest('build/js'))
 });
 
@@ -121,7 +121,7 @@ gulp.task('javascript-development', ['javascript'], function() {
 });
 
 gulp.task('jshint', function () {
-  return gulp.src('build/js/*js')
+  return gulp.src('build/js/interexchange-components.js')
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(_if(!browserSync.active, jshint.reporter('fail')));
