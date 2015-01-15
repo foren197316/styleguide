@@ -11,12 +11,12 @@ var BooleanFilter = React.createClass({displayName: 'BooleanFilter',
 
   render: function () {
     return (
-      React.DOM.div({className: "panel panel-default"},
-        React.DOM.div({className: "panel-heading"}, this.props.title),
-        React.DOM.div({className: "list-group list-group-scrollable"},
-          React.DOM.label({className: "list-group-item"},
-            React.DOM.input({ref: "checkbox", type: "checkbox", name: this.props.title.toLowerCase(), onChange: this.onChange}),
-            React.DOM.span({className: "title"}, this.props.label)
+      React.DOM.div({className: 'panel panel-default'},
+        React.DOM.div({className: 'panel-heading'}, this.props.title),
+        React.DOM.div({className: 'list-group list-group-scrollable'},
+          React.DOM.label({className: 'list-group-item'},
+            React.DOM.input({ref: 'checkbox', type: 'checkbox', name: this.props.title.toLowerCase(), onChange: this.onChange}),
+            React.DOM.span({className: 'title'}, this.props.label)
           )
         )
       )

@@ -1,4 +1,4 @@
 var PositionStore = Reflux.createStore({
-  resourceName: "positions",
+  resourceName: 'positions',
   listenables: PositionActions
 });

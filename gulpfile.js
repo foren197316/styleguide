@@ -105,6 +105,8 @@ gulp.task('javascript-components', function() {
     .pipe(addsrc.prepend('src/js/stores/*.js'))
     .pipe(addsrc.prepend('src/js/stores/base/*.js'))
     .pipe(sourcemaps.init({ debug: true }))
+      .pipe(concat('interexchange-components.js'))
+      .pipe(gulp.dest('build/js'))
       .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
       .pipe(concat('interexchange-components.min.js'))
     .pipe(sourcemaps.write('../maps'))
@@ -143,7 +145,7 @@ gulp.task('serve', ['build'], function () {
   });
   gulp.watch(['**/*.html'], reload);
   gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build', reload);
+    runSequence('build', 'jshint', reload);
   });
 });
 

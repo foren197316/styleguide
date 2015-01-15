@@ -13,8 +13,8 @@ var OfferSentStore = Reflux.createStore({
     if (DraftJobOfferStore.permission) {
       this.permission = true;
       this.data = [
-        { id: "Sent", name: "Sent" },
-        { id: "Unsent", name: "Unsent" }
+        { id: 'Sent', name: 'Sent' },
+        { id: 'Unsent', name: 'Unsent' }
       ];
     }
   }

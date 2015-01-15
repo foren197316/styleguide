@@ -1,5 +1,5 @@
 var OfferedParticipantGroupStore = Reflux.createStore({
-  resourceName: "offeredParticipantGroups",
+  resourceName: 'offeredParticipantGroups',
   listenables: OfferedParticipantGroupActions,
   filterIds: {},
 
@@ -19,9 +19,9 @@ var OfferedParticipantGroupStore = Reflux.createStore({
 
   onReject: function (offeredParticipantGroupId, callback) {
     $.ajax({
-      url: "/offered_participant_groups/" + offeredParticipantGroupId,
-      type: "POST",
-      data: { "_method": "DELETE" },
+      url: '/offered_participant_groups/' + offeredParticipantGroupId,
+      type: 'POST',
+      data: { '_method': 'DELETE' },
       success: function (data) {
         this.data = this.data.filter(function (offeredParticipantGroup) {
           return offeredParticipantGroup.id !== offeredParticipantGroupId;
@@ -29,7 +29,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
 
         this.emitFilteredData();
 
-        if (typeof callback === "function") {
+        if (typeof callback === 'function') {
           callback(data);
         }
       }.bind(this),
@@ -42,8 +42,8 @@ var OfferedParticipantGroupStore = Reflux.createStore({
       return offeredParticipantGroup.id !== offeredParticipantGroupId;
     });
 
-    DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("id").flatten());
-    ParticipantActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("participant_group_id").flatten());
+    DraftJobOfferActions.removeByIds(this.data.mapAttribute('draft_job_offers').mapAttribute('id').flatten());
+    ParticipantActions.removeByIds(this.data.mapAttribute('draft_job_offers').mapAttribute('participant_group_id').flatten());
 
     this.emitFilteredData();
   },

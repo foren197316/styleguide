@@ -1,11 +1,11 @@
 var InMatchingParticipantGroupStore = Reflux.createStore({
-  resourceName: "inMatchingParticipantGroups",
+  resourceName: 'inMatchingParticipantGroups',
   listenables: InMatchingParticipantGroupActions,
   filterIds: {},
 
   initPostAjaxLoad: function () {
     this.data = this.data.map(function (inMatchingParticipantGroup) {
-      inMatchingParticipantGroup.participant_names = inMatchingParticipantGroup.participants.mapAttribute("name").join(",");
+      inMatchingParticipantGroup.participant_names = inMatchingParticipantGroup.participants.mapAttribute('name').join(',');
       inMatchingParticipantGroup.participant_start_dates = inMatchingParticipantGroup.participants.map(function (participant) {
         return Date.parse(participant.arrival_date).add(2).days();
       });
@@ -31,7 +31,7 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   },
 
   filterAgeAtArrival: function (ageAtArrivals) {
-    var filterKey = "ageAtArrivals";
+    var filterKey = 'ageAtArrivals';
 
     if (ageAtArrivals.length === 2 || ageAtArrivals.length === 0) {
       this.filterIds[filterKey] = null;
@@ -39,12 +39,12 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
       var compareFunc;
 
       switch (ageAtArrivals[0]) {
-        case "21_and_over":
+        case '21_and_over':
           compareFunc = function (prev, curr) {
             return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
           };
           break;
-        case "under_21":
+        case 'under_21':
           compareFunc = function (prev, curr) {
             return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) < 21;
           };
@@ -63,14 +63,14 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   },
 
   filterParticipantGroupNames: function (participantGroupNames) {
-    this.genericIdFilter("participantGroupNames", participantGroupNames, function (inMatchingParticipantGroup) {
+    this.genericIdFilter('participantGroupNames', participantGroupNames, function (inMatchingParticipantGroup) {
       return participantGroupNames.indexOf(inMatchingParticipantGroup.name) >= 0;
     });
   },
 
   filterGenders: function (genders) {
-    this.genericIdFilter("genders", genders, function (inMatchingParticipantGroup) {
-      return genders.intersects(inMatchingParticipantGroup.participants.mapAttribute("gender"));
+    this.genericIdFilter('genders', genders, function (inMatchingParticipantGroup) {
+      return genders.intersects(inMatchingParticipantGroup.participants.mapAttribute('gender'));
     });
   },
 
@@ -91,13 +91,13 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   },
 
   filterCountries: function (countryNames) {
-    this.genericIdFilter("countries", countryNames, function (inMatchingParticipantGroup) {
-      return countryNames.intersects(inMatchingParticipantGroup.participants.mapAttribute("country_name"));
+    this.genericIdFilter('countries', countryNames, function (inMatchingParticipantGroup) {
+      return countryNames.intersects(inMatchingParticipantGroup.participants.mapAttribute('country_name'));
     });
   },
 
   onTogglePreviousParticipation: function (toggle) {
-    var filterKey = "previousParticipation";
+    var filterKey = 'previousParticipation';
     if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
         var hasHadJ1 = inMatchingParticipantGroup.participants.reduce(function (prev, curr) {
@@ -117,7 +117,7 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   },
 
   onToggleInternationalDriversLicense: function (toggle) {
-    var filterKey = "internationalDriversLicense";
+    var filterKey = 'internationalDriversLicense';
     if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
         var hasInternationalDriversLicense = inMatchingParticipantGroup.participants.reduce(function (prev, curr) {
@@ -138,8 +138,8 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
 
   onOffer: function (inMatchingParticipantGroup, employer, enrollment, onReviewExpiresOn, onComplete) {
     $.ajax({
-      url: "/on_review_participant_groups.json",
-      type: "POST",
+      url: '/on_review_participant_groups.json',
+      type: 'POST',
       data: {
         on_review_participant_group: {
           in_matching_participant_group_id: inMatchingParticipantGroup.id,
@@ -147,7 +147,7 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
           expires_on: onReviewExpiresOn
         }
       },
-      dataType: "json",
+      dataType: 'json',
       success: function (data) {
         var onReviewCount = data.on_review_participant_group.participants.length;
         EmployerActions.updateOnReviewCount(employer.id, enrollment.id, onReviewCount);

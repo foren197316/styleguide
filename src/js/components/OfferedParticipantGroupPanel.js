@@ -63,7 +63,7 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
               participant: participant,
               position: position,
               offer: draftJobOffer,
-              offerLinkTitle: "Preview"})
+              offerLinkTitle: 'Preview'})
           )
         }.bind(this));
 
@@ -72,16 +72,16 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
       return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)})
     } else if (this.state.sendingJobOffer) {
       actions = (
-        React.DOM.div({className: "btn-group"},
-          React.DOM.button({className: "btn btn-success", onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, "Confirm"),
-          React.DOM.button({className: "btn btn-default", onClick: this.handleCancel}, "Cancel")
+        React.DOM.div({className: 'btn-group'},
+          React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       )
     } else if (this.state.rejecting) {
       actions = (
-        React.DOM.div({className: "btn-group"},
-          React.DOM.button({className: "btn btn-danger", onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, "Confirm"),
-          React.DOM.button({className: "btn btn-default", onClick: this.handleCancel}, "Cancel")
+        React.DOM.div({className: 'btn-group'},
+          React.DOM.button({className: 'btn btn-danger', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       )
     } else if (!this.props.offeredParticipantGroup.can_send) {
@@ -89,23 +89,23 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
     } else if (!employer.vetted) {
       actions = (
         React.DOM.div(null,
-          React.DOM.span({className: "label label-warning pull-left"}, "Employer Not Vetted"),
-          React.DOM.button({className: "btn btn-small btn-danger", onClick: this.handleReject}, "Reject")
+          React.DOM.span({className: 'label label-warning pull-left'}, 'Employer Not Vetted'),
+          React.DOM.button({className: 'btn btn-small btn-danger', onClick: this.handleReject}, 'Reject')
         )
       )
     } else {
       actions = (
-        React.DOM.div({className: "btn-group"},
-          React.DOM.button({className: "btn btn-success", onClick: this.handleSendToParticipant}, "Send to Participant"),
-          React.DOM.button({className: "btn btn-danger", onClick: this.handleReject}, "Reject")
+        React.DOM.div({className: 'btn-group'},
+          React.DOM.button({className: 'btn btn-success', onClick: this.handleSendToParticipant}, 'Send to Participant'),
+          React.DOM.button({className: 'btn btn-danger', onClick: this.handleReject}, 'Reject')
         )
       )
     }
 
     return (
-      React.DOM.div({className: "panel panel-default participant-group-panel"},
+      React.DOM.div({className: 'panel panel-default participant-group-panel'},
         EmployerHeader({employer: employer}),
-        React.DOM.div({className: "list-group"},
+        React.DOM.div({className: 'list-group'},
           participantNodes
         ),
         ParticipantGroupPanelFooter({name: footerName},

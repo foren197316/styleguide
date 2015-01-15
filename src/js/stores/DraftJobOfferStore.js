@@ -1,5 +1,5 @@
 var DraftJobOfferStore = Reflux.createStore({
-  resourceName: "draftJobOffers",
+  resourceName: 'draftJobOffers',
   listenables: DraftJobOfferActions,
 
   init: function () {

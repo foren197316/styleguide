@@ -1,5 +1,5 @@
 var JobOfferGroupStore = Reflux.createStore({
-  resourceName: "jobOfferGroups",
+  resourceName: 'jobOfferGroups',
   listenables: JobOfferGroupActions,
   filterIds: {},
 
@@ -7,7 +7,7 @@ var JobOfferGroupStore = Reflux.createStore({
     this.data = this.data.map(function (jobOfferGroup) {
       jobOfferGroup.participant_names = jobOfferGroup.job_offers.map(function (jobOffer) {
         return jobOffer.participant.name;
-      }).join(",");
+      }).join(',');
       return jobOfferGroup;
     });
 
@@ -36,7 +36,7 @@ var JobOfferGroupStore = Reflux.createStore({
   },
 
   filterJobOfferSigneds: function (jobOfferSigneds) {
-    var filterKey = "jobOfferSigneds";
+    var filterKey = 'jobOfferSigneds';
 
     if (jobOfferSigneds.length === 2 || jobOfferSigneds.length === 0) {
       this.filterIds[filterKey] = null;
@@ -44,7 +44,7 @@ var JobOfferGroupStore = Reflux.createStore({
       var compareFunc;
 
       switch (jobOfferSigneds[0]) {
-        case "All Signed":
+        case 'All Signed':
           this.filterIds[filterKey] = this.data.reduce(function (ids, jobOfferGroup) {
             var allSigned = jobOfferGroup.job_offers.reduce(function (prev, curr) {
               return prev && curr.participant_agreement !== null;
@@ -56,7 +56,7 @@ var JobOfferGroupStore = Reflux.createStore({
             return ids;
           }, []);
           break;
-        case "Any Unsigned":
+        case 'Any Unsigned':
           this.filterIds[filterKey] = this.data.reduce(function (ids, jobOfferGroup) {
             var anyUnsigned = jobOfferGroup.job_offers.reduce(function (prev, curr) {
               return prev || curr.participant_agreement === null;
@@ -76,9 +76,9 @@ var JobOfferGroupStore = Reflux.createStore({
 
   onCreate: function (data, callback) {
     $.ajax({
-      url: "/job_offer_groups.json",
-      type: "POST",
-      dataType: "json",
+      url: '/job_offer_groups.json',
+      type: 'POST',
+      dataType: 'json',
       data: { job_offer_group: data },
       complete: callback
     });
@@ -86,10 +86,10 @@ var JobOfferGroupStore = Reflux.createStore({
 
   onDestroy: function (jobOfferGroupId) {
     $.ajax({
-      url: "/job_offer_groups/" + parseInt(jobOfferGroupId) + ".json",
-      type: "POST",
-      dataType: "json",
-      data: { _method: "DELETE" },
+      url: '/job_offer_groups/' + parseInt(jobOfferGroupId) + '.json',
+      type: 'POST',
+      dataType: 'json',
+      data: { _method: 'DELETE' },
       success: function (resp) {
         this.data = this.data.filter(function (jobOfferGroup) {
           return jobOfferGroup.id !== jobOfferGroupId;

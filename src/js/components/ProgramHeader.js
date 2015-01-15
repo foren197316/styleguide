@@ -19,10 +19,10 @@ var ProgramHeader = React.createClass({displayName: 'ProgramHeader',
 
   render: function () {
     return (
-      React.DOM.h2({className: "page-header"},
+      React.DOM.h2({className: 'page-header'},
         this.programName(),
-        React.DOM.small({className: "pull-right"},
-          this.collectionLength(), " ", this.collectionName()
+        React.DOM.small({className: 'pull-right'},
+          this.collectionLength(), ' ', this.collectionName()
         )
       )
     )

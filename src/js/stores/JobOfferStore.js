@@ -1,10 +1,10 @@
 var JobOfferStore = Reflux.createStore({
-  resourceName: "jobOffers",
+  resourceName: 'jobOffers',
   listenables: JobOfferActions,
   filterIds: {},
 
   onToggleJobOfferSigned: function (toggle) {
-    var filterKey = "jobOfferSigned";
+    var filterKey = 'jobOfferSigned';
     if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
         if (jobOffer.participant_agreement) {
@@ -20,7 +20,7 @@ var JobOfferStore = Reflux.createStore({
   },
 
   onToggleNotInFileMaker: function (toggle) {
-    var filterKey = "notInFileMaker";
+    var filterKey = 'notInFileMaker';
     if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, jobOffer) {
         if (!jobOffer.file_maker_reference) {
@@ -37,12 +37,12 @@ var JobOfferStore = Reflux.createStore({
 
   onSend: function (offeredParticipantGroupId, callback) {
     $.ajax({
-      url: "/offered_participant_groups/" + offeredParticipantGroupId + "/job_offers.json",
-      type: "POST",
+      url: '/offered_participant_groups/' + offeredParticipantGroupId + '/job_offers.json',
+      type: 'POST',
       success: function (data) {
         this.data = this.data instanceof Array ? this.data.concat(data.job_offers) : data.job_offers;
         GlobalActions.newJobOffer(data.job_offers, offeredParticipantGroupId);
-        if (typeof callback === "function") {
+        if (typeof callback === 'function') {
           callback(data);
         }
       }.bind(this),

@@ -1,12 +1,12 @@
 var ParticipantGroupStore = Reflux.createStore({
-  resourceName: "participantGroups",
+  resourceName: 'participantGroups',
   listenables: ParticipantGroupActions,
 
   init: function () {
   },
 
   initPostAjaxLoad: function (participantGroups, context) {
-    ParticipantActions.deprecatedAjaxLoad(this.data.mapAttribute("participant_ids").flatten(), context);
+    ParticipantActions.deprecatedAjaxLoad(this.data.mapAttribute('participant_ids').flatten(), context);
 
     switch (context) {
       case CONTEXT.IN_MATCHING:
@@ -34,7 +34,7 @@ var ParticipantGroupStore = Reflux.createStore({
 
     var employer = employerResults[0][0];
     var participants = participantResults[0];
-    var programIds = programResults[0].mapAttribute("id");
+    var programIds = programResults[0].mapAttribute('id');
     var deletedGroups = [];
 
     this.data = this.data.map(function (participantGroup) {
@@ -45,7 +45,7 @@ var ParticipantGroupStore = Reflux.createStore({
         return null;
       }
 
-      if (groupParticipants.mapAttribute("region_ids").flatten().indexOf(employer.region_id) < 0) {
+      if (groupParticipants.mapAttribute('region_ids').flatten().indexOf(employer.region_id) < 0) {
         deletedGroups.push(participantGroup);
         return null;
       }
@@ -59,7 +59,7 @@ var ParticipantGroupStore = Reflux.createStore({
   },
 
   cleanup: function (deletedGroups) {
-    var participantIds = deletedGroups.mapAttribute("participant_ids").flatten();
+    var participantIds = deletedGroups.mapAttribute('participant_ids').flatten();
     ParticipantActions.removeByIds(participantIds);
   }
 });

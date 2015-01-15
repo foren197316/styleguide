@@ -1,5 +1,5 @@
 var EmployerStore = Reflux.createStore({
-  resourceName: "employers",
+  resourceName: 'employers',
   listenables: EmployerActions,
 
   init: function () {
@@ -14,21 +14,21 @@ var EmployerStore = Reflux.createStore({
 
   onLoadFromJobOfferGroups: function (jobOfferGroups) {
     EmployerActions.ajaxLoad(
-      jobOfferGroups.mapAttribute("employer_id"),
+      jobOfferGroups.mapAttribute('employer_id'),
       StaffActions.loadFromEmployer
     );
   },
 
   onLoadFromOfferedParticipantGroups: function (offeredParticipantGroups) {
     EmployerActions.ajaxLoad(
-      offeredParticipantGroups.mapAttribute("employer_id"),
+      offeredParticipantGroups.mapAttribute('employer_id'),
       StaffActions.loadFromEmployer
     );
   },
 
   onLoadFromJobOfferParticipantAgreements: function (jobOfferParticipantAgreements) {
     EmployerActions.ajaxLoad(
-      jobOfferParticipantAgreements.mapAttribute("job_offer").mapAttribute("employer_id"),
+      jobOfferParticipantAgreements.mapAttribute('job_offer').mapAttribute('employer_id'),
       StaffActions.loadFromEmployer
     );
   },

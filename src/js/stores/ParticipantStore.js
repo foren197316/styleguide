@@ -1,5 +1,5 @@
 var ParticipantStore = Reflux.createStore({
-  resourceName: "participants",
+  resourceName: 'participants',
   listenables: ParticipantActions,
 
   init: function () {

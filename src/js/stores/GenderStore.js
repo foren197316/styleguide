@@ -4,8 +4,8 @@ var GenderStore = Reflux.createStore({
 
   init: function () {
     this.data = [
-      { id: "Female", name: "Female" },
-      { id: "Male", name: "Male" }
+      { id: 'Female', name: 'Female' },
+      { id: 'Male', name: 'Male' }
     ]
   }
 });

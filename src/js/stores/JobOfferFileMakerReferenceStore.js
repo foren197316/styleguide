@@ -1,5 +1,5 @@
 var JobOfferFileMakerReferenceStore = Reflux.createStore({
-  resourceName: "jobOfferFileMakerReferences",
+  resourceName: 'jobOfferFileMakerReferences',
   listenables: JobOfferFileMakerReferenceActions,
 
   init: function () {

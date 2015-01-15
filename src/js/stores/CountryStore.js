@@ -9,7 +9,7 @@ var CountryStore = Reflux.createStore({
   onLoadFromInMatchingParticipantGroups: function (inMatchingParticipantGroups) {
     this.permission = true;
 
-    this.data = inMatchingParticipantGroups.mapAttribute("participants").flatten().mapAttribute("country_name").flatten().sort().uniq().map(function (countryName) {
+    this.data = inMatchingParticipantGroups.mapAttribute('participants').flatten().mapAttribute('country_name').flatten().sort().uniq().map(function (countryName) {
       return { id: countryName, name: countryName };
     });
 

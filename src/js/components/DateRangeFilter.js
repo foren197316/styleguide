@@ -31,27 +31,27 @@ var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
 
   render: function () {
     return (
-      React.DOM.div({className: "panel panel-default"},
-        React.DOM.div({className: "panel-heading"}, "Start"),
-        React.DOM.div({className: "list-group list-group-scrollable"},
-          React.DOM.label({className: "list-group-item"},
-            React.DOM.span({className: "title"}, "From"),
-            React.DOM.input({type: "text", ref: "start_from", className: "datepicker start from form-control"})
+      React.DOM.div({className: 'panel panel-default'},
+        React.DOM.div({className: 'panel-heading'}, 'Start'),
+        React.DOM.div({className: 'list-group list-group-scrollable'},
+          React.DOM.label({className: 'list-group-item'},
+            React.DOM.span({className: 'title'}, 'From'),
+            React.DOM.input({type: 'text', ref: 'start_from', className: 'datepicker start from form-control'})
           ),
-          React.DOM.label({className: "list-group-item"},
-            React.DOM.span({className: "title"}, "To"),
-            React.DOM.input({type: "text", ref: "start_to", className: "datepicker start to form-control"})
+          React.DOM.label({className: 'list-group-item'},
+            React.DOM.span({className: 'title'}, 'To'),
+            React.DOM.input({type: 'text', ref: 'start_to', className: 'datepicker start to form-control'})
           )
         ),
-        React.DOM.div({className: "panel-heading"}, "Finish"),
-        React.DOM.div({className: "list-group list-group-scrollable"},
-          React.DOM.label({className: "list-group-item"},
-            React.DOM.span({className: "title"}, "From"),
-            React.DOM.input({type: "text", ref: "finish_from", className: "datepicker finish from form-control"})
+        React.DOM.div({className: 'panel-heading'}, 'Finish'),
+        React.DOM.div({className: 'list-group list-group-scrollable'},
+          React.DOM.label({className: 'list-group-item'},
+            React.DOM.span({className: 'title'}, 'From'),
+            React.DOM.input({type: 'text', ref: 'finish_from', className: 'datepicker finish from form-control'})
           ),
-          React.DOM.label({className: "list-group-item"},
-            React.DOM.span({className: "title"}, "To"),
-            React.DOM.input({type: "text", ref: "finish_to", className: "datepicker finish to form-control"})
+          React.DOM.label({className: 'list-group-item'},
+            React.DOM.span({className: 'title'}, 'To'),
+            React.DOM.input({type: 'text', ref: 'finish_to', className: 'datepicker finish to form-control'})
           )
         )
       )

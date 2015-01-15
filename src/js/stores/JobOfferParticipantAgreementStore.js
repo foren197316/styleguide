@@ -1,10 +1,10 @@
 var JobOfferParticipantAgreementStore = Reflux.createStore({
-  resourceName: "jobOfferParticipantAgreements",
+  resourceName: 'jobOfferParticipantAgreements',
   listenables: JobOfferParticipantAgreementActions,
   filterIds: {},
 
   toggleNotInFileMaker: function (toggle) {
-    var filterKey = "notInFileMaker";
+    var filterKey = 'notInFileMaker';
     if (toggle) {
       this.filterIds[filterKey] = this.data.reduce(function (ids, jobOfferParticipantAgreement) {
         if (!jobOfferParticipantAgreement.job_offer.file_maker_reference) {

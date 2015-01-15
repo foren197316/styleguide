@@ -27,14 +27,14 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
         data = null;
 
     if (this.state.puttingInMatching) {
-      url = "/in_matching_participant_groups.json";
+      url = '/in_matching_participant_groups.json';
       data = {
         in_matching_participant_group: {
           awaiting_orders_participant_group_id: this.props.data.id
         }
       };
     } else if (this.state.puttingOnReserve) {
-      url = "/reserved_participant_groups.json";
+      url = '/reserved_participant_groups.json';
       data = {
         reserved_participant_group: {
           awaiting_orders_participant_group_id: this.props.data.id
@@ -44,7 +44,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
 
     $.ajax({
       url: url,
-      type: "POST",
+      type: 'POST',
       data: data,
       success: function(data) {
         React.unmountComponentAtNode(node);
@@ -58,7 +58,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
 
   render: function() {
     var actions,
-        footerName = this.props.data.name + (this.props.data.program != undefined ? " - " + this.props.data.program.name : ""),
+        footerName = this.props.data.name + (this.props.data.program != undefined ? ' - ' + this.props.data.program.name : ''),
         participantNodes = this.props.data.participants.map(function (participant) {
           return (
             ParticipantGroupParticipant({key: participant.id, data: participant})
@@ -67,23 +67,23 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
 
     if (this.state.puttingInMatching || this.state.puttingOnReserve) {
       actions = (
-        React.DOM.div({className: "btn-group"},
-          React.DOM.button({className: "btn btn-success", onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, "Confirm"),
-          React.DOM.button({className: "btn btn-default", onClick: this.handleCancel}, "Cancel")
+        React.DOM.div({className: 'btn-group'},
+          React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       )
     } else {
       actions = (
-        React.DOM.div({className: "btn-group"},
-          React.DOM.button({className: "btn btn-primary", onClick: this.handlePutInMatching}, "Put In Matching"),
-          React.DOM.button({className: "btn btn-warning", onClick: this.handlePutOnReserve}, "Put On Reserve")
+        React.DOM.div({className: 'btn-group'},
+          React.DOM.button({className: 'btn btn-primary', onClick: this.handlePutInMatching}, 'Put In Matching'),
+          React.DOM.button({className: 'btn btn-warning', onClick: this.handlePutOnReserve}, 'Put On Reserve')
         )
       )
     }
 
     return (
-      React.DOM.div({className: "panel panel-default participant-group-panel"},
-        React.DOM.div({className: "list-group"},
+      React.DOM.div({className: 'panel panel-default participant-group-panel'},
+        React.DOM.div({className: 'list-group'},
           participantNodes
         ),
         ParticipantGroupPanelFooter({name: footerName},
@@ -96,6 +96,6 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
 
 var AwaitingOrdersParticipantGroupPanels = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanels',
   mixins: [GroupPanelsMixin],
-  resourceName: "awaiting_orders_participant_groups",
+  resourceName: 'awaiting_orders_participant_groups',
   participantGroupPanelType: AwaitingOrdersParticipantGroupPanel
 });

@@ -4,8 +4,8 @@ var ParticipantSignedStore = Reflux.createStore({
 
   init: function () {
     this.data = [
-      { id: "Signed", name: "All Signed" },
-      { id: "Unsigned", name: "Any Unsigned" }
+      { id: 'Signed', name: 'All Signed' },
+      { id: 'Unsigned', name: 'Any Unsigned' }
     ];
   }
 });

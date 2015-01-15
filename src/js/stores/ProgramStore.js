@@ -1,5 +1,5 @@
 var ProgramStore = Reflux.createStore({
-  resourceName: "programs",
+  resourceName: 'programs',
   listenables: ProgramActions,
   applicableIds: null,
 

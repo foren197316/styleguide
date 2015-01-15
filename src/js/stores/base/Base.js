@@ -1,6 +1,8 @@
+'use strict';
+
 var RESOURCE_URLS;
-var genericStoreActions    = ["setData", "deprecatedAjaxLoad", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton", "ajaxLoadSingleton"];
-var filterableStoreActions = ["search", "resetSearch", "dateFilter"];
+var genericStoreActions    = ['setData', 'deprecatedAjaxLoad', 'ajaxLoad', 'filterByIds', 'forceTrigger', 'removeByIds', 'setSingleton', 'ajaxLoadSingleton'];
+var filterableStoreActions = ['search', 'resetSearch', 'dateFilter'];
 
 var SetUrlsMixin = {
   propTypes: {
@@ -10,7 +12,7 @@ var SetUrlsMixin = {
   componentDidMount: function () {
     RESOURCE_URLS = this.props.urls;
   }
-}
+};
 
 var parseIntBase10 = function (string) {
   return parseInt(string, 10);
@@ -18,24 +20,24 @@ var parseIntBase10 = function (string) {
 
 var defaultStoreError = function () {
   window.location = window.location;
-}
+};
 
 var dateGreaterThan = function (dateList, comparisonDate) {
   return dateList.reduce(function (prev, curr) {
     return prev || Date.compare(curr, comparisonDate) >= 0;
   }, false);
-}
+};
 
 var dateLessThan = function (dateList, comparisonDate) {
   return dateList.reduce(function (prev, curr) {
     return prev || Date.compare(curr, comparisonDate) <= 0;
   }, false);
-}
+};
 
 var traverse = function (subject, attributes) {
   var curr = subject;
 
-  if (typeof attributes === "string") {
+  if (typeof attributes === 'string') {
     return curr[attributes];
   }
 
@@ -47,7 +49,7 @@ var traverse = function (subject, attributes) {
   }
 
   return curr;
-}
+};
 
 Reflux.StoreMethods.onAjaxLoad = function () {
   var args = arguments;
@@ -60,7 +62,7 @@ Reflux.StoreMethods.onAjaxLoad = function () {
 
   $.ajax({
     url: RESOURCE_URLS[this.resourceName],
-    type: "GET",
+    type: 'GET',
     data: data,
     success: function (response) {
       /* replace first argument unless it's a callback */
@@ -91,7 +93,7 @@ Reflux.StoreMethods.onLoadSuccess = function (response) {
 
   this.permission = true;
 
-  if (typeof this.initPostAjaxLoad === "function") {
+  if (typeof this.initPostAjaxLoad === 'function') {
     [].shift.call(args);
     [].unshift.call(args, this.data);
     this.initPostAjaxLoad.apply(this, args);
@@ -104,7 +106,7 @@ Reflux.StoreMethods.onLoadSuccess = function (response) {
       args[i](this.data);
     }
   }
-}
+};
 
 /**
  * You can pass arbitrary arguments to `deprecatedAjaxLoad` and they will
@@ -118,7 +120,7 @@ Reflux.StoreMethods.onDeprecatedAjaxLoad = function (ids) {
 
   $.ajax({
     url: window.RESOURCE_URLS[this.resourceName],
-    type: "GET",
+    type: 'GET',
     data: data,
     success: function (response) {
       [].shift.call(args);
@@ -127,7 +129,7 @@ Reflux.StoreMethods.onDeprecatedAjaxLoad = function (ids) {
     }.bind(this),
     error: this.onLoadError.bind(this)
   });
-}
+};
 
 Reflux.StoreMethods.onDeprecatedLoadSuccess = function (response) {
   var args = arguments;
@@ -140,23 +142,23 @@ Reflux.StoreMethods.onDeprecatedLoadSuccess = function (response) {
 
   this.permission = true;
 
-  if (typeof this.initPostAjaxLoad === "function") {
+  if (typeof this.initPostAjaxLoad === 'function') {
     [].shift.call(args);
     [].unshift.call(args, this.data);
     this.initPostAjaxLoad.apply(this, args);
   }
-}
+};
 
 Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
   this.data = [];
   this.permission = false;
   this.trigger(this.data);
-}
+};
 
-Reflux.StoreMethods.genericIdFilter = function (filterKey, filter_ids, condition) {
+Reflux.StoreMethods.genericIdFilter = function (filterKey, filterIds, condition) {
   this.filterIds = this.filterIds || {};
 
-  if (filter_ids == undefined || filter_ids.length === 0) {
+  if (filterIds == undefined || filterIds.length === 0) {
     this.filterIds[filterKey] = null;
   } else {
     this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
@@ -168,24 +170,24 @@ Reflux.StoreMethods.genericIdFilter = function (filterKey, filter_ids, condition
   }
 
   this.emitFilteredData();
-}
+};
 
 Reflux.StoreMethods.onSetData = function (data) {
   this.data = data;
   this.trigger(this.data);
-}
+};
 
 Reflux.StoreMethods.onForceTrigger = function (data) {
   this.trigger(this.data);
-}
+};
 
 Reflux.StoreMethods.onSetSingleton = function (customSingularResourceName) {
   this.singleton = true;
-  this.resourceName = customSingularResourceName || this.resourceName.replace(/s$/, "");
+  this.resourceName = customSingularResourceName || this.resourceName.replace(/s$/, '');
 };
 
 Reflux.StoreMethods.onRemoveByIds = function (args, trigger) {
-  if (typeof trigger === "undefined") {
+  if (typeof trigger === 'undefined') {
     trigger = true;
   }
 
@@ -200,22 +202,22 @@ Reflux.StoreMethods.onRemoveByIds = function (args, trigger) {
     return false;
   });
 
-  if (typeof this.cleanup === "function") {
+  if (typeof this.cleanup === 'function') {
     this.cleanup(deleted);
   }
 
   if (trigger) {
     this.trigger(this.data);
   }
-}
+};
 
 Reflux.StoreMethods.onResetSearch = function (identifier) {
   this.filterIds = this.filterIds || {};
 
   this.filterIds[identifier] = null;
-  this["lastSearchTerm-" + identifier] = null;
+  this['lastSearchTerm-' + identifier] = null;
   this.emitFilteredData();
-}
+};
 
 Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
   this.filterIds = this.filterIds || {};
@@ -223,7 +225,7 @@ Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
   var searchIds = null;
   var searchFields = [].concat(searchOn);
   var terms = term.toLowerCase().split(/\s+/);
-  var lastSearchAttribute = "lastSearchTerm-" + identifier;
+  var lastSearchAttribute = 'lastSearchTerm-' + identifier;
   var lastSearchTerm = this[lastSearchAttribute];
 
   if (lastSearchTerm && term.indexOf(lastSearchTerm) === 0) {
@@ -234,7 +236,7 @@ Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
 
   var searchFieldsMatch = function (entry, value) {
     return searchFields.reduce(function (prev, curr) {
-      return prev || (traverse(entry, curr) || "").toLowerCase().indexOf(value) >= 0;
+      return prev || (traverse(entry, curr) || '').toLowerCase().indexOf(value) >= 0;
     }, false);
   }
 
@@ -255,10 +257,10 @@ Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
   this.filterIds[identifier] = filterIds;
   this[lastSearchAttribute] = term;
   this.emitFilteredData();
-}
+};
 
 Reflux.StoreMethods.onDateFilter = function (searchFrom, searchTo, startFromDate, startToDate, finishFromDate, finishToDate) {
-  var identifier = searchFrom + "-" + searchTo;
+  var identifier = searchFrom + '-' + searchTo;
 
   if (startFromDate === null && startToDate === null && finishFromDate === null && finishToDate === null) {
     this.filterIds[identifier] = null;
@@ -279,7 +281,7 @@ Reflux.StoreMethods.onDateFilter = function (searchFrom, searchTo, startFromDate
   }
 
   this.emitFilteredData();
-}
+};
 
 Reflux.StoreMethods.onFilterByIds = function (ids) {
   if (!ids || ids.length === 0) {
@@ -291,7 +293,7 @@ Reflux.StoreMethods.onFilterByIds = function (ids) {
       })
     );
   }
-}
+};
 
 Reflux.StoreMethods.emitFilteredData = function () {
   var ids = null;
@@ -312,7 +314,7 @@ Reflux.StoreMethods.emitFilteredData = function () {
   }
 
   this.trigger(data);
-}
+};
 
 /* Convenience methods */
 Reflux.StoreMethods.findById = function (id, attrName) {
@@ -321,53 +323,53 @@ Reflux.StoreMethods.findById = function (id, attrName) {
   } catch (e) {
     console.log(e.stack)
   }
-}
+};
 
 Reflux.StoreMethods.map = function (func) {
   return this.data.map(func);
-}
+};
 
 Reflux.StoreMethods.mapAttribute = function (func) {
   return this.data.mapAttribute(func);
-}
+};
 
 var GlobalActions = Reflux.createActions([
-  "newJobOffer",
-  "loadFromJobOfferGroups",
-  "loadFromOfferedParticipantGroups",
-  "loadFromJobOfferParticipantAgreements",
-  "loadFromInMatchingParticipantGroups"
+  'newJobOffer',
+  'loadFromJobOfferGroups',
+  'loadFromOfferedParticipantGroups',
+  'loadFromJobOfferParticipantAgreements',
+  'loadFromInMatchingParticipantGroups'
 ]);
 
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["reject"]
+      ['reject']
     )),
     InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["offer", "toggleInternationalDriversLicense", "togglePreviousParticipation"]
+      ['offer', 'toggleInternationalDriversLicense', 'togglePreviousParticipation']
     )),
     JobOfferActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["send", "toggleJobOfferSigned", "toggleNotInFileMaker"]
+      ['send', 'toggleJobOfferSigned', 'toggleNotInFileMaker']
     )),
     JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ["create", "destroy", "toggleAllSigned"]
+      ['create', 'destroy', 'toggleAllSigned']
     )),
     ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
-      ["setParticipants"]
+      ['setParticipants']
     )),
     ParticipantGroupNameActions = Reflux.createActions(genericStoreActions.concat(
-      ["setNames"]
+      ['setNames']
     )),
     CountryActions = Reflux.createActions(genericStoreActions.concat(
-      ["setCountries"]
+      ['setCountries']
     )),
     StaffActions = Reflux.createActions(genericStoreActions.concat(
-      ["loadFromEmployer"]
+      ['loadFromEmployer']
     )),
     ProgramActions = Reflux.createActions(genericStoreActions.concat(
-      ["loadFromEmployer"]
+      ['loadFromEmployer']
     )),
     EmployerActions = Reflux.createActions(genericStoreActions.concat(
-      ["updateOnReviewCount"]
+      ['updateOnReviewCount']
     )),
     ParticipantActions = Reflux.createActions(genericStoreActions),
     DraftJobOfferActions = Reflux.createActions(genericStoreActions),

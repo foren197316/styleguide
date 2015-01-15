@@ -1,11 +1,11 @@
-var dateFormat = "MM/dd/yyyy";
+var dateFormat = 'MM/dd/yyyy';
 
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
 String.prototype.camelCaseToUnderscore = function () {
-  return this.replace(/([A-Z])/g, "_$1").toLowerCase();
+  return this.replace(/([A-Z])/g, '_$1').toLowerCase();
 };
 
 Array.prototype.flatten = function () {
@@ -19,7 +19,7 @@ Array.prototype.diff = function(array) {
 };
 
 Array.prototype.findById = function (id, alternateKey) {
-  var key = alternateKey || "id";
+  var key = alternateKey || 'id';
 
   try {
     if (id instanceof Array) {
@@ -77,7 +77,7 @@ String.prototype.pluralize = function (count) {
   if (count === 1) {
     return this;
   } else {
-    return this + "s";
+    return this + 's';
   }
 };
 
@@ -93,7 +93,7 @@ Array.prototype.uniq = function () {
 var Spinner = React.createClass({displayName: 'Spinner',
   render: function() {
     return (
-      React.DOM.i({className: "fa fa-spinner fa-spin"})
+      React.DOM.i({className: 'fa fa-spinner fa-spin'})
     )
   }
 });
@@ -124,18 +124,18 @@ var RadioGroupButton = React.createClass({displayName: 'RadioGroupButton',
       var $button = $buttons[i],
           $radio = $radios[i];
 
-      $button.className = $button.className.replace("active", "");
+      $button.className = $button.className.replace('active', '');
 
       if ($radio.checked) {
-        $button.className = $button.className + " active";
+        $button.className = $button.className + ' active';
       }
     }
   },
 
   render: function() {
     return (
-      React.DOM.label({className: "btn btn-default btn-sm", htmlFor: this.props.htmlFor},
-        React.DOM.input({type: "radio", id: this.props.id, value: this.props.inputValue, onChange: this.handleChange}),
+      React.DOM.label({className: 'btn btn-default btn-sm', htmlFor: this.props.htmlFor},
+        React.DOM.input({type: 'radio', id: this.props.id, value: this.props.inputValue, onChange: this.handleChange}),
         React.DOM.i({className: this.props.iconClass}),
         this.props.title
       )
@@ -174,8 +174,8 @@ var ReviewableParticipantGroupPanel = React.createClass({displayName: 'Reviewabl
     data.on_review_participant_group[this.props.idType] = this.props.data.id;
 
     $.ajax({
-      url: "/on_review_participant_groups.json",
-      type: "POST",
+      url: '/on_review_participant_groups.json',
+      type: 'POST',
       data: data,
       success: function(data) {
         React.unmountComponentAtNode(node);
@@ -200,27 +200,27 @@ var ReviewableParticipantGroupPanel = React.createClass({displayName: 'Reviewabl
 
     if (this.state.puttingOnReview) {
       actions = (
-        React.DOM.div({className: "btn-group"},
-          React.DOM.button({className: "btn btn-success", onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, "Confirm"),
-          React.DOM.button({className: "btn btn-default", onClick: this.handleCancel}, "Cancel")
+        React.DOM.div({className: 'btn-group'},
+          React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       );
 
       additionalContent = (
         React.DOM.div(null,
-          React.DOM.p({className: "panel-text"}, "You will have until ", React.DOM.strong(null, this.props.onReviewExpiresOn), " to offer a position or decline the ", participantPluralized, "."),
-          React.DOM.p({className: "panel-text"}, "If you take no action by ", React.DOM.strong(null, this.props.onReviewExpiresOn), ", the ", participantPluralized, " will automatically be removed from your On Review list.")
+          React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong(null, this.props.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
+          React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong(null, this.props.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
         )
       )
     } else {
       actions = (
-        React.DOM.button({className: "btn btn-success", onClick: this.handlePutOnReview}, "Put on Review")
+        React.DOM.button({className: 'btn btn-success', onClick: this.handlePutOnReview}, 'Put on Review')
       )
     }
 
     return (
-      React.DOM.div({className: "panel panel-default participant-group-panel"},
-        React.DOM.div({className: "list-group"},
+      React.DOM.div({className: 'panel panel-default participant-group-panel'},
+        React.DOM.div({className: 'list-group'},
           participantNodes
         ),
         ParticipantGroupPanelFooter({name: footerName},
@@ -237,14 +237,14 @@ var ParticipantGroupPanelFooterName = React.createClass({displayName: 'Participa
 
   render: function () {
     return (
-      React.DOM.div({className: "row"},
-        React.DOM.div({className: "col-xs-6 col-sm-6"},
-          React.DOM.div({className: "panel-title pull-left", style: { "whiteSpace": "nowrap"}},
+      React.DOM.div({className: 'row'},
+        React.DOM.div({className: 'col-xs-6 col-sm-6'},
+          React.DOM.div({className: 'panel-title pull-left', style: { 'whiteSpace': 'nowrap'}},
             this.props.name
           )
         ),
-        React.DOM.div({className: "col-xs-6 col-sm-6"},
-          React.DOM.div({className: "pull-right"},
+        React.DOM.div({className: 'col-xs-6 col-sm-6'},
+          React.DOM.div({className: 'pull-right'},
             this.props.children
           )
         )
@@ -267,8 +267,8 @@ var ParticipantGroupPanelFooter = React.createClass({displayName: 'ParticipantGr
             return ParticipantGroupPanelFooterName({name: name}, child)
           } else {
             return (
-              React.DOM.div({className: "row"},
-                React.DOM.div({className: "col-xs-12 text-right"},
+              React.DOM.div({className: 'row'},
+                React.DOM.div({className: 'col-xs-12 text-right'},
                   React.DOM.hr(null),
                   child
                 )
@@ -278,7 +278,7 @@ var ParticipantGroupPanelFooter = React.createClass({displayName: 'ParticipantGr
         }) || ParticipantGroupPanelFooterName({name: name});
 
     return (
-      React.DOM.div({className: "panel-footer clearfix"},
+      React.DOM.div({className: 'panel-footer clearfix'},
         children
       )
     )
@@ -291,9 +291,9 @@ var ReadOnlyFormGroup = React.createClass({displayName: 'ReadOnlyFormGroup',
         value = this.props.value;
 
     return (
-      React.DOM.div({className: "form-group"},
-        React.DOM.label({className: "control-label col-xs-12 col-sm-4"}, label),
-        React.DOM.span({className: "control-label col-xs-12 col-sm-8", style: { "textAlign": "left"}}, value)
+      React.DOM.div({className: 'form-group'},
+        React.DOM.label({className: 'control-label col-xs-12 col-sm-4'}, label),
+        React.DOM.span({className: 'control-label col-xs-12 col-sm-8', style: { 'textAlign': 'left'}}, value)
       )
     )
   }
@@ -392,7 +392,7 @@ var GroupPanelsMixin = {
           });
 
       return (
-        React.DOM.div({id: "participant-group-panels"},
+        React.DOM.div({id: 'participant-group-panels'},
           groupPanels
         )
       );
@@ -422,7 +422,7 @@ var RenderLoadedMixin = function () {
   var args = arguments;
 
   if (args.length === 0) {
-    throw new Error("RenderLoadedMixin takes at least one string argument.");
+    throw new Error('RenderLoadedMixin takes at least one string argument.');
   }
 
   return {

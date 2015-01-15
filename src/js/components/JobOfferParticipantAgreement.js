@@ -11,9 +11,9 @@ var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferPart
     var employer = EmployerStore.findById(this.props.jobOfferParticipantAgreement.job_offer.employer_id);
 
     return (
-      React.DOM.div({className: "panel panel-default participant-group-panel"},
+      React.DOM.div({className: 'panel panel-default participant-group-panel'},
         EmployerHeader({employer: employer}),
-        React.DOM.div({className: "list-group"},
+        React.DOM.div({className: 'list-group'},
           JobOffer({jobOffer: this.props.jobOfferParticipantAgreement.job_offer, jobOfferParticipantAgreement: this.props.jobOfferParticipantAgreement})
         )
       )

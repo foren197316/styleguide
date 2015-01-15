@@ -59,7 +59,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
   },
 
   participantNames: function () {
-    return this.props.inMatchingParticipantGroup.participants.mapAttribute("name").join(", ");
+    return this.props.inMatchingParticipantGroup.participants.mapAttribute('name').join(', ');
   },
 
   render: function() {
@@ -74,26 +74,26 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     } else {
       if (this.state.puttingOnReview) {
         action = (
-          React.DOM.div({className: "btn-group pull-right"},
-            React.DOM.button({className: "btn btn-success", onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, "Confirm"),
-            React.DOM.button({className: "btn btn-default", onClick: this.handleCancel}, "Cancel")
+          React.DOM.div({className: 'btn-group pull-right'},
+            React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+            React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
           )
         )
         legalese = (
           React.DOM.div(null,
-            React.DOM.p({className: "panel-text"}, "You will have until ", React.DOM.strong(null, this.state.onReviewExpiresOn), " to offer a position or decline the ", participantPluralized, "."),
-            React.DOM.p({className: "panel-text"}, "If you take no action by ", React.DOM.strong(null, this.state.onReviewExpiresOn), ", the ", participantPluralized, " will automatically be removed from your On Review list.")
+            React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong(null, this.state.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
+            React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong(null, this.state.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
           )
         )
       } else if (this.canPutOnReview()) {
-        action = React.DOM.button({className: "btn btn-success pull-right", onClick: this.handlePutOnReview}, "Put on Review");
+        action = React.DOM.button({className: 'btn btn-success pull-right', onClick: this.handlePutOnReview}, 'Put on Review');
       } else {
-        action = React.DOM.span({className: "label label-warning"}, "On Review limit reached");
+        action = React.DOM.span({className: 'label label-warning'}, 'On Review limit reached');
       }
 
       return (
-        React.DOM.div({className: "panel panel-default participant-group-panel", 'data-participant-names': this.participantNames()},
-          React.DOM.div({className: "list-group"},
+        React.DOM.div({className: 'panel panel-default participant-group-panel', 'data-participant-names': this.participantNames()},
+          React.DOM.div({className: 'list-group'},
             this.props.inMatchingParticipantGroup.participants.map(function (participant) {
               return ParticipantGroupParticipant({key: participant.id, data: participant});
             })

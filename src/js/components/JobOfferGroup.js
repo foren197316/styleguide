@@ -29,23 +29,23 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
 
     if (this.state.rejecting) {
       actions = (
-        React.DOM.div({className: "btn-group"},
-          React.DOM.button({className: "btn btn-danger", onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, "Confirm"),
-          React.DOM.button({className: "btn btn-default", onClick: this.handleCancel}, "Cancel")
+        React.DOM.div({className: 'btn-group'},
+          React.DOM.button({className: 'btn btn-danger', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       )
     } else if (this.props.jobOfferGroup.can_reject) {
       actions = (
-        React.DOM.button({className: "btn btn-small btn-danger", onClick: this.handleReject}, "Reject")
+        React.DOM.button({className: 'btn btn-small btn-danger', onClick: this.handleReject}, 'Reject')
       )
     }
 
     return (
-      React.DOM.div({className: "panel panel-default participant-group-panel"},
+      React.DOM.div({className: 'panel panel-default participant-group-panel'},
         EmployerHeader({employer: employer}),
-        React.DOM.div({className: "list-group"},
+        React.DOM.div({className: 'list-group'},
           this.props.jobOfferGroup.job_offers.map(function (jobOffer) {
-            return JobOffer({jobOffer: jobOffer, key: "job_offer_"+jobOffer.id});
+            return JobOffer({jobOffer: jobOffer, key: 'job_offer_'+jobOffer.id});
           })
         ),
         ParticipantGroupPanelFooter({name: this.props.jobOfferGroup.name},
