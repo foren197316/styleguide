@@ -19,19 +19,19 @@ var JobOfferGroupStore = Reflux.createStore({
   },
 
   filterEmployers: function (employerIds) {
-    employerIds = employerIds.map(parseInt);
+    var intEmployerIds = employerIds.map(parseIntBase10);
 
-    this.genericIdFilter("employers", employerIds, function (jobOfferGroup) {
-      return employerIds.indexOf(jobOfferGroup.employer_id) >= 0;
+    this.genericIdFilter("employers", intEmployerIds, function (jobOfferGroup) {
+      return intEmployerIds.indexOf(jobOfferGroup.employer_id) >= 0;
     });
   },
 
   filterStaffs: function (staffIds) {
-    staffIds = staffIds.map(parseInt);
+    var intStaffIds = staffIds.map(parseIntBase10);
 
-    this.genericIdFilter("staffs", staffIds, function (jobOfferGroup) {
+    this.genericIdFilter("staffs", intStaffIds, function (jobOfferGroup) {
       var employer = EmployerStore.findById(jobOfferGroup.employer_id);
-      return employer && staffIds.indexOf(employer.staff_id) >= 0;
+      return employer && intStaffIds.indexOf(employer.staff_id) >= 0;
     });
   },
 

@@ -12,6 +12,10 @@ var SetUrlsMixin = {
   }
 }
 
+var parseIntBase10 = function (string) {
+  return parseInt(string, 10);
+};
+
 var defaultStoreError = function () {
   window.location = window.location;
 }

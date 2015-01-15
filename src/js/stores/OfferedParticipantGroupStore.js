@@ -49,27 +49,27 @@ var OfferedParticipantGroupStore = Reflux.createStore({
   },
 
   filterPrograms: function (programIds) {
-    programIds = programIds.map(parseInt);
+    var intProgramIds = programIds.map(parseIntBase10);
 
-    this.genericIdFilter("programs", programIds, function (offeredParticipantGroup) {
-      return programIds.indexOf(offeredParticipantGroup.participants[0].program_id) >= 0;
+    this.genericIdFilter("programs", intProgramIds, function (offeredParticipantGroup) {
+      return intProgramIds.indexOf(offeredParticipantGroup.participants[0].program_id) >= 0;
     });
   },
 
   filterStaffs: function (staffIds) {
-    staffIds = staffIds.map(parseInt);
+    var intStaffIds = staffIds.map(parseIntBase10);
 
-    this.genericIdFilter("staffs", staffIds, function (offeredParticipantGroup) {
+    this.genericIdFilter("staffs", intStaffIds, function (offeredParticipantGroup) {
       var employer = EmployerStore.findById(offeredParticipantGroup.employer_id);
-      return employer && staffIds.indexOf(employer.staff_id) >= 0;
+      return employer && intStaffIds.indexOf(employer.staff_id) >= 0;
     });
   },
 
   filterEmployers: function (employerIds) {
-    employerIds = employerIds.map(parseInt);
+    var intEmployerIds = employerIds.map(parseIntBase10);
 
-    this.genericIdFilter("employers", employerIds, function (offeredParticipantGroup) {
-      return employerIds.indexOf(offeredParticipantGroup.employer_id) >= 0;
+    this.genericIdFilter("employers", intEmployerIds, function (offeredParticipantGroup) {
+      return intEmployerIds.indexOf(offeredParticipantGroup.employer_id) >= 0;
     });
   }
 });
