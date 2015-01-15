@@ -5,9 +5,9 @@ var OfferedParticipantGroupStore = Reflux.createStore({
 
   initPostAjaxLoad: function () {
     this.data = this.data.map(function (offeredParticipantGroup) {
-      offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute("name");
-      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute("email");
-      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute("uuid");
+      offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute("name").join(",");
+      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute("email").join(",");
+      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute("uuid").join(",");
       return offeredParticipantGroup;
     });
 
