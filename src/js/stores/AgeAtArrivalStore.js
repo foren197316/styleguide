@@ -6,6 +6,6 @@ var AgeAtArrivalStore = Reflux.createStore({
     this.data = [
       { id: '21_and_over', name: '21 and Over' },
       { id: 'under_21', name: 'Under 21' }
-    ]
+    ];
   }
 });

@@ -158,7 +158,7 @@ Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
 Reflux.StoreMethods.genericIdFilter = function (filterKey, filterIds, condition) {
   this.filterIds = this.filterIds || {};
 
-  if (filterIds == undefined || filterIds.length === 0) {
+  if (filterIds === undefined || filterIds === null || filterIds.length === 0) {
     this.filterIds[filterKey] = null;
   } else {
     this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
@@ -238,7 +238,7 @@ Reflux.StoreMethods.onSearch = function (identifier, term, searchOn) {
     return searchFields.reduce(function (prev, curr) {
       return prev || (traverse(entry, curr) || '').toLowerCase().indexOf(value) >= 0;
     }, false);
-  }
+  };
 
   var filterIds = this.data.reduce(function (idList, entry) {
     if (!searchIds || searchIds.indexOf(entry.id) >= 0) {
@@ -274,7 +274,9 @@ Reflux.StoreMethods.onDateFilter = function (searchFrom, searchTo, startFromDate
           (startToDate    === null || dateLessThan(toDates, startToDate))      &&
           (finishFromDate === null || dateGreaterThan(fromDates, finishFromDate))  &&
           (finishToDate   === null || dateLessThan(toDates, finishToDate))
-         ) ids.push(datum.id);
+         ) {
+           ids.push(datum.id);
+         }
 
       return ids;
     }, []);
@@ -310,7 +312,7 @@ Reflux.StoreMethods.emitFilteredData = function () {
   } else {
     data = this.data.filter(function (entry) {
       return ids.indexOf(entry.id) >= 0;
-    })
+    });
   }
 
   this.trigger(data);
@@ -321,7 +323,7 @@ Reflux.StoreMethods.findById = function (id, attrName) {
   try {
     return this.data.findById(id, attrName);
   } catch (e) {
-    console.log(e.stack)
+    console.log(e.stack);
   }
 };
 
