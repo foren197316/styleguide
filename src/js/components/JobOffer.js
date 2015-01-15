@@ -10,9 +10,9 @@ var JobOffer = React.createClass({displayName: 'JobOffer',
         jobOfferParticipantAgreement = this.props.jobOfferParticipantAgreement || this.props.jobOffer.participant_agreement,
         jobOfferParticipantAgreementComponent = null,
         jobOfferFileMakerReference = null,
-        jobOfferLink = this.props.jobOffer.href
-          ? React.DOM.a({href: this.props.jobOffer.href}, 'View')
-          : null;
+        jobOfferLink = this.props.jobOffer.href ?
+          React.DOM.a({href: this.props.jobOffer.href}, 'View') :
+          null;
 
     if (this.props.jobOffer.overtime.toLowerCase() === 'yes') {
       overtimeRate = (
@@ -20,13 +20,13 @@ var JobOffer = React.createClass({displayName: 'JobOffer',
       );
     }
 
-    if (jobOfferParticipantAgreement != undefined) {
+    if (jobOfferParticipantAgreement != null) {
       jobOfferParticipantAgreementComponent = (
         ReadOnlyFormGroup({label: 'Signed by', value: jobOfferParticipantAgreement.full_name + ' on ' + Date.parse(jobOfferParticipantAgreement.created_at).toString(dateFormat)})
       );
     }
 
-    if (this.props.jobOffer.file_maker_reference != undefined) {
+    if (this.props.jobOffer.file_maker_reference != null) {
       jobOfferFileMakerReference = (
         ReadOnlyFormGroup({label: 'Imported on', value: Date.parse(this.props.jobOffer.file_maker_reference.created_at).toString(dateFormat)})
       );
@@ -46,6 +46,6 @@ var JobOffer = React.createClass({displayName: 'JobOffer',
           ReadOnlyFormGroup({label: '', value: jobOfferLink})
         )
       )
-    )
+    );
   }
 });

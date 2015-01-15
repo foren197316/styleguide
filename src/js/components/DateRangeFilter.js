@@ -13,7 +13,7 @@ var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
       .on('clear', this.handleChange);
   },
 
-  handleChange: function (event) {
+  handleChange: function () {
     var startFromDate = Date.parse(this.refs.start_from.getDOMNode().value),
         startToDate   = Date.parse(this.refs.start_to.getDOMNode().value),
         finishFromDate= Date.parse(this.refs.finish_from.getDOMNode().value),
@@ -55,6 +55,6 @@ var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
           )
         )
       )
-    )
+    );
   }
 });

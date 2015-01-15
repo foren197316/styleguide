@@ -15,16 +15,16 @@ var Alert = React.createClass({displayName: 'Alert',
   getDefaultProps: function () {
     return {
       closeable: true
-    }
+    };
   },
 
   render: function () {
-    var action = this.props.action
-      ? React.DOM.span(null,
+    var action = this.props.action ?
+      React.DOM.span(null,
           ' ',
           React.DOM.a({className: 'alert-link', href: this.props.action.url}, this.props.action.title), '.'
-        )
-      : null;
+      ) :
+      null;
 
     return (
       React.DOM.div({className: 'alert alert-' + this.props.type},
@@ -33,7 +33,7 @@ var Alert = React.createClass({displayName: 'Alert',
         React.DOM.span(null, this.props.instructions),
         action
       )
-    )
+    );
   }
 });
 
@@ -43,6 +43,6 @@ var AlertClose = React.createClass({displayName: 'AlertClose',
       React.DOM.button({type: 'button', className: 'close', 'data-dismiss': 'alert'},
         React.DOM.span({'aria-hidden': 'true'}, '×'), React.DOM.span({className: 'sr-only'}, 'Close')
       )
-    )
+    );
   }
 });

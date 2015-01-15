@@ -14,6 +14,6 @@ var EmployerHeader = React.createClass({displayName: 'EmployerHeader',
           LinkToIf({name: employer.name, href: employer.href})
         )
       )
-    )
+    );
   }
 });

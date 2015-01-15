@@ -16,12 +16,12 @@ var SearchFilter = React.createClass({displayName: 'SearchFilter',
       inputCharacterMinimum: 3,
       autoFocus: true,
       placeholder: 'Search'
-    }
+    };
   },
 
   componentDidMount: function () {
     if (this.props.autoFocus) {
-      this.refs['searchInput'].getDOMNode().focus();
+      this.refs.searchInput.getDOMNode().focus();
     }
   },
 
@@ -40,6 +40,6 @@ var SearchFilter = React.createClass({displayName: 'SearchFilter',
       React.DOM.label({className: 'list-group'},
         React.DOM.input({type: 'search', ref: 'searchInput', name: 'search_'+this.props.title, onChange: this.handleChange, className: 'list-group-item form-control', placeholder: this.props.placeholder})
       )
-    )
+    );
   }
 });

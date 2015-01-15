@@ -10,6 +10,6 @@ var EnglishLevelStore = Reflux.createStore({
       { id: 7, name: '7' },
       { id: 6, name: '6' },
       { id: 5, name: '5' }
-    ]
+    ];
   }
 });

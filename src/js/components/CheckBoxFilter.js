@@ -20,7 +20,7 @@ var CheckBoxFilter = React.createClass({displayName: 'CheckBoxFilter',
     }
   },
 
-  onChange: function (event) {
+  onChange: function () {
     var ids = $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
       return checkbox.getAttribute('value');
     });
@@ -38,11 +38,11 @@ var CheckBoxFilter = React.createClass({displayName: 'CheckBoxFilter',
               return React.DOM.label({key: this.props.title+'_checkbox_'+option.id, className: 'list-group-item'},
                 React.DOM.input({type: 'checkbox', name: this.props.title.toLowerCase() + '[' + option.id + ']', value: option.id, onChange: this.onChange}),
                 React.DOM.span({className: 'title'}, option.name)
-              )
+              );
             }.bind(this))
           )
         )
-      )
+      );
     }
 
     return null;

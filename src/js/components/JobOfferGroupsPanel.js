@@ -26,13 +26,13 @@ var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
               React.DOM.div(null,
                 ProgramHeader({program: program, collectionName: 'Job Offer', collection: programJobOfferGroups.mapAttribute('job_offers')}),
                 programJobOfferGroups.map(function (jobOfferGroup) {
-                  return JobOfferGroup({jobOfferGroup: jobOfferGroup, key: 'program_job_offer_group'+program.id+'-'+jobOfferGroup.id})
+                  return JobOfferGroup({jobOfferGroup: jobOfferGroup, key: 'program_job_offer_group'+program.id+'-'+jobOfferGroup.id});
                 })
               )
-            )
+            );
           }
         }, this)
       )
-    )
+    );
   }
 });

@@ -1,3 +1,5 @@
+/* exported OfferedParticipantGroupsIndex */
+
 var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedParticipantGroupsIndex',
   mixins: [
     Reflux.connect(OfferedParticipantGroupStore, 'offeredParticipantGroups'),
@@ -41,15 +43,15 @@ var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedPart
                     ),
 
                     programOfferedParticipantGroups.map(function (offeredParticipantGroup) {
-                      return OfferedParticipantGroupPanel({offeredParticipantGroup: offeredParticipantGroup, key: 'offered_participant_group_'+offeredParticipantGroup.id})
+                      return OfferedParticipantGroupPanel({offeredParticipantGroup: offeredParticipantGroup, key: 'offered_participant_group_'+offeredParticipantGroup.id});
                     })
                   )
-                )
+                );
               }
             }, this)
           )
         )
       )
-    )
+    );
   }
 });

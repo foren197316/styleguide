@@ -1,3 +1,5 @@
+/* exported JobOfferParticipantAgreementsIndex */
+
 var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOfferParticipantAgreementsIndex',
   mixins: [
     SetUrlsMixin,
@@ -5,9 +7,9 @@ var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOff
   ],
 
   render: function () {
-    var jobOfferIds = this.state.jobOfferParticipantAgreements
-      ? this.state.jobOfferParticipantAgreements.mapAttribute('job_offer').mapAttribute('id')
-      : [];
+    var jobOfferIds = this.state.jobOfferParticipantAgreements ?
+      this.state.jobOfferParticipantAgreements.mapAttribute('job_offer').mapAttribute('id') :
+      [];
 
     return (
       React.DOM.div({className: 'row'},
@@ -21,6 +23,6 @@ var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOff
           JobOfferParticipantAgreementsPanel(null)
         )
       )
-    )
+    );
   }
 });

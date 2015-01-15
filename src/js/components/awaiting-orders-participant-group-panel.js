@@ -1,3 +1,5 @@
+/* exported AwaitingOrdersParticipantGroupPanels */
+
 var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanel',
   getInitialState: function() {
     return {
@@ -7,19 +9,19 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
     };
   },
 
-  handlePutInMatching: function (event) {
+  handlePutInMatching: function () {
     this.setState({ puttingInMatching: true });
   },
 
-  handlePutOnReserve: function (event) {
+  handlePutOnReserve: function () {
     this.setState({ puttingOnReserve: true });
   },
 
-  handleCancel: function(event) {
+  handleCancel: function() {
     this.setState({ puttingOnReserve: false, puttingInMatching: false });
   },
 
-  handleConfirm: function(event) {
+  handleConfirm: function() {
     this.setState({ sending: true });
 
     var node = this.getDOMNode(),
@@ -46,11 +48,11 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
       url: url,
       type: 'POST',
       data: data,
-      success: function(data) {
+      success: function() {
         React.unmountComponentAtNode(node);
         $(node).remove();
       },
-      error: function(data) {
+      error: function() {
         window.location = window.location;
       }
     });
@@ -58,11 +60,9 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
 
   render: function() {
     var actions,
-        footerName = this.props.data.name + (this.props.data.program != undefined ? ' - ' + this.props.data.program.name : ''),
+        footerName = this.props.data.name + (this.props.data.program != null ? ' - ' + this.props.data.program.name : ''),
         participantNodes = this.props.data.participants.map(function (participant) {
-          return (
-            ParticipantGroupParticipant({key: participant.id, data: participant})
-          )
+          return ParticipantGroupParticipant({key: participant.id, data: participant});
         });
 
     if (this.state.puttingInMatching || this.state.puttingOnReserve) {
@@ -71,14 +71,14 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
           React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
           React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
-      )
+      );
     } else {
       actions = (
         React.DOM.div({className: 'btn-group'},
           React.DOM.button({className: 'btn btn-primary', onClick: this.handlePutInMatching}, 'Put In Matching'),
           React.DOM.button({className: 'btn btn-warning', onClick: this.handlePutOnReserve}, 'Put On Reserve')
         )
-      )
+      );
     }
 
     return (
@@ -90,7 +90,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
           actions
         )
       )
-    )
+    );
   }
 });
 

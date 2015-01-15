@@ -5,7 +5,7 @@ var BooleanFilter = React.createClass({displayName: 'BooleanFilter',
     action: React.PropTypes.func.isRequired
   },
 
-  onChange: function (event) {
+  onChange: function () {
     this.props.action(this.refs.checkbox.getDOMNode().checked);
   },
 
@@ -20,6 +20,6 @@ var BooleanFilter = React.createClass({displayName: 'BooleanFilter',
           )
         )
       )
-    )
+    );
   }
 });

@@ -25,6 +25,6 @@ var ProgramHeader = React.createClass({displayName: 'ProgramHeader',
           this.collectionLength(), ' ', this.collectionName()
         )
       )
-    )
+    );
   }
 });

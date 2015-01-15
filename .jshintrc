@@ -3,13 +3,13 @@
   "browser": true,
   "esnext": true,
   "bitwise": true,
-  "camelcase": true,
+  "camelcase": false,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
   "indent": 4,
-  "latedef": true,
-  "newcap": true,
+  "latedef": false,
+  "newcap": false,
   "noarg": true,
   "quotmark": "single",
   "undef": true,
@@ -17,5 +17,16 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "jquery": true
+  "jquery": true,
+  "forin": true,
+  "maxdepth": 3,
+  "eqnull": true,
+  "globals": {
+    "Reflux": false,
+    "React": false,
+    "ReactBootstrap": false,
+    "RadioGroup": false,
+    "Intercom": false,
+    "TimePeriod": false
+  }
 }

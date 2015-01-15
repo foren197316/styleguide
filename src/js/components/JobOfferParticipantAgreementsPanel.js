@@ -26,13 +26,13 @@ var JobOfferParticipantAgreementsPanel = React.createClass({displayName: 'JobOff
               React.DOM.div({key: 'program_'+program.id},
                 ProgramHeader({program: program, collectionName: 'Participant Agreement', collection: programJobOfferParticipantAgreements}),
                 programJobOfferParticipantAgreements.map(function (jobOfferParticipantAgreement) {
-                  return JobOfferParticipantAgreement({jobOfferParticipantAgreement: jobOfferParticipantAgreement, key: 'jobOfferParticipantAgreement_'+jobOfferParticipantAgreement.id})
+                  return JobOfferParticipantAgreement({jobOfferParticipantAgreement: jobOfferParticipantAgreement, key: 'jobOfferParticipantAgreement_'+jobOfferParticipantAgreement.id});
                 })
               )
-            )
+            );
           }
         }, this)
       )
-    )
+    );
   }
 });

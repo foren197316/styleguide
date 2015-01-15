@@ -1,3 +1,5 @@
+/* exported JobOfferGroupsIndex */
+
 var JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
   mixins: [SetUrlsMixin],
 
@@ -15,6 +17,6 @@ var JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
           JobOfferGroupsPanel(null)
         )
       )
-    )
+    );
   }
 });

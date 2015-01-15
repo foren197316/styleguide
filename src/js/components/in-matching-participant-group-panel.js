@@ -14,11 +14,11 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
   },
 
   canPutOnReview: function () {
-    return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum
-        && this.props.inMatchingParticipantGroup.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
+    return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum &&
+           this.props.inMatchingParticipantGroup.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
   },
 
-  handlePutOnReview: function(event) {
+  handlePutOnReview: function() {
     this.setState({ puttingOnReview: true });
 
     Intercom('trackEvent', 'clicked-employer-participants-review', {
@@ -28,7 +28,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     });
   },
 
-  handleCancel: function(event) {
+  handleCancel: function() {
     this.setState({ puttingOnReview: false });
 
     Intercom('trackEvent', 'canceled-employer-participants-review', {
@@ -38,7 +38,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     });
   },
 
-  handleConfirm: function(event) {
+  handleConfirm: function() {
     this.setState({ sending: true });
 
     InMatchingParticipantGroupActions.offer(
@@ -70,7 +70,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)})
+      return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)});
     } else {
       if (this.state.puttingOnReview) {
         action = (
@@ -78,13 +78,13 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
             React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
             React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
           )
-        )
+        );
         legalese = (
           React.DOM.div(null,
             React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong(null, this.state.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
             React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong(null, this.state.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
           )
-        )
+        );
       } else if (this.canPutOnReview()) {
         action = React.DOM.button({className: 'btn btn-success pull-right', onClick: this.handlePutOnReview}, 'Put on Review');
       } else {
@@ -103,7 +103,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
             legalese
           )
         )
-      )
+      );
     }
   }
 });

@@ -16,7 +16,7 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
     return this.props.offeredParticipantGroup.job_offers.length > 0;
   },
 
-  handleSendToParticipant: function (event) {
+  handleSendToParticipant: function () {
     this.setState({ sendingJobOffer: true });
   },
 
@@ -24,11 +24,11 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
     this.setState({ rejecting: true });
   },
 
-  handleCancel: function(event) {
+  handleCancel: function() {
     this.setState({ sendingJobOffer: false, rejecting: false });
   },
 
-  handleConfirm: function(event) {
+  handleConfirm: function() {
     this.setState({ sending: true });
 
     var node = this.getDOMNode();
@@ -49,8 +49,6 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
     var actions,
         footerName = this.props.offeredParticipantGroup.name,
         employer = EmployerStore.findById(this.props.offeredParticipantGroup.employer_id),
-        staff = StaffStore.findById(employer.staff_id),
-        staffName = staff ? staff.name : null,
         draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers,
         participants = this.props.offeredParticipantGroup.participants,
         participantNodes = draftJobOffers.map(function (draftJobOffer) {
@@ -64,26 +62,26 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
               position: position,
               offer: draftJobOffer,
               offerLinkTitle: 'Preview'})
-          )
+          );
         }.bind(this));
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)})
+      return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)});
     } else if (this.state.sendingJobOffer) {
       actions = (
         React.DOM.div({className: 'btn-group'},
           React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
           React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
-      )
+      );
     } else if (this.state.rejecting) {
       actions = (
         React.DOM.div({className: 'btn-group'},
           React.DOM.button({className: 'btn btn-danger', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
           React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
-      )
+      );
     } else if (!this.props.offeredParticipantGroup.can_send) {
       actions = null;
     } else if (!employer.vetted) {
@@ -92,14 +90,14 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
           React.DOM.span({className: 'label label-warning pull-left'}, 'Employer Not Vetted'),
           React.DOM.button({className: 'btn btn-small btn-danger', onClick: this.handleReject}, 'Reject')
         )
-      )
+      );
     } else {
       actions = (
         React.DOM.div({className: 'btn-group'},
           React.DOM.button({className: 'btn btn-success', onClick: this.handleSendToParticipant}, 'Send to Participant'),
           React.DOM.button({className: 'btn btn-danger', onClick: this.handleReject}, 'Reject')
         )
-      )
+      );
     }
 
     return (
@@ -112,6 +110,6 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
           actions
         )
       )
-    )
+    );
   }
 });

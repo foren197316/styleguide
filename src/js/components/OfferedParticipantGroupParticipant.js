@@ -15,9 +15,9 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
     var overtimeRate = null,
         jobOfferParticipantAgreement = null,
         jobOfferFileMakerReference = null,
-        jobOfferLink = this.props.offer.href
-          ? React.DOM.a({href: this.props.offer.href}, this.props.offerLinkTitle)
-          : null;
+        jobOfferLink = this.props.offer.href ?
+          React.DOM.a({href: this.props.offer.href}, this.props.offerLinkTitle) :
+          null;
 
     if (this.props.offer.overtime === 'yes') {
       overtimeRate = (
@@ -51,6 +51,6 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
           ReadOnlyFormGroup({label: '', value: jobOfferLink})
         )
       )
-    )
+    );
   }
 });

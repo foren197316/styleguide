@@ -22,6 +22,10 @@ var defaultStoreError = function () {
   window.location = window.location;
 };
 
+var calculateAgeAtArrival = function (to, from) {
+  return new TimePeriod(Date.parse(to), Date.parse(from)).years;
+};
+
 var dateGreaterThan = function (dateList, comparisonDate) {
   return dateList.reduce(function (prev, curr) {
     return prev || Date.compare(curr, comparisonDate) >= 0;
@@ -149,7 +153,7 @@ Reflux.StoreMethods.onDeprecatedLoadSuccess = function (response) {
   }
 };
 
-Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
+Reflux.StoreMethods.onLoadError = function () {
   this.data = [];
   this.permission = false;
   this.trigger(this.data);
@@ -177,7 +181,7 @@ Reflux.StoreMethods.onSetData = function (data) {
   this.trigger(this.data);
 };
 
-Reflux.StoreMethods.onForceTrigger = function (data) {
+Reflux.StoreMethods.onForceTrigger = function () {
   this.trigger(this.data);
 };
 
@@ -336,7 +340,6 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 };
 
 var GlobalActions = Reflux.createActions([
-  'newJobOffer',
   'loadFromJobOfferGroups',
   'loadFromOfferedParticipantGroups',
   'loadFromJobOfferParticipantAgreements',
@@ -349,14 +352,8 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ['offer', 'toggleInternationalDriversLicense', 'togglePreviousParticipation']
     )),
-    JobOfferActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-      ['send', 'toggleJobOfferSigned', 'toggleNotInFileMaker']
-    )),
     JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
       ['create', 'destroy', 'toggleAllSigned']
-    )),
-    ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
-      ['setParticipants']
     )),
     ParticipantGroupNameActions = Reflux.createActions(genericStoreActions.concat(
       ['setNames']
@@ -373,14 +370,9 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     EmployerActions = Reflux.createActions(genericStoreActions.concat(
       ['updateOnReviewCount']
     )),
-    ParticipantActions = Reflux.createActions(genericStoreActions),
-    DraftJobOfferActions = Reflux.createActions(genericStoreActions),
     JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions)),
     JobOfferSignedActions = Reflux.createActions(genericStoreActions),
-    OfferSentActions = Reflux.createActions(genericStoreActions),
     EnglishLevelActions = Reflux.createActions(genericStoreActions),
     AgeAtArrivalActions = Reflux.createActions(genericStoreActions),
     GenderActions = Reflux.createActions(genericStoreActions),
-    ParticipantSignedActions = Reflux.createActions(genericStoreActions),
-    PositionActions = Reflux.createActions(genericStoreActions),
-    JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions);
+    PositionActions = Reflux.createActions(genericStoreActions);

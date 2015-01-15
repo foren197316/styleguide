@@ -11,15 +11,12 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
     this.setState({ rejecting: true });
   },
 
-  handleCancel: function(event) {
+  handleCancel: function() {
     this.setState({ rejecting: false });
   },
 
-  handleConfirm: function(event) {
+  handleConfirm: function() {
     this.setState({ sending: true });
-
-    var node = this.getDOMNode();
-
     JobOfferGroupActions.destroy(this.props.jobOfferGroup.id);
   },
 
@@ -33,11 +30,11 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
           React.DOM.button({className: 'btn btn-danger', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
           React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
-      )
+      );
     } else if (this.props.jobOfferGroup.can_reject) {
       actions = (
         React.DOM.button({className: 'btn btn-small btn-danger', onClick: this.handleReject}, 'Reject')
-      )
+      );
     }
 
     return (
@@ -52,6 +49,6 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
           actions
         )
       )
-    )
+    );
   }
 });

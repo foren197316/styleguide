@@ -29,9 +29,9 @@ var LinkToIf = React.createClass({displayName: 'LinkToIf',
   },
 
   render: function () {
-    return this.props.href
-      ? React.DOM.span(null, React.DOM.a({href: this.props.href}, this.props.name))
-      : React.DOM.span(null, this.props.name);
+    return this.props.href ?
+      React.DOM.span(null, React.DOM.a({href: this.props.href}, this.props.name)) :
+      React.DOM.span(null, this.props.name);
   }
 });
 
@@ -97,12 +97,12 @@ var ParticipantGroupItemWrapper = React.createClass({displayName: 'ParticipantGr
                     child
                   )
                 )
-              )
+              );
             })
           )
         )
       )
-    )
+    );
   }
 });
 
@@ -110,7 +110,7 @@ var ParticipantGroupParticipant = React.createClass({displayName: 'ParticipantGr
   render: function () {
     return (
       ParticipantGroupItemWrapper({participant: this.props.data})
-    )
+    );
   }
 });
 
@@ -135,7 +135,7 @@ var ParticipantGroupParticipantOfferingFormTipped = React.createClass({displayNa
           )
         )
       )
-    )
+    );
   }
 });
 
@@ -161,7 +161,7 @@ var ParticipantGroupParticipantOfferingFormHours = React.createClass({displayNam
 
     return (
       ReactBootstrap.Input({name: draftJobOfferFormName(key, 'hours'), id: draftJobOfferFormId(key, 'hours'), value: this.state.value, label: 'Hours per week', hasFeedback: true, bsStyle: validateNumber(this.state.value), labelClassName: 'col-sm-4', type: 'text', step: '1', wrapperClassName: 'col-sm-8', onChange: this.handleChange})
-    )
+    );
   }
 });
 
@@ -184,14 +184,14 @@ var ParticipantGroupParticipantOfferingFormOvertime = React.createClass({display
 
   render: function () {
     var key = this.props.resourceId,
-        overtimeRate = this.state.overtime === 'yes'
-          ? React.Children.map(this.props.children, function (child) {
-              return React.addons.cloneWithProps(child, {
-                validationState: this.props.validationState,
-                resourceId: this.props.resourceId
-              });
-            }.bind(this))
-          : null;
+        overtimeRate = this.state.overtime === 'yes' ?
+          React.Children.map(this.props.children, function (child) {
+            return React.addons.cloneWithProps(child, {
+              validationState: this.props.validationState,
+              resourceId: this.props.resourceId
+            });
+          }.bind(this)) :
+          null;
 
     return (
       React.DOM.div(null,
@@ -207,7 +207,7 @@ var ParticipantGroupParticipantOfferingFormOvertime = React.createClass({display
         ),
         overtimeRate
       )
-    )
+    );
   }
 });
 
@@ -223,7 +223,7 @@ var ParticipantGroupParticipantOfferingFormOvertimeRate = React.createClass({dis
 
     return (
       ReactBootstrap.Input({name: draftJobOfferFormName(participantKey, 'overtime_rate'), id: draftJobOfferFormId(participantKey, 'overtime_rate'), value: this.state.value, hasFeedback: true, bsStyle: validateMoney(this.state.value), onChange: this.handleChange, label: 'Overtime rate per hour', addonBefore: '$', type: 'text', labelClassName: 'col-sm-4', wrapperClassName: 'col-sm-8'})
-    )
+    );
   }
 });
 
@@ -252,7 +252,7 @@ var ParticipantGroupParticipantOfferingFormPosition = React.createClass({display
           return React.DOM.option({value: position.id, key: 'offering_form_position_'+this.props.resourceId+'_'+position.id}, position.name);
         }.bind(this))
       )
-    )
+    );
   }
 });
 
@@ -266,7 +266,7 @@ var ParticipantGroupParticipantOfferingFormWage = React.createClass({displayName
   render: function () {
     return (
       ReactBootstrap.Input({name: draftJobOfferFormName(this.props.resourceId, 'wage'), id: draftJobOfferFormId(this.props.resourceId, 'wage'), defaultValue: this.state.value, hasFeedback: true, bsStyle: validateMoney(this.state.value), onChange: this.handleChange, label: 'Wage per hour', labelClassName: 'col-sm-4', addonBefore: '$', type: 'text', wrapperClassName: 'col-sm-8'})
-    )
+    );
   }
 });
 
@@ -309,7 +309,7 @@ var ParticipantGroupParticipantDecliningForm = React.createClass({displayName: '
         ),
         ReactBootstrap.Input({name: 'rejections['+this.props.data.id+'][reason]', id: 'rejection_reason_'+this.props.data.id, label: 'Please specify', labelClassName: 'col-sm-4 ' + visibility, type: 'text', wrapperClassName: 'col-sm-8 ' + visibility})
       )
-    )
+    );
   }
 });
 
@@ -328,7 +328,7 @@ var ParticipantGroupParticipantOffering = React.createClass({displayName: 'Parti
           )
         )
       )
-    )
+    );
   }
 });
 
@@ -338,6 +338,6 @@ var ParticipantGroupParticipantDeclining = React.createClass({displayName: 'Part
       ParticipantGroupItemWrapper({participant: this.props.data},
         ParticipantGroupParticipantDecliningForm({data: this.props.data})
       )
-    )
+    );
   }
 });

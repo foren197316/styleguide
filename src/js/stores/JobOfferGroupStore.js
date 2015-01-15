@@ -41,8 +41,6 @@ var JobOfferGroupStore = Reflux.createStore({
     if (jobOfferSigneds.length === 2 || jobOfferSigneds.length === 0) {
       this.filterIds[filterKey] = null;
     } else {
-      var compareFunc;
-
       switch (jobOfferSigneds[0]) {
         case 'All Signed':
           this.filterIds[filterKey] = this.data.reduce(function (ids, jobOfferGroup) {
@@ -90,7 +88,7 @@ var JobOfferGroupStore = Reflux.createStore({
       type: 'POST',
       dataType: 'json',
       data: { _method: 'DELETE' },
-      success: function (resp) {
+      success: function () {
         this.data = this.data.filter(function (jobOfferGroup) {
           return jobOfferGroup.id !== jobOfferGroupId;
         });

@@ -37,17 +37,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     });
   },
 
-  onNewJobOffer: function (jobOffers, offeredParticipantGroupId) {
-    this.data = this.data.filter(function (offeredParticipantGroup) {
-      return offeredParticipantGroup.id !== offeredParticipantGroupId;
-    });
-
-    DraftJobOfferActions.removeByIds(this.data.mapAttribute('draft_job_offers').mapAttribute('id').flatten());
-    ParticipantActions.removeByIds(this.data.mapAttribute('draft_job_offers').mapAttribute('participant_group_id').flatten());
-
-    this.emitFilteredData();
-  },
-
   filterPrograms: function (programIds) {
     var intProgramIds = programIds.map(parseIntBase10);
 

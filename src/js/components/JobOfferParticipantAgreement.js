@@ -17,6 +17,6 @@ var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferPart
           JobOffer({jobOffer: this.props.jobOfferParticipantAgreement.job_offer, jobOfferParticipantAgreement: this.props.jobOfferParticipantAgreement})
         )
       )
-    )
+    );
   }
 });

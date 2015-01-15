@@ -87,14 +87,14 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                       )
                     )
                   )
-                )
+                );
               }.bind(this));
             } else {
-              return Alert({type: 'warning', message: InMatchingParticipantGroupsIndex.noResultsMessage, closeable: false})
+              return Alert({type: 'warning', message: InMatchingParticipantGroupsIndex.noResultsMessage, closeable: false});
             }
           }.bind(this)()
         )
       )
-    )
+    );
   }
 });
