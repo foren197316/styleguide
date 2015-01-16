@@ -25,22 +25,24 @@ Array.prototype.findById = function (id, alternateKey) {
     return this.filter(function (entry) {
       return id.indexOf(entry[key]) >= 0;
     });
-  } else {
-    for (var i in this) {
-      if (this[i][key] === id) {
-        return this[i];
-      }
-    }
-    return null;
   }
+
+  for (var i=0; i<this.length; i++) {
+    if (this[i][key] === id) {
+      return this[i];
+    }
+  }
+  return null;
 };
 
 Array.prototype.intersects = function (array) {
-  if (array.length > 0 && this.length > 0) {
-    for (var i in this) {
-      if (array.indexOf(this[i]) >= 0) {
-        return true;
-      }
+  if (array.length === 0 || this.length === 0) {
+    return false;
+  }
+
+  for (var i=0; i<this.length; i++) {
+    if (array.indexOf(this[i]) >= 0) {
+      return true;
     }
   }
 
