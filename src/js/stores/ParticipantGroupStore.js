@@ -9,13 +9,10 @@ var ParticipantGroupStore = Reflux.createStore({
     ParticipantActions.deprecatedAjaxLoad(this.data.mapAttribute("participant_ids").flatten(), context);
 
     switch (context) {
-      case CONTEXT.OFFERED:
-        this.participantsListener = this.listenTo(ParticipantStore, this.setParticipants);
-        break;
       case CONTEXT.IN_MATCHING:
         ParticipantGroupNameActions.setNames(participantGroups);
         EmployerActions.setSingleton();
-        EmployerActions.deprecatedAjaxLoad();
+        EmployerActions.deprecatedAjaxLoad(context);
         this.joinListener = this.joinTrailing(EmployerStore, ParticipantStore, ProgramStore, this.filterByRegionAndProgram);
         break;
     }

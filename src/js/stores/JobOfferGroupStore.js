@@ -13,40 +13,65 @@ var JobOfferGroupStore = Reflux.createStore({
 
     this.listenTo(EmployerActions.filterByIds, this.filterEmployers);
     this.listenTo(StaffActions.filterByIds, this.filterStaffs);
+    this.listenTo(JobOfferSignedActions.filterByIds, this.filterJobOfferSigneds);
 
     this.trigger(this.data);
   },
 
-  onToggleAllSigned: function (toggle) {
-    var filterKey = "jobOfferSigned";
-    if (toggle) {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, jobOfferGroup) {
-        var allSigned = jobOfferGroup.job_offers.reduce(function (prev, curr) {
-                          return prev && curr.participant_agreement != undefined;
-                        }, true);
-        if (allSigned) {
-          ids.push(jobOfferGroup.id);
-        }
-        return ids;
-      }, []);
-    } else {
+  filterEmployers: function (employerIds) {
+    var intEmployerIds = employerIds.map(parseIntBase10);
+
+    this.genericIdFilter("employers", intEmployerIds, function (jobOfferGroup) {
+      return intEmployerIds.indexOf(jobOfferGroup.employer_id) >= 0;
+    });
+  },
+
+  filterStaffs: function (staffIds) {
+    var intStaffIds = staffIds.map(parseIntBase10);
+
+    this.genericIdFilter("staffs", intStaffIds, function (jobOfferGroup) {
+      var employer = EmployerStore.findById(jobOfferGroup.employer_id);
+      return employer && intStaffIds.indexOf(employer.staff_id) >= 0;
+    });
+  },
+
+  filterJobOfferSigneds: function (jobOfferSigneds) {
+    var filterKey = "jobOfferSigneds";
+
+    if (jobOfferSigneds.length === 2 || jobOfferSigneds.length === 0) {
       this.filterIds[filterKey] = null;
+    } else {
+      var compareFunc;
+
+      switch (jobOfferSigneds[0]) {
+        case "All Signed":
+          this.filterIds[filterKey] = this.data.reduce(function (ids, jobOfferGroup) {
+            var allSigned = jobOfferGroup.job_offers.reduce(function (prev, curr) {
+              return prev && curr.participant_agreement !== null;
+            }, true);
+
+            if (allSigned) {
+              ids.push(jobOfferGroup.id);
+            }
+            return ids;
+          }, []);
+          break;
+        case "Any Unsigned":
+          this.filterIds[filterKey] = this.data.reduce(function (ids, jobOfferGroup) {
+            var anyUnsigned = jobOfferGroup.job_offers.reduce(function (prev, curr) {
+              return prev || curr.participant_agreement === null;
+            }, false);
+
+            if (anyUnsigned) {
+              ids.push(jobOfferGroup.id);
+            }
+            return ids;
+          }, []);
+          break;
+      }
     }
 
     this.emitFilteredData();
-  },
-
-  filterStaffs: function (staff_ids) {
-    this.genericIdFilter("staffs", staff_ids, function (jobOfferGroup) {
-      var employer = EmployerStore.findById(jobOfferGroup.employer_id);
-      return employer && staff_ids.indexOf(employer.staff_id) >= 0;
-    });
-  },
-
-  filterEmployers: function (employer_ids) {
-    this.genericIdFilter("employers", employer_ids, function (jobOfferGroup) {
-      return employer_ids.indexOf(jobOfferGroup.employer_id) >= 0;
-    });
   },
 
   onCreate: function (data, callback) {

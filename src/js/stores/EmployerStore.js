@@ -5,16 +5,11 @@ var EmployerStore = Reflux.createStore({
   init: function () {
     this.listenTo(GlobalActions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
     this.listenTo(GlobalActions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
+    this.listenTo(GlobalActions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
   },
 
-  initPostAjaxLoad: function (_employers, context) {
-    switch (context) {
-      case CONTEXT.JOB_OFFER:
-        StaffActions.ajaxLoad(this.data.mapAttribute("staff_id"), EmployerActions.setStaff);
-        break;
-      default:
-        this.trigger(this.data);
-    }
+  initPostAjaxLoad: function () {
+    this.trigger(this.data);
   },
 
   onLoadFromJobOfferGroups: function (jobOfferGroups) {
@@ -31,13 +26,23 @@ var EmployerStore = Reflux.createStore({
     );
   },
 
-  onSetStaff: function (staffs) {
-    if (this.staffListener) {
-      this.staffListener();
-    }
+  onLoadFromJobOfferParticipantAgreements: function (jobOfferParticipantAgreements) {
+    EmployerActions.ajaxLoad(
+      jobOfferParticipantAgreements.mapAttribute("job_offer").mapAttribute("employer_id"),
+      StaffActions.loadFromEmployer
+    );
+  },
 
+  onUpdateOnReviewCount: function (employerId, enrollmentId, count) {
     this.data = this.data.map(function (employer) {
-      employer.staff = staffs.findById(employer.staff_id);
+      if (employer.id === employerId) {
+        employer.enrollments = employer.enrollments.map(function (enrollment) {
+          if (enrollment.id === enrollmentId) {
+            enrollment.on_review_count += count;
+          }
+          return enrollment;
+        });
+      }
       return employer;
     });
 

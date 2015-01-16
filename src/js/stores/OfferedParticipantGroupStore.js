@@ -5,9 +5,9 @@ var OfferedParticipantGroupStore = Reflux.createStore({
 
   initPostAjaxLoad: function () {
     this.data = this.data.map(function (offeredParticipantGroup) {
-      offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute("name");
-      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute("email");
-      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute("uuid");
+      offeredParticipantGroup.participant_names = offeredParticipantGroup.participants.mapAttribute("name").join(",");
+      offeredParticipantGroup.participant_emails = offeredParticipantGroup.participants.mapAttribute("email").join(",");
+      offeredParticipantGroup.participant_uuids = offeredParticipantGroup.participants.mapAttribute("uuid").join(",");
       return offeredParticipantGroup;
     });
 
@@ -26,9 +26,6 @@ var OfferedParticipantGroupStore = Reflux.createStore({
         this.data = this.data.filter(function (offeredParticipantGroup) {
           return offeredParticipantGroup.id !== offeredParticipantGroupId;
         });
-
-        DraftJobOfferActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("id").flatten());
-        ParticipantActions.removeByIds(this.data.mapAttribute("draft_job_offers").mapAttribute("participant_group_id").flatten());
 
         this.emitFilteredData();
 
@@ -51,22 +48,28 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     this.emitFilteredData();
   },
 
-  filterPrograms: function (programs) {
-    this.filterGeneric("programs", programs, function (programIds, offeredParticipantGroup) {
-      return programIds.indexOf(offeredParticipantGroup.participants[0].program_id) >= 0;
+  filterPrograms: function (programIds) {
+    var intProgramIds = programIds.map(parseIntBase10);
+
+    this.genericIdFilter("programs", intProgramIds, function (offeredParticipantGroup) {
+      return intProgramIds.indexOf(offeredParticipantGroup.participants[0].program_id) >= 0;
     });
   },
 
-  filterStaffs: function (staff_ids) {
-    this.genericIdFilter("staffs", staff_ids, function (offeredParticipantGroup) {
+  filterStaffs: function (staffIds) {
+    var intStaffIds = staffIds.map(parseIntBase10);
+
+    this.genericIdFilter("staffs", intStaffIds, function (offeredParticipantGroup) {
       var employer = EmployerStore.findById(offeredParticipantGroup.employer_id);
-      return employer && staff_ids.indexOf(employer.staff_id) >= 0;
+      return employer && intStaffIds.indexOf(employer.staff_id) >= 0;
     });
   },
 
-  filterEmployers: function (employer_ids) {
-    this.genericIdFilter("employers", employer_ids, function (offeredParticipantGroup) {
-      return employer_ids.indexOf(offeredParticipantGroup.employer_id) >= 0;
+  filterEmployers: function (employerIds) {
+    var intEmployerIds = employerIds.map(parseIntBase10);
+
+    this.genericIdFilter("employers", intEmployerIds, function (offeredParticipantGroup) {
+      return intEmployerIds.indexOf(offeredParticipantGroup.employer_id) >= 0;
     });
   }
 });

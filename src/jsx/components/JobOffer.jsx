@@ -1,12 +1,14 @@
 var JobOffer = React.createClass({
   propTypes: {
-    jobOffer: React.PropTypes.object.isRequired
+    jobOffer: React.PropTypes.object.isRequired,
+    jobOfferParticipantAgreement: React.PropTypes.object
   },
 
   render: function () {
     var overtimeRate = null,
         position = PositionStore.findById(this.props.jobOffer.position_id),
-        jobOfferParticipantAgreement = null,
+        jobOfferParticipantAgreement = this.props.jobOfferParticipantAgreement || this.props.jobOffer.participant_agreement,
+        jobOfferParticipantAgreementComponent = null,
         jobOfferFileMakerReference = null,
         jobOfferLink = this.props.jobOffer.href
           ? <a href={this.props.jobOffer.href}>View</a>
@@ -18,9 +20,9 @@ var JobOffer = React.createClass({
       );
     }
 
-    if (this.props.jobOffer.participant_agreement != undefined) {
-      jobOfferParticipantAgreement = (
-        <ReadOnlyFormGroup label="Signed by" value={this.props.jobOffer.participant_agreement.full_name + " on " + Date.parse(this.props.jobOffer.participant_agreement.created_at).toString(dateFormat)} />
+    if (jobOfferParticipantAgreement != undefined) {
+      jobOfferParticipantAgreementComponent = (
+        <ReadOnlyFormGroup label="Signed by" value={jobOfferParticipantAgreement.full_name + " on " + Date.parse(jobOfferParticipantAgreement.created_at).toString(dateFormat)} />
       );
     }
 
@@ -39,7 +41,7 @@ var JobOffer = React.createClass({
           <ReadOnlyFormGroup label="Hours per week" value={this.props.jobOffer.hours} />
           <ReadOnlyFormGroup label="Overtime?" value={this.props.jobOffer.overtime.capitaliseWord()} />
           {overtimeRate}
-          {jobOfferParticipantAgreement}
+          {jobOfferParticipantAgreementComponent}
           {jobOfferFileMakerReference}
           <ReadOnlyFormGroup label="" value={jobOfferLink} />
         </div>

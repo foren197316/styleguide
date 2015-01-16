@@ -3,15 +3,12 @@ var JobOfferGroupsPanel = React.createClass({
     Reflux.connect(JobOfferGroupStore, "jobOfferGroups"),
     Reflux.connect(ProgramStore, "programs"),
     Reflux.connect(PositionStore, "positions"),
-    RenderLoadedMixin("jobOfferGroups", "programs", "positions")
+    Reflux.connect(EmployerStore, "employers"),
+    Reflux.connect(StaffStore, "staffs"),
+    RenderLoadedMixin("jobOfferGroups", "programs", "positions", "employers", "staffs")
   ],
 
-  propTypes: {
-    urls: React.PropTypes.array.isRequired
-  },
-
   componentDidMount: function () {
-    window.RESOURCE_URLS = this.props.urls;
     JobOfferGroupActions.ajaxLoad(GlobalActions.loadFromJobOfferGroups);
     PositionActions.ajaxLoad();
   },
@@ -27,7 +24,7 @@ var JobOfferGroupsPanel = React.createClass({
           if (programJobOfferGroups.length > 0) {
             return (
               <div>
-                <ProgramHeader program={program} collectionName="Job Offer" collection={programJobOfferGroups.mapAttribute("job_offers")} />
+                <ProgramHeader program={program} collectionName="Job Offer" collection={programJobOfferGroups.mapAttribute("job_offers").flatten()} />
                 {programJobOfferGroups.map(function (jobOfferGroup) {
                   return <JobOfferGroup jobOfferGroup={jobOfferGroup} key={"program_job_offer_group"+program.id+"-"+jobOfferGroup.id} />
                 })}

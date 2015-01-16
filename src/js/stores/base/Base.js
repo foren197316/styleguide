@@ -1,11 +1,20 @@
-var CONTEXT = {
-  IN_MATCHING: 1,
-  OFFERED:     2,
-  JOB_OFFER:   3
+var RESOURCE_URLS;
+var genericStoreActions    = ["setData", "deprecatedAjaxLoad", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton", "ajaxLoadSingleton"];
+var filterableStoreActions = ["search", "resetSearch", "dateFilter"];
+
+var SetUrlsMixin = {
+  propTypes: {
+    urls: React.PropTypes.object.isRequired
+  },
+
+  componentDidMount: function () {
+    RESOURCE_URLS = this.props.urls;
+  }
 }
 
-var genericStoreActions    = ["setData", "deprecatedAjaxLoad", "ajaxLoad", "filterByIds", "forceTrigger", "removeByIds", "setSingleton"];
-var filterableStoreActions = ["search", "resetSearch", "dateFilter"];
+var parseIntBase10 = function (string) {
+  return parseInt(string, 10);
+};
 
 var defaultStoreError = function () {
   window.location = window.location;
@@ -50,7 +59,7 @@ Reflux.StoreMethods.onAjaxLoad = function () {
   }
 
   $.ajax({
-    url: window.RESOURCE_URLS[this.resourceName],
+    url: RESOURCE_URLS[this.resourceName],
     type: "GET",
     data: data,
     success: function (response) {
@@ -63,6 +72,12 @@ Reflux.StoreMethods.onAjaxLoad = function () {
     }.bind(this),
     error: this.onLoadError.bind(this)
   });
+};
+
+Reflux.StoreMethods.onAjaxLoadSingleton = function () {
+  this.onSetSingleton();
+  var args = arguments;
+  this.onAjaxLoad.apply(this, args);
 };
 
 Reflux.StoreMethods.onLoadSuccess = function (response) {
@@ -138,26 +153,6 @@ Reflux.StoreMethods.onLoadError = function (jqXHR, textStatus, errorThrown) {
   this.trigger(this.data);
 }
 
-Reflux.StoreMethods.filterGeneric = function (filterKey, data, condition) {
-  this.filterIds = this.filterIds || {};
-
-  if (data === null) {
-    this.filterIds[filterKey] = null;
-  } else {
-    var data_ids = data.mapAttribute("id");
-
-    this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {
-      if (condition(data_ids, entry)) {
-        ids.push(entry.id);
-      }
-      return ids;
-    }, []);
-  }
-
-  this.emitFilteredData();
-}
-
-/* TODO: replace filterGeneric with this method */
 Reflux.StoreMethods.genericIdFilter = function (filterKey, filter_ids, condition) {
   this.filterIds = this.filterIds || {};
 
@@ -292,7 +287,7 @@ Reflux.StoreMethods.onFilterByIds = function (ids) {
   } else {
     this.trigger(
       this.data.filter(function (entry) {
-        return ids.indexOf(entry.id) >= 0;
+        return ids.indexOf(entry.id.toString()) >= 0;
       })
     );
   }
@@ -339,7 +334,9 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 var GlobalActions = Reflux.createActions([
   "newJobOffer",
   "loadFromJobOfferGroups",
-  "loadFromOfferedParticipantGroups"
+  "loadFromOfferedParticipantGroups",
+  "loadFromJobOfferParticipantAgreements",
+  "loadFromInMatchingParticipantGroups"
 ]);
 
 var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
@@ -357,29 +354,29 @@ var OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.co
     ParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(
       ["setParticipants"]
     )),
-    EmployerActions = Reflux.createActions(genericStoreActions.concat(
-      ["setStaff"]
-    )),
     ParticipantGroupNameActions = Reflux.createActions(genericStoreActions.concat(
       ["setNames"]
     )),
     CountryActions = Reflux.createActions(genericStoreActions.concat(
       ["setCountries"]
     )),
-    EnrollmentActions = Reflux.createActions(genericStoreActions.concat(
-      ["updateOnReviewCount"]
-    )),
     StaffActions = Reflux.createActions(genericStoreActions.concat(
       ["loadFromEmployer"]
     )),
+    ProgramActions = Reflux.createActions(genericStoreActions.concat(
+      ["loadFromEmployer"]
+    )),
+    EmployerActions = Reflux.createActions(genericStoreActions.concat(
+      ["updateOnReviewCount"]
+    )),
     ParticipantActions = Reflux.createActions(genericStoreActions),
     DraftJobOfferActions = Reflux.createActions(genericStoreActions),
-    JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions),
+    JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions)),
+    JobOfferSignedActions = Reflux.createActions(genericStoreActions),
     OfferSentActions = Reflux.createActions(genericStoreActions),
     EnglishLevelActions = Reflux.createActions(genericStoreActions),
     AgeAtArrivalActions = Reflux.createActions(genericStoreActions),
     GenderActions = Reflux.createActions(genericStoreActions),
     ParticipantSignedActions = Reflux.createActions(genericStoreActions),
-    ProgramActions = Reflux.createActions(genericStoreActions),
     PositionActions = Reflux.createActions(genericStoreActions),
     JobOfferFileMakerReferenceActions = Reflux.createActions(genericStoreActions);
