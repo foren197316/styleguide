@@ -1,6 +1,6 @@
 'use strict';
 
-
+var AgeAtArrivalActions = require('../actions').AgeAtArrivalActions;
 
 var AgeAtArrivalStore = Reflux.createStore({
   listenables: AgeAtArrivalActions,

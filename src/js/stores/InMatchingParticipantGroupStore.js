@@ -1,10 +1,13 @@
 'use strict';
 
-var parseIntBase10 = require('../globals').parseIntBase10;
+var actions = require('../actions');
+var globals = require('../globals');
+var parseIntBase10 = globals.parseIntBase10;
+var calculateAgeAtArrival = globals.calculateAgeAtArrival;
 
 var InMatchingParticipantGroupStore = Reflux.createStore({
   resourceName: 'inMatchingParticipantGroups',
-  listenables: InMatchingParticipantGroupActions,
+  listenables: actions.InMatchingParticipantGroupActions,
   filterIds: {},
 
   initPostAjaxLoad: function () {
@@ -24,12 +27,12 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
   },
 
   initFilters: function () {
-    this.listenTo(AgeAtArrivalActions.filterByIds, this.filterAgeAtArrival);
-    this.listenTo(ParticipantGroupNameActions.filterByIds, this.filterParticipantGroupNames);
-    this.listenTo(GenderActions.filterByIds, this.filterGenders);
-    this.listenTo(EnglishLevelActions.filterByIds, this.filterEnglishLevels);
-    this.listenTo(PositionActions.filterByIds, this.filterPositions);
-    this.listenTo(CountryActions.filterByIds, this.filterCountries);
+    this.listenTo(actions.AgeAtArrivalActions.filterByIds, this.filterAgeAtArrival);
+    this.listenTo(actions.ParticipantGroupNameActions.filterByIds, this.filterParticipantGroupNames);
+    this.listenTo(actions.GenderActions.filterByIds, this.filterGenders);
+    this.listenTo(actions.EnglishLevelActions.filterByIds, this.filterEnglishLevels);
+    this.listenTo(actions.PositionActions.filterByIds, this.filterPositions);
+    this.listenTo(actions.CountryActions.filterByIds, this.filterCountries);
 
     this.trigger(this.data);
   },
@@ -154,7 +157,7 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
       dataType: 'json',
       success: function (data) {
         var onReviewCount = data.on_review_participant_group.participants.length;
-        EmployerActions.updateOnReviewCount(employer.id, enrollment.id, onReviewCount);
+        actions.EmployerActions.updateOnReviewCount(employer.id, enrollment.id, onReviewCount);
       }.bind(this),
       complete: onComplete
     });

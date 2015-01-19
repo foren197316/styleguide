@@ -1,6 +1,10 @@
 'use strict';
 
-
+var dateFormat = require('../globals').dateFormat;
+var actions = require('../actions');
+var Alert = require('./Alert');
+var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 
 var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchingParticipantGroupPanel',
   propTypes: {
@@ -45,7 +49,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
   handleConfirm: function() {
     this.setState({ sending: true });
 
-    InMatchingParticipantGroupActions.offer(
+    actions.InMatchingParticipantGroupActions.offer(
       this.props.inMatchingParticipantGroup,
       this.props.employer,
       this.props.enrollment,

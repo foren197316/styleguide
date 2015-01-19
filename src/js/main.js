@@ -392,3 +392,4 @@ global.JobOfferParticipantAgreementsIndex = require('./components/JobOfferPartic
 global.OfferedParticipantGroupsIndex = require('./components/OfferedParticipantGroupsIndex');
 global.OnReviewParticipantGroupPanels = require('./components/OnReviewParticipantGroupPanels');
 global.ReservedParticipantGroupPanels = require('./components/ReservedParticipantGroupPanels');
+global.InMatchingParticipantGroupsIndex = require('./components/InMatchingParticipantGroupsIndex');

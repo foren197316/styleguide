@@ -1,13 +1,13 @@
 'use strict';
 
-
+var actions = require('../actions');
 
 var CountryStore = Reflux.createStore({
-  listenables: CountryActions,
+  listenables: actions.CountryActions,
   permission: false,
 
   init: function () {
-    this.listenTo(GlobalActions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
+    this.listenTo(actions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
   },
 
   onLoadFromInMatchingParticipantGroups: function (inMatchingParticipantGroups) {

@@ -1,6 +1,23 @@
 'use strict';
 
+var actions = require('../actions');
+var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+var Alert = require('./Alert');
+var InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel');
+var SearchFilter = require('./SearchFilter');
+var BooleanFilter = require('./BooleanFilter');
+var DateRangeFilter = require('./DateRangeFilter');
+var CheckBoxFilter = require('./CheckBoxFilter');
 
+var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
+var EmployerStore = require('../stores/EmployerStore');
+var ProgramStore = require('../stores/ProgramStore');
+var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
+var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
+var GenderStore = require('../stores/GenderStore');
+var EnglishLevelStore = require('../stores/EnglishLevelStore');
+var PositionStore = require('../stores/PositionStore');
+var CountryStore = require('../stores/CountryStore');
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
@@ -16,11 +33,11 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
 
   componentDidMount: function() {
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
-    window.RESOURCE_URLS = this.props.urls;
-    InMatchingParticipantGroupActions.ajaxLoad(GlobalActions.loadFromInMatchingParticipantGroups);
-    EmployerActions.ajaxLoadSingleton();
-    PositionActions.ajaxLoad();
-    ProgramActions.ajaxLoad();
+    actions.setUrls(this.props.urls);
+    actions.InMatchingParticipantGroupActions.ajaxLoad(actions.loadFromInMatchingParticipantGroups);
+    actions.EmployerActions.ajaxLoadSingleton();
+    actions.PositionActions.ajaxLoad();
+    actions.ProgramActions.ajaxLoad();
   },
 
   intercom: function (employers) {
@@ -41,16 +58,16 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'Search', searchOn: 'participant_names', actions: InMatchingParticipantGroupActions}),
-          CheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: AgeAtArrivalActions}),
-          CheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: ParticipantGroupNameActions}),
-          CheckBoxFilter({title: 'Gender', store: GenderStore, actions: GenderActions}),
-          CheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: EnglishLevelActions}),
-          DateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: InMatchingParticipantGroupActions}),
-          CheckBoxFilter({title: 'Positions', store: PositionStore, actions: PositionActions}),
-          CheckBoxFilter({title: 'Country', store: CountryStore, actions: CountryActions}),
-          BooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: InMatchingParticipantGroupActions.togglePreviousParticipation}),
-          BooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
+          SearchFilter({title: 'Search', searchOn: 'participant_names', actions: actions.InMatchingParticipantGroupActions}),
+          CheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: actions.AgeAtArrivalActions}),
+          CheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: actions.ParticipantGroupNameActions}),
+          CheckBoxFilter({title: 'Gender', store: GenderStore, actions: actions.GenderActions}),
+          CheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: actions.EnglishLevelActions}),
+          DateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
+          CheckBoxFilter({title: 'Positions', store: PositionStore, actions: actions.PositionActions}),
+          CheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
+          BooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
+          BooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
         ),
         React.DOM.div({className: 'col-md-9'},
           function () {

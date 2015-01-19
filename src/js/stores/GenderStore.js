@@ -1,6 +1,6 @@
 'use strict';
 
-
+var GenderActions = require('../actions').GenderActions;
 
 var GenderStore = Reflux.createStore({
   listenables: GenderActions,
