@@ -1,6 +1,7 @@
 'use strict';
 
-
+var actions = require('../actions');
+var mixins = require('../mixins');
 var ProgramStore = require('../stores/ProgramStore');
 var PositionStore = require('../stores/PositionStore');
 var EmployerStore = require('../stores/EmployerStore');
@@ -14,7 +15,7 @@ var JobOfferParticipantAgreementsPanel = React.createClass({displayName: 'JobOff
     Reflux.connect(PositionStore, 'positions'),
     Reflux.connect(EmployerStore, 'employers'),
     Reflux.connect(StaffStore, 'staffs'),
-    RenderLoadedMixin('programs', 'positions', 'employers', 'staffs')
+    mixins.RenderLoadedMixin('programs', 'positions', 'employers', 'staffs')
   ],
 
   propTypes: {
@@ -22,8 +23,8 @@ var JobOfferParticipantAgreementsPanel = React.createClass({displayName: 'JobOff
   },
 
   componentDidMount: function () {
-    JobOfferParticipantAgreementActions.ajaxLoad(GlobalActions.loadFromJobOfferParticipantAgreements);
-    PositionActions.ajaxLoad();
+    actions.JobOfferParticipantAgreementActions.ajaxLoad(actions.loadFromJobOfferParticipantAgreements);
+    actions.PositionActions.ajaxLoad();
   },
 
   renderLoaded: function () {

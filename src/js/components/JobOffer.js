@@ -1,5 +1,6 @@
 'use strict';
 
+var dateFormat = require('../globals').dateFormat;
 var ReadOnlyFormGroup = require('./ReadOnlyFormGroup');
 var PositionStore = require('../stores/PositionStore');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');

@@ -1,9 +1,6 @@
 'use strict';
-/**
- * TODO: eliminate all globals
- */
 
-var Spinner = require('./components/Spinner');
+var actions = require('./actions');
 
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -93,103 +90,7 @@ Array.prototype.uniq = function () {
   }, []);
 };
 
-var genericStoreActions    = ['setData', 'ajaxLoad', 'filterByIds', 'forceTrigger', 'removeByIds', 'setSingleton', 'ajaxLoadSingleton'];
-var filterableStoreActions = ['search', 'resetSearch', 'dateFilter'];
-
-global.OfferedParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-  ['reject']
-));
-global.InMatchingParticipantGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-  ['offer', 'toggleInternationalDriversLicense', 'togglePreviousParticipation']
-));
-global.JobOfferGroupActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
-  ['create', 'destroy', 'toggleAllSigned']
-));
-global.ParticipantGroupNameActions = Reflux.createActions(genericStoreActions.concat(
-  ['setNames']
-));
-global.CountryActions = Reflux.createActions(genericStoreActions.concat(
-  ['setCountries']
-));
-global.StaffActions = Reflux.createActions(genericStoreActions.concat(
-  ['loadFromEmployer']
-));
-global.ProgramActions = Reflux.createActions(genericStoreActions.concat(
-  ['loadFromEmployer']
-));
-global.EmployerActions = Reflux.createActions(genericStoreActions.concat(
-  ['updateOnReviewCount']
-));
-global.JobOfferParticipantAgreementActions = Reflux.createActions(genericStoreActions.concat(filterableStoreActions));
-global.JobOfferSignedActions = Reflux.createActions(genericStoreActions);
-global.EnglishLevelActions = Reflux.createActions(genericStoreActions);
-global.AgeAtArrivalActions = Reflux.createActions(genericStoreActions);
-global.GenderActions = Reflux.createActions(genericStoreActions);
-global.PositionActions = Reflux.createActions(genericStoreActions);
-global.GlobalActions = Reflux.createActions([
-  'loadFromJobOfferGroups',
-  'loadFromOfferedParticipantGroups',
-  'loadFromJobOfferParticipantAgreements',
-  'loadFromInMatchingParticipantGroups'
-]);
-global.setUrls = Reflux.createAction('setUrls');
-
-global.SetUrlsMixin = {
-  propTypes: {
-    urls: React.PropTypes.object.isRequired
-  },
-
-  componentDidMount: function () {
-    setUrls(this.props.urls);
-  }
-};
-
-global.ValidatingInputMixin = {
-  statics: { validates: true },
-
-  propTypes: { validationState: React.PropTypes.object.isRequired },
-
-  getInitialState: function() {
-    return {value: null};
-  },
-
-  handleChange: function (event) {
-    var newState = this.validate(event.target.value);
-    this.setState({value: event.target.value});
-    this.props.validationState.requestChange(newState);
-  }
-};
-
-global.RenderLoadedMixin = function () {
-  var args = arguments;
-
-  if (args.length === 0) {
-    throw new Error('RenderLoadedMixin takes at least one string argument.');
-  }
-
-  return {
-    render: function () {
-      for (var i=0; i<args.length; i++) {
-        if (!this.state[args[i]]) {
-          return Spinner(null);
-        }
-      }
-      return this.renderLoaded();
-    }
-  };
-};
-
-global.dateFormat = 'MM/dd/yyyy';
-
-global.parseIntBase10 = function (string) {
-  return parseInt(string, 10);
-};
-
-global.calculateAgeAtArrival = function (to, from) {
-  return new TimePeriod(Date.parse(to), Date.parse(from)).years;
-};
-
-global.traverse = function (subject, attributes) {
+var traverse = function (subject, attributes) {
   var curr = subject;
 
   if (typeof attributes === 'string') {
@@ -222,7 +123,7 @@ var UrlStore = Reflux.createStore({
   urls: null,
 
   init: function () {
-    this.listener = this.listenTo(setUrls, this.onSetUrls);
+    this.listener = this.listenTo(actions.setUrls, this.onSetUrls);
   },
 
   onSetUrls: function (urls) {
@@ -261,7 +162,7 @@ Reflux.StoreMethods.onAjaxLoad = function () {
   if (UrlStore.urls != null) {
     doAjaxLoad(UrlStore.urls);
   } else {
-    this.urlListener = this.listenTo(UrlStore, function (urls) {
+    this.urlListener = this.listenTo(actions.setUrls, function (urls) {
       this.urlListener.stop();
       doAjaxLoad(urls);
     }.bind(this));

@@ -1,6 +1,6 @@
 'use strict';
 
-
+var JobOfferParticipantAgreementActions = require('../actions').JobOfferParticipantAgreementActions;
 
 var JobOfferParticipantAgreementStore = Reflux.createStore({
   resourceName: 'jobOfferParticipantAgreements',

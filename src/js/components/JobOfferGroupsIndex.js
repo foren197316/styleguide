@@ -1,7 +1,7 @@
 /* exported JobOfferGroupsIndex */
 'use strict';
 
-
+var SetUrlsMixin = require('../mixins').SetUrlsMixin;
 
 var JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
   mixins: [SetUrlsMixin],

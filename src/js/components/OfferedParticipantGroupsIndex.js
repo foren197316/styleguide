@@ -1,7 +1,8 @@
 /* exported OfferedParticipantGroupsIndex */
 'use strict';
 
-
+var actions = require('../actions');
+var mixins = require('../mixins');
 var OfferedParticipantGroupStore = require('../stores/OfferedParticipantGroupStore');
 var ProgramStore = require('../stores/ProgramStore');
 var PositionStore = require('../stores/PositionStore');
@@ -15,13 +16,13 @@ var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedPart
     Reflux.connect(PositionStore, 'positions'),
     Reflux.connect(EmployerStore, 'employers'),
     Reflux.connect(StaffStore, 'staffs'),
-    RenderLoadedMixin('offeredParticipantGroups', 'programs', 'positions', 'staffs', 'employers')
+    mixins.RenderLoadedMixin('offeredParticipantGroups', 'programs', 'positions', 'staffs', 'employers')
   ],
 
   componentDidMount: function() {
-    window.RESOURCE_URLS = this.props.urls;
-    OfferedParticipantGroupActions.ajaxLoad(GlobalActions.loadFromOfferedParticipantGroups);
-    PositionActions.ajaxLoad();
+    actions.setUrls(this.props.urls);
+    actions.OfferedParticipantGroupActions.ajaxLoad(GlobalActions.loadFromOfferedParticipantGroups);
+    actions.PositionActions.ajaxLoad();
   },
 
   renderLoaded: function () {

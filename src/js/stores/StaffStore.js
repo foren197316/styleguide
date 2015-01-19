@@ -1,6 +1,6 @@
 'use strict';
 
-
+var StaffActions = require('../actions').StaffActions;
 
 var StaffStore = Reflux.createStore({
   resourceName: 'staffs',

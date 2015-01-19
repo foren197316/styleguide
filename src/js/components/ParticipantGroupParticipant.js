@@ -1,5 +1,6 @@
 'use strict';
 
+var dateFormat = require('../globals').dateFormat;
 var LinkToIf = require('./LinkToIf');
 var YearCalculator = require('./YearCalculator');
 

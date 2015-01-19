@@ -1,10 +1,11 @@
 'use strict';
 
-
+var actions = require('../actions');
+var EmployerStore = require('./EmployerStore');
 
 var OfferedParticipantGroupStore = Reflux.createStore({
   resourceName: 'offeredParticipantGroups',
-  listenables: OfferedParticipantGroupActions,
+  listenables: actions.OfferedParticipantGroupActions,
   filterIds: {},
 
   initPostAjaxLoad: function () {
@@ -15,8 +16,8 @@ var OfferedParticipantGroupStore = Reflux.createStore({
       return offeredParticipantGroup;
     });
 
-    this.listenTo(EmployerActions.filterByIds, this.filterEmployers);
-    this.listenTo(StaffActions.filterByIds, this.filterStaffs);
+    this.listenTo(actions.EmployerActions.filterByIds, this.filterEmployers);
+    this.listenTo(actions.StaffActions.filterByIds, this.filterStaffs);
 
     this.trigger(this.data);
   },

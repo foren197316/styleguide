@@ -1,7 +1,8 @@
 /* exported JobOfferParticipantAgreementsIndex */
 'use strict';
 
-
+var actions = require('../actions');
+var mixins = require('../mixins');
 var JobOfferParticipantAgreementStore = require('../stores/JobOfferParticipantAgreementStore');
 var JobOfferParticipantAgreementsPanel = require('./JobOfferParticipantAgreementsPanel');
 var SearchFilter = require('./SearchFilter');
@@ -12,7 +13,7 @@ var ProgramStore = require('../stores/ProgramStore');
 
 var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOfferParticipantAgreementsIndex',
   mixins: [
-    SetUrlsMixin,
+    mixins.SetUrlsMixin,
     Reflux.connect(JobOfferParticipantAgreementStore, 'jobOfferParticipantAgreements')
   ],
 
@@ -24,8 +25,8 @@ var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOff
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'Search', searchOn: [['job_offer', 'participant', 'name'], ['job_offer', 'participant', 'email'], ['job_offer', 'participant', 'uuid']], actions: JobOfferParticipantAgreementActions}),
-          CheckBoxFilter({title: 'Program', store: ProgramStore, actions: ProgramActions}),
+          SearchFilter({title: 'Search', searchOn: [['job_offer', 'participant', 'name'], ['job_offer', 'participant', 'email'], ['job_offer', 'participant', 'uuid']], actions: actions.JobOfferParticipantAgreementActions}),
+          CheckBoxFilter({title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
           BooleanFilter({title: 'FileMaker', label: 'Not in FileMaker', action: JobOfferParticipantAgreementStore.toggleNotInFileMaker}),
           ExportButton({url: this.props.urls.export, ids: jobOfferIds})
         ),
