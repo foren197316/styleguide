@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var EmployerStore = Reflux.createStore({
   resourceName: 'employers',
   listenables: EmployerActions,
@@ -49,3 +53,5 @@ var EmployerStore = Reflux.createStore({
     this.trigger(this.data);
   }
 });
+
+module.exports = EmployerStore;

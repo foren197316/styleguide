@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
     offeredParticipantGroup: React.PropTypes.object.isRequired
@@ -67,7 +71,7 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)});
+      return Alert({type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
     } else if (this.state.sendingJobOffer) {
       actions = (
         React.DOM.div({className: 'btn-group'},
@@ -113,3 +117,5 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
     );
   }
 });
+
+module.exports = OfferedParticipantGroupPanel;

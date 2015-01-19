@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var HiddenIdInput = React.createClass({displayName: 'HiddenIdInput',
   propTypes: {
     id: React.PropTypes.number.isRequired
@@ -27,3 +31,5 @@ var ExportButton = React.createClass({displayName: 'ExportButton',
     );
   }
 });
+
+module.exports = ExportButton;

@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var OfferedParticipantGroupStore = Reflux.createStore({
   resourceName: 'offeredParticipantGroups',
   listenables: OfferedParticipantGroupActions,
@@ -33,7 +37,9 @@ var OfferedParticipantGroupStore = Reflux.createStore({
           callback(data);
         }
       }.bind(this),
-      error: defaultStoreError
+      error: function () {
+        window.location = window.location;
+      }
     });
   },
 
@@ -62,3 +68,5 @@ var OfferedParticipantGroupStore = Reflux.createStore({
     });
   }
 });
+
+module.exports = OfferedParticipantGroupStore;

@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var InMatchingParticipantGroupStore = Reflux.createStore({
   resourceName: 'inMatchingParticipantGroups',
   listenables: InMatchingParticipantGroupActions,
@@ -156,3 +160,5 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     });
   }
 });
+
+module.exports = InMatchingParticipantGroupStore;

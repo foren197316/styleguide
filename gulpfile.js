@@ -15,7 +15,9 @@ var gulp        = require('gulp'),
     sass        = require('gulp-sass'),
     uglify      = require('gulp-uglify'),
     del         = require('del'),
-    sourcemaps  = require('gulp-sourcemaps');
+    sourcemaps  = require('gulp-sourcemaps'),
+    browserify  = require('browserify'),
+    source      = require('vinyl-source-stream');
 
 var browserSync = require('browser-sync'),
     reload      = browserSync.reload,
@@ -72,7 +74,6 @@ gulp.task('javascript', function() {
   gulp.src([
       'bower_components/jquery/dist/jquery.js',
       'bower_components/react/react-with-addons.js',
-      'bower_components/react/JSXTransformer.js',
       'bower_components/datejs/build/date.js',
       'bower_components/jquery.serializeJSON/jquery.serializejson.js',
       'bower_components/react-radio-group/react-radiogroup.js',
@@ -100,17 +101,31 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('javascript-components', function() {
-  return gulp.src('src/js/components/*.js')
-    .pipe(addsrc.prepend('src/js/components/base/*.js'))
-    .pipe(addsrc.prepend('src/js/stores/*.js'))
-    .pipe(addsrc.prepend('src/js/stores/base/*.js'))
-    .pipe(sourcemaps.init({ debug: true }))
-      .pipe(concat('interexchange-components.js'))
-      .pipe(gulp.dest('build/js'))
-      .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
-      .pipe(concat('interexchange-components.min.js'))
-    .pipe(sourcemaps.write('../maps'))
+  return browserify({
+      entries: './src/js/main.js',
+      dest: './build',
+      outputName: 'interexchange-components.min.js',
+      debug: true,
+      external: ['react', 'reflux']
+    })
+    .bundle()
+    .on('error', function (err) {
+      console.log(err);
+      this.emit('end');
+    })
+    .pipe(source('interexchange-components.min.js'))
     .pipe(gulp.dest('build/js'));
+  // return gulp.src('src/js/components/*.js')
+    // .pipe(addsrc.prepend('src/js/components/base/*.js'))
+    // .pipe(addsrc.prepend('src/js/stores/*.js'))
+    // .pipe(addsrc.prepend('src/js/stores/base/*.js'))
+    // .pipe(sourcemaps.init({ debug: true }))
+      // .pipe(concat('interexchange-components.js'))
+      // .pipe(gulp.dest('build/js'))
+      // .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
+      // .pipe(concat('interexchange-components.min.js'))
+    // .pipe(sourcemaps.write('../maps'))
+    // .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('javascript-development', ['javascript'], function() {
@@ -123,7 +138,11 @@ gulp.task('javascript-development', ['javascript'], function() {
 });
 
 gulp.task('jshint', function () {
-  return gulp.src('build/js/interexchange-components.js')
+  return gulp.src([
+      'src/js/components/*.js',
+      'src/js/stores/*.js',
+      'src/js/main.js'
+    ])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(_if(!browserSync.active, jshint.reporter('fail')));

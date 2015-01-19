@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
   propTypes: {
     jobOfferGroup: React.PropTypes.object.isRequired
@@ -52,3 +56,5 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
     );
   }
 });
+
+module.exports = JobOfferGroup;

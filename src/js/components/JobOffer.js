@@ -1,3 +1,9 @@
+'use strict';
+
+var ReadOnlyFormGroup = require('./ReadOnlyFormGroup');
+var PositionStore = require('../stores/PositionStore');
+var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+
 var JobOffer = React.createClass({displayName: 'JobOffer',
   propTypes: {
     jobOffer: React.PropTypes.object.isRequired,
@@ -33,7 +39,7 @@ var JobOffer = React.createClass({displayName: 'JobOffer',
     }
 
     return (
-      ParticipantGroupItemWrapper({participant: this.props.jobOffer.participant},
+      ParticipantGroupParticipant({participant: this.props.jobOffer.participant},
         React.DOM.div({className: 'form form-horizontal'},
           ReadOnlyFormGroup({label: 'Position', value: position.name}),
           ReadOnlyFormGroup({label: 'Wage per hour', value: '$' + parseFloat(this.props.jobOffer.wage).toFixed(2)}),
@@ -49,3 +55,5 @@ var JobOffer = React.createClass({displayName: 'JobOffer',
     );
   }
 });
+
+module.exports = JobOffer;

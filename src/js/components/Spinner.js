@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var Spinner = React.createClass({displayName: 'Spinner',
   render: function() {
     return (
@@ -5,3 +9,5 @@ var Spinner = React.createClass({displayName: 'Spinner',
     );
   }
 });
+
+module.exports = Spinner;

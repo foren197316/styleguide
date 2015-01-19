@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var OfferedParticipantGroupParticipant = React.createClass({displayName: 'OfferedParticipantGroupParticipant',
   propTypes: {
     offer: React.PropTypes.object.isRequired,
@@ -38,7 +42,7 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
     }
 
     return (
-      ParticipantGroupItemWrapper({participant: this.props.participant},
+      ParticipantGroupParticipant({participant: this.props.participant},
         React.DOM.div({className: 'form form-horizontal'},
           ReadOnlyFormGroup({label: 'Position', value: this.props.position.name}),
           ReadOnlyFormGroup({label: 'Wage per hour', value: '$' + parseFloat(this.props.offer.wage).toFixed(2)}),
@@ -54,3 +58,5 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
     );
   }
 });
+
+module.exports = OfferedParticipantGroupParticipant;

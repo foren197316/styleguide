@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var ProgramHeader = React.createClass({displayName: 'ProgramHeader',
   propTypes: {
     program: React.PropTypes.object.isRequired,
@@ -28,3 +32,5 @@ var ProgramHeader = React.createClass({displayName: 'ProgramHeader',
     );
   }
 });
+
+module.exports = ProgramHeader;

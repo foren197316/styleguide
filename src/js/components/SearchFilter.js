@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var SearchFilter = React.createClass({displayName: 'SearchFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,
@@ -43,3 +47,5 @@ var SearchFilter = React.createClass({displayName: 'SearchFilter',
     );
   }
 });
+
+module.exports = SearchFilter;

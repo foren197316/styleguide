@@ -1,119 +1,7 @@
-var validateMoney = function (value) {
-  if (value) {
-    if (!/^\d+([\.,]\d{1,2})?$/.test(value)) {
-      return 'error';
-    }
-  }
-};
+'use strict';
 
-var validateNumber = function (value) {
-  if (value) {
-    if (!/^\d+(\.\d+)?$/.test(value)) {
-     return 'error';
-    }
-  }
-};
 
-var draftJobOfferFormName = function (key, field) {
-  return 'draft_job_offers[' + key + '][' + field + ']';
-};
-
-var draftJobOfferFormId = function (key, field) {
-  return 'draft_job_offers_' + key + '_' + field;
-};
-
-var LinkToIf = React.createClass({displayName: 'LinkToIf',
-  propTypes: {
-    name: React.PropTypes.string.isRequired,
-    href: React.PropTypes.string
-  },
-
-  render: function () {
-    return this.props.href ?
-      React.DOM.span(null, React.DOM.a({href: this.props.href}, this.props.name)) :
-      React.DOM.span(null, this.props.name);
-  }
-});
-
-var ParticipantGroupItemWrapper = React.createClass({displayName: 'ParticipantGroupItemWrapper',
-  propTypes: {
-    participant: React.PropTypes.object.isRequired
-  },
-
-  render: function () {
-    var participant = this.props.participant,
-        hr = React.Children.count(this.props.children) > 0 ? React.DOM.hr(null) : null;
-
-    return (
-      React.DOM.div({className: 'list-group-item list-group-item-participant', 'data-participant-name': participant.name},
-        React.DOM.div({className: 'media'},
-          React.DOM.img({className: 'media-object img-circle img-thumbnail pull-left', src: participant.photo_url + '/convert?h=100&w=100&fit=crop', alt: participant.name}),
-          React.DOM.div({className: 'media-body'},
-            React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-xs-12'},
-                React.DOM.h4({className: 'media-heading'},
-                  LinkToIf({name: participant.name, href: participant.href})
-                )
-              )
-            ),
-            React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-xs-12 col-md-6'},
-                React.DOM.strong(null, participant.country_name),
-                React.DOM.br(null),
-                React.DOM.strong(null, YearCalculator({from: participant.date_of_birth, to: participant.arrival_date})),
-                React.DOM.strong({style: { 'paddingLeft': '5px'}}, participant.gender)
-              )
-            ),
-            React.DOM.hr(null),
-            React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-xs-12 col-md-4 col-md-offset-4'},
-                React.DOM.div({className: 'row text-right'},
-                  React.DOM.div({className: 'col-xs-6 col-md-10'},
-                    React.DOM.strong(null, 'English ', React.DOM.span({className: 'hidden-xs'}, 'Level'), ' ')
-                  ),
-                  React.DOM.div({className: 'col-xs-6 col-md-2'},
-                    React.DOM.span(null, participant.english_level)
-                  )
-                )
-              ),
-              React.DOM.div({className: 'col-xs-12 col-md-4'},
-                React.DOM.div({className: 'row text-right'},
-                  React.DOM.div({className: 'col-xs-6 col-md-5 col-lg-7'},
-                    React.DOM.strong(null, 'Availability')
-                  ),
-                  React.DOM.div({className: 'col-xs-6 col-md-7 col-lg-5'},
-                    React.DOM.span(null, Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)),
-                    React.DOM.br(null),
-                    React.DOM.span(null, Date.parse(participant.departure_date).toString(dateFormat))
-                  )
-                )
-              )
-            ),
-            hr,
-            React.Children.map(this.props.children, function (child) {
-              return (
-                React.DOM.div({className: 'row'},
-                  React.DOM.div({className: 'col-xs-12'},
-                    child
-                  )
-                )
-              );
-            })
-          )
-        )
-      )
-    );
-  }
-});
-
-var ParticipantGroupParticipant = React.createClass({displayName: 'ParticipantGroupParticipant',
-  render: function () {
-    return (
-      ParticipantGroupItemWrapper({participant: this.props.data})
-    );
-  }
-});
-
+var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 
 var ParticipantGroupParticipantOfferingFormTipped = React.createClass({displayName: 'ParticipantGroupParticipantOfferingFormTipped',
   mixins: [ValidatingInputMixin],
@@ -270,53 +158,10 @@ var ParticipantGroupParticipantOfferingFormWage = React.createClass({displayName
   }
 });
 
-var ParticipantGroupParticipantDecliningForm = React.createClass({displayName: 'ParticipantGroupParticipantDecliningForm',
-  getInitialState: function () {
-    return {
-      reason: 'Unselected',
-      isOtherReason: false
-    };
-  },
-
-  handleChange: function (event) {
-    this.setState({
-      reason: event.target.value,
-      isOtherReason: event.target.value.length === 0
-    });
-  },
-
-  componentDidUpdate: function () {
-    if (this.state.isOtherReason) {
-      $(this.getDOMNode()).find('input[type="text"]').focus();
-    }
-
-    $(this.getDOMNode()).find('input[type="text"]').val(this.state.reason);
-  },
-
-  render: function () {
-    var visibility = this.state.isOtherReason ? 'show' : 'hidden';
-
-    return (
-      React.DOM.div(null,
-        React.DOM.div({className: 'form-group'},
-          React.DOM.label({className: 'col-xs-12 col-sm-4 control-label'}, 'Reason'),
-          RadioGroup({className: 'col-xs-12 col-sm-8', defaultValue: this.state.reason, onChange: this.handleChange, name: 'rejections[' + this.props.data.id + '][option]'},
-            React.DOM.div({className: 'radio'}, React.DOM.label(null, React.DOM.input({type: 'radio', value: 'Filled this position'}), ' Filled this position')),
-            React.DOM.div({className: 'radio'}, React.DOM.label(null, React.DOM.input({type: 'radio', value: 'Unsuitable work dates'}), ' Unsuitable work dates')),
-            React.DOM.div({className: 'radio'}, React.DOM.label(null, React.DOM.input({type: 'radio', value: 'Unsuitable English'}), ' Unsuitable English')),
-            React.DOM.div({className: 'radio'}, React.DOM.label(null, React.DOM.input({type: 'radio', value: ''}), ' Other'))
-          )
-        ),
-        ReactBootstrap.Input({name: 'rejections['+this.props.data.id+'][reason]', id: 'rejection_reason_'+this.props.data.id, label: 'Please specify', labelClassName: 'col-sm-4 ' + visibility, type: 'text', wrapperClassName: 'col-sm-8 ' + visibility})
-      )
-    );
-  }
-});
-
 var ParticipantGroupParticipantOffering = React.createClass({displayName: 'ParticipantGroupParticipantOffering',
   render: function() {
     return (
-      ParticipantGroupItemWrapper({participant: this.props.data},
+      ParticipantGroupParticipant({participant: this.props.data},
         ValidatingFormGroup({validationState: this.props.validationState, resourceId: this.props.data.id},
           ReactBootstrap.Input({name: draftJobOfferFormName(this.props.data.id, 'participant_id'), id: draftJobOfferFormId(this.props.data.id, 'participant_id'), defaultValue: this.props.data.id, type: 'hidden'}),
           ParticipantGroupParticipantOfferingFormPosition({positions: this.props.data.positions}),
@@ -332,12 +177,4 @@ var ParticipantGroupParticipantOffering = React.createClass({displayName: 'Parti
   }
 });
 
-var ParticipantGroupParticipantDeclining = React.createClass({displayName: 'ParticipantGroupParticipantDeclining',
-  render: function () {
-    return (
-      ParticipantGroupItemWrapper({participant: this.props.data},
-        ParticipantGroupParticipantDecliningForm({data: this.props.data})
-      )
-    );
-  }
-});
+module.exports = ParticipantGroupParticipantOffering;

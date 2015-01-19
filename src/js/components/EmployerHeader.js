@@ -1,3 +1,8 @@
+'use strict';
+
+var StaffStore = require('../stores/StaffStore');
+var LinkToIf = require('./LinkToIf');
+
 var EmployerHeader = React.createClass({displayName: 'EmployerHeader',
   propTypes: {
     employer: React.PropTypes.object.isRequired
@@ -17,3 +22,5 @@ var EmployerHeader = React.createClass({displayName: 'EmployerHeader',
     );
   }
 });
+
+module.exports = EmployerHeader;

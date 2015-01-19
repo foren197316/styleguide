@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var CountryStore = Reflux.createStore({
   listenables: CountryActions,
   permission: false,
@@ -16,3 +20,5 @@ var CountryStore = Reflux.createStore({
     this.trigger(this.data);
   }
 });
+
+module.exports = CountryStore;

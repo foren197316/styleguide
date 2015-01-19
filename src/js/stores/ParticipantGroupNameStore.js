@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var ParticipantGroupNameStore = Reflux.createStore({
   listenables: ParticipantGroupNameActions,
   permission: false,
@@ -18,3 +22,5 @@ var ParticipantGroupNameStore = Reflux.createStore({
     this.trigger(this.data);
   }
 });
+
+module.exports = ParticipantGroupNameStore;

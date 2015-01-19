@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchingParticipantGroupPanel',
   propTypes: {
     employer: React.PropTypes.object.isRequired,
@@ -70,7 +74,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)});
+      return Alert({type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
     } else {
       if (this.state.puttingOnReview) {
         action = (
@@ -95,7 +99,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
         React.DOM.div({className: 'panel panel-default participant-group-panel', 'data-participant-names': this.participantNames()},
           React.DOM.div({className: 'list-group'},
             this.props.inMatchingParticipantGroup.participants.map(function (participant) {
-              return ParticipantGroupParticipant({key: participant.id, data: participant});
+              return ParticipantGroupParticipant({key: participant.id, participant: participant});
             })
           ),
           ParticipantGroupPanelFooter({name: footerName},
@@ -107,3 +111,5 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     }
   }
 });
+
+module.exports = InMatchingParticipantGroupPanel;

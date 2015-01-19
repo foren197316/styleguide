@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var AgeAtArrivalStore = Reflux.createStore({
   listenables: AgeAtArrivalActions,
   permission: true,
@@ -9,3 +13,5 @@ var AgeAtArrivalStore = Reflux.createStore({
     ];
   }
 });
+
+module.exports = AgeAtArrivalStore;

@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var GenderStore = Reflux.createStore({
   listenables: GenderActions,
   permission: true,
@@ -9,3 +13,5 @@ var GenderStore = Reflux.createStore({
     ];
   }
 });
+
+module.exports = GenderStore;

@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var JobOfferGroupStore = Reflux.createStore({
   resourceName: 'jobOfferGroups',
   listenables: JobOfferGroupActions,
@@ -100,3 +104,5 @@ var JobOfferGroupStore = Reflux.createStore({
     });
   }
 });
+
+module.exports = JobOfferGroupStore;

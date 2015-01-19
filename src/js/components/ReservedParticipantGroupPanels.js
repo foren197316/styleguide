@@ -1,4 +1,14 @@
-var ReviewableParticipantGroupPanel = React.createClass({displayName: 'ReviewableParticipantGroupPanel',
+/* exported ReservedParticipantGroupPanels */
+'use strict';
+
+
+
+var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedParticipantGroupPanel',
+  propTypes: {
+    data: React.PropTypes.object.isRequired,
+    employerId: React.PropTypes.number
+  },
+
   getInitialState: function() {
     return { sending: false, puttingOnReview: false };
   },
@@ -48,7 +58,7 @@ var ReviewableParticipantGroupPanel = React.createClass({displayName: 'Reviewabl
         footerName = this.props.data.name,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
         participantNodes = this.props.data.participants.map(function (participant) {
-          return ParticipantGroupParticipant({key: participant.id, data: participant});
+          return ParticipantGroupParticipant({key: participant.id, participant: participant});
         });
 
     if (this.state.puttingOnReview) {
@@ -84,3 +94,43 @@ var ReviewableParticipantGroupPanel = React.createClass({displayName: 'Reviewabl
     );
   }
 });
+
+var ReservedParticipantGroupPanels = React.createClass({displayName: 'ReservedParticipantGroupPanels',
+  propTypes: {
+    source: React.PropTypes.string.isRequired
+  },
+
+  getInitialState: function () {
+    return {
+      groups: null
+    };
+  },
+
+  componentDidMount: function() {
+    $.get(this.props.source, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          groups: data.reserved_participant_groups
+        });
+      }
+    }.bind(this));
+  },
+
+  render: function() {
+    if (this.isMounted()) {
+      var employerId = this.props.employerId;
+
+      return (
+        React.DOM.div({id: 'participant-group-panels'},
+          this.state.groups.map(function (group) {
+            return ReservedParticipantGroupPanel({key: group.id, data: group, employerId: employerId});
+          })
+        )
+      );
+    } else {
+      return Spinner(null);
+    }
+  }
+});
+
+module.exports = ReservedParticipantGroupPanels;

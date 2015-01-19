@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var EnglishLevelStore = Reflux.createStore({
   listenables: EnglishLevelActions,
   permission: true,
@@ -13,3 +17,5 @@ var EnglishLevelStore = Reflux.createStore({
     ];
   }
 });
+
+module.exports = EnglishLevelStore;

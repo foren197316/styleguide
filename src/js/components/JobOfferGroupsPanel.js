@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
   mixins: [
     Reflux.connect(JobOfferGroupStore, 'jobOfferGroups'),
@@ -36,3 +40,5 @@ var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
     );
   }
 });
+
+module.exports = JobOfferGroupsPanel;

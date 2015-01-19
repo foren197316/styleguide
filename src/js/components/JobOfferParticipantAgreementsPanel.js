@@ -1,12 +1,25 @@
+'use strict';
+
+
+var ProgramStore = require('../stores/ProgramStore');
+var PositionStore = require('../stores/PositionStore');
+var EmployerStore = require('../stores/EmployerStore');
+var StaffStore = require('../stores/StaffStore');
+var ProgramHeader = require('./ProgramHeader');
+var JobOfferParticipantAgreement = require('./JobOfferParticipantAgreement');
+
 var JobOfferParticipantAgreementsPanel = React.createClass({displayName: 'JobOfferParticipantAgreementsPanel',
   mixins: [
-    Reflux.connect(JobOfferParticipantAgreementStore, 'jobOfferParticipantAgreements'),
     Reflux.connect(ProgramStore, 'programs'),
     Reflux.connect(PositionStore, 'positions'),
     Reflux.connect(EmployerStore, 'employers'),
     Reflux.connect(StaffStore, 'staffs'),
-    RenderLoadedMixin('jobOfferParticipantAgreements', 'programs', 'positions', 'employers', 'staffs')
+    RenderLoadedMixin('programs', 'positions', 'employers', 'staffs')
   ],
+
+  propTypes: {
+    jobOfferParticipantAgreements: React.PropTypes.array.isRequired
+  },
 
   componentDidMount: function () {
     JobOfferParticipantAgreementActions.ajaxLoad(GlobalActions.loadFromJobOfferParticipantAgreements);
@@ -17,7 +30,7 @@ var JobOfferParticipantAgreementsPanel = React.createClass({displayName: 'JobOff
     return (
       React.DOM.div({id: 'participant-group-panels'},
         this.state.programs.map(function (program) {
-          var programJobOfferParticipantAgreements = this.state.jobOfferParticipantAgreements.filter(function (jobOfferParticipantAgreement) {
+          var programJobOfferParticipantAgreements = this.props.jobOfferParticipantAgreements.filter(function (jobOfferParticipantAgreement) {
             return jobOfferParticipantAgreement.job_offer.participant.program_id === program.id;
           });
 
@@ -36,3 +49,5 @@ var JobOfferParticipantAgreementsPanel = React.createClass({displayName: 'JobOff
     );
   }
 });
+
+module.exports = JobOfferParticipantAgreementsPanel;

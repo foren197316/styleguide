@@ -1,4 +1,12 @@
 /* exported OfferedParticipantGroupsIndex */
+'use strict';
+
+
+var OfferedParticipantGroupStore = require('../stores/OfferedParticipantGroupStore');
+var ProgramStore = require('../stores/ProgramStore');
+var PositionStore = require('../stores/PositionStore');
+var EmployerStore = require('../stores/EmployerStore');
+var StaffStore = require('../stores/StaffStore');
 
 var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedParticipantGroupsIndex',
   mixins: [
@@ -55,3 +63,5 @@ var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedPart
     );
   }
 });
+
+module.exports = OfferedParticipantGroupsIndex;

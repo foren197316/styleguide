@@ -1,3 +1,9 @@
+'use strict';
+
+var EmployerStore = require('../stores/EmployerStore');
+var EmployerHeader = require('./EmployerHeader');
+var JobOffer = require('./JobOffer');
+
 var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferParticipantAgreement',
   propTypes: {
     jobOfferParticipantAgreement: React.PropTypes.object.isRequired
@@ -20,3 +26,5 @@ var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferPart
     );
   }
 });
+
+module.exports = JobOfferParticipantAgreement;

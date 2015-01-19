@@ -1,6 +1,13 @@
 /* exported AwaitingOrdersParticipantGroupPanels */
+'use strict';
+
+
 
 var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanel',
+  propTypes: {
+    data: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     return {
       sending: false,
@@ -62,7 +69,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
     var actions,
         footerName = this.props.data.name + (this.props.data.program != null ? ' - ' + this.props.data.program.name : ''),
         participantNodes = this.props.data.participants.map(function (participant) {
-          return ParticipantGroupParticipant({key: participant.id, data: participant});
+          return ParticipantGroupParticipant({key: participant.id, participant: participant});
         });
 
     if (this.state.puttingInMatching || this.state.puttingOnReserve) {
@@ -95,7 +102,39 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
 });
 
 var AwaitingOrdersParticipantGroupPanels = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanels',
-  mixins: [GroupPanelsMixin],
-  resourceName: 'awaiting_orders_participant_groups',
-  participantGroupPanelType: AwaitingOrdersParticipantGroupPanel
+  propTypes: {
+    source: React.PropTypes.string.isRequired
+  },
+
+  getInitialState: function () {
+    return {
+      groups: null
+    };
+  },
+
+  componentDidMount: function() {
+    $.get(this.props.source, function(data) {
+      if (this.isMounted()) {
+        this.setState({
+          groups: data.awaiting_orders_participant_groups
+        });
+      }
+    }.bind(this));
+  },
+
+  render: function() {
+    if (this.isMounted()) {
+      return (
+        React.DOM.div({id: 'participant-group-panels'},
+          this.state.groups.map(function (group) {
+            return AwaitingOrdersParticipantGroupPanel({key: group.id, data: group});
+          })
+        )
+      );
+    } else {
+      return Spinner(null);
+    }
+  }
 });
+
+module.exports = AwaitingOrdersParticipantGroupPanels;

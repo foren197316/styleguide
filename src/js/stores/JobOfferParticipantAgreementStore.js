@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var JobOfferParticipantAgreementStore = Reflux.createStore({
   resourceName: 'jobOfferParticipantAgreements',
   listenables: JobOfferParticipantAgreementActions,
@@ -19,3 +23,5 @@ var JobOfferParticipantAgreementStore = Reflux.createStore({
     this.emitFilteredData();
   }
 });
+
+module.exports = JobOfferParticipantAgreementStore;

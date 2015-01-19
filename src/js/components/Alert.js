@@ -1,14 +1,24 @@
-function AlertAction (title, url) {
-  this.title = title;
-  this.url = url;
-}
+'use strict';
+
+
+
+var AlertClose = React.createClass({displayName: 'AlertClose',
+  render: function () {
+    return (
+      React.DOM.button({type: 'button', className: 'close', 'data-dismiss': 'alert'},
+        React.DOM.span({'aria-hidden': 'true'}, '×'), React.DOM.span({className: 'sr-only'}, 'Close')
+      )
+    );
+  }
+});
 
 var Alert = React.createClass({displayName: 'Alert',
   propTypes: {
     type: React.PropTypes.oneOf(['warning', 'success', 'danger', 'info', 'primary', 'default']).isRequired,
     message: React.PropTypes.string.isRequired,
     instructions: React.PropTypes.string,
-    action: React.PropTypes.instanceOf(AlertAction),
+    actionTitle: React.PropTypes.string,
+    actionUrl: React.PropTypes.string,
     closeable: React.PropTypes.bool
   },
 
@@ -19,10 +29,10 @@ var Alert = React.createClass({displayName: 'Alert',
   },
 
   render: function () {
-    var action = this.props.action ?
+    var action = this.props.actionTitle && this.props.actionUrl ?
       React.DOM.span(null,
           ' ',
-          React.DOM.a({className: 'alert-link', href: this.props.action.url}, this.props.action.title), '.'
+          React.DOM.a({className: 'alert-link', href: this.props.actionUrl}, this.props.actionTitle), '.'
       ) :
       null;
 
@@ -37,12 +47,4 @@ var Alert = React.createClass({displayName: 'Alert',
   }
 });
 
-var AlertClose = React.createClass({displayName: 'AlertClose',
-  render: function () {
-    return (
-      React.DOM.button({type: 'button', className: 'close', 'data-dismiss': 'alert'},
-        React.DOM.span({'aria-hidden': 'true'}, '×'), React.DOM.span({className: 'sr-only'}, 'Close')
-      )
-    );
-  }
-});
+module.exports = Alert;

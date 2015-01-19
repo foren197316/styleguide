@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
   propTypes: {
     searchFrom: React.PropTypes.string.isRequired,
@@ -58,3 +62,5 @@ var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
     );
   }
 });
+
+module.exports = DateRangeFilter;

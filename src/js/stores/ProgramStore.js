@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var ProgramStore = Reflux.createStore({
   resourceName: 'programs',
   listenables: ProgramActions,
@@ -43,3 +47,5 @@ var ProgramStore = Reflux.createStore({
     ProgramActions.ajaxLoad();
   }
 });
+
+module.exports = ProgramStore;

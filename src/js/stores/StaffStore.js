@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var StaffStore = Reflux.createStore({
   resourceName: 'staffs',
   listenables: StaffActions,
@@ -6,3 +10,5 @@ var StaffStore = Reflux.createStore({
     StaffActions.ajaxLoad(employers.mapAttribute('staff_id'));
   }
 });
+
+module.exports = StaffStore;

@@ -1,4 +1,14 @@
 /* exported JobOfferParticipantAgreementsIndex */
+'use strict';
+
+
+var JobOfferParticipantAgreementStore = require('../stores/JobOfferParticipantAgreementStore');
+var JobOfferParticipantAgreementsPanel = require('./JobOfferParticipantAgreementsPanel');
+var SearchFilter = require('./SearchFilter');
+var CheckBoxFilter = require('./CheckBoxFilter');
+var BooleanFilter = require('./BooleanFilter');
+var ExportButton = require('./ExportButton');
+var ProgramStore = require('../stores/ProgramStore');
 
 var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOfferParticipantAgreementsIndex',
   mixins: [
@@ -20,9 +30,11 @@ var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOff
           ExportButton({url: this.props.urls.export, ids: jobOfferIds})
         ),
         React.DOM.div({className: 'col-md-9'},
-          JobOfferParticipantAgreementsPanel(null)
+          JobOfferParticipantAgreementsPanel({jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements})
         )
       )
     );
   }
 });
+
+module.exports = JobOfferParticipantAgreementsIndex;

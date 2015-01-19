@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var CheckBoxFilter = React.createClass({displayName: 'CheckBoxFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,
@@ -48,3 +52,5 @@ var CheckBoxFilter = React.createClass({displayName: 'CheckBoxFilter',
     return null;
   }
 });
+
+module.exports = CheckBoxFilter;

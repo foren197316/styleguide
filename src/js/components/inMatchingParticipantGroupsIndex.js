@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, 'inMatchingParticipantGroups'),
@@ -98,3 +102,5 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     );
   }
 });
+
+module.exports = InMatchingParticipantGroupsIndex;

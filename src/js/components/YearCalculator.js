@@ -1,3 +1,7 @@
+'use strict';
+
+
+
 var YearCalculator = React.createClass({displayName: 'YearCalculator',
   componentDidMount: function() {
     $(this.getDOMNode()).tooltip();
@@ -9,3 +13,5 @@ var YearCalculator = React.createClass({displayName: 'YearCalculator',
     );
   }
 });
+
+module.exports = YearCalculator;
