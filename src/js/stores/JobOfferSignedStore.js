@@ -1,6 +1,6 @@
 'use strict';
 
-
+var JobOfferSignedActions = require('../actions').JobOfferSignedActions;
 
 var JobOfferSignedStore = Reflux.createStore({
   listenables: JobOfferSignedActions,

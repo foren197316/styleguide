@@ -1,6 +1,10 @@
 'use strict';
 
-
+var EmployerStore = require('../stores/EmployerStore');
+var JobOfferGroupActions = require('../actions').JobOfferGroupActions;
+var EmployerHeader = require('./EmployerHeader');
+var JobOffer = require('./JobOffer');
+var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 
 var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
   propTypes: {

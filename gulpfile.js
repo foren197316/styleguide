@@ -102,18 +102,24 @@ gulp.task('javascript', function() {
 });
 
 var componentBundler = watchify(browserify({
+  cache: {},
+  packageCache: {},
+  fullPaths: false,
   entries: './src/js/main.js',
   dest: './build',
   outputName: 'interexchange-components.min.js',
   debug: true,
-  fullPaths: false,
   bundleExternal: false,
   external: ['react', 'reflux']
 }));
 
+// componentBundler.plugin('minifyify', {
+  // output: 'build/maps/interexchange-components.map.json',
+  // map: '../maps/interexchange-components.map.json'
+// });
+
 gulp.task('javascript-components', function () {
   return componentBundler
-    .plugin('minifyify', {output: 'build/maps/interexchange-components.map.json', map: '../maps/interexchange-components.map.json'})
     .bundle()
     .on('error', function (err) {
       console.log(err);

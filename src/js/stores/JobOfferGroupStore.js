@@ -1,10 +1,12 @@
 'use strict';
 
-
+var actions = require('../actions');
+var parseIntBase10 = require('../globals').parseIntBase10;
+var EmployerStore = require('./EmployerStore');
 
 var JobOfferGroupStore = Reflux.createStore({
   resourceName: 'jobOfferGroups',
-  listenables: JobOfferGroupActions,
+  listenables: actions.JobOfferGroupActions,
   filterIds: {},
 
   initPostAjaxLoad: function () {
@@ -15,9 +17,9 @@ var JobOfferGroupStore = Reflux.createStore({
       return jobOfferGroup;
     });
 
-    this.listenTo(EmployerActions.filterByIds, this.filterEmployers);
-    this.listenTo(StaffActions.filterByIds, this.filterStaffs);
-    this.listenTo(JobOfferSignedActions.filterByIds, this.filterJobOfferSigneds);
+    this.listenTo(actions.EmployerActions.filterByIds, this.filterEmployers);
+    this.listenTo(actions.StaffActions.filterByIds, this.filterStaffs);
+    this.listenTo(actions.JobOfferSignedActions.filterByIds, this.filterJobOfferSigneds);
 
     this.trigger(this.data);
   },

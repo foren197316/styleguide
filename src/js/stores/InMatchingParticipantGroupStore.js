@@ -1,6 +1,6 @@
 'use strict';
 
-
+var parseIntBase10 = require('../globals').parseIntBase10;
 
 var InMatchingParticipantGroupStore = Reflux.createStore({
   resourceName: 'inMatchingParticipantGroups',

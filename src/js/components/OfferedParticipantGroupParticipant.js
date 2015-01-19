@@ -1,6 +1,7 @@
 'use strict';
 
-
+var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+var ReadOnlyFormGroup = require('./ReadOnlyFormGroup');
 
 var OfferedParticipantGroupParticipant = React.createClass({displayName: 'OfferedParticipantGroupParticipant',
   propTypes: {

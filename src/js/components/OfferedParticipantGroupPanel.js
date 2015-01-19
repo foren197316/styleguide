@@ -1,6 +1,11 @@
 'use strict';
 
-
+var actions = require('../actions');
+var EmployerStore = require('../stores/EmployerStore');
+var PositionStore = require('../stores/PositionStore');
+var EmployerHeader = require('./EmployerHeader');
+var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+var OfferedParticipantGroupParticipant = require('./OfferedParticipantGroupParticipant');
 
 var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
@@ -38,11 +43,11 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
     var node = this.getDOMNode();
 
     if (this.state.sendingJobOffer) {
-      JobOfferGroupActions.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
+      actions.JobOfferGroupActions.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
         this.setState({ status: response.responseJSON.status });
       }.bind(this));
     } else if (this.state.rejecting) {
-      OfferedParticipantGroupActions.reject(this.props.offeredParticipantGroup.id, function () {
+      actions.OfferedParticipantGroupActions.reject(this.props.offeredParticipantGroup.id, function () {
         React.unmountComponentAtNode(node);
         $(node).remove();
       });

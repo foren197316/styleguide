@@ -3,11 +3,14 @@
 
 var actions = require('../actions');
 var mixins = require('../mixins');
+var SearchFilter = require('./SearchFilter');
+var CheckBoxFilter = require('./CheckBoxFilter');
 var OfferedParticipantGroupStore = require('../stores/OfferedParticipantGroupStore');
 var ProgramStore = require('../stores/ProgramStore');
 var PositionStore = require('../stores/PositionStore');
 var EmployerStore = require('../stores/EmployerStore');
 var StaffStore = require('../stores/StaffStore');
+var OfferedParticipantGroupPanel = require('./OfferedParticipantGroupPanel');
 
 var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedParticipantGroupsIndex',
   mixins: [
@@ -21,7 +24,7 @@ var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedPart
 
   componentDidMount: function() {
     actions.setUrls(this.props.urls);
-    actions.OfferedParticipantGroupActions.ajaxLoad(GlobalActions.loadFromOfferedParticipantGroups);
+    actions.OfferedParticipantGroupActions.ajaxLoad(actions.loadFromOfferedParticipantGroups);
     actions.PositionActions.ajaxLoad();
   },
 
@@ -29,10 +32,10 @@ var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedPart
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'offered_names', searchOn: ['participant_names', 'participant_emails', 'participant_uuids'], store: OfferedParticipantGroupStore, actions: OfferedParticipantGroupActions}),
-          CheckBoxFilter({title: 'Program', store: ProgramStore, actions: ProgramActions}),
-          CheckBoxFilter({title: 'Coordinator', store: StaffStore, actions: StaffActions}),
-          CheckBoxFilter({title: 'Employer', store: EmployerStore, actions: EmployerActions})
+          SearchFilter({title: 'offered_names', searchOn: ['participant_names', 'participant_emails', 'participant_uuids'], store: OfferedParticipantGroupStore, actions: actions.OfferedParticipantGroupActions}),
+          CheckBoxFilter({title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
+          CheckBoxFilter({title: 'Coordinator', store: StaffStore, actions: actions.StaffActions}),
+          CheckBoxFilter({title: 'Employer', store: EmployerStore, actions: actions.EmployerActions})
         ),
         React.DOM.div({className: 'col-md-9'},
           React.DOM.div({id: 'participant-group-panels'},

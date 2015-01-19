@@ -1,6 +1,14 @@
 'use strict';
 
-
+var actions = require('../actions');
+var JobOfferGroupStore = require('../stores/JobOfferGroupStore');
+var ProgramStore = require('../stores/ProgramStore');
+var PositionStore = require('../stores/PositionStore');
+var EmployerStore = require('../stores/EmployerStore');
+var StaffStore = require('../stores/StaffStore');
+var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+var ProgramHeader = require('./ProgramHeader');
+var JobOfferGroup = require('./JobOfferGroup');
 
 var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
   mixins: [
@@ -13,8 +21,8 @@ var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
   ],
 
   componentDidMount: function () {
-    JobOfferGroupActions.ajaxLoad(GlobalActions.loadFromJobOfferGroups);
-    PositionActions.ajaxLoad();
+    actions.JobOfferGroupActions.ajaxLoad(actions.loadFromJobOfferGroups);
+    actions.PositionActions.ajaxLoad();
   },
 
   renderLoaded: function () {
