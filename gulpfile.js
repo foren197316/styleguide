@@ -17,6 +17,7 @@ var gulp        = require('gulp'),
     del         = require('del'),
     sourcemaps  = require('gulp-sourcemaps'),
     browserify  = require('browserify'),
+    watchify    = require('watchify'),
     source      = require('vinyl-source-stream');
 
 var browserSync = require('browser-sync'),
@@ -100,14 +101,19 @@ gulp.task('javascript', function() {
     .pipe(gulp.dest('build/js'))
 });
 
-gulp.task('javascript-components', function() {
-  return browserify({
-      entries: './src/js/main.js',
-      dest: './build',
-      outputName: 'interexchange-components.min.js',
-      debug: true,
-      external: ['react', 'reflux']
-    })
+var componentBundler = watchify(browserify({
+  entries: './src/js/main.js',
+  dest: './build',
+  outputName: 'interexchange-components.min.js',
+  debug: true,
+  fullPaths: false,
+  bundleExternal: false,
+  external: ['react', 'reflux']
+}));
+
+gulp.task('javascript-components', function () {
+  return componentBundler
+    .plugin('minifyify', {output: 'build/maps/interexchange-components.map.json'})
     .bundle()
     .on('error', function (err) {
       console.log(err);
@@ -115,17 +121,6 @@ gulp.task('javascript-components', function() {
     })
     .pipe(source('interexchange-components.min.js'))
     .pipe(gulp.dest('build/js'));
-  // return gulp.src('src/js/components/*.js')
-    // .pipe(addsrc.prepend('src/js/components/base/*.js'))
-    // .pipe(addsrc.prepend('src/js/stores/*.js'))
-    // .pipe(addsrc.prepend('src/js/stores/base/*.js'))
-    // .pipe(sourcemaps.init({ debug: true }))
-      // .pipe(concat('interexchange-components.js'))
-      // .pipe(gulp.dest('build/js'))
-      // .pipe(uglify().on('error', function(e) { console.log('\x07', e); return this.end(); }))
-      // .pipe(concat('interexchange-components.min.js'))
-    // .pipe(sourcemaps.write('../maps'))
-    // .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('javascript-development', ['javascript'], function() {
@@ -155,7 +150,7 @@ gulp.task('styleguide', function () {
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
 
-gulp.task('serve', ['build'], function () {
+gulp.task('serve', ['build', 'javascript-components'], function () {
   browserSync({
     server: {
       baseDir: ['build'],
@@ -163,8 +158,12 @@ gulp.task('serve', ['build'], function () {
     open: false
   });
   gulp.watch(['**/*.html'], reload);
-  gulp.watch(['src/scss/**/*.scss', 'src/js/**/*.js', 'src/json/**/*.json', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build', 'jshint', reload);
+  gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
+    runSequence('build', reload);
+  });
+
+  componentBundler.on('update', function () {
+    runSequence('javascript-components', 'jshint', reload);
   });
 });
 

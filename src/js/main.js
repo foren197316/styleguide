@@ -148,7 +148,6 @@ Reflux.StoreMethods.onAjaxLoad = function () {
       type: 'GET',
       data: data,
       success: function (response) {
-        /* replace first argument unless it's a callback */
         if (data !== null) {
           [].shift.call(args);
         }
