@@ -113,7 +113,7 @@ var componentBundler = watchify(browserify({
 
 gulp.task('javascript-components', function () {
   return componentBundler
-    .plugin('minifyify', {output: 'build/maps/interexchange-components.map.json'})
+    .plugin('minifyify', {output: 'build/maps/interexchange-components.map.json', map: '../maps/interexchange-components.map.json'})
     .bundle()
     .on('error', function (err) {
       console.log(err);
