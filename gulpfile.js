@@ -97,19 +97,18 @@ gulp.task('javascript', function() {
     .pipe(gulp.dest('build/js'))
 });
 
-var browserifyBundler = browserify({
-  cache: {},
-  packageCache: {},
-  fullPaths: false,
-  entries: './src/js/main.js',
-  dest: './build',
-  outputName: 'interexchange-components.min.js',
-  debug: true
-})
-.plugin('minifyify', {map: '../maps/interexchange-components.min.js.map', output: 'build/maps/interexchange-components.min.js.map'});
-
 gulp.task('javascript-components', function () {
-  return browserifyBundler
+  return browserify({
+      fullPaths: false,
+      entries: './src/js/main.js',
+      dest: './build',
+      outputName: 'interexchange-components.min.js',
+      debug: true
+    })
+    .plugin('minifyify', {
+      map: '/maps/interexchange-components.min.js.map',
+      output: 'build/maps/interexchange-components.min.js.map'
+    })
     .bundle()
     .on('error', function (err) {
       console.log(err);
@@ -153,13 +152,8 @@ gulp.task('serve', ['build'], function () {
     },
     open: false
   });
-  gulp.watch(['**/*.html'], reload);
   gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build');
-  });
-
-  gulp.watch(['build/css/*.css', 'build/js/*.js', 'build/maps/*.map', 'build/fonts/*', 'build/images/*'], function () {
-    runSequence('jshint', 'app-publish', reload);
+    runSequence('jshint', 'build', 'app-publish', reload);
   });
 });
 
