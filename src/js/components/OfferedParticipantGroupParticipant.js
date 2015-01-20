@@ -2,6 +2,7 @@
 
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ReadOnlyFormGroup = require('./ReadOnlyFormGroup');
+var dateFormat = require('../globals').dateFormat;
 
 var OfferedParticipantGroupParticipant = React.createClass({displayName: 'OfferedParticipantGroupParticipant',
   propTypes: {

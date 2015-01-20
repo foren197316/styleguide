@@ -1,7 +1,10 @@
 /* exported ReservedParticipantGroupPanels */
 'use strict';
 
-
+var dateFormat = require('../globals').dateFormat;
+var Spinner = require('./Spinner');
+var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 
 var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedParticipantGroupPanel',
   propTypes: {

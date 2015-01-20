@@ -1,7 +1,33 @@
 'use strict';
 
-
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+var RadioGroupButton = require('./RadioGroupButton');
+var ValidatingFormGroup = require('./ValidatingFormGroup');
+var ValidatingInputMixin = require('../mixins').ValidatingInputMixin;
+
+var validateMoney = function (value) {
+  if (value) {
+    if (!/^\d+([\.,]\d{1,2})?$/.test(value)) {
+      return 'error';
+    }
+  }
+};
+
+var validateNumber = function (value) {
+  if (value) {
+    if (!/^\d+(\.\d+)?$/.test(value)) {
+     return 'error';
+    }
+  }
+};
+
+var draftJobOfferFormName = function (key, field) {
+  return 'draft_job_offers[' + key + '][' + field + ']';
+};
+
+var draftJobOfferFormId = function (key, field) {
+  return 'draft_job_offers_' + key + '_' + field;
+};
 
 var ParticipantGroupParticipantOfferingFormTipped = React.createClass({displayName: 'ParticipantGroupParticipantOfferingFormTipped',
   mixins: [ValidatingInputMixin],

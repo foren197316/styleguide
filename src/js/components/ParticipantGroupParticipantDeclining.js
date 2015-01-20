@@ -1,6 +1,5 @@
 'use strict';
 
-
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 
 var ParticipantGroupParticipantDecliningForm = React.createClass({displayName: 'ParticipantGroupParticipantDecliningForm',

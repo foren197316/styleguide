@@ -1,7 +1,12 @@
 /* exported OnReviewParticipantGroupPanels */
 'use strict';
 
-
+var ParticipantGroupParticipantOffering = require('./ParticipantGroupParticipantOffering');
+var ParticipantGroupParticipantDeclining = require('./ParticipantGroupParticipantDeclining');
+var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+var Alert = require('./Alert');
+var Spinner = require('./Spinner');
 
 var OnReviewParticipantGroupPanelHeading = React.createClass({displayName: 'OnReviewParticipantGroupPanelHeading',
   render: function() {
@@ -257,7 +262,7 @@ var OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, action: new AlertAction(status.action.title, status.action.url)});
+      return Alert({type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
     } else {
       return (
         React.DOM.form({className: 'panel panel-default participant-group-panel form-horizontal', role: 'form', onSubmit: this.handleSubmit},

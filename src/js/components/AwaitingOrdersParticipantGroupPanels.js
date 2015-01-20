@@ -1,7 +1,9 @@
 /* exported AwaitingOrdersParticipantGroupPanels */
 'use strict';
 
-
+var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+var Spinner = require('./Spinner');
 
 var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanel',
   propTypes: {

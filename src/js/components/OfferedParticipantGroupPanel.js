@@ -6,6 +6,7 @@ var PositionStore = require('../stores/PositionStore');
 var EmployerHeader = require('./EmployerHeader');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var OfferedParticipantGroupParticipant = require('./OfferedParticipantGroupParticipant');
+var Alert = require('./Alert');
 
 var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
