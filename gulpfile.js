@@ -150,7 +150,7 @@ gulp.task('jshint', function () {
 
 gulp.task('flow', function () {
   return gulp.src(['src/js/main.js'])
-    .pipe(flow({all: false, weak: false, killFlow: false, beep: true, abort: false}));
+    .pipe(flow({all: false, weak: false, killFlow: true, beep: true, abort: false}));
 });
 
 gulp.task('styleguide', function () {
