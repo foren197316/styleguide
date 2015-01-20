@@ -1,21 +1,20 @@
 'use strict';
 
 var gulp        = require('gulp'),
+    _if         = require('gulp-if'),
+    browserify  = require('browserify'),
     concat      = require('gulp-concat'),
     consolidate = require('gulp-consolidate'),
     deploy      = require('gulp-gh-pages'),
     hologram    = require('gulp-hologram'),
     iconfont    = require('gulp-iconfont'),
-    _if         = require('gulp-if'),
     jshint      = require('gulp-jshint'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
     sass        = require('gulp-sass'),
-    uglify      = require('gulp-uglify'),
+    source      = require('vinyl-source-stream'),
     sourcemaps  = require('gulp-sourcemaps'),
-    browserify  = require('browserify'),
-    watchify    = require('watchify'),
-    source      = require('vinyl-source-stream');
+    uglify      = require('gulp-uglify');
 
 var browserSync = require('browser-sync'),
     reload      = browserSync.reload,
@@ -98,7 +97,7 @@ gulp.task('javascript', function() {
     .pipe(gulp.dest('build/js'))
 });
 
-var componentBundler = watchify(browserify({
+var browserifyBundler = browserify({
   cache: {},
   packageCache: {},
   fullPaths: false,
@@ -106,10 +105,11 @@ var componentBundler = watchify(browserify({
   dest: './build',
   outputName: 'interexchange-components.min.js',
   debug: true
-}));
+})
+.plugin('minifyify', {map: '../maps/interexchange-components.min.js.map', output: 'build/maps/interexchange-components.min.js.map'});
 
 gulp.task('javascript-components', function () {
-  return componentBundler
+  return browserifyBundler
     .bundle()
     .on('error', function (err) {
       console.log(err);
@@ -146,7 +146,7 @@ gulp.task('styleguide', function () {
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
 
-gulp.task('serve', ['build', 'javascript-components'], function () {
+gulp.task('serve', ['build', 'app-publish'], function () {
   browserSync({
     server: {
       baseDir: ['build'],
@@ -154,12 +154,8 @@ gulp.task('serve', ['build', 'javascript-components'], function () {
     open: false
   });
   gulp.watch(['**/*.html'], reload);
-  gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build', reload);
-  });
-
-  componentBundler.on('update', function () {
-    runSequence('javascript-components', 'jshint', 'app-publish', reload);
+  gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
+    runSequence('build', 'jshint', reload);
   });
 });
 
