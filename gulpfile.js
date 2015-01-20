@@ -108,9 +108,7 @@ var componentBundler = watchify(browserify({
   entries: './src/js/main.js',
   dest: './build',
   outputName: 'interexchange-components.min.js',
-  debug: true,
-  bundleExternal: false,
-  external: ['react', 'reflux']
+  debug: true
 }));
 
 // componentBundler.plugin('minifyify', {
