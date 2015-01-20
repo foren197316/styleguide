@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var RadioGroupButton = React.createClass({displayName: 'RadioGroupButton',
   handleChange: function(event) {
     var $buttonGroup = event.target.parentNode.parentNode,

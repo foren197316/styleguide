@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var LinkToIf = React.createClass({displayName: 'LinkToIf',
   propTypes: {
     name: React.PropTypes.string.isRequired,

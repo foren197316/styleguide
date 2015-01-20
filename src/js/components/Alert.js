@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var AlertClose = React.createClass({displayName: 'AlertClose',
   render: function () {
     return (

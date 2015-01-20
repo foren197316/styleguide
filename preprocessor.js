@@ -5,10 +5,17 @@ module.exports = {
   process: function(src, path) {
     var resultSrc = src;
 
-    if (matches = path.match(/components\/(.*)\.js$/)) {
-      resultSrc = "var React = require('../../../node_modules/react/addons');" + resultSrc;
-      resultSrc = resultSrc + " module.exports = " + matches[1] + ";";
+    var parts = path.split('/');
+    var dir = parts[parts.length-2];
+
+    if (/^(js|components|stores)$/.test(dir)) {
+      var upDirs = '../../';
+      if (dir === 'components' || dir === 'stores') {
+        upDirs += '../';
+      }
+      resultSrc = resultSrc.replace("'use strict';", "var React=require('" + upDirs + "node_modules/react/addons'),\nReflux=require('" + upDirs + "node_modules/reflux/index');");
     }
+
     return resultSrc;
   }
 };

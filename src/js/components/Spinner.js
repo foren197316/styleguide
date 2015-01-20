@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var Spinner = React.createClass({displayName: 'Spinner',
   render: function() {
     return (

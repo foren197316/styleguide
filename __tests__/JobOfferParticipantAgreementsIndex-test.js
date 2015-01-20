@@ -2,7 +2,6 @@
 
 jest.dontMock('../src/js/stores/JobOfferParticipantAgreementStore.js');
 jest.dontMock('../src/js/components/SearchFilter.js');
-jest.dontMock('../src/js/actions.js');
 
 describe('JobOfferParticipantAgreementStore', function () {
   it('filters JobOfferParticipantAgreements', function () {
@@ -11,7 +10,7 @@ describe('JobOfferParticipantAgreementStore', function () {
 
     var SearchFilter = require('../src/js/components/SearchFilter');
     var JobOfferParticipantAgreementStore = require('../src/js/stores/JobOfferParticipantAgreementStore');
-    var JobOfferParticipantAgreementActions = require('../src/js/actions').JobOfferParticipantAgreementActions;
+    var actions = require('../src/js/actions');
 
     JobOfferParticipantAgreementStore.data = [
       { job_offer: { participant: { name: 'Ralph', email: 'ilikecats@example.com', uuid: 'UU-123' } } },
@@ -30,7 +29,7 @@ describe('JobOfferParticipantAgreementStore', function () {
       SearchFilter({
         title: title,
         searchOn: searchOn,
-        actions: JobOfferParticipantAgreementActions
+        actions: actions.JobOfferParticipantAgreementActions
       })
     );
 

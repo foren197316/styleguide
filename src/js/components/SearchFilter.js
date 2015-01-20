@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 var SearchFilter = React.createClass({displayName: 'SearchFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,
