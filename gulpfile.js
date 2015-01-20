@@ -136,7 +136,6 @@ gulp.task('javascript-app', function() {
   return gulp.src('src/js/app/*.js')
     .pipe(concat('interexchange-app.js'))
     .pipe(gulp.dest('build/js'))
-    .pipe(uglify())
     .pipe(concat('interexchange-app.min.js'))
     .pipe(gulp.dest('build/js'));
 });
