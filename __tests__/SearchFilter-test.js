@@ -1,10 +1,13 @@
+'use strict';
+
 jest.dontMock('../src/js/components/SearchFilter.js');
 
 describe('SearchFilter', function () {
   it('requests a data change', function () {
     var React = require('../node_modules/react/addons');
-    var SearchFilter = require('../src/js/components/SearchFilter.js');
     var TestUtils = React.addons.TestUtils;
+
+    var SearchFilter = require('../src/js/components/SearchFilter');
 
     var title = "Search";
     var value = "Brenda";
