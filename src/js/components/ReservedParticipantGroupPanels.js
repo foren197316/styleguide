@@ -34,11 +34,10 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
         data = {
           on_review_participant_group: {
             employer_id: this.props.employerId,
-            expires_on: this.props.onReviewExpiresOn
+            expires_on: this.props.onReviewExpiresOn,
+            reserved_participant_group_id: this.props.data.id
           }
         };
-
-    data.on_review_participant_group[this.props.idType] = this.props.data.id;
 
     $.ajax({
       url: '/on_review_participant_groups.json',

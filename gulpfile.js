@@ -159,7 +159,7 @@ gulp.task('serve', ['build', 'javascript-components'], function () {
   });
 
   componentBundler.on('update', function () {
-    runSequence('javascript-components', 'jshint', reload);
+    runSequence('javascript-components', 'jshint', 'app-publish', reload);
   });
 });
 
