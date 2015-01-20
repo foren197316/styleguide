@@ -146,7 +146,7 @@ gulp.task('styleguide', function () {
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
 
-gulp.task('serve', ['build', 'app-publish'], function () {
+gulp.task('serve', ['build'], function () {
   browserSync({
     server: {
       baseDir: ['build'],
@@ -155,7 +155,11 @@ gulp.task('serve', ['build', 'app-publish'], function () {
   });
   gulp.watch(['**/*.html'], reload);
   gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build', 'jshint', reload);
+    runSequence('build');
+  });
+
+  gulp.watch(['build/css/*.css', 'build/js/*.js', 'build/maps/*.map', 'build/fonts/*', 'build/images/*'], function () {
+    runSequence('jshint', 'app-publish', reload);
   });
 });
 
@@ -199,9 +203,4 @@ gulp.task('app-publish-fonts', function () {
     .pipe(gulp.dest('../app/public/fonts/'));
 });
 
-gulp.task('app-publish', ['app-publish-stylesheets', 'app-publish-javascripts', 'app-publish-maps', 'app-publish-images', 'app-publish-fonts'], function () {
-  return gulp.src([
-      './build/css/*.css',
-    ])
-    .pipe(gulp.dest('../app/public/stylesheets/'));
-});
+gulp.task('app-publish', ['app-publish-stylesheets', 'app-publish-javascripts', 'app-publish-maps', 'app-publish-images', 'app-publish-fonts']);
