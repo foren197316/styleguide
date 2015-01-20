@@ -387,9 +387,9 @@ Reflux.StoreMethods.mapAttribute = function (func) {
 };
 
 global.AwaitingOrdersParticipantGroupPanels = require('./components/AwaitingOrdersParticipantGroupPanels');
+global.InMatchingParticipantGroupsIndex = require('./components/InMatchingParticipantGroupsIndex');
+global.ReservedParticipantGroupPanels = require('./components/ReservedParticipantGroupPanels');
+global.OnReviewParticipantGroupPanels = require('./components/OnReviewParticipantGroupPanels');
+global.OfferedParticipantGroupsIndex = require('./components/OfferedParticipantGroupsIndex');
 global.JobOfferGroupsIndex = require('./components/JobOfferGroupsIndex');
 global.JobOfferParticipantAgreementsIndex = require('./components/JobOfferParticipantAgreementsIndex');
-global.OfferedParticipantGroupsIndex = require('./components/OfferedParticipantGroupsIndex');
-global.OnReviewParticipantGroupPanels = require('./components/OnReviewParticipantGroupPanels');
-global.ReservedParticipantGroupPanels = require('./components/ReservedParticipantGroupPanels');
-global.InMatchingParticipantGroupsIndex = require('./components/InMatchingParticipantGroupsIndex');

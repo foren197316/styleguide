@@ -1,4 +1,3 @@
-/* exported OnReviewParticipantGroupPanels */
 'use strict';
 
 var ParticipantGroupParticipantOffering = require('./ParticipantGroupParticipantOffering');

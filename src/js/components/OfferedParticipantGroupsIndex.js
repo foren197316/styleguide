@@ -1,4 +1,3 @@
-/* exported OfferedParticipantGroupsIndex */
 'use strict';
 
 var actions = require('../actions');

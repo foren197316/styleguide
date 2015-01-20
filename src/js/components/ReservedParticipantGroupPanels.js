@@ -1,4 +1,3 @@
-/* exported ReservedParticipantGroupPanels */
 'use strict';
 
 var dateFormat = require('../globals').dateFormat;

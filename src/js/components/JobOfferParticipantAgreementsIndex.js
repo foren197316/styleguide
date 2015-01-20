@@ -1,4 +1,3 @@
-/* exported JobOfferParticipantAgreementsIndex */
 'use strict';
 
 var actions = require('../actions');

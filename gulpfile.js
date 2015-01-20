@@ -1,8 +1,6 @@
 'use strict';
 
 var gulp        = require('gulp'),
-    addsrc      = require('gulp-add-src'),
-    argv        = require('yargs').argv,
     concat      = require('gulp-concat'),
     consolidate = require('gulp-consolidate'),
     deploy      = require('gulp-gh-pages'),
@@ -14,7 +12,6 @@ var gulp        = require('gulp'),
     rename      = require('gulp-rename'),
     sass        = require('gulp-sass'),
     uglify      = require('gulp-uglify'),
-    del         = require('del'),
     sourcemaps  = require('gulp-sourcemaps'),
     browserify  = require('browserify'),
     watchify    = require('watchify'),
@@ -111,11 +108,6 @@ var componentBundler = watchify(browserify({
   debug: true
 }));
 
-// componentBundler.plugin('minifyify', {
-  // output: 'build/maps/interexchange-components.map.json',
-  // map: '../maps/interexchange-components.map.json'
-// });
-
 gulp.task('javascript-components', function () {
   return componentBundler
     .bundle()
@@ -140,7 +132,7 @@ gulp.task('jshint', function () {
   return gulp.src([
       'src/js/components/*.js',
       'src/js/stores/*.js',
-      'src/js/main.js'
+      'src/js/*.js'
     ])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))

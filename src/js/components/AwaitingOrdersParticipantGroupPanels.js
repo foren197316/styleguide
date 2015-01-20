@@ -1,4 +1,3 @@
-/* exported AwaitingOrdersParticipantGroupPanels */
 'use strict';
 
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
