@@ -167,3 +167,45 @@ gulp.task('deploy', function () {
   return gulp.src('./build/**/*')
     .pipe(deploy({cacheDir: "tmp/build-cache"}));
 });
+
+gulp.task('app-publish-stylesheets', function () {
+  return gulp.src([
+      './build/css/*.css',
+    ])
+    .pipe(gulp.dest('../app/public/stylesheets/'));
+});
+
+gulp.task('app-publish-javascripts', function () {
+  return gulp.src([
+      './build/js/*.js',
+    ])
+    .pipe(gulp.dest('../app/public/javascripts/'));
+});
+
+gulp.task('app-publish-maps', function () {
+  return gulp.src([
+      './build/maps/*',
+    ])
+    .pipe(gulp.dest('../app/public/maps/'));
+});
+
+gulp.task('app-publish-images', function () {
+  return gulp.src([
+      './build/images/*',
+    ])
+    .pipe(gulp.dest('../app/public/images/'));
+});
+
+gulp.task('app-publish-fonts', function () {
+  return gulp.src([
+      './build/fonts/*',
+    ])
+    .pipe(gulp.dest('../app/public/fonts/'));
+});
+
+gulp.task('app-publish', ['app-publish-stylesheets', 'app-publish-javascripts', 'app-publish-maps', 'app-publish-images', 'app-publish-fonts'], function () {
+  return gulp.src([
+      './build/css/*.css',
+    ])
+    .pipe(gulp.dest('../app/public/stylesheets/'));
+});
