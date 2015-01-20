@@ -217,9 +217,4 @@ gulp.task('app-publish-fonts', function () {
     .pipe(gulp.dest('../app/public/fonts/'));
 });
 
-gulp.task('app-publish', ['app-publish-stylesheets', 'app-publish-javascripts', 'app-publish-maps', 'app-publish-images', 'app-publish-fonts'], function () {
-  return gulp.src([
-      './build/css/*.css',
-    ])
-    .pipe(gulp.dest('../app/public/stylesheets/'));
-});
+gulp.task('app-publish', ['app-publish-stylesheets', 'app-publish-javascripts', 'app-publish-maps', 'app-publish-images', 'app-publish-fonts']);
