@@ -2,14 +2,15 @@
 
 jest.dontMock('../src/js/stores/JobOfferParticipantAgreementStore.js');
 jest.dontMock('../src/js/components/SearchFilter.js');
+jest.dontMock('../src/js/actions.js');
 
 describe('JobOfferParticipantAgreementStore', function () {
   it('filters JobOfferParticipantAgreements', function () {
     var React = require('../node_modules/react/addons');
     var TestUtils = React.addons.TestUtils;
 
-    var SearchFilter = require('../src/js/components/SearchFilter');
     var JobOfferParticipantAgreementStore = require('../src/js/stores/JobOfferParticipantAgreementStore');
+    var SearchFilter = require('../src/js/components/SearchFilter');
     var actions = require('../src/js/actions');
 
     JobOfferParticipantAgreementStore.data = [
@@ -34,5 +35,7 @@ describe('JobOfferParticipantAgreementStore', function () {
     );
 
     var input = TestUtils.findRenderedDOMComponentWithTag(searchFilter, 'input');
+
+    TestUtils.Simulate.change(input, {target: {value: 'ralp'}});
   });
 });
