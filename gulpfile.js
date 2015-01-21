@@ -168,35 +168,35 @@ gulp.task('app-publish-stylesheets', function () {
   return gulp.src([
       './build/css/*.css',
     ])
-    .pipe(gulp.dest('../app/public/stylesheets/'));
+    .pipe(gulp.dest('../app/public/stylesheets/styleguide/'));
 });
 
 gulp.task('app-publish-javascripts', function () {
   return gulp.src([
       './build/js/*.js',
     ])
-    .pipe(gulp.dest('../app/public/javascripts/'));
+    .pipe(gulp.dest('../app/public/javascripts/styleguide/'));
 });
 
 gulp.task('app-publish-maps', function () {
   return gulp.src([
       './build/maps/*',
     ])
-    .pipe(gulp.dest('../app/public/maps/'));
+    .pipe(gulp.dest('../app/public/maps/styleguide/'));
 });
 
 gulp.task('app-publish-images', function () {
   return gulp.src([
       './build/images/*',
     ])
-    .pipe(gulp.dest('../app/public/images/'));
+    .pipe(gulp.dest('../app/public/images/styleguide/'));
 });
 
 gulp.task('app-publish-fonts', function () {
   return gulp.src([
       './build/fonts/*',
     ])
-    .pipe(gulp.dest('../app/public/fonts/'));
+    .pipe(gulp.dest('../app/public/fonts/styleguide/'));
 });
 
 gulp.task('app-publish', ['app-publish-stylesheets', 'app-publish-javascripts', 'app-publish-maps', 'app-publish-images', 'app-publish-fonts']);
