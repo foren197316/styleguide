@@ -12,6 +12,7 @@ var gulp        = require('gulp'),
     jshint      = require('gulp-jshint'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
+    rev         = require('gulp-rev'),
     sass        = require('gulp-sass'),
     source      = require('vinyl-source-stream'),
     sourcemaps  = require('gulp-sourcemaps'),
@@ -146,7 +147,6 @@ gulp.task('flow', function () {
     .pipe(flow({
       all: false,
       weak: false,
-      // declarations: './declarations',
       killFlow: false,
       beep: true,
       abort: false
@@ -159,6 +159,14 @@ gulp.task('styleguide', function () {
 });
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
+
+gulp.task('rev', function() {
+  return gulp.src(['./build/**/*.css', './build/**/*.js'])
+    .pipe(rev())
+    .pipe(gulp.dest('./dist'))
+    .pipe(rev.manifest({path: 'manifest.json'}))
+    .pipe(gulp.dest('./dist'));
+});
 
 gulp.task('serve', ['build'], function () {
   runSequence('jshint', function () {
