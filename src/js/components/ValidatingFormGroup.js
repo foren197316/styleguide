@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var ValidatingFormGroup = React.createClass({displayName: 'ValidatingFormGroup',
   mixins: [React.addons.LinkedStateMixin],
 

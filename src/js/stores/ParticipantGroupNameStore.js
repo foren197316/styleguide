@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var actions = require('../actions');
 
 var ParticipantGroupNameStore = Reflux.createStore({

@@ -1,5 +1,8 @@
 'use strict';
 
+var React = require('react/addons');
+var ReactBootstrap = require('react-bootstrap');
+var RadioGroup = require('react-radio-group');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 
 var ParticipantGroupParticipantDecliningForm = React.createClass({displayName: 'ParticipantGroupParticipantDecliningForm',

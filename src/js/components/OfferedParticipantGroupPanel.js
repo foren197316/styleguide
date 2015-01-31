@@ -1,5 +1,6 @@
 'use strict';
 
+var React = require('react/addons');
 var actions = require('../actions');
 var EmployerStore = require('../stores/EmployerStore');
 var PositionStore = require('../stores/PositionStore');

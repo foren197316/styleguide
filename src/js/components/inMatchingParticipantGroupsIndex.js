@@ -1,5 +1,7 @@
 'use strict';
 
+var Reflux = require('reflux');
+var React = require('react/addons');
 var actions = require('../actions');
 var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
 var Alert = require('./Alert');
@@ -43,7 +45,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
   intercom: function (employers) {
     this.intercomListener.stop();
 
-    Intercom('trackEvent', 'visited-employer-participants-search', {
+    require('intercom.io')('trackEvent', 'visited-employer-participants-search', {
       employer_id: employers[0].id,
       employer_name: employers[0].name
     });

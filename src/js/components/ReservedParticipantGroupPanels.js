@@ -1,5 +1,6 @@
 'use strict';
 
+var React = require('react/addons');
 var dateFormat = require('../globals').dateFormat;
 var Spinner = require('./Spinner');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
@@ -48,7 +49,7 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
         $(node).remove();
       },
       error: function() {
-        window.location = window.location;
+        global.location = global.location;
       }
     });
   },

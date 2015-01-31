@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+var Reflux = require('reflux');
 var actions = require('../actions');
 var JobOfferGroupStore = require('../stores/JobOfferGroupStore');
 var ProgramStore = require('../stores/ProgramStore');

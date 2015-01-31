@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var BooleanFilter = React.createClass({displayName: 'BooleanFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,

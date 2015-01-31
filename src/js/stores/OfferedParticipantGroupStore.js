@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var actions = require('../actions');
 var parseIntBase10 = require('../globals').parseIntBase10;
 var EmployerStore = require('./EmployerStore');
@@ -40,7 +41,7 @@ var OfferedParticipantGroupStore = Reflux.createStore({
         }
       }.bind(this),
       error: function () {
-        window.location = window.location;
+        global.location = global.location;
       }
     });
   },

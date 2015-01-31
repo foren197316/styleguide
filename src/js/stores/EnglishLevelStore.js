@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var EnglishLevelActions = require('../actions').EnglishLevelActions;
 
 var EnglishLevelStore = Reflux.createStore({

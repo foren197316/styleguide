@@ -1,5 +1,6 @@
 'use strict';
 
+var React = require('react/addons');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ReadOnlyFormGroup = require('./ReadOnlyFormGroup');
 var dateFormat = require('../globals').dateFormat;

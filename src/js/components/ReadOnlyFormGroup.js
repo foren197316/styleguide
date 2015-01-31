@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var ReadOnlyFormGroup = React.createClass({displayName: 'ReadOnlyFormGroup',
   render: function () {
     var label = this.props.label,

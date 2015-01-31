@@ -1,5 +1,6 @@
 'use strict';
 
+var React = require('react/addons');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var Spinner = require('./Spinner');
@@ -61,7 +62,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
         $(node).remove();
       },
       error: function() {
-        window.location = window.location;
+        global.location = global.location;
       }
     });
   },

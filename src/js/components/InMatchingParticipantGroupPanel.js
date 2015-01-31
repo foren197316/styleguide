@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+var Intercom = require('intercom.io');
 var dateFormat = require('../globals').dateFormat;
 var actions = require('../actions');
 var Alert = require('./Alert');

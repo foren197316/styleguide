@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var SearchFilter = React.createClass({displayName: 'SearchFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,

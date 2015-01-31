@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var LinkToIf = React.createClass({displayName: 'LinkToIf',
   propTypes: {
     name: React.PropTypes.string.isRequired,

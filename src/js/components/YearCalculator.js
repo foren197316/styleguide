@@ -1,5 +1,6 @@
 'use strict';
 
+var React = require('react/addons');
 var calculateAgeAtArrival = require('../globals').calculateAgeAtArrival;
 
 var YearCalculator = React.createClass({displayName: 'YearCalculator',

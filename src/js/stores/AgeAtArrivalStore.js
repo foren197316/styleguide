@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var AgeAtArrivalActions = require('../actions').AgeAtArrivalActions;
 
 var AgeAtArrivalStore = Reflux.createStore({

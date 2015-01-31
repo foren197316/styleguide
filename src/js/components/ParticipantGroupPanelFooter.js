@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var ParticipantGroupPanelFooterName = React.createClass({displayName: 'ParticipantGroupPanelFooterName',
   propTypes: { name: React.PropTypes.string.isRequired },
 

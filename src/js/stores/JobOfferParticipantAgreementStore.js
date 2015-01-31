@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var JobOfferParticipantAgreementActions = require('../actions').JobOfferParticipantAgreementActions;
 
 var JobOfferParticipantAgreementStore = Reflux.createStore({

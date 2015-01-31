@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var JobOfferSignedActions = require('../actions').JobOfferSignedActions;
 
 var JobOfferSignedStore = Reflux.createStore({

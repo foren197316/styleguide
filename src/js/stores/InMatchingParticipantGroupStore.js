@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var actions = require('../actions');
 var globals = require('../globals');
 var parseIntBase10 = globals.parseIntBase10;

@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+var Intercom = require('intercom.io');
 var ParticipantGroupParticipantOffering = require('./ParticipantGroupParticipantOffering');
 var ParticipantGroupParticipantDeclining = require('./ParticipantGroupParticipantDeclining');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');

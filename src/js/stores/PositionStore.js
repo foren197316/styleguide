@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var PositionActions = require('../actions').PositionActions;
 
 var PositionStore = Reflux.createStore({

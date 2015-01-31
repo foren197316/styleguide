@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var genericStoreActions    = ['setData', 'ajaxLoad', 'filterByIds', 'forceTrigger', 'removeByIds', 'setSingleton', 'ajaxLoadSingleton'];
 var filterableStoreActions = ['search', 'resetSearch', 'dateFilter'];
 

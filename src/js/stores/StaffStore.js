@@ -1,5 +1,6 @@
 'use strict';
 
+var Reflux = require('reflux');
 var StaffActions = require('../actions').StaffActions;
 
 var StaffStore = Reflux.createStore({

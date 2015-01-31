@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var HiddenIdInput = React.createClass({displayName: 'HiddenIdInput',
   propTypes: {
     id: React.PropTypes.number.isRequired

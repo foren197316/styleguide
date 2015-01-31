@@ -20,13 +20,5 @@
   "jquery": true,
   "forin": true,
   "maxdepth": 2,
-  "eqnull": true,
-  "globals": {
-    "Reflux": false,
-    "React": false,
-    "ReactBootstrap": false,
-    "RadioGroup": false,
-    "Intercom": false,
-    "TimePeriod": false
-  }
+  "eqnull": true
 }

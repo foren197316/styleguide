@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+var Reflux = require('reflux');
 var actions = require('../actions');
 var mixins = require('../mixins');
 var SearchFilter = require('./SearchFilter');

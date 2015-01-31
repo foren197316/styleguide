@@ -1,5 +1,6 @@
 'use strict';
 
+var React = require('react/addons');
 var EmployerStore = require('../stores/EmployerStore');
 var EmployerHeader = require('./EmployerHeader');
 var JobOffer = require('./JobOffer');

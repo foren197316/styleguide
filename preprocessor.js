@@ -13,7 +13,7 @@ module.exports = {
       if (dir === 'components' || dir === 'stores') {
         upDirs += '../';
       }
-      resultSrc = resultSrc.replace("'use strict';", "var React=require('" + upDirs + "node_modules/react/addons'),\nReflux=require('" + upDirs + "node_modules/reflux/index');");
+      resultSrc = resultSrc.replace("'use strict';", "require('" + upDirs + "src/js/main');\nvar React=require('" + upDirs + "node_modules/react/addons'),\nReflux=require('" + upDirs + "node_modules/reflux/index');");
     }
 
     return resultSrc;

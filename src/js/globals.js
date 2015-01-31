@@ -1,5 +1,7 @@
 'use strict';
 
+var TimePeriod = require('datejs').TimePeriod;
+
 module.exports = {
   dateFormat: 'MM/dd/yyyy',
 

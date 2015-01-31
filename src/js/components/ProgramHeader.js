@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var ProgramHeader = React.createClass({displayName: 'ProgramHeader',
   propTypes: {
     program: React.PropTypes.object.isRequired,

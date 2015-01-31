@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var AlertClose = React.createClass({displayName: 'AlertClose',
   render: function () {
     return (
