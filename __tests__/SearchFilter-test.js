@@ -1,7 +1,6 @@
 'use strict';
 
 jest.autoMockOff();
-// jest.dontMock('../src/js/components/SearchFilter.js');
 
 describe('SearchFilter', function () {
   it('requests a data change', function () {
