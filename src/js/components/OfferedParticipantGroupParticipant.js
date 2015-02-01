@@ -4,6 +4,7 @@ var React = require('react/addons');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ReadOnlyFormGroup = require('./ReadOnlyFormGroup');
 var dateFormat = require('../globals').dateFormat;
+var moment = require('moment');
 
 var OfferedParticipantGroupParticipant = React.createClass({displayName: 'OfferedParticipantGroupParticipant',
   propTypes: {
@@ -34,13 +35,13 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
 
     if (this.props.jobOfferParticipantAgreement != null) {
       jobOfferParticipantAgreement = (
-        ReadOnlyFormGroup({label: 'Signed by', value: this.props.jobOfferParticipantAgreement.full_name + ' on ' + Date.parse(this.props.jobOfferParticipantAgreement.created_at).toString(dateFormat)})
+        ReadOnlyFormGroup({label: 'Signed by', value: this.props.jobOfferParticipantAgreement.full_name + ' on ' + moment(this.props.jobOfferParticipantAgreement.created_at).format(dateFormat)})
       );
     }
 
     if (this.props.jobOfferFileMakerReference != null) {
       jobOfferFileMakerReference = (
-        ReadOnlyFormGroup({label: 'Imported on', value: Date.parse(this.props.jobOfferFileMakerReference.created_at).toString(dateFormat)})
+        ReadOnlyFormGroup({label: 'Imported on', value: moment(this.props.jobOfferFileMakerReference.created_at).format(dateFormat)})
       );
     }
 

@@ -10,6 +10,6 @@ module.exports = {
   },
 
   calculateAgeAtArrival: function (to, from) {
-    return new TimePeriod(Date.parse(to), Date.parse(from)).years;
+    return new moment(to).diff(moment(from), 'years');
   }
 };

@@ -5,6 +5,7 @@ var dateFormat = require('../globals').dateFormat;
 var Spinner = require('./Spinner');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+var moment = require('moment');
 
 var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedParticipantGroupPanel',
   propTypes: {
@@ -17,7 +18,7 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
   },
 
   componentWillMount: function() {
-    this.props.onReviewExpiresOn = Date.today().add(3).days().toString(dateFormat);
+    this.props.onReviewExpiresOn = moment().add(3, 'days').format(dateFormat);
   },
 
   handlePutOnReview: function() {

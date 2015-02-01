@@ -5,6 +5,7 @@ var actions = require('../actions');
 var globals = require('../globals');
 var parseIntBase10 = globals.parseIntBase10;
 var calculateAgeAtArrival = globals.calculateAgeAtArrival;
+var moment = require('moment');
 
 var InMatchingParticipantGroupStore = Reflux.createStore({
   resourceName: 'inMatchingParticipantGroups',
@@ -15,10 +16,10 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     this.data = this.data.map(function (inMatchingParticipantGroup) {
       inMatchingParticipantGroup.participant_names = inMatchingParticipantGroup.participants.mapAttribute('name').join(',');
       inMatchingParticipantGroup.participant_start_dates = inMatchingParticipantGroup.participants.map(function (participant) {
-        return Date.parse(participant.arrival_date).add(2).days();
+        return moment(participant.arrival_date).add(2, 'days');
       });
       inMatchingParticipantGroup.participant_finish_dates = inMatchingParticipantGroup.participants.map(function (participant) {
-        return Date.parse(participant.departure_date).add(2).days();
+        return moment(participant.departure_date).add(2, 'days');
       });
       return inMatchingParticipantGroup;
     });

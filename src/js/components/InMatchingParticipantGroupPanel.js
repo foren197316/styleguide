@@ -7,6 +7,7 @@ var actions = require('../actions');
 var Alert = require('./Alert');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+var moment = require('moment');
 
 var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchingParticipantGroupPanel',
   propTypes: {
@@ -19,7 +20,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     return {
       sending: false,
       puttingOnReview: false,
-      onReviewExpiresOn: Date.today().add(3).days().toString(dateFormat)
+      onReviewExpiresOn: moment().add(3, 'days').format(dateFormat)
     };
   },
 

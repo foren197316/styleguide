@@ -110,13 +110,13 @@ var traverse = function (subject, attributes) {
 
 var dateGreaterThan = function (dateList, comparisonDate) {
   return dateList.reduce(function (prev, curr) {
-    return prev || Date.compare(curr, comparisonDate) >= 0;
+    return prev || !curr.isBefore(comparisonDate);
   }, false);
 };
 
 var dateLessThan = function (dateList, comparisonDate) {
   return dateList.reduce(function (prev, curr) {
-    return prev || Date.compare(curr, comparisonDate) <= 0;
+    return prev || !curr.isAfter(comparisonDate);
   }, false);
 };
 

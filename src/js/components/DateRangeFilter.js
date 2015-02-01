@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
+var moment = require('moment');
 
 var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
   propTypes: {
@@ -18,10 +19,10 @@ var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
   },
 
   handleChange: function () {
-    var startFromDate = Date.parse(this.refs.start_from.getDOMNode().value),
-        startToDate   = Date.parse(this.refs.start_to.getDOMNode().value),
-        finishFromDate= Date.parse(this.refs.finish_from.getDOMNode().value),
-        finishToDate  = Date.parse(this.refs.finish_to.getDOMNode().value);
+    var startFromDate = moment(this.refs.start_from.getDOMNode().value),
+        startToDate   = moment(this.refs.start_to.getDOMNode().value),
+        finishFromDate= moment(this.refs.finish_from.getDOMNode().value),
+        finishToDate  = moment(this.refs.finish_to.getDOMNode().value);
 
     this.props.actions.dateFilter(
       this.props.searchFrom,

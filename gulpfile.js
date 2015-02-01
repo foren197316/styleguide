@@ -71,7 +71,7 @@ gulp.task('javascript', function() {
   gulp.src([
       'bower_components/jquery/dist/jquery.js',
       'bower_components/react/react-with-addons.js',
-      'bower_components/datejs/build/date.js',
+      'bower_components/moment/moment.js',
       'bower_components/jquery.serializeJSON/jquery.serializejson.js',
       'bower_components/react-radio-group/react-radiogroup.js',
       'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',

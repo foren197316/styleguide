@@ -52,9 +52,9 @@ var ParticipantGroupParticipant = React.createClass({displayName: 'ParticipantGr
                     React.DOM.strong(null, 'Availability')
                   ),
                   React.DOM.div({className: 'col-xs-6 col-md-7 col-lg-5'},
-                    React.DOM.span(null, Date.parse(participant.arrival_date).add(2).days().toString(dateFormat)),
+                    React.DOM.span(null, moment(participant.arrival_date).add(2, 'days').format(dateFormat)),
                     React.DOM.br(null),
-                    React.DOM.span(null, Date.parse(participant.departure_date).toString(dateFormat))
+                    React.DOM.span(null, moment(participant.departure_date).format(dateFormat))
                   )
                 )
               )
