@@ -14,6 +14,7 @@ var gulp        = require('gulp'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
     rev         = require('gulp-rev'),
+    manifest    = require('gulp-rev-rails-manifest'),
     sass        = require('gulp-sass'),
     source      = require('vinyl-source-stream'),
     sourcemaps  = require('gulp-sourcemaps'),
@@ -163,7 +164,7 @@ gulp.task('rev', ['images', 'fonts', 'styles', 'javascript', 'javascript-develop
   gulp.src(['./build/**/*.css', './build/**/*.js'])
     .pipe(rev())
     .pipe(gulp.dest('./dist'))
-    .pipe(rev.manifest({path: 'manifest.json'}))
+    .pipe(manifest({path: 'manifest.json'}))
     .pipe(gulp.dest('./dist'));
 });
 
