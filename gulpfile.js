@@ -6,6 +6,7 @@ var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     consolidate = require('gulp-consolidate'),
     deploy      = require('gulp-gh-pages'),
+    flow        = require('gulp-flowtype'),
     hologram    = require('gulp-hologram'),
     iconfont    = require('gulp-iconfont'),
     jshint      = require('gulp-jshint'),
@@ -136,6 +137,20 @@ gulp.task('jshint', function () {
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
+});
+
+gulp.task('flow', function () {
+  return gulp.src([
+      'src/js/main.js'
+    ])
+    .pipe(flow({
+      all: false,
+      weak: false,
+      // declarations: './declarations',
+      killFlow: false,
+      beep: true,
+      abort: false
+    }));
 });
 
 gulp.task('styleguide', function () {
