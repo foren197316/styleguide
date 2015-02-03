@@ -2,6 +2,8 @@
 
 var React = require('react/addons');
 var moment = require('moment');
+var $ = require('jquery');
+var dateFormatMDY = require('../globals').dateFormatMDY;
 
 var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
   propTypes: {
@@ -19,10 +21,10 @@ var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',
   },
 
   handleChange: function () {
-    var startFromDate = moment(this.refs.start_from.getDOMNode().value),
-        startToDate   = moment(this.refs.start_to.getDOMNode().value),
-        finishFromDate= moment(this.refs.finish_from.getDOMNode().value),
-        finishToDate  = moment(this.refs.finish_to.getDOMNode().value);
+    var startFromDate = moment(this.refs.start_from.getDOMNode().value, dateFormatMDY),
+        startToDate   = moment(this.refs.start_to.getDOMNode().value, dateFormatMDY),
+        finishFromDate= moment(this.refs.finish_from.getDOMNode().value, dateFormatMDY),
+        finishToDate  = moment(this.refs.finish_to.getDOMNode().value, dateFormatMDY);
 
     this.props.actions.dateFilter(
       this.props.searchFrom,

@@ -2,7 +2,7 @@
 
 var React = require('react/addons');
 var Intercom = require('intercom.io');
-var dateFormat = require('../globals').dateFormat;
+var dateFormatMDY = require('../globals').dateFormatMDY;
 var actions = require('../actions');
 var Alert = require('./Alert');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
@@ -20,7 +20,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     return {
       sending: false,
       puttingOnReview: false,
-      onReviewExpiresOn: moment().add(3, 'days').format(dateFormat)
+      onReviewExpiresOn: moment().add(3, 'days').format(dateFormatMDY)
     };
   },
 

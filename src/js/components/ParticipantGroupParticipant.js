@@ -1,7 +1,9 @@
 'use strict';
 
 var React = require('react/addons');
-var dateFormat = require('../globals').dateFormat;
+var globals = require('../globals');
+var dateFormatMDY = globals.dateFormatMDY;
+var dateFormatYDM = globals.dateFormatYDM;
 var LinkToIf = require('./LinkToIf');
 var YearCalculator = require('./YearCalculator');
 var moment = require('moment');
@@ -53,9 +55,9 @@ var ParticipantGroupParticipant = React.createClass({displayName: 'ParticipantGr
                     React.DOM.strong(null, 'Availability')
                   ),
                   React.DOM.div({className: 'col-xs-6 col-md-7 col-lg-5'},
-                    React.DOM.span(null, moment(participant.arrival_date).add(2, 'days').format(dateFormat)),
+                    React.DOM.span(null, moment(participant.arrival_date, dateFormatYDM).add(2, 'days').format(dateFormatMDY)),
                     React.DOM.br(null),
-                    React.DOM.span(null, moment(participant.departure_date).format(dateFormat))
+                    React.DOM.span(null, moment(participant.departure_date, dateFormatYDM).format(dateFormatMDY))
                   )
                 )
               )

@@ -1,4 +1,3 @@
-/* @flow */
 'use strict';
 
 var actions = require('./actions');

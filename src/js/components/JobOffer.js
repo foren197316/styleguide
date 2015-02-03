@@ -1,7 +1,9 @@
 'use strict';
 
 var React = require('react/addons');
-var dateFormat = require('../globals').dateFormat;
+var globals = require('../globals');
+var dateFormatMDY = globals.dateFormatMDY;
+var dateFormatYDM = globals.dateFormatYDM;
 var ReadOnlyFormGroup = require('./ReadOnlyFormGroup');
 var PositionStore = require('../stores/PositionStore');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
@@ -31,13 +33,13 @@ var JobOffer = React.createClass({displayName: 'JobOffer',
 
     if (jobOfferParticipantAgreement != null) {
       jobOfferParticipantAgreementComponent = (
-        ReadOnlyFormGroup({label: 'Signed by', value: jobOfferParticipantAgreement.full_name + ' on ' + moment(jobOfferParticipantAgreement.created_at).format(dateFormat)})
+        ReadOnlyFormGroup({label: 'Signed by', value: jobOfferParticipantAgreement.full_name + ' on ' + moment(jobOfferParticipantAgreement.created_at, dateFormatYDM).format(dateFormatMDY)})
       );
     }
 
     if (this.props.jobOffer.file_maker_reference != null) {
       jobOfferFileMakerReference = (
-        ReadOnlyFormGroup({label: 'Imported on', value: moment(this.props.jobOffer.file_maker_reference.created_at).format(dateFormat)})
+        ReadOnlyFormGroup({label: 'Imported on', value: moment(this.props.jobOffer.file_maker_reference.created_at, dateFormatYDM).format(dateFormatMDY)})
       );
     }
 

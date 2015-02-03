@@ -2,14 +2,18 @@
 
 var moment = require('moment');
 
+var ydm = 'YYYY-DD-MM';
+
 module.exports = {
-  dateFormat: 'MM/dd/yyyy',
+  dateFormatMDY: 'MM/DD/YYYY',
+
+  dateFormatYDM: ydm,
 
   parseIntBase10: function (string) {
     return parseInt(string, 10);
   },
 
   calculateAgeAtArrival: function (to, from) {
-    return new moment(to).diff(moment(from), 'years');
+    return new moment(to, ydm).diff(moment(from, ydm), 'years');
   }
 };

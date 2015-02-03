@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
-var dateFormat = require('../globals').dateFormat;
+var dateFormatMDY = require('../globals').dateFormatMDY;
 var Spinner = require('./Spinner');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
@@ -18,7 +18,7 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
   },
 
   componentWillMount: function() {
-    this.props.onReviewExpiresOn = moment().add(3, 'days').format(dateFormat);
+    this.props.onReviewExpiresOn = moment().add(3, 'days').format(dateFormatMDY);
   },
 
   handlePutOnReview: function() {
