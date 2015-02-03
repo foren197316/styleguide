@@ -173,7 +173,7 @@ gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascri
 gulp.task('serve', ['build', 'rev'], function () {
   browserSync({
     server: {
-      baseDir: ['build'],
+      baseDir: ['build', 'dist'],
     },
     open: false
   });
