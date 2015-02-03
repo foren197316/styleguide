@@ -8,7 +8,7 @@
     },
     "css/interexchange.min-206258a3.css": {
       "logical_path": "css/interexchange.min.css",
-      "mtime": "2015-02-03T22:31:04.000Z",
+      "mtime": "2015-02-03T22:54:21.000Z",
       "size": 192931,
       "digest": "206258a3"
     },
@@ -20,19 +20,19 @@
     },
     "js/interexchange-components.min-1dad31bb.js": {
       "logical_path": "js/interexchange-components.min.js",
-      "mtime": "2015-02-03T22:31:08.000Z",
+      "mtime": "2015-02-03T22:54:26.000Z",
       "size": 138068,
       "digest": "1dad31bb"
     },
     "js/interexchange-development.min-f8ddae2b.js": {
       "logical_path": "js/interexchange-development.min.js",
-      "mtime": "2015-02-03T22:31:04.000Z",
+      "mtime": "2015-02-03T22:54:21.000Z",
       "size": 134,
       "digest": "f8ddae2b"
     },
     "js/interexchange.min-a5fc7cb6.js": {
       "logical_path": "js/interexchange.min.js",
-      "mtime": "2015-02-03T22:31:07.000Z",
+      "mtime": "2015-02-03T22:54:24.000Z",
       "size": 408092,
       "digest": "a5fc7cb6"
     }
