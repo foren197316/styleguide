@@ -179,7 +179,7 @@ gulp.task('serve', ['build', 'rev'], function () {
   });
   gulp.watch(['**/*.html'], reload);
   gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build', 'jshint', reload);
+    runSequence('build', 'rev', 'jshint', reload);
   });
 });
 
