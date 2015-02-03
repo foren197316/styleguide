@@ -3,6 +3,7 @@
 var gulp        = require('gulp'),
     _if         = require('gulp-if'),
     browserify  = require('browserify'),
+    browserSync = require('browser-sync'),
     concat      = require('gulp-concat'),
     consolidate = require('gulp-consolidate'),
     deploy      = require('gulp-gh-pages'),
@@ -16,9 +17,7 @@ var gulp        = require('gulp'),
     sass        = require('gulp-sass'),
     source      = require('vinyl-source-stream'),
     sourcemaps  = require('gulp-sourcemaps'),
-    uglify      = require('gulp-uglify');
-
-var browserSync = require('browser-sync'),
+    uglify      = require('gulp-uglify'),
     reload      = browserSync.reload,
     runSequence = require('run-sequence');
 
@@ -40,15 +39,17 @@ gulp.task('font-awesome-interexchange', function() {
 
 gulp.task('fonts', ['font-awesome-interexchange'], function() {
   gulp.src([
-      'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
-      'bower_components/components-font-awesome/fonts/*'
-    ])
-    .pipe(gulp.dest('build/fonts'));
+    'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
+    'bower_components/components-font-awesome/fonts/*'
+  ])
+    .pipe(gulp.dest('build/fonts'))
+    .pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('images', function() {
   gulp.src(['src/images/**/*'])
-    .pipe(gulp.dest('build/images'));
+    .pipe(gulp.dest('build/images'))
+    .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('json', function() {
@@ -57,41 +58,41 @@ gulp.task('json', function() {
 });
 
 gulp.task('styles', ['fonts'], function() {
-  return gulp.src([
-          'src/scss/interexchange.scss',
-          'src/scss/font-awesome-interexchange.scss'
-        ])
-        .pipe(sass({keepSpecialComments: 0}))
-        .pipe(concat('interexchange.css'))
-        .pipe(gulp.dest('build/css'))
-        .pipe(minifyCSS())
-        .pipe(rename('interexchange.min.css'))
-        .pipe(gulp.dest('build/css'));
+  gulp.src([
+    'src/scss/interexchange.scss',
+    'src/scss/font-awesome-interexchange.scss'
+  ])
+    .pipe(sass({keepSpecialComments: 0}))
+    .pipe(concat('interexchange.css'))
+    .pipe(gulp.dest('build/css'))
+    .pipe(minifyCSS())
+    .pipe(rename('interexchange.min.css'))
+    .pipe(gulp.dest('build/css'));
 });
 
 gulp.task('javascript', function() {
   gulp.src([
-      'bower_components/jquery/dist/jquery.js',
-      'bower_components/react/react-with-addons.js',
-      'bower_components/moment/moment.js',
-      'bower_components/jquery.serializeJSON/jquery.serializejson.js',
-      'bower_components/react-radio-group/react-radiogroup.js',
-      'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-      'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
-      'bower_components/react-bootstrap/react-bootstrap.js',
-      'bower_components/reflux/dist/reflux.js'
-    ])
+    'bower_components/jquery/dist/jquery.js',
+    'bower_components/react/react-with-addons.js',
+    'bower_components/moment/moment.js',
+    'bower_components/jquery.serializeJSON/jquery.serializejson.js',
+    'bower_components/react-radio-group/react-radiogroup.js',
+    'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
+    'bower_components/react-bootstrap/react-bootstrap.js',
+    'bower_components/reflux/dist/reflux.js'
+  ])
     .pipe(sourcemaps.init({ debug: true }))
     .pipe(uglify())
     .pipe(concat('interexchange.min.js'))
@@ -100,13 +101,13 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('javascript-components', function () {
-  return browserify({
-      fullPaths: false,
-      entries: './src/js/main.js',
-      dest: './build',
-      outputName: 'interexchange-components.min.js',
-      debug: true
-    })
+  browserify({
+    fullPaths: false,
+    entries: './src/js/main.js',
+    dest: './build',
+    outputName: 'interexchange-components.min.js',
+    debug: true
+  })
     .plugin('minifyify', {
       map: '/maps/interexchange-components.min.js.map',
       output: 'build/maps/interexchange-components.min.js.map'
@@ -121,7 +122,7 @@ gulp.task('javascript-components', function () {
 });
 
 gulp.task('javascript-development', ['javascript'], function() {
-  return gulp.src('src/js/development.js')
+  gulp.src('src/js/development.js')
     .pipe(sourcemaps.init({ debug: true }))
     .pipe(uglify())
     .pipe(concat('interexchange-development.min.js'))
@@ -130,7 +131,7 @@ gulp.task('javascript-development', ['javascript'], function() {
 });
 
 gulp.task('jshint', function () {
-  return gulp.src([
+  gulp.src([
       'src/js/components/*.js',
       'src/js/stores/*.js',
       'src/js/*.js'
@@ -154,35 +155,34 @@ gulp.task('flow', function () {
 });
 
 gulp.task('styleguide', function () {
-  return gulp.src('hologram_config.yml')
+  gulp.src('hologram_config.yml')
     .pipe(hologram());
 });
 
-gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
-
-gulp.task('rev', function() {
-  return gulp.src(['./build/**/*.css', './build/**/*.js'])
+gulp.task('rev', ['images', 'fonts', 'styles', 'javascript', 'javascript-development', 'javascript-components'], function() {
+  gulp.src(['./build/**/*.css', './build/**/*.js'])
     .pipe(rev())
     .pipe(gulp.dest('./dist'))
     .pipe(rev.manifest({path: 'manifest.json'}))
     .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('serve', ['build'], function () {
-  runSequence('jshint', function () {
-    browserSync({
-      server: {
-        baseDir: ['build'],
-      },
-      open: false
-    });
-    gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-      runSequence('build', 'jshint', reload);
-    });
+gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
+
+gulp.task('serve', ['build', 'rev'], function () {
+  browserSync({
+    server: {
+      baseDir: ['build'],
+    },
+    open: false
+  });
+  gulp.watch(['**/*.html'], reload);
+  gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
+    runSequence('build', 'jshint', reload);
   });
 });
 
 gulp.task('deploy', function () {
-  return gulp.src('./build/**/*')
+  gulp.src('./build/**/*')
     .pipe(deploy({cacheDir: "tmp/build-cache"}));
 });
