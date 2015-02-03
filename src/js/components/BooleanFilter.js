@@ -9,8 +9,14 @@ var BooleanFilter = React.createClass({displayName: 'BooleanFilter',
     action: React.PropTypes.func.isRequired
   },
 
+  getInitialState: function () {
+    return { isChecked: false };
+  },
+
   onChange: function () {
-    this.props.action(this.refs.checkbox.getDOMNode().checked);
+    var isChecked = !this.state.isChecked;
+    this.setState({ isChecked: isChecked });
+    this.props.action(isChecked);
   },
 
   render: function () {
