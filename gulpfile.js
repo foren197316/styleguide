@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp        = require('gulp'),
+    clean       = require('gulp-clean'),
     _if         = require('gulp-if'),
     browserify  = require('browserify'),
     browserSync = require('browser-sync'),
@@ -160,12 +161,17 @@ gulp.task('styleguide', function () {
     .pipe(hologram());
 });
 
-gulp.task('rev', ['images', 'fonts', 'styles', 'javascript', 'javascript-development', 'javascript-components'], function() {
-  gulp.src(['./build/**/*.css', './build/**/*.js'])
+gulp.task('rev-clean', function () {
+  gulp.src('dist', {read: false})
+    .pipe(clean());
+});
+
+gulp.task('rev', ['rev-clean', 'images', 'fonts', 'styles', 'javascript', 'javascript-development', 'javascript-components'], function() {
+  gulp.src(['build/**/*.css', 'build/**/*.js'])
     .pipe(rev())
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('dist'))
     .pipe(manifest({path: 'manifest.json'}))
-    .pipe(gulp.dest('./dist'));
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
