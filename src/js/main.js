@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var actions = require('./actions');
@@ -359,7 +360,7 @@ Reflux.StoreMethods.emitFilteredData = function () {
     }
   }
 
-  if (ids === null) {
+  if (ids == null) {
     data = this.data;
   } else {
     data = this.data.filter(function (entry) {

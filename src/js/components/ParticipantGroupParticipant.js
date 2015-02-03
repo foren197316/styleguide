@@ -4,6 +4,7 @@ var React = require('react/addons');
 var dateFormat = require('../globals').dateFormat;
 var LinkToIf = require('./LinkToIf');
 var YearCalculator = require('./YearCalculator');
+var moment = require('moment');
 
 var ParticipantGroupParticipant = React.createClass({displayName: 'ParticipantGroupParticipant',
   propTypes: {

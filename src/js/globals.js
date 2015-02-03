@@ -1,6 +1,6 @@
 'use strict';
 
-var TimePeriod = require('datejs').TimePeriod;
+var moment = require('moment');
 
 module.exports = {
   dateFormat: 'MM/dd/yyyy',
