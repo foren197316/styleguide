@@ -4,7 +4,7 @@
 var React = require('react/addons');
 var $ = require('jquery');
 
-var AjaxSearchForm = React.createClass({displayName: 'AjaxSearchForm',
+module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
     url: React.PropTypes.string.isRequired
   },
@@ -43,5 +43,3 @@ var AjaxSearchForm = React.createClass({displayName: 'AjaxSearchForm',
     );
   }
 });
-
-module.exports = AjaxSearchForm;
