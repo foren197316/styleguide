@@ -71,16 +71,6 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('build/css'));
 });
 
-gulp.task('styles-app', function() {
-  return gulp.src(['src/scss/app/*.scss'])
-    .pipe(sass({keepSpecialComments: 0}))
-    .pipe(concat('interexchange-app.css'))
-    .pipe(gulp.dest('build/css'))
-    .pipe(minifyCSS())
-    .pipe(rename('interexchange-app.min.css'))
-    .pipe(gulp.dest('build/css'));
-});
-
 gulp.task('javascript', function() {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
