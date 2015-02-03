@@ -143,7 +143,7 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('flow', function () {
-  return gulp.src([
+  gulp.src([
       'src/js/main.js'
     ])
     .pipe(flow({
