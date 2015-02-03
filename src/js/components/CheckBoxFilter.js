@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
+var $ = require('jquery');
 
 var CheckBoxFilter = React.createClass({displayName: 'CheckBoxFilter',
   propTypes: {

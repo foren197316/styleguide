@@ -8,6 +8,7 @@ var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var Alert = require('./Alert');
 var Spinner = require('./Spinner');
+var $ = require('jquery');
 
 var OnReviewParticipantGroupPanelHeading = React.createClass({displayName: 'OnReviewParticipantGroupPanelHeading',
   render: function() {

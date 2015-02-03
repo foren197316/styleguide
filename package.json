@@ -70,6 +70,7 @@
     "react-bootstrap": "global:ReactBootstrap",
     "react-radio-group": "global:RadioGroup",
     "intercom.io": "global:Intercom",
-    "moment": "globals:moment"
+    "moment": "global:moment",
+    "jquery": "global:$"
   }
 }

@@ -17,7 +17,8 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "jquery": true,
+  "jquery": false,
+  "browserify": true,
   "forin": true,
   "maxdepth": 2,
   "eqnull": true

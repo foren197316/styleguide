@@ -2,6 +2,7 @@
 
 var actions = require('./actions');
 var Reflux = require('reflux');
+var $ = require('jquery');
 
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);

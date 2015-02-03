@@ -2,6 +2,7 @@
 
 var React = require('react/addons');
 var calculateAgeAtArrival = require('../globals').calculateAgeAtArrival;
+var $ = require('jquery');
 
 var YearCalculator = React.createClass({displayName: 'YearCalculator',
   propTypes: {

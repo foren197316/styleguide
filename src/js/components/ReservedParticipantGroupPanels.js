@@ -6,6 +6,7 @@ var Spinner = require('./Spinner');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var moment = require('moment');
+var $ = require('jquery');
 
 var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedParticipantGroupPanel',
   propTypes: {

@@ -7,6 +7,7 @@ var parseIntBase10 = globals.parseIntBase10;
 var calculateAgeAtArrival = globals.calculateAgeAtArrival;
 var dateFormatYDM = globals.dateFormatYDM;
 var moment = require('moment');
+var $ = require('jquery');
 
 var InMatchingParticipantGroupStore = Reflux.createStore({
   resourceName: 'inMatchingParticipantGroups',
