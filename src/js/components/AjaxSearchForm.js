@@ -4,13 +4,22 @@
 var React = require('react/addons');
 var $ = require('jquery');
 
-var AjaxSearchForm = React.createClass({
+var AjaxSearchForm = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
     url: React.PropTypes.string.isRequired
   },
 
   onClick: function () {
-    var data = {};
+    var data = [];
+
+    for (var i in this.refs) {
+      if (this.refs.hasOwnProperty(i)) {
+        var ref = this.refs[i];
+        data.push('q[' + ref.query() + ']=' + ref.value());
+      }
+    }
+
+    data = data.join('&');
 
     $.ajax({
       url: this.props.url,
@@ -26,8 +35,10 @@ var AjaxSearchForm = React.createClass({
   render: function () {
     return (
       React.DOM.form({method: '', action: ''},
-        this.props.children,
-        React.DOM.input({type: 'submit', value: 'Search', onClick: this.onClick}, null)
+        React.Children.map(this.props.children, function (child, index) {
+          return React.addons.cloneWithProps(child, { ref: 'child' + index });
+        }),
+        React.DOM.input({type: 'button', value: 'Search', onClick: this.onClick}, null)
       )
     );
   }
