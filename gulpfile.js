@@ -23,7 +23,7 @@ var gulp        = require('gulp'),
     runSequence = require('run-sequence');
 
 gulp.task('font-awesome-interexchange', function() {
-  gulp.src(['src/vectors/*.svg'])
+  return gulp.src(['src/vectors/*.svg'])
     .pipe(iconfont({ fontName: 'font-awesome-interexchange' }))
     .on('codepoints', function(codepoints, options) {
       gulp.src('src/templates/font-awesome-interexchange.scss')
@@ -39,7 +39,7 @@ gulp.task('font-awesome-interexchange', function() {
 });
 
 gulp.task('fonts', ['font-awesome-interexchange'], function() {
-  gulp.src([
+  return gulp.src([
     'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
     'bower_components/components-font-awesome/fonts/*'
   ])
@@ -48,18 +48,18 @@ gulp.task('fonts', ['font-awesome-interexchange'], function() {
 });
 
 gulp.task('images', function() {
-  gulp.src(['src/images/**/*'])
+  return gulp.src(['src/images/**/*'])
     .pipe(gulp.dest('build/images'))
     .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('json', function() {
-  gulp.src(['src/json/**/*'])
+  return gulp.src(['src/json/**/*'])
     .pipe(gulp.dest('build/json'));
 });
 
 gulp.task('styles', ['fonts'], function() {
-  gulp.src([
+  return gulp.src([
     'src/scss/interexchange.scss',
     'src/scss/font-awesome-interexchange.scss'
   ])
@@ -72,7 +72,7 @@ gulp.task('styles', ['fonts'], function() {
 });
 
 gulp.task('javascript', function() {
-  gulp.src([
+  return gulp.src([
     'bower_components/jquery/dist/jquery.js',
     'bower_components/react/react-with-addons.js',
     'bower_components/moment/moment.js',
@@ -102,7 +102,7 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('javascript-components', function () {
-  browserify({
+  return browserify({
     fullPaths: false,
     entries: './src/js/main.js',
     dest: './build',
@@ -123,7 +123,7 @@ gulp.task('javascript-components', function () {
 });
 
 gulp.task('javascript-development', ['javascript'], function() {
-  gulp.src('src/js/development.js')
+  return gulp.src('src/js/development.js')
     .pipe(sourcemaps.init({ debug: true }))
     .pipe(uglify())
     .pipe(concat('interexchange-development.min.js'))
@@ -132,7 +132,7 @@ gulp.task('javascript-development', ['javascript'], function() {
 });
 
 gulp.task('jshint', function () {
-  gulp.src([
+  return gulp.src([
       'src/js/components/*.js',
       'src/js/stores/*.js',
       'src/js/*.js'
@@ -143,7 +143,7 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('flow', function () {
-  gulp.src([
+  return gulp.src([
       'src/js/main.js'
     ])
     .pipe(flow({
@@ -156,7 +156,7 @@ gulp.task('flow', function () {
 });
 
 gulp.task('styleguide', function () {
-  gulp.src('hologram_config.yml')
+  return gulp.src('hologram_config.yml')
     .pipe(hologram());
 });
 
@@ -165,8 +165,8 @@ gulp.task('rev-clean', function () {
     .pipe(clean());
 });
 
-gulp.task('rev', ['build'], function() {
-  gulp.src(['build/**/*.css', 'build/**/*.js'])
+gulp.task('rev', ['rev-clean', 'build'], function() {
+  return gulp.src(['build/**/*.css', 'build/**/*.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
     .pipe(manifest({path: 'manifest.json'}))
@@ -175,15 +175,15 @@ gulp.task('rev', ['build'], function() {
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
 
-gulp.task('serve', ['rev'], function () {
+gulp.task('serve', ['build', 'rev'], function () {
   browserSync({
     server: {
       baseDir: ['build', 'dist'],
     },
     open: false
   });
-  gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('rev', 'jshint');
+  gulp.watch(['src/**/*.scss', 'src/**/*.json', 'src/**/*.js', 'src/vectors/*.svg'], function() {
+    runSequence('build', 'rev', 'jshint');
   });
 });
 
