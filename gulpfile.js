@@ -143,10 +143,10 @@ gulp.task('javascript-development', ['javascript'], function() {
 
 gulp.task('jshint', function () {
   return gulp.src([
-      'src/js/components/*.js',
-      'src/js/stores/*.js',
-      'src/js/*.js'
-    ])
+    'src/js/components/*.js',
+    'src/js/stores/*.js',
+    'src/js/*.js'
+  ])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
@@ -154,8 +154,8 @@ gulp.task('jshint', function () {
 
 gulp.task('flow', function () {
   return gulp.src([
-      'src/js/main.js'
-    ])
+    'src/js/main.js'
+  ])
     .pipe(flow({
       all: false,
       weak: false,
