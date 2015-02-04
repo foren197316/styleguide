@@ -161,12 +161,12 @@ gulp.task('styleguide', function () {
 });
 
 gulp.task('rev-clean', function () {
-  return gulp.src(['dist/css/**/*.min.css', 'dist/js/**/*.min.js'], {read: false})
+  return gulp.src(['dist/css/**/*.css', 'dist/js/**/*.js'], {read: false})
     .pipe(clean());
 });
 
 gulp.task('rev', ['rev-clean', 'build'], function() {
-  return gulp.src(['build/**/*.css', 'build/**/*.js'])
+  return gulp.src(['build/**/*.min.css', 'build/**/*.min.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
     .pipe(manifest({path: 'manifest.json'}))
