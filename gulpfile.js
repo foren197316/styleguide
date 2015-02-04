@@ -72,7 +72,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('styles-app', function() {
-  return gulp.src('src/scss/app/*.scss')
+  return gulp.src(['src/scss/app/*.scss'])
     .pipe(sass({keepSpecialComments: 0}))
     .pipe(concat('interexchange-app.css'))
     .pipe(gulp.dest('build/css'))
@@ -104,7 +104,7 @@ gulp.task('javascript', function() {
     'bower_components/react-bootstrap/react-bootstrap.js',
     'bower_components/reflux/dist/reflux.js'
   ])
-    .pipe(sourcemaps.init({ debug: true }))
+    .pipe(sourcemaps.init({debug: true}))
     .pipe(uglify())
     .pipe(concat('interexchange.min.js'))
     .pipe(sourcemaps.write('../maps'))
@@ -133,8 +133,8 @@ gulp.task('javascript-components', function () {
 });
 
 gulp.task('javascript-development', ['javascript'], function() {
-  return gulp.src('src/js/development.js')
-    .pipe(sourcemaps.init({ debug: true }))
+  return gulp.src(['src/js/development.js'])
+    .pipe(sourcemaps.init({debug: true}))
     .pipe(uglify())
     .pipe(concat('interexchange-development.min.js'))
     .pipe(sourcemaps.write('../maps'))
@@ -142,31 +142,19 @@ gulp.task('javascript-development', ['javascript'], function() {
 });
 
 gulp.task('jshint', function () {
-  return gulp.src([
-    'src/js/components/*.js',
-    'src/js/stores/*.js',
-    'src/js/*.js'
-  ])
+  return gulp.src(['src/js/components/*.js', 'src/js/stores/*.js', 'src/js/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('flow', function () {
-  return gulp.src([
-    'src/js/main.js'
-  ])
-    .pipe(flow({
-      all: false,
-      weak: false,
-      killFlow: false,
-      beep: true,
-      abort: false
-    }));
+  return gulp.src(['src/js/main.js'])
+    .pipe(flow({all: false, weak: false, killFlow: false, beep: true, abort: false}));
 });
 
 gulp.task('styleguide', function () {
-  return gulp.src('hologram_config.yml')
+  return gulp.src(['hologram_config.yml'])
     .pipe(hologram());
 });
 
@@ -183,30 +171,11 @@ gulp.task('rev', ['rev-clean'], function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
-
 gulp.task('serve', function () {
-  browserSync({
-    server: {
-      baseDir: ['build', 'dist'],
-    },
-    open: false
-  });
-  gulp.watch(['src/**/*.scss'], function() {
-    runSequence('styles', 'styles-app', 'rev', 'styleguide');
-  });
-  gulp.watch(['src/**/*.js'], function() {
-    runSequence('javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev');
-  });
-  gulp.watch(['src/**/*.json'], function() {
-    runSequence('json');
-  });
-  gulp.watch(['src/vectors/*.svg'], function() {
-    runSequence('fonts');
-  });
-});
+  browserSync({server: {baseDir: ['build', 'dist']}, open: false});
 
-gulp.task('deploy', function () {
-  gulp.src('./build/**/*')
-    .pipe(deploy({cacheDir: "tmp/build-cache"}));
+  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app', 'rev', 'styleguide'); });
+  gulp.watch(['src/**/*.js'], function() { runSequence('javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev'); });
+  gulp.watch(['src/**/*.json'], function() { runSequence('json'); });
+  gulp.watch(['src/vectors/*.svg'], function() { runSequence('fonts'); });
 });
