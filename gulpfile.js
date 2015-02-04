@@ -165,7 +165,7 @@ gulp.task('rev-clean', function () {
     .pipe(clean());
 });
 
-gulp.task('rev', ['rev-clean', 'build'], function() {
+gulp.task('rev', ['rev-clean'], function() {
   return gulp.src(['build/**/*.min.css', 'build/**/*.min.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
@@ -175,15 +175,24 @@ gulp.task('rev', ['rev-clean', 'build'], function() {
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
 
-gulp.task('serve', ['build', 'rev'], function () {
+gulp.task('serve', function () {
   browserSync({
     server: {
       baseDir: ['build', 'dist'],
     },
     open: false
   });
-  gulp.watch(['src/**/*.scss', 'src/**/*.json', 'src/**/*.js', 'src/vectors/*.svg'], function() {
-    runSequence('build', 'rev', 'jshint');
+  gulp.watch(['src/**/*.scss'], function() {
+    runSequence('styles', 'rev', 'styleguide');
+  });
+  gulp.watch(['src/**/*.js'], function() {
+    runSequence('javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev');
+  });
+  gulp.watch(['src/**/*.json'], function() {
+    runSequence('json');
+  });
+  gulp.watch(['src/vectors/*.svg'], function() {
+    runSequence('fonts');
   });
 });
 

@@ -2,25 +2,25 @@
   "files": {
     "css/interexchange.min-206258a3.css": {
       "logical_path": "css/interexchange.min.css",
-      "mtime": "2015-02-04T05:41:58.000Z",
+      "mtime": "2015-02-04T05:48:02.000Z",
       "size": 192931,
       "digest": "206258a3"
     },
     "js/interexchange-components.min-96e758e6.js": {
       "logical_path": "js/interexchange-components.min.js",
-      "mtime": "2015-02-04T05:41:59.000Z",
+      "mtime": "2015-02-04T05:47:23.000Z",
       "size": 138682,
       "digest": "96e758e6"
     },
     "js/interexchange-development.min-f8ddae2b.js": {
       "logical_path": "js/interexchange-development.min.js",
-      "mtime": "2015-02-04T05:41:56.000Z",
+      "mtime": "2015-02-04T05:47:21.000Z",
       "size": 134,
       "digest": "f8ddae2b"
     },
     "js/interexchange.min-a5fc7cb6.js": {
       "logical_path": "js/interexchange.min.js",
-      "mtime": "2015-02-04T05:41:56.000Z",
+      "mtime": "2015-02-04T05:47:21.000Z",
       "size": 408092,
       "digest": "a5fc7cb6"
     }
