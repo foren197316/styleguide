@@ -5,7 +5,7 @@ var actions = require('../actions');
 var globals = require('../globals');
 var parseIntBase10 = globals.parseIntBase10;
 var calculateAgeAtArrival = globals.calculateAgeAtArrival;
-var dateFormatYDM = globals.dateFormatYDM;
+var dateFormatYMD = globals.dateFormatYMD;
 var moment = require('moment');
 var $ = require('jquery');
 
@@ -18,10 +18,10 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     this.data = this.data.map(function (inMatchingParticipantGroup) {
       inMatchingParticipantGroup.participant_names = inMatchingParticipantGroup.participants.mapAttribute('name').join(',');
       inMatchingParticipantGroup.participant_start_dates = inMatchingParticipantGroup.participants.map(function (participant) {
-        return moment(participant.arrival_date, dateFormatYDM).add(2, 'days');
+        return moment(participant.arrival_date, dateFormatYMD).add(2, 'days');
       });
       inMatchingParticipantGroup.participant_finish_dates = inMatchingParticipantGroup.participants.map(function (participant) {
-        return moment(participant.departure_date, dateFormatYDM).add(2, 'days');
+        return moment(participant.departure_date, dateFormatYMD).add(2, 'days');
       });
       return inMatchingParticipantGroup;
     });
