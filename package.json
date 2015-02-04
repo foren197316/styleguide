@@ -52,8 +52,11 @@
     "react-tools": "*"
   },
   "jest": {
+    "setupEnvScriptFile": "./jest_setup.js",
     "unmockedModulePathPatterns": [
-      "./node_modules"
+      "./node_modules",
+      "./src/js/main",
+      "./src/js/mixins"
     ]
   },
   "scripts": {

@@ -6,10 +6,6 @@ var actions = require('../actions');
 var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
 var Alert = require('./Alert');
 var InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel');
-var SearchFilter = require('./SearchFilter');
-var BooleanFilter = require('./BooleanFilter');
-var DateRangeFilter = require('./DateRangeFilter');
-var CheckBoxFilter = require('./CheckBoxFilter');
 
 var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
 var EmployerStore = require('../stores/EmployerStore');
@@ -20,6 +16,11 @@ var GenderStore = require('../stores/GenderStore');
 var EnglishLevelStore = require('../stores/EnglishLevelStore');
 var PositionStore = require('../stores/PositionStore');
 var CountryStore = require('../stores/CountryStore');
+
+var AjaxSearchFilter = require('./AjaxSearchFilter');
+var AjaxBooleanFilter = require('./AjaxBooleanFilter');
+var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
+var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
@@ -60,16 +61,16 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'Search', searchOn: 'participant_names', actions: actions.InMatchingParticipantGroupActions}),
-          CheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: actions.AgeAtArrivalActions}),
-          CheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: actions.ParticipantGroupNameActions}),
-          CheckBoxFilter({title: 'Gender', store: GenderStore, actions: actions.GenderActions}),
-          CheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: actions.EnglishLevelActions}),
-          DateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
-          CheckBoxFilter({title: 'Positions', store: PositionStore, actions: actions.PositionActions}),
-          CheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
-          BooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
-          BooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
+          AjaxSearchFilter({title: 'Search', searchOn: 'participant_names', actions: actions.InMatchingParticipantGroupActions}),
+          AjaxCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: actions.AgeAtArrivalActions}),
+          AjaxCheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: actions.ParticipantGroupNameActions}),
+          AjaxCheckBoxFilter({title: 'Gender', store: GenderStore, actions: actions.GenderActions}),
+          AjaxCheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: actions.EnglishLevelActions}),
+          AjaxDateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
+          AjaxCheckBoxFilter({title: 'Positions', store: PositionStore, actions: actions.PositionActions}),
+          AjaxCheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
+          AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
+          AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
         ),
         React.DOM.div({className: 'col-md-9'},
           function () {

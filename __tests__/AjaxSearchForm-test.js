@@ -1,6 +1,7 @@
 'use strict';
 
 jest.dontMock('../src/js/components/AjaxSearchForm');
+jest.dontMock('../src/js/base64');
 
 describe('AjaxSearchForm', function () {
   it('submits', function () {
@@ -9,6 +10,7 @@ describe('AjaxSearchForm', function () {
 
     var AjaxSearchForm = require('../src/js/components/AjaxSearchForm');
     var $ = require('../node_modules/jquery');
+    var Base64 = require('../src/js/base64');
 
     $.ajax = jest.genMockFn().mockImpl(function (ajaxOptions) {
       ajaxOptions.success();
@@ -23,10 +25,6 @@ describe('AjaxSearchForm', function () {
     global.location = {
       pathname: currentPath
     };
-
-    btoa = jest.genMockFn().mockImpl(function (string) {
-      return new Buffer(string).toString('base64');
-    });
 
     var query = 'participant_application_uuid_or_participant_application_email_or_participant_application_name_matches';
     var value = 'Draco';
@@ -47,7 +45,7 @@ describe('AjaxSearchForm', function () {
     TestUtils.Simulate.click(submit);
 
     var expectedData = 'q[' + query + ']=' + value;
-    var expectedPath = basePath + ':' + btoa(expectedData);
+    var expectedPath = basePath + ':' + Base64.urlsafeEncode64(expectedData);
 
     expect($.ajax).toBeCalled();
     expect(global.history.pushState).toBeCalledWith(expectedData, '', expectedPath);

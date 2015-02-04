@@ -1,8 +1,10 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
 var actions = require('./actions');
 var Spinner = require('./components/Spinner');
+var Base64 = require('./base64');
 
 module.exports = {
   SetUrlsMixin: {
@@ -48,5 +50,28 @@ module.exports = {
         return this.renderLoaded();
       }
     };
+  },
+
+  UrlQueryMixin: {
+    getValueFromUrl: function () {
+      var pathParts = global.location.pathname.split(':');
+      var query = null;
+
+      if (pathParts.length > 1) {
+        try {
+          query = Base64.urlsafeDecode64(pathParts[pathParts.length-1]);
+        } catch (e) {}
+      }
+
+      if (query != null) {
+        var re = new RegExp('q\\[' + this.query() + '\\]=([^&]+)');
+        var matches = query.match(re);
+        if (matches) {
+          return matches[1];
+        }
+      }
+
+      return null;
+    }
   }
 };

@@ -3,6 +3,7 @@
 
 var React = require('react/addons');
 var $ = require('jquery');
+var Base64 = require('../base64');
 
 module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
@@ -27,7 +28,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
       data: data,
       success: function () {
         var path = global.location.pathname.split(':')[0];
-        global.history.pushState(data, '', path + ':' + btoa(data));
+        global.history.pushState(data, '', path + ':' + Base64.urlsafeEncode64(data));
       }
     });
   },
