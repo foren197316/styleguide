@@ -6,11 +6,11 @@
       "size": 2625,
       "digest": "58400d0d"
     },
-    "css/interexchange.min-afa7dd76.css": {
+    "css/interexchange.min-d41d8cd9.css": {
       "logical_path": "css/interexchange.min.css",
       "mtime": "2015-02-04T14:26:12.000Z",
-      "size": 192927,
-      "digest": "afa7dd76"
+      "size": 0,
+      "digest": "d41d8cd9"
     },
     "js/interexchange-components.min-96e758e6.js": {
       "logical_path": "js/interexchange-components.min.js",
@@ -33,7 +33,7 @@
   },
   "assets": {
     "css/interexchange-app.min.css": "css/interexchange-app.min-58400d0d.css",
-    "css/interexchange.min.css": "css/interexchange.min-afa7dd76.css",
+    "css/interexchange.min.css": "css/interexchange.min-d41d8cd9.css",
     "js/interexchange-components.min.js": "js/interexchange-components.min-96e758e6.js",
     "js/interexchange-development.min.js": "js/interexchange-development.min-f8ddae2b.js",
     "js/interexchange.min.js": "js/interexchange.min-a5fc7cb6.js"
