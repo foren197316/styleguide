@@ -54,12 +54,12 @@ module.exports = {
 
   UrlQueryMixin: {
     getValueFromUrl: function () {
-      var pathParts = global.location.pathname.split(':');
+      var hash = global.location.hash;
       var query = null;
 
-      if (pathParts.length > 1) {
+      if (hash.length > 1) {
         try {
-          query = Base64.urlsafeDecode64(pathParts[pathParts.length-1]);
+          query = Base64.urlsafeDecode64(hash.slice(1));
         } catch (e) {}
       }
 

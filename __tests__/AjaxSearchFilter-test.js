@@ -1,7 +1,6 @@
 'use strict';
 
 jest.dontMock('../src/js/components/AjaxSearchFilter');
-jest.dontMock('../src/js/base64');
 
 describe('AjaxSearchFilter', function () {
   it('populates its input from the url', function () {
@@ -15,7 +14,7 @@ describe('AjaxSearchFilter', function () {
     var searchOn = [ 'name', 'uuid' ];
 
     global.location = {
-      pathname: '/index:' + Base64.urlsafeEncode64('q[lolol]=lol&q[name_or_uuid_matches]=Draco')
+      hash: '#' + Base64.urlsafeEncode64('q[lolol]=lol&q[name_or_uuid_matches]=Draco')
     };
 
     var ajaxSearchFilter = TestUtils.renderIntoDocument(

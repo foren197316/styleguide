@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
@@ -10,17 +11,20 @@ var InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel
 var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
 var EmployerStore = require('../stores/EmployerStore');
 var ProgramStore = require('../stores/ProgramStore');
-var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
-var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
-var GenderStore = require('../stores/GenderStore');
-var EnglishLevelStore = require('../stores/EnglishLevelStore');
-var PositionStore = require('../stores/PositionStore');
-var CountryStore = require('../stores/CountryStore');
+// var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
+// var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
+// var GenderStore = require('../stores/GenderStore');
+// var EnglishLevelStore = require('../stores/EnglishLevelStore');
+// var PositionStore = require('../stores/PositionStore');
+// var CountryStore = require('../stores/CountryStore');
 
+var AjaxSearchForm = require('./AjaxSearchForm');
 var AjaxSearchFilter = require('./AjaxSearchFilter');
-var AjaxBooleanFilter = require('./AjaxBooleanFilter');
-var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
-var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
+// var AjaxBooleanFilter = require('./AjaxBooleanFilter');
+// var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
+// var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
+
+var Base64 = require('../base64');
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
@@ -37,7 +41,21 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
   componentDidMount: function() {
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
     actions.setUrls(this.props.urls);
-    actions.InMatchingParticipantGroupActions.ajaxLoad(actions.loadFromInMatchingParticipantGroups);
+
+    var query;
+    var hash = global.location.hash;
+    if (hash.length > 1) {
+      try {
+        query = Base64.urlsafeDecode64(hash.slice(1));
+      } catch (e) {}
+    }
+
+    if (query != null) {
+      actions.InMatchingParticipantGroupActions.ajaxSearch(query, actions.loadFromInMatchingParticipantGroups);
+    } else {
+      actions.InMatchingParticipantGroupActions.ajaxSearch(actions.loadFromInMatchingParticipantGroups);
+    }
+
     actions.EmployerActions.ajaxLoadSingleton();
     actions.PositionActions.ajaxLoad();
     actions.ProgramActions.ajaxLoad();
@@ -58,19 +76,21 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
       return inMatchingParticipantGroup.participants[0].program_id;
     }).sort().uniq();
 
+            // AjaxCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: actions.AgeAtArrivalActions}),
+            // AjaxCheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: actions.ParticipantGroupNameActions}),
+            // AjaxCheckBoxFilter({title: 'Gender', store: GenderStore, actions: actions.GenderActions}),
+            // AjaxCheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: actions.EnglishLevelActions}),
+            // AjaxDateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
+            // AjaxCheckBoxFilter({title: 'Positions', store: PositionStore, actions: actions.PositionActions}),
+            // AjaxCheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
+            // AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
+            // AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          AjaxSearchFilter({title: 'Search', searchOn: 'participant_names', actions: actions.InMatchingParticipantGroupActions}),
-          AjaxCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: actions.AgeAtArrivalActions}),
-          AjaxCheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: actions.ParticipantGroupNameActions}),
-          AjaxCheckBoxFilter({title: 'Gender', store: GenderStore, actions: actions.GenderActions}),
-          AjaxCheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: actions.EnglishLevelActions}),
-          AjaxDateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
-          AjaxCheckBoxFilter({title: 'Positions', store: PositionStore, actions: actions.PositionActions}),
-          AjaxCheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
-          AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
-          AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
+          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
+            AjaxSearchFilter({title: 'Search', searchOn: 'participants_name'})
+          )
         ),
         React.DOM.div({className: 'col-md-9'},
           function () {

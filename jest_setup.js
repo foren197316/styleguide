@@ -1,3 +1,4 @@
+/* btoa and atob base64 methods are not available in node */
 btoa = function (string) {
   return new Buffer(string).toString('base64');
 };

@@ -56,7 +56,8 @@
     "unmockedModulePathPatterns": [
       "./node_modules",
       "./src/js/main",
-      "./src/js/mixins"
+      "./src/js/mixins",
+      "./src/js/base64"
     ]
   },
   "scripts": {

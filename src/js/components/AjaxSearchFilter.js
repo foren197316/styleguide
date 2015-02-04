@@ -30,8 +30,9 @@ module.exports = React.createClass({displayName: 'SearchFilter',
 
   componentDidMount: function () {
     var value = this.getValueFromUrl();
+
     if (value != null) {
-      this.refs.searchInput.getDOMNode().value = value;
+      this.setState({ value: value });
     }
 
     if (this.props.autoFocus) {
@@ -54,7 +55,7 @@ module.exports = React.createClass({displayName: 'SearchFilter',
   render: function () {
     return (
       React.DOM.label({className: 'list-group'},
-        React.DOM.input({type: 'search', ref: 'searchInput', name: 'search_' + this.props.title, onChange: this.onChange, className: 'list-group-item form-control', placeholder: this.props.placeholder})
+        React.DOM.input({type: 'search', ref: 'searchInput', name: 'search_' + this.props.title, onChange: this.onChange, className: 'list-group-item form-control', placeholder: this.props.placeholder, value: this.state.value})
       )
     );
   }

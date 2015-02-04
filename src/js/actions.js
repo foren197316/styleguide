@@ -2,7 +2,7 @@
 
 var Reflux = require('reflux');
 var genericStoreActions    = ['setData', 'ajaxLoad', 'filterByIds', 'forceTrigger', 'removeByIds', 'setSingleton', 'ajaxLoadSingleton'];
-var filterableStoreActions = ['search', 'resetSearch', 'dateFilter'];
+var filterableStoreActions = ['search', 'resetSearch', 'dateFilter', 'ajaxSearch'];
 
 module.exports = {
   OfferedParticipantGroupActions: Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(

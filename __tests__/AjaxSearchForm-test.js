@@ -20,10 +20,8 @@ describe('AjaxSearchForm', function () {
       pushState: jest.genMockFn()
     };
 
-    var basePath = '/index';
-    var currentPath = basePath + ':lolololol';
     global.location = {
-      pathname: currentPath
+      hash: '#lolololol'
     };
 
     var query = 'participant_application_uuid_or_participant_application_email_or_participant_application_name_matches';
@@ -35,17 +33,17 @@ describe('AjaxSearchForm', function () {
     });
 
     var ajaxSearchForm = TestUtils.renderIntoDocument(
-      AjaxSearchForm(null,
+      AjaxSearchForm({ url: '', reloadAction: jest.genMockFn() },
         child(null)
       )
     );
 
-    var submit = TestUtils.findRenderedDOMComponentWithTag(ajaxSearchForm, 'input');
+    var submit = TestUtils.findRenderedDOMComponentWithTag(ajaxSearchForm, 'button');
 
     TestUtils.Simulate.click(submit);
 
     var expectedData = 'q[' + query + ']=' + value;
-    var expectedPath = basePath + ':' + Base64.urlsafeEncode64(expectedData);
+    var expectedPath = '#' + Base64.urlsafeEncode64(expectedData);
 
     expect($.ajax).toBeCalled();
     expect(global.history.pushState).toBeCalledWith(expectedData, '', expectedPath);
