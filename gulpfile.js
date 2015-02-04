@@ -171,11 +171,13 @@ gulp.task('rev', ['rev-clean'], function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('serve', function () {
+gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev', 'json', 'images', 'fonts', 'styleguide'], function () {
   browserSync({server: {baseDir: ['build', 'dist']}, open: false});
 
   gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app', 'rev', 'styleguide'); });
   gulp.watch(['src/**/*.js'], function() { runSequence('javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev'); });
   gulp.watch(['src/**/*.json'], function() { runSequence('json'); });
+  gulp.watch(['src/images/*'], function() { runSequence('images'); });
   gulp.watch(['src/vectors/*.svg'], function() { runSequence('fonts'); });
+  gulp.watch(['layout/*', 'build/css/*', 'build/js/*'], function() { runSequence('styleguide'); });
 });
