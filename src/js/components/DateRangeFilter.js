@@ -2,7 +2,6 @@
 
 var React = require('react/addons');
 var moment = require('moment');
-var $ = require('jquery');
 var dateFormatMDY = require('../globals').dateFormatMDY;
 
 var DateRangeFilter = React.createClass({displayName: 'DateRangeFilter',

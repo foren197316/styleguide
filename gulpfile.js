@@ -20,7 +20,6 @@ var gulp        = require('gulp'),
     source      = require('vinyl-source-stream'),
     sourcemaps  = require('gulp-sourcemaps'),
     uglify      = require('gulp-uglify'),
-    reload      = browserSync.reload,
     runSequence = require('run-sequence');
 
 gulp.task('font-awesome-interexchange', function() {
@@ -162,11 +161,11 @@ gulp.task('styleguide', function () {
 });
 
 gulp.task('rev-clean', function () {
-  gulp.src('dist', {read: false})
+  return gulp.src(['dist/css/**/*.min.css', 'dist/js/**/*.min.js'], {read: false})
     .pipe(clean());
 });
 
-gulp.task('rev', ['rev-clean', 'images', 'fonts', 'styles', 'javascript', 'javascript-development', 'javascript-components'], function() {
+gulp.task('rev', ['build'], function() {
   gulp.src(['build/**/*.css', 'build/**/*.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
@@ -176,16 +175,15 @@ gulp.task('rev', ['rev-clean', 'images', 'fonts', 'styles', 'javascript', 'javas
 
 gulp.task('build', ['fonts', 'images', 'json', 'styles', 'javascript', 'javascript-development', 'javascript-components', 'styleguide']);
 
-gulp.task('serve', ['build', 'rev'], function () {
+gulp.task('serve', ['rev'], function () {
   browserSync({
     server: {
       baseDir: ['build', 'dist'],
     },
     open: false
   });
-  gulp.watch(['**/*.html'], reload);
   gulp.watch(['src/scss/**/*.scss', 'src/json/**/*.json', 'src/js/**/*.js', 'src/vectors/*.svg', 'layout/*.html', 'layout/theme/css/**/*.css', 'layout/theme/js/**/*.js'], function() {
-    runSequence('build', 'rev', 'jshint', reload);
+    runSequence('rev', 'jshint');
   });
 });
 
