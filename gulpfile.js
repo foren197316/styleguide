@@ -58,7 +58,7 @@ gulp.task('json', function() {
     .pipe(gulp.dest('build/json'));
 });
 
-gulp.task('styles', ['fonts'], function() {
+gulp.task('styles', function() {
   return gulp.src([
     'src/scss/interexchange.scss',
     'src/scss/font-awesome-interexchange.scss'
@@ -68,6 +68,16 @@ gulp.task('styles', ['fonts'], function() {
     .pipe(gulp.dest('build/css'))
     .pipe(minifyCSS())
     .pipe(rename('interexchange.min.css'))
+    .pipe(gulp.dest('build/css'));
+});
+
+gulp.task('styles-app', function() {
+  return gulp.src('src/scss/app/*.scss')
+    .pipe(sass({keepSpecialComments: 0}))
+    .pipe(concat('interexchange-app.css'))
+    .pipe(gulp.dest('build/css'))
+    .pipe(minifyCSS())
+    .pipe(rename('interexchange-app.min.css'))
     .pipe(gulp.dest('build/css'));
 });
 
@@ -183,7 +193,7 @@ gulp.task('serve', function () {
     open: false
   });
   gulp.watch(['src/**/*.scss'], function() {
-    runSequence('styles', 'rev', 'styleguide');
+    runSequence('styles', 'styles-app', 'rev', 'styleguide');
   });
   gulp.watch(['src/**/*.js'], function() {
     runSequence('javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev');
