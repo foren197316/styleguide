@@ -4,12 +4,15 @@
   "main": "index.html",
   "devDependencies": {
     "browser-sync": "^1.3.6",
+    "browserify": "^8.1.1",
+    "browserify-shim": "^3.8.2",
     "del": "~0.1.2",
     "gulp": "^3.8.7",
-    "gulp-add-src": "^0.2.0",
     "gulp-autoprefixer": "0.0.9",
+    "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.3.4",
     "gulp-consolidate": "~0.1.2",
+    "gulp-flowtype": "^0.4.1",
     "gulp-gh-pages": "^0.3.3",
     "gulp-hologram": "^1.0.1",
     "gulp-iconfont": "~0.2.1",
@@ -18,18 +21,28 @@
     "gulp-load-plugins": "^0.6.0",
     "gulp-minify-css": "^0.3.7",
     "gulp-notify": "^1.5.0",
-    "gulp-react": "~1.0.2",
     "gulp-rename": "~1.2.0",
+    "gulp-rev": "~3.0.0",
+    "gulp-rev-rails-manifest": "~0.0.1",
     "gulp-ruby-sass": "^0.7.1",
+    "gulp-sourcemaps": "^1.3.0",
     "gulp-uglify": "~0.3.2",
     "gulp-util": "^3.0.0",
+    "intercom.io": "^1.0.5",
     "jest": "0.1.37",
     "jest-cli": "0.1.18",
+    "jquery": "^2.1.3",
     "jshint-stylish": "^0.4.0",
     "lodash": "~2.4.1",
+    "minifyify": "^6.0.0",
+    "moment": "^2.9.0",
     "react": "*",
+    "react-bootstrap": "^0.13.3",
+    "react-radio-group": "^1.0.0",
     "react-tools": "*",
+    "reflux": "^0.2.4",
     "run-sequence": "~0.3.6",
+    "vinyl-source-stream": "^1.0.0",
     "yargs": "^1.3.1"
   },
   "dependencies": {
@@ -40,10 +53,23 @@
   },
   "jest": {
     "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react"
+      "./node_modules"
     ]
   },
   "scripts": {
     "test": "jest"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "react/addons": "global:React",
+    "reflux": "global:Reflux",
+    "react-bootstrap": "global:ReactBootstrap",
+    "react-radio-group": "global:RadioGroup",
+    "intercom.io": "global:Intercom",
+    "moment": "globals:moment"
   }
 }

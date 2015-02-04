@@ -1,9 +1,14 @@
+'use strict';
+
+var Reflux = require('reflux');
+var actions = require('../actions');
+
 var ParticipantGroupNameStore = Reflux.createStore({
-  listenables: ParticipantGroupNameActions,
+  listenables: actions.ParticipantGroupNameActions,
   permission: false,
 
   init: function () {
-    this.listenTo(GlobalActions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
+    this.listenTo(actions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
   },
 
   onLoadFromInMatchingParticipantGroups: function (inMatchingParticipantGroups) {
@@ -18,3 +23,5 @@ var ParticipantGroupNameStore = Reflux.createStore({
     this.trigger(this.data);
   }
 });
+
+module.exports = ParticipantGroupNameStore;

@@ -3,3 +3,8 @@ node_modules
 bower_components
 build
 tmp
+dist/css
+dist/fonts
+dist/images
+dist/js
+*.log
