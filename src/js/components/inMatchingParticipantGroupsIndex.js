@@ -60,6 +60,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     actions.EmployerActions.ajaxLoadSingleton();
     actions.PositionActions.ajaxLoad();
     actions.ProgramActions.ajaxLoad();
+    actions.CountryActions.ajaxLoad();
   },
 
   intercom: function (employers) {

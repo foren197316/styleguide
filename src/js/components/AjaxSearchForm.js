@@ -24,19 +24,14 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
     };
   },
 
-  componentDidMount: function () {
-    $(this.refs.form.getDOMNode()).submit(function (e) {
-      e.preventDefault();
-      this.onSubmit();
-    }.bind(this));
-  },
+  onSubmit: function (e) {
+    e.preventDefault();
 
-  onSubmit: function () {
     var data = [];
     this.setState({ sending: true });
 
     for (var i in this.refs) {
-      if (this.refs.hasOwnProperty(i) && i !== 'form') {
+      if (this.refs.hasOwnProperty(i)) {
         data.push(this.refs[i].query());
       }
     }
@@ -61,8 +56,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
   render: function () {
     var buttonAttributes = {
       className: 'btn btn-block btn-default',
-      type: 'button',
-      onClick: this.onSubmit,
+      type: 'submit',
       style: { marginBottom: '15px'}
     };
 
@@ -71,7 +65,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
     }
 
     return (
-      React.DOM.form({method: '', action: '', ref: 'form'},
+      React.DOM.form({method: '', action: '', onSubmit: this.onSubmit},
         React.DOM.button(buttonAttributes, 'Search'),
         React.Children.map(this.props.children, function (child, index) {
           return React.addons.cloneWithProps(child, { ref: 'child' + index });
