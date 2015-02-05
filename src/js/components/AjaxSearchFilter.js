@@ -50,7 +50,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchFilter',
 
   query: function () {
     if (this.state.value.length > 0) {
-      return 'q[' + this.searchField + ']=' + this.state.value;
+      return 'q[' + this.searchField() + ']=' + this.state.value;
     } else {
       return '';
     }
