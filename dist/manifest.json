@@ -1,33 +1,40 @@
 {
   "files": {
-    "css/interexchange.min-11a19759.css": {
-      "logical_path": "css/interexchange.min.css",
-      "mtime": "2015-02-05T14:25:35.000Z",
-      "size": 193974,
-      "digest": "11a19759"
+    "css/interexchange-app.min-58400d0d.css": {
+      "logical_path": "css/interexchange-app.min.css",
+      "mtime": "2015-02-05T15:24:56.000Z",
+      "size": 2625,
+      "digest": "58400d0d"
     },
-    "js/interexchange-components.min-4ea0192e.js": {
+    "css/interexchange.min-24b705a6.css": {
+      "logical_path": "css/interexchange.min.css",
+      "mtime": "2015-02-05T15:34:51.000Z",
+      "size": 193970,
+      "digest": "24b705a6"
+    },
+    "js/interexchange-components.min-4690da71.js": {
       "logical_path": "js/interexchange-components.min.js",
-      "mtime": "2015-02-05T14:25:39.000Z",
-      "size": 107783,
-      "digest": "4ea0192e"
+      "mtime": "2015-02-05T15:34:55.000Z",
+      "size": 107770,
+      "digest": "4690da71"
     },
     "js/interexchange-development.min-f8ddae2b.js": {
       "logical_path": "js/interexchange-development.min.js",
-      "mtime": "2015-02-05T14:25:34.000Z",
+      "mtime": "2015-02-05T15:34:54.000Z",
       "size": 134,
       "digest": "f8ddae2b"
     },
     "js/interexchange.min-e3c844db.js": {
       "logical_path": "js/interexchange.min.js",
-      "mtime": "2015-02-05T14:25:38.000Z",
+      "mtime": "2015-02-05T15:34:54.000Z",
       "size": 442701,
       "digest": "e3c844db"
     }
   },
   "assets": {
-    "css/interexchange.min.css": "css/interexchange.min-11a19759.css",
-    "js/interexchange-components.min.js": "js/interexchange-components.min-4ea0192e.js",
+    "css/interexchange-app.min.css": "css/interexchange-app.min-58400d0d.css",
+    "css/interexchange.min.css": "css/interexchange.min-24b705a6.css",
+    "js/interexchange-components.min.js": "js/interexchange-components.min-4690da71.js",
     "js/interexchange-development.min.js": "js/interexchange-development.min-f8ddae2b.js",
     "js/interexchange.min.js": "js/interexchange.min-e3c844db.js"
   }
