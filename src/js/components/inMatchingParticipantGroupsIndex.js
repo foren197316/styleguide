@@ -15,7 +15,7 @@ var ProgramStore = require('../stores/ProgramStore');
 var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
 var GenderStore = require('../stores/GenderStore');
 var EnglishLevelStore = require('../stores/EnglishLevelStore');
-// var PositionStore = require('../stores/PositionStore');
+var PositionStore = require('../stores/PositionStore');
 // var CountryStore = require('../stores/CountryStore');
 
 var AjaxSearchForm = require('./AjaxSearchForm');
@@ -78,8 +78,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     }).sort().uniq();
 
             // AjaxDateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
-            // AjaxCheckBoxFilter({title: 'Positions', store: PositionStore, actions: actions.PositionActions}),
-            // AjaxCheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
+            // AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_name', store: CountryStore})
             // AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
             // AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
             // AjaxCustomCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore})
@@ -90,7 +89,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
             AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
-            AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore})
+            AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
+            AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore})
           )
         ),
         React.DOM.div({className: 'col-md-9'},
