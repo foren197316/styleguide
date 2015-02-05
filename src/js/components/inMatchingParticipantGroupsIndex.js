@@ -23,7 +23,7 @@ var AjaxSearchFilter = require('./AjaxSearchFilter');
 var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
 // var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
 var AjaxBooleanFilter = require('./AjaxBooleanFilter');
-// var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
+var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
 
 var Base64 = require('../base64');
 
@@ -77,13 +77,13 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
       return inMatchingParticipantGroup.participants[0].program_id;
     }).sort().uniq();
 
-            // AjaxDateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
             // AjaxCustomCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore})
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
           AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
+            AjaxDateRangeFilter({searchFrom: 'arrival_date', searchTo: 'departure_date'}),
             AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
             AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),

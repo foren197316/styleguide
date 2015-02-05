@@ -1,18 +1,56 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
-var moment = require('moment');
 var $ = require('jquery');
-var dateFormatMDY = require('../globals').dateFormatMDY;
+var UrlQueryMixin = require('../mixins').UrlQueryMixin;
 
 module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
+  mixins: [UrlQueryMixin],
+
   propTypes: {
     searchFrom: React.PropTypes.string.isRequired,
-    searchTo: React.PropTypes.string.isRequired,
-    actions:  React.PropTypes.object.isRequired
+    searchTo: React.PropTypes.string.isRequired
+  },
+
+  getInitialState: function () {
+    return {
+      startFromDate: null,
+      startToDate: null,
+      finishFromDate: null,
+      finishToDate: null
+    };
+  },
+
+  setCheckedValues: function () {
+    var state = {};
+
+    var startFromValue = this.getValueFromUrl(this.props.searchFrom + '_date_gteq');
+    if (startFromValue) {
+      state.startFromDate = startFromValue;
+    }
+
+    var startToValue = this.getValueFromUrl(this.props.searchFrom + '_date_lteq');
+    if (startToValue) {
+      state.startToDate = startToValue;
+    }
+
+    var finishFromValue = this.getValueFromUrl(this.props.searchTo + '_date_gteq');
+    if (finishFromValue) {
+      state.finishFromDate = finishFromValue;
+    }
+
+    var finishToValue = this.getValueFromUrl(this.props.searchTo + '_date_lteq');
+    if (finishToValue) {
+      state.finishToDate = finishToValue;
+    }
+
+    this.setState(state);
   },
 
   componentDidMount: function () {
+    this.setCheckedValues();
+
     $(this.getDOMNode())
       .find('.datepicker')
       .datepicker({autoclose: true, clearBtn: true})
@@ -21,19 +59,38 @@ module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
   },
 
   handleChange: function () {
-    var startFromDate = moment(this.refs.start_from.getDOMNode().value, dateFormatMDY),
-        startToDate   = moment(this.refs.start_to.getDOMNode().value, dateFormatMDY),
-        finishFromDate= moment(this.refs.finish_from.getDOMNode().value, dateFormatMDY),
-        finishToDate  = moment(this.refs.finish_to.getDOMNode().value, dateFormatMDY);
+    this.setState({
+      startFromDate : this.date('start_from') || null,
+      startToDate   : this.date('start_to') || null,
+      finishFromDate: this.date('finish_from') || null,
+      finishToDate  : this.date('finish_to') || null
+    });
+  },
 
-    this.props.actions.dateFilter(
-      this.props.searchFrom,
-      this.props.searchTo,
-      startFromDate,
-      startToDate,
-      finishFromDate,
-      finishToDate
-    );
+  date: function (name) {
+    return this.refs[name].getDOMNode().value;
+  },
+
+  query: function () {
+    var queries = [];
+
+    if (this.date('start_from')) {
+      queries.push('q[' + this.props.searchFrom + '_date_gteq]=' + this.date('start_from'));
+    }
+
+    if (this.date('start_to')) {
+      queries.push('q[' + this.props.searchFrom + '_date_lteq]=' + this.date('start_to'));
+    }
+
+    if (this.date('finish_from')) {
+      queries.push('q[' + this.props.searchTo + '_date_gteq]=' + this.date('finish_from'));
+    }
+
+    if (this.date('finish_to')) {
+      queries.push('q[' + this.props.searchTo + '_date_lteq]=' + this.date('finish_to'));
+    }
+
+    return queries.length > 0 ? queries.join('&') : null;
   },
 
   render: function () {
@@ -43,22 +100,22 @@ module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
         React.DOM.div({className: 'list-group list-group-scrollable'},
           React.DOM.label({className: 'list-group-item'},
             React.DOM.span({className: 'title'}, 'From'),
-            React.DOM.input({type: 'text', ref: 'start_from', className: 'datepicker start from form-control'})
+            React.DOM.input({type: 'text', ref: 'start_from', className: 'datepicker start from form-control', value: this.state.startFromDate})
           ),
           React.DOM.label({className: 'list-group-item'},
             React.DOM.span({className: 'title'}, 'To'),
-            React.DOM.input({type: 'text', ref: 'start_to', className: 'datepicker start to form-control'})
+            React.DOM.input({type: 'text', ref: 'start_to', className: 'datepicker start to form-control', value: this.state.startToDate})
           )
         ),
         React.DOM.div({className: 'panel-heading'}, 'Finish'),
         React.DOM.div({className: 'list-group list-group-scrollable'},
           React.DOM.label({className: 'list-group-item'},
             React.DOM.span({className: 'title'}, 'From'),
-            React.DOM.input({type: 'text', ref: 'finish_from', className: 'datepicker finish from form-control'})
+            React.DOM.input({type: 'text', ref: 'finish_from', className: 'datepicker finish from form-control', value: this.state.finishFromDate})
           ),
           React.DOM.label({className: 'list-group-item'},
             React.DOM.span({className: 'title'}, 'To'),
-            React.DOM.input({type: 'text', ref: 'finish_to', className: 'datepicker finish to form-control'})
+            React.DOM.input({type: 'text', ref: 'finish_to', className: 'datepicker finish to form-control', value: this.state.finishToDate})
           )
         )
       )
