@@ -36,9 +36,9 @@ describe('AjaxSearchForm', function () {
       )
     );
 
-    var submit = TestUtils.findRenderedDOMComponentWithTag(ajaxSearchForm, 'button');
+    var form = TestUtils.findRenderedDOMComponentWithTag(ajaxSearchForm, 'form');
 
-    TestUtils.Simulate.click(submit);
+    TestUtils.Simulate.submit(form);
 
     var expectedData = query;
     var expectedPath = '#' + Base64.urlsafeEncode64(expectedData);
