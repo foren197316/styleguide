@@ -71,6 +71,16 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('build/css'));
 });
 
+gulp.task('styles-app', function() {
+  return gulp.src(['src/scss/app/*.scss'])
+    .pipe(sass({keepSpecialComments: 0}))
+    .pipe(concat('interexchange-app.css'))
+    .pipe(gulp.dest('build/css'))
+    .pipe(minifyCSS())
+    .pipe(rename('interexchange-app.min.css'))
+    .pipe(gulp.dest('build/css'));
+});
+
 gulp.task('javascript', function() {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
@@ -161,10 +171,10 @@ gulp.task('rev', ['rev-clean'], function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('serve', ['styles', 'javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev', 'json', 'images', 'fonts', 'styleguide'], function () {
+gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev', 'json', 'images', 'fonts', 'styleguide'], function () {
   browserSync({server: {baseDir: ['build', 'dist']}, open: false});
 
-  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'rev', 'styleguide'); });
+  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app', 'rev', 'styleguide'); });
   gulp.watch(['src/**/*.js'], function() { runSequence('javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev'); });
   gulp.watch(['src/**/*.json'], function() { runSequence('json'); });
   gulp.watch(['src/images/*'], function() { runSequence('images'); });
