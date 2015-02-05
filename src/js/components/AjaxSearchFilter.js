@@ -4,7 +4,7 @@
 var React = require('react/addons');
 var UrlQueryMixin = require('../mixins').UrlQueryMixin;
 
-module.exports = React.createClass({displayName: 'SearchFilter',
+module.exports = React.createClass({displayName: 'AjaxSearchFilter',
   mixins: [UrlQueryMixin],
 
   propTypes: {
@@ -29,7 +29,7 @@ module.exports = React.createClass({displayName: 'SearchFilter',
   },
 
   componentDidMount: function () {
-    var value = this.getValueFromUrl();
+    var value = this.getValueFromUrl(this.searchField());
 
     if (value != null) {
       this.setState({ value: value });
@@ -44,12 +44,16 @@ module.exports = React.createClass({displayName: 'SearchFilter',
     this.setState({ value: event.target.value });
   },
 
-  query: function () {
+  searchField: function () {
     return [].concat(this.props.searchOn).join('_or_') + '_matches';
   },
 
-  value: function () {
-    return this.state.value;
+  query: function () {
+    if (this.state.value.length > 0) {
+      return 'q[' + this.searchField + ']=' + this.state.value;
+    } else {
+      return '';
+    }
   },
 
   render: function () {

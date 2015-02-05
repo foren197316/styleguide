@@ -11,6 +11,12 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
     reloadAction: React.PropTypes.func.isRequired
   },
 
+  getInitialState: function () {
+    return {
+      sending: false
+    };
+  },
+
   componentDidMount: function () {
     $(this.refs.form.getDOMNode()).submit(function (e) {
       e.preventDefault();
@@ -20,11 +26,11 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
 
   onSubmit: function () {
     var data = [];
+    this.setState({ sending: true });
 
     for (var i in this.refs) {
       if (this.refs.hasOwnProperty(i) && i !== 'form') {
-        var ref = this.refs[i];
-        data.push('q[' + ref.query() + ']=' + ref.value());
+        data.push(this.refs[i].query());
       }
     }
 
@@ -37,20 +43,30 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
       dataType: 'json',
       success: function (response) {
         global.history.pushState(data, '', '#' + Base64.urlsafeEncode64(data));
+        this.setState({ sending: false });
         this.props.reloadAction(response);
       }.bind(this)
     });
   },
 
   render: function () {
+    var buttonAttributes = {
+      className: 'btn btn-block btn-default',
+      type: 'button',
+      onClick: this.onSubmit,
+      style: { marginBottom: '15px'}
+    };
+
+    if (this.state.sending) {
+      buttonAttributes.disabled = 'disabled';
+    }
+
     return (
       React.DOM.form({method: '', action: '', ref: 'form'},
         React.Children.map(this.props.children, function (child, index) {
           return React.addons.cloneWithProps(child, { ref: 'child' + index });
         }),
-        React.DOM.button({className: 'btn btn-block btn-default', type: 'button', onClick: this.onSubmit, style: { marginBottom: '15px'}},
-          'Search'
-        )
+        React.DOM.button(buttonAttributes, 'Search')
       )
     );
   }

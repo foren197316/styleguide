@@ -2,7 +2,7 @@
 
 var React = require('react/addons');
 
-module.exports = React.createClass({displayName: 'BooleanFilter',
+module.exports = React.createClass({displayName: 'AjaxBooleanFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,
     label: React.PropTypes.string.isRequired,

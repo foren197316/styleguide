@@ -12,7 +12,7 @@ var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGr
 var EmployerStore = require('../stores/EmployerStore');
 var ProgramStore = require('../stores/ProgramStore');
 // var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
-// var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
+var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
 // var GenderStore = require('../stores/GenderStore');
 // var EnglishLevelStore = require('../stores/EnglishLevelStore');
 // var PositionStore = require('../stores/PositionStore');
@@ -20,8 +20,9 @@ var ProgramStore = require('../stores/ProgramStore');
 
 var AjaxSearchForm = require('./AjaxSearchForm');
 var AjaxSearchFilter = require('./AjaxSearchFilter');
+var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
+// var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
 // var AjaxBooleanFilter = require('./AjaxBooleanFilter');
-// var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
 // var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
 
 var Base64 = require('../base64');
@@ -76,8 +77,6 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
       return inMatchingParticipantGroup.participants[0].program_id;
     }).sort().uniq();
 
-            // AjaxCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: actions.AgeAtArrivalActions}),
-            // AjaxCheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: actions.ParticipantGroupNameActions}),
             // AjaxCheckBoxFilter({title: 'Gender', store: GenderStore, actions: actions.GenderActions}),
             // AjaxCheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: actions.EnglishLevelActions}),
             // AjaxDateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
@@ -85,11 +84,13 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
             // AjaxCheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
             // AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
             // AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
+            // AjaxCustomCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore})
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
           AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
-            AjaxSearchFilter({title: 'Search', searchOn: 'participants_name'})
+            AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
+            AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore})
           )
         ),
         React.DOM.div({className: 'col-md-9'},

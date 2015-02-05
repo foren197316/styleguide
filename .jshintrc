@@ -20,6 +20,6 @@
   "jquery": false,
   "browserify": true,
   "forin": true,
-  "maxdepth": 2,
+  "maxdepth": 3,
   "eqnull": true
 }

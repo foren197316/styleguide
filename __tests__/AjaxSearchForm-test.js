@@ -24,11 +24,9 @@ describe('AjaxSearchForm', function () {
       hash: '#lolololol'
     };
 
-    var query = 'participant_application_uuid_or_participant_application_email_or_participant_application_name_matches';
-    var value = 'Draco';
+    var query = 'q[participant_application_uuid_or_participant_application_email_or_participant_application_name_matches]=Draco';
     var child = React.createClass({displayName: 'ChildMan',
       query: jest.genMockFn().mockReturnValue(query),
-      value: jest.genMockFn().mockReturnValue(value),
       render: function(){return React.DOM.div(null);}
     });
 
@@ -42,7 +40,7 @@ describe('AjaxSearchForm', function () {
 
     TestUtils.Simulate.click(submit);
 
-    var expectedData = 'q[' + query + ']=' + value;
+    var expectedData = query;
     var expectedPath = '#' + Base64.urlsafeEncode64(expectedData);
 
     expect($.ajax).toBeCalled();

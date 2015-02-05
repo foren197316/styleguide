@@ -53,7 +53,11 @@ module.exports = {
   },
 
   UrlQueryMixin: {
-    getValueFromUrl: function () {
+    regExEscape: function (string) {
+      return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    },
+
+    getQuery: function () {
       var hash = global.location.hash;
       var query = null;
 
@@ -63,12 +67,26 @@ module.exports = {
         } catch (e) {}
       }
 
+      return query;
+    },
+
+    getValueFromUrl: function (searchField) {
+      var query = this.getQuery();
+
       if (query != null) {
-        var re = new RegExp('q\\[' + this.query() + '\\]=([^&]+)');
-        var matches = query.match(re);
-        if (matches) {
-          return matches[1];
+        var results = [];
+        var re = new RegExp('q\\[' + this.regExEscape(searchField) + '\\](\\[\\])?=([^&]+)', 'g');
+        var matched = false;
+        var matches;
+        while ((matches = re.exec(query)) != null) {
+          matched = true;
+          if (matches[1] == null) {
+            return matches[2];
+          }
+          results.push(matches[2]);
         }
+
+        return matched ? results : null;
       }
 
       return null;

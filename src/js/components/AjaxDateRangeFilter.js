@@ -5,7 +5,7 @@ var moment = require('moment');
 var $ = require('jquery');
 var dateFormatMDY = require('../globals').dateFormatMDY;
 
-module.exports = React.createClass({displayName: 'DateRangeFilter',
+module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
   propTypes: {
     searchFrom: React.PropTypes.string.isRequired,
     searchTo: React.PropTypes.string.isRequired,

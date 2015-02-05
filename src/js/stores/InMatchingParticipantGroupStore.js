@@ -11,7 +11,7 @@ module.exports = Reflux.createStore({
 
   reload: function (data) {
     this.data = data[this.resourceName.camelCaseToUnderscore()];
-    actions.loadFromInMatchingParticipantGroups(this.data);
+    // actions.loadFromInMatchingParticipantGroups(this.data);
     this.trigger(this.data);
   },
 
