@@ -11,7 +11,7 @@ var InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel
 var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
 var EmployerStore = require('../stores/EmployerStore');
 var ProgramStore = require('../stores/ProgramStore');
-// var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
+var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
 var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
 var GenderStore = require('../stores/GenderStore');
 var EnglishLevelStore = require('../stores/EnglishLevelStore');
@@ -21,7 +21,7 @@ var CountryStore = require('../stores/CountryStore');
 var AjaxSearchForm = require('./AjaxSearchForm');
 var AjaxSearchFilter = require('./AjaxSearchFilter');
 var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
-// var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
+var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
 var AjaxBooleanFilter = require('./AjaxBooleanFilter');
 var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
 
@@ -77,18 +77,18 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
       return inMatchingParticipantGroup.participants[0].program_id;
     }).sort().uniq();
 
-            // AjaxCustomCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore})
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
           AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
-            AjaxDateRangeFilter({searchFrom: 'arrival_date', searchTo: 'departure_date'}),
+            AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
             AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
-            AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
             AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
+            AjaxDateRangeFilter({searchFrom: 'arrival_date', searchTo: 'departure_date'}),
             AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
+            AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
             AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
             AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', fieldName: 'has_international_drivers_license', bool: true})
           )
