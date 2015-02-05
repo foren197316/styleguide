@@ -63,10 +63,10 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
 
     return (
       React.DOM.form({method: '', action: '', ref: 'form'},
+        React.DOM.button(buttonAttributes, 'Search'),
         React.Children.map(this.props.children, function (child, index) {
           return React.addons.cloneWithProps(child, { ref: 'child' + index });
-        }),
-        React.DOM.button(buttonAttributes, 'Search')
+        })
       )
     );
   }
