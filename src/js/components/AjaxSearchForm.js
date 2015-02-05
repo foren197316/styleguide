@@ -34,7 +34,9 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
       }
     }
 
-    data = data.join('&');
+    data = data.filter(function (datum) {
+      return datum != null;
+    }).join('&');
 
     $.ajax({
       url: this.props.url,

@@ -53,6 +53,10 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
   },
 
   query: function () {
+    if (this.state.ids.length === 0) {
+      return null;
+    }
+
     var base = 'q[' + this.searchField() + '][]=';
     return this.state.ids.map(function (id) {
       return base + id;

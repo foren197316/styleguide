@@ -71,7 +71,7 @@ Array.prototype.mapAttribute = function (attribute) {
 
 Array.prototype.notEmpty = function () {
   return this.filter(function (entry) {
-    return entry !== undefined && entry !== null;
+    return entry != null;
   });
 };
 
