@@ -8,7 +8,14 @@ var Base64 = require('../base64');
 module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
     url: React.PropTypes.string.isRequired,
-    reloadAction: React.PropTypes.func.isRequired
+    reloadAction: React.PropTypes.func.isRequired,
+    includedStores: React.PropTypes.array
+  },
+
+  getDefaultProps: function () {
+    return {
+      includedStores: []
+    };
   },
 
   getInitialState: function () {

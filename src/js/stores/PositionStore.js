@@ -1,11 +1,10 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
 var PositionActions = require('../actions').PositionActions;
 
-var PositionStore = Reflux.createStore({
+module.exports = Reflux.createStore({
   resourceName: 'positions',
   listenables: PositionActions
 });
-
-module.exports = PositionStore;

@@ -65,6 +65,8 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
 
   render: function () {
     if (this.props.store.permission && this.props.store.data.length > 0 && this.state.isLoaded) {
+      var stringIds = this.state.ids.map(function (obj) { return obj.toString(); });
+
       return (
         React.DOM.div({className: 'panel panel-default'},
           React.DOM.div({className: 'panel-heading'}, this.props.title),
@@ -77,7 +79,7 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
                 onChange: this.onChange
               };
 
-              if (this.state.ids.indexOf(option.id) >= 0) {
+              if (stringIds.indexOf(option.id.toString()) >= 0) {
                 checkboxAttributes.checked = 'checked';
               }
 
