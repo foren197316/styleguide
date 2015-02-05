@@ -22,7 +22,7 @@ var AjaxSearchForm = require('./AjaxSearchForm');
 var AjaxSearchFilter = require('./AjaxSearchFilter');
 var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
 // var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
-// var AjaxBooleanFilter = require('./AjaxBooleanFilter');
+var AjaxBooleanFilter = require('./AjaxBooleanFilter');
 // var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
 
 var Base64 = require('../base64');
@@ -78,8 +78,6 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     }).sort().uniq();
 
             // AjaxDateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
-            // AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
-            // AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
             // AjaxCustomCheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore})
     return (
       React.DOM.div({className: 'row'},
@@ -90,7 +88,9 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
             AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
             AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
-            AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore})
+            AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
+            AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
+            AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', fieldName: 'has_international_drivers_license', bool: true})
           )
         ),
         React.DOM.div({className: 'col-md-9'},
