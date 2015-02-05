@@ -25,22 +25,22 @@ module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
   setCheckedValues: function () {
     var state = {};
 
-    var startFromValue = this.getValueFromUrl(this.props.searchFrom + '_date_gteq');
+    var startFromValue = this.getValueFromUrl(this.props.searchFrom + '_gteq');
     if (startFromValue) {
       state.startFromDate = startFromValue;
     }
 
-    var startToValue = this.getValueFromUrl(this.props.searchFrom + '_date_lteq');
+    var startToValue = this.getValueFromUrl(this.props.searchFrom + '_lteq');
     if (startToValue) {
       state.startToDate = startToValue;
     }
 
-    var finishFromValue = this.getValueFromUrl(this.props.searchTo + '_date_gteq');
+    var finishFromValue = this.getValueFromUrl(this.props.searchTo + '_gteq');
     if (finishFromValue) {
       state.finishFromDate = finishFromValue;
     }
 
-    var finishToValue = this.getValueFromUrl(this.props.searchTo + '_date_lteq');
+    var finishToValue = this.getValueFromUrl(this.props.searchTo + '_lteq');
     if (finishToValue) {
       state.finishToDate = finishToValue;
     }
@@ -75,19 +75,19 @@ module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
     var queries = [];
 
     if (this.date('start_from')) {
-      queries.push('q[' + this.props.searchFrom + '_date_gteq]=' + this.date('start_from'));
+      queries.push('q[' + this.props.searchFrom + '_gteq]=' + this.date('start_from'));
     }
 
     if (this.date('start_to')) {
-      queries.push('q[' + this.props.searchFrom + '_date_lteq]=' + this.date('start_to'));
+      queries.push('q[' + this.props.searchFrom + '_lteq]=' + this.date('start_to'));
     }
 
     if (this.date('finish_from')) {
-      queries.push('q[' + this.props.searchTo + '_date_gteq]=' + this.date('finish_from'));
+      queries.push('q[' + this.props.searchTo + '_gteq]=' + this.date('finish_from'));
     }
 
     if (this.date('finish_to')) {
-      queries.push('q[' + this.props.searchTo + '_date_lteq]=' + this.date('finish_to'));
+      queries.push('q[' + this.props.searchTo + '_lteq]=' + this.date('finish_to'));
     }
 
     return queries.length > 0 ? queries.join('&') : null;

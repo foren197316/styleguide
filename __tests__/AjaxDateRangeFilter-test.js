@@ -19,7 +19,7 @@ describe('AjaxDateRangeFilter', function () {
     var departureDate = '10/24/2016';
 
     global.location = {
-      hash: '#' + Base64.urlsafeEncode64('q[lolol]=lol&q[arrival_date_date_gteq]=' + arrivalDate + '&q[departure_date_date_lteq]=' + departureDate)
+      hash: '#' + Base64.urlsafeEncode64('q[lolol]=lol&q[arrival_date_gteq]=' + arrivalDate + '&q[departure_date_lteq]=' + departureDate)
     };
 
     var ajaxDateRangeFilter = TestUtils.renderIntoDocument(
