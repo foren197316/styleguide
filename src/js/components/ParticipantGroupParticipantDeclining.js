@@ -4,6 +4,7 @@ var React = require('react/addons');
 var ReactBootstrap = require('react-bootstrap');
 var RadioGroup = require('react-radio-group');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+var $ = require('jquery');
 
 var ParticipantGroupParticipantDecliningForm = React.createClass({displayName: 'ParticipantGroupParticipantDecliningForm',
   getInitialState: function () {

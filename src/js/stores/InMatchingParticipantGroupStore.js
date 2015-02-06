@@ -1,149 +1,18 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
 var actions = require('../actions');
-var globals = require('../globals');
-var parseIntBase10 = globals.parseIntBase10;
-var calculateAgeAtArrival = globals.calculateAgeAtArrival;
-var dateFormatYDM = globals.dateFormatYDM;
-var moment = require('moment');
+var $ = require('jquery');
 
-var InMatchingParticipantGroupStore = Reflux.createStore({
+module.exports = Reflux.createStore({
   resourceName: 'inMatchingParticipantGroups',
   listenables: actions.InMatchingParticipantGroupActions,
-  filterIds: {},
 
-  initPostAjaxLoad: function () {
-    this.data = this.data.map(function (inMatchingParticipantGroup) {
-      inMatchingParticipantGroup.participant_names = inMatchingParticipantGroup.participants.mapAttribute('name').join(',');
-      inMatchingParticipantGroup.participant_start_dates = inMatchingParticipantGroup.participants.map(function (participant) {
-        return moment(participant.arrival_date, dateFormatYDM).add(2, 'days');
-      });
-      inMatchingParticipantGroup.participant_finish_dates = inMatchingParticipantGroup.participants.map(function (participant) {
-        return moment(participant.departure_date, dateFormatYDM).add(2, 'days');
-      });
-      return inMatchingParticipantGroup;
-    });
-
-    this.initFilters();
+  reload: function (data) {
+    this.data = data[this.resourceName.camelCaseToUnderscore()];
+    // actions.loadFromInMatchingParticipantGroups(this.data);
     this.trigger(this.data);
-  },
-
-  initFilters: function () {
-    this.listenTo(actions.AgeAtArrivalActions.filterByIds, this.filterAgeAtArrival);
-    this.listenTo(actions.ParticipantGroupNameActions.filterByIds, this.filterParticipantGroupNames);
-    this.listenTo(actions.GenderActions.filterByIds, this.filterGenders);
-    this.listenTo(actions.EnglishLevelActions.filterByIds, this.filterEnglishLevels);
-    this.listenTo(actions.PositionActions.filterByIds, this.filterPositions);
-    this.listenTo(actions.CountryActions.filterByIds, this.filterCountries);
-
-    this.trigger(this.data);
-  },
-
-  filterAgeAtArrival: function (ageAtArrivals) {
-    var filterKey = 'ageAtArrivals';
-
-    if (ageAtArrivals.length === 2 || ageAtArrivals.length === 0) {
-      this.filterIds[filterKey] = null;
-    } else {
-      var compareFunc;
-
-      switch (ageAtArrivals[0]) {
-        case '21_and_over':
-          compareFunc = function (prev, curr) {
-            return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) >= 21;
-          };
-          break;
-        case 'under_21':
-          compareFunc = function (prev, curr) {
-            return prev || calculateAgeAtArrival(curr.arrival_date, curr.date_of_birth) < 21;
-          };
-          break;
-      }
-
-      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
-        if (inMatchingParticipantGroup.participants.reduce(compareFunc, false)) {
-          ids.push(inMatchingParticipantGroup.id);
-        }
-        return ids;
-      }, []);
-    }
-
-    this.emitFilteredData();
-  },
-
-  filterParticipantGroupNames: function (participantGroupNames) {
-    this.genericIdFilter('participantGroupNames', participantGroupNames, function (inMatchingParticipantGroup) {
-      return participantGroupNames.indexOf(inMatchingParticipantGroup.name) >= 0;
-    });
-  },
-
-  filterGenders: function (genders) {
-    this.genericIdFilter('genders', genders, function (inMatchingParticipantGroup) {
-      return genders.intersects(inMatchingParticipantGroup.participants.mapAttribute('gender'));
-    });
-  },
-
-  filterEnglishLevels: function (englishLevels) {
-    var intEnglishLevels = englishLevels.map(parseIntBase10);
-
-    this.genericIdFilter('englishLevels', intEnglishLevels, function (inMatchingParticipantGroup) {
-      return intEnglishLevels.intersects(inMatchingParticipantGroup.participants.mapAttribute('english_level'));
-    });
-  },
-
-  filterPositions: function (positionIds) {
-    var intPositionIds = positionIds.map(parseIntBase10);
-
-    this.genericIdFilter('positions', intPositionIds, function (inMatchingParticipantGroup) {
-      return intPositionIds.intersects(inMatchingParticipantGroup.participants.mapAttribute('position_ids').flatten());
-    });
-  },
-
-  filterCountries: function (countryNames) {
-    this.genericIdFilter('countries', countryNames, function (inMatchingParticipantGroup) {
-      return countryNames.intersects(inMatchingParticipantGroup.participants.mapAttribute('country_name'));
-    });
-  },
-
-  onTogglePreviousParticipation: function (toggle) {
-    var filterKey = 'previousParticipation';
-    if (toggle) {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
-        var hasHadJ1 = inMatchingParticipantGroup.participants.reduce(function (prev, curr) {
-          return prev || curr.has_had_j1;
-        }, false);
-
-        if (hasHadJ1) {
-          ids.push(inMatchingParticipantGroup.id);
-        }
-        return ids;
-      }, []);
-    } else {
-      this.filterIds[filterKey] = null;
-    }
-
-    this.emitFilteredData();
-  },
-
-  onToggleInternationalDriversLicense: function (toggle) {
-    var filterKey = 'internationalDriversLicense';
-    if (toggle) {
-      this.filterIds[filterKey] = this.data.reduce(function (ids, inMatchingParticipantGroup) {
-        var hasInternationalDriversLicense = inMatchingParticipantGroup.participants.reduce(function (prev, curr) {
-          return prev || curr.has_international_drivers_license;
-        }, false);
-
-        if (hasInternationalDriversLicense) {
-          ids.push(inMatchingParticipantGroup.id);
-        }
-        return ids;
-      }, []);
-    } else {
-      this.filterIds[filterKey] = null;
-    }
-
-    this.emitFilteredData();
   },
 
   onOffer: function (inMatchingParticipantGroup, employer, enrollment, onReviewExpiresOn, onComplete) {
@@ -166,5 +35,3 @@ var InMatchingParticipantGroupStore = Reflux.createStore({
     });
   }
 });
-
-module.exports = InMatchingParticipantGroupStore;

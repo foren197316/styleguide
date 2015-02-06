@@ -4,6 +4,7 @@ var Reflux = require('reflux');
 var actions = require('../actions');
 var parseIntBase10 = require('../globals').parseIntBase10;
 var EmployerStore = require('./EmployerStore');
+var $ = require('jquery');
 
 var JobOfferGroupStore = Reflux.createStore({
   resourceName: 'jobOfferGroups',

@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
@@ -6,10 +7,6 @@ var actions = require('../actions');
 var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
 var Alert = require('./Alert');
 var InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel');
-var SearchFilter = require('./SearchFilter');
-var BooleanFilter = require('./BooleanFilter');
-var DateRangeFilter = require('./DateRangeFilter');
-var CheckBoxFilter = require('./CheckBoxFilter');
 
 var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
 var EmployerStore = require('../stores/EmployerStore');
@@ -20,6 +17,15 @@ var GenderStore = require('../stores/GenderStore');
 var EnglishLevelStore = require('../stores/EnglishLevelStore');
 var PositionStore = require('../stores/PositionStore');
 var CountryStore = require('../stores/CountryStore');
+
+var AjaxSearchForm = require('./AjaxSearchForm');
+var AjaxSearchFilter = require('./AjaxSearchFilter');
+var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
+var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
+var AjaxBooleanFilter = require('./AjaxBooleanFilter');
+var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
+
+var Base64 = require('../base64');
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
@@ -36,10 +42,25 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
   componentDidMount: function() {
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
     actions.setUrls(this.props.urls);
-    actions.InMatchingParticipantGroupActions.ajaxLoad(actions.loadFromInMatchingParticipantGroups);
+
+    var query;
+    var hash = global.location.hash;
+    if (hash.length > 1) {
+      try {
+        query = Base64.urlsafeDecode64(hash.slice(1));
+      } catch (e) {}
+    }
+
+    if (query != null) {
+      actions.InMatchingParticipantGroupActions.ajaxSearch(query, actions.loadFromInMatchingParticipantGroups);
+    } else {
+      actions.InMatchingParticipantGroupActions.ajaxSearch(actions.loadFromInMatchingParticipantGroups);
+    }
+
     actions.EmployerActions.ajaxLoadSingleton();
     actions.PositionActions.ajaxLoad();
     actions.ProgramActions.ajaxLoad();
+    actions.CountryActions.ajaxLoad();
   },
 
   intercom: function (employers) {
@@ -60,16 +81,18 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'Search', searchOn: 'participant_names', actions: actions.InMatchingParticipantGroupActions}),
-          CheckBoxFilter({title: 'Age at Arrival', store: AgeAtArrivalStore, actions: actions.AgeAtArrivalActions}),
-          CheckBoxFilter({title: 'Group', store: ParticipantGroupNameStore, actions: actions.ParticipantGroupNameActions}),
-          CheckBoxFilter({title: 'Gender', store: GenderStore, actions: actions.GenderActions}),
-          CheckBoxFilter({title: 'English Level', store: EnglishLevelStore, actions: actions.EnglishLevelActions}),
-          DateRangeFilter({searchFrom: 'participant_start_dates', searchTo: 'participant_finish_dates', actions: actions.InMatchingParticipantGroupActions}),
-          CheckBoxFilter({title: 'Positions', store: PositionStore, actions: actions.PositionActions}),
-          CheckBoxFilter({title: 'Country', store: CountryStore, actions: actions.CountryActions}),
-          BooleanFilter({title: 'Previous Participation', label: 'Returning Participant', action: actions.InMatchingParticipantGroupActions.togglePreviousParticipation}),
-          BooleanFilter({title: 'Drivers License', label: 'International Drivers License', action: actions.InMatchingParticipantGroupActions.toggleInternationalDriversLicense})
+          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
+            AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
+            AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
+            AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
+            AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
+            AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
+            AjaxDateRangeFilter({searchFrom: 'arrival_date', searchTo: 'departure_date'}),
+            AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
+            AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
+            AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
+            AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', fieldName: 'has_international_drivers_license', bool: true})
+          )
         ),
         React.DOM.div({className: 'col-md-9'},
           function () {

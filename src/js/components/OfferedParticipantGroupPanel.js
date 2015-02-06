@@ -8,6 +8,7 @@ var EmployerHeader = require('./EmployerHeader');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var OfferedParticipantGroupParticipant = require('./OfferedParticipantGroupParticipant');
 var Alert = require('./Alert');
+var $ = require('jquery');
 
 var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {

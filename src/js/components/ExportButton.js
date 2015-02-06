@@ -12,7 +12,7 @@ var HiddenIdInput = React.createClass({displayName: 'HiddenIdInput',
   }
 });
 
-var ExportButton = React.createClass({displayName: 'ExportButton',
+module.exports = React.createClass({displayName: 'ExportButton',
   propTypes: {
     ids: React.PropTypes.array.isRequired,
     url: React.PropTypes.string.isRequired
@@ -31,5 +31,3 @@ var ExportButton = React.createClass({displayName: 'ExportButton',
     );
   }
 });
-
-module.exports = ExportButton;

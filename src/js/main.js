@@ -2,6 +2,7 @@
 
 var actions = require('./actions');
 var Reflux = require('reflux');
+var $ = require('jquery');
 
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -70,7 +71,7 @@ Array.prototype.mapAttribute = function (attribute) {
 
 Array.prototype.notEmpty = function () {
   return this.filter(function (entry) {
-    return entry !== undefined && entry !== null;
+    return entry != null;
   });
 };
 
@@ -169,6 +170,36 @@ Reflux.StoreMethods.onAjaxLoad = function () {
   }
 };
 
+Reflux.StoreMethods.onAjaxSearch = function () {
+  var args = arguments;
+  var query = typeof args[0] === 'string' ? args[0] : null;
+
+  var doAjaxLoad = function (urls) {
+    $.ajax({
+      url: urls[this.resourceName],
+      type: 'POST',
+      data: query,
+      success: function (response) {
+        if (query != null) {
+          [].shift.call(args);
+        }
+        [].unshift.call(args, response);
+        this.onSearchSuccess.apply(this, args);
+      }.bind(this),
+      error: this.onSearchError.bind(this)
+    });
+  }.bind(this);
+
+  if (UrlStore.urls != null) {
+    doAjaxLoad(UrlStore.urls);
+  } else {
+    this.urlListener = this.listenTo(actions.setUrls, function (urls) {
+      this.urlListener.stop();
+      doAjaxLoad(urls);
+    }.bind(this));
+  }
+};
+
 Reflux.StoreMethods.onAjaxLoadSingleton = function () {
   this.onSetSingleton();
   var args = arguments;
@@ -207,10 +238,42 @@ Reflux.StoreMethods.onLoadError = function () {
   this.trigger(this.data);
 };
 
+Reflux.StoreMethods.onSearchSuccess = function (response) {
+  var args = arguments;
+
+  this.data = response[this.resourceName.camelCaseToUnderscore()];
+
+  if (!(this.data instanceof Array)) {
+    this.data = [this.data].notEmpty();
+  }
+
+  this.permission = true;
+
+  if (typeof this.initPostAjaxLoad === 'function') {
+    [].shift.call(args);
+    [].unshift.call(args, this.data);
+    this.initPostAjaxLoad.apply(this, args);
+  } else {
+    this.trigger(this.data);
+  }
+
+  if (args.length > 1) {
+    for (var i=1; i<args.length; i++) {
+      args[i](this.data);
+    }
+  }
+};
+
+Reflux.StoreMethods.onSearchError = function () {
+  this.data = [];
+  this.permission = false;
+  this.trigger(this.data);
+};
+
 Reflux.StoreMethods.genericIdFilter = function (filterKey, filterIds, condition) {
   this.filterIds = this.filterIds || {};
 
-  if (filterIds === undefined || filterIds === null || filterIds.length === 0) {
+  if (filterIds == null || filterIds.length === 0) {
     this.filterIds[filterKey] = null;
   } else {
     this.filterIds[filterKey] = this.data.reduce(function (ids, entry) {

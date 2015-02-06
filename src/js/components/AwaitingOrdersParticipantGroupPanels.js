@@ -4,6 +4,7 @@ var React = require('react/addons');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var Spinner = require('./Spinner');
+var $ = require('jquery');
 
 var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanel',
   propTypes: {

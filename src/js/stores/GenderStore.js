@@ -1,9 +1,10 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
 var GenderActions = require('../actions').GenderActions;
 
-var GenderStore = Reflux.createStore({
+module.exports = Reflux.createStore({
   listenables: GenderActions,
   permission: true,
 
@@ -14,5 +15,3 @@ var GenderStore = Reflux.createStore({
     ];
   }
 });
-
-module.exports = GenderStore;

@@ -1,27 +1,25 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
 var actions = require('../actions');
 
-var ParticipantGroupNameStore = Reflux.createStore({
+module.exports = Reflux.createStore({
   listenables: actions.ParticipantGroupNameActions,
-  permission: false,
-
+  permission: true,
   init: function () {
-    this.listenTo(actions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
-  },
+    var names = [
+      'Couple',
+      'Individual',
+      'Friends',
+      'Cousins',
+      'Siblings'
+    ];
 
-  onLoadFromInMatchingParticipantGroups: function (inMatchingParticipantGroups) {
-    this.permission = true;
-
-    this.data = inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-      return inMatchingParticipantGroup.name;
-    }).sort().uniq().map(function (name) {
+    this.data = names.map(function (name) {
       return { id: name, name: name };
     });
 
     this.trigger(this.data);
   }
 });
-
-module.exports = ParticipantGroupNameStore;
