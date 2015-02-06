@@ -87,7 +87,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
             AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
             AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
-            AjaxDateRangeFilter({searchFrom: 'arrival_date', searchTo: 'departure_date'}),
+            AjaxDateRangeFilter({searchFrom: 'arrival_date_plus_two', searchTo: 'departure_date'}),
             AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
             AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
             AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
