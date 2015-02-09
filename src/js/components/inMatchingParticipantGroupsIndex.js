@@ -27,17 +27,23 @@ var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
 
 var query = require('../query');
 var Pagination = require('./Pagination');
+var Spinner = require('./Spinner');
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, 'inMatchingParticipantGroups'),
     Reflux.connect(EmployerStore, 'employer'),
     Reflux.connect(ProgramStore, 'programs'),
-    RenderLoadedMixin('inMatchingParticipantGroups', 'employer', 'programs')
+    RenderLoadedMixin('inMatchingParticipantGroups', 'employer', 'programs'),
+    React.addons.LinkedStateMixin
   ],
 
   statics: {
     noResultsMessage: 'There are currently no participants available who match your criteria. Check back soon!'
+  },
+
+  getInitialState: function () {
+    return { formSending: false };
   },
 
   componentDidMount: function() {
@@ -69,7 +75,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, actions: actions.InMatchingParticipantGroupActions },
+          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, actions: actions.InMatchingParticipantGroupActions, formSending: this.linkState('formSending') },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
             AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
             AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
@@ -85,29 +91,37 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
         ),
         React.DOM.div({className: 'col-md-9'},
           function () {
-            if (this.state.inMatchingParticipantGroups.length > 0) {
-              return React.DOM.div({className: 'row'},
-                React.DOM.div({className: 'col-md-12'},
-                  React.DOM.div({id: 'participant-group-panels'},
-                    this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-                      var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
-                      var enrollment = employer.enrollments.findById(program.id, 'program_id');
+            if (this.state.formSending) {
+              return Spinner(null);
+            } else if (this.state.inMatchingParticipantGroups.length > 0) {
+              return React.DOM.div(null,
+                React.DOM.div({className: 'row'},
+                  React.DOM.div({className: 'col-md-12'},
+                    React.DOM.div({id: 'participant-group-panels'},
+                      this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+                        var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
+                        var enrollment = employer.enrollments.findById(program.id, 'program_id');
 
-                      return InMatchingParticipantGroupPanel({
-                                employer: employer,
-                                enrollment: enrollment,
-                                inMatchingParticipantGroup: inMatchingParticipantGroup,
-                                footerName: inMatchingParticipantGroup.name + ' - ' + program.name,
-                                key: inMatchingParticipantGroup.id});
-                    }, this)
+                        return InMatchingParticipantGroupPanel({
+                                  employer: employer,
+                                  enrollment: enrollment,
+                                  inMatchingParticipantGroup: inMatchingParticipantGroup,
+                                  footerName: inMatchingParticipantGroup.name + ' - ' + program.name,
+                                  key: inMatchingParticipantGroup.id});
+                      }, this)
+                    )
+                  )
+                ),
+                React.DOM.div({className: 'row'},
+                  React.DOM.div({className: 'col-md-12'},
+                    pageCount > 1 ? Pagination({ pageCount: pageCount, page: page, actions: actions.InMatchingParticipantGroupActions }) : null
                   )
                 )
               );
             } else {
               return Alert({type: 'warning', message: InMatchingParticipantGroupsIndex.noResultsMessage, closeable: false});
             }
-          }.bind(this)(),
-          pageCount > 1 ? Pagination({ pageCount: pageCount, page: page, actions: actions.InMatchingParticipantGroupActions }) : null
+          }.bind(this)()
         )
       )
     );

@@ -7,18 +7,13 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
     url: React.PropTypes.string.isRequired,
     actions: React.PropTypes.object.isRequired,
-    includedStores: React.PropTypes.array
+    includedStores: React.PropTypes.array,
+    formSending: React.PropTypes.object.isRequired
   },
 
   getDefaultProps: function () {
     return {
       includedStores: []
-    };
-  },
-
-  getInitialState: function () {
-    return {
-      sending: false
     };
   },
 
@@ -28,7 +23,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
     }
 
     var data = [];
-    this.setState({ sending: true });
+    this.props.formSending.requestChange(true);
 
     for (var i in this.refs) {
       if (this.refs.hasOwnProperty(i)) {
@@ -41,7 +36,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
     }).join('&');
 
     this.props.actions.ajaxSearch(data, function () {
-      this.setState({ sending: false });
+      this.props.formSending.requestChange(false);
     }.bind(this));
   },
 
@@ -50,7 +45,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
       className: 'btn btn-block btn-default',
       type: 'submit',
       style: { marginBottom: '15px'},
-      disabled: this.state.sending ? 'disabled' : ''
+      disabled: this.props.formSending.value ? 'disabled' : ''
     };
 
     return (
