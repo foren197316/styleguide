@@ -105,6 +105,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                                 employer: employer,
                                 enrollment: enrollment,
                                 inMatchingParticipantGroup: inMatchingParticipantGroup,
+                                footerName: inMatchingParticipantGroup.name + ' - ' + program.name,
                                 key: inMatchingParticipantGroup.id});
                     }, this)
                   )

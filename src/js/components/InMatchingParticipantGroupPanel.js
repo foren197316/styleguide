@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
@@ -13,7 +14,8 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
   propTypes: {
     employer: React.PropTypes.object.isRequired,
     enrollment: React.PropTypes.object.isRequired,
-    inMatchingParticipantGroup: React.PropTypes.object.isRequired
+    inMatchingParticipantGroup: React.PropTypes.object.isRequired,
+    footerName: React.PropTypes.string.isRequired
   },
 
   getInitialState: function() {
@@ -74,10 +76,11 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
   },
 
   render: function() {
-    var action,
-        legalese,
-        footerName = this.props.inMatchingParticipantGroup.name,
-        participantPluralized = this.props.inMatchingParticipantGroup.participants.length > 1 ? 'participants' : 'participant';
+    var action;
+    var legalese;
+    var participantPluralized = this.props.inMatchingParticipantGroup.participants.length > 1 ?
+      'participants' :
+      'participant';
 
     if (this.state.status) {
       var status = this.state.status;
@@ -109,7 +112,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
               return ParticipantGroupParticipant({key: participant.id, participant: participant});
             })
           ),
-          ParticipantGroupPanelFooter({name: footerName},
+          ParticipantGroupPanelFooter({name: this.props.footerName},
             action,
             legalese
           )
