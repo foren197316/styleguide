@@ -1,7 +1,7 @@
 /* @flow */
 'use strict';
 
-var React = require('react');
+var React = require('react/addons');
 var query = require('../query');
 
 module.exports = React.createClass({displayName: 'Pagination',
@@ -26,7 +26,7 @@ module.exports = React.createClass({displayName: 'Pagination',
     var queryWithPage;
     var originalQuery = query.getQuery();
     if (originalQuery && originalQuery.length > 0) {
-      queryWithPage = queryWithPage.replace(/&?\bpage=\d+\b/i, '') + '&page=' + page;
+      queryWithPage = originalQuery.replace(/&?\bpage=\d+\b/i, '') + '&page=' + page;
     } else {
       queryWithPage = 'page=' + page;
     }
@@ -41,6 +41,10 @@ module.exports = React.createClass({displayName: 'Pagination',
       );
     }
 
-    return React.DOM.div({className: 'btn-group'}, buttons);
+    return React.DOM.div({className: 'row'},
+      React.DOM.div({className: 'col-xs-12'},
+        React.DOM.div({className: 'btn-group pull-right'}, buttons)
+      )
+    );
   }
 });

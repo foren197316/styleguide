@@ -24,7 +24,7 @@ module.exports = {
   getCurrentPage: function () {
     var matches;
     if ((matches = pageRegex.exec(getQuery())) != null) {
-      return matches[1];
+      return parseInt(matches[1]) || 1;
     }
     return 1;
   }
