@@ -19,15 +19,10 @@ $.ajaxPrefilter(function(options, originalOptions, xhr) {
   // Copyright:    Gavin Kistner, !@phrogz.net
   // License:      http://phrogz.net/js/_ReuseLicense.txt
   $.fn.bindDelayed = function(event,delay,func){
-    var xhr, timer;
+    var timer;
     return this.on(event,function(){
       clearTimeout(timer);
-      if (xhr) {
-        xhr.abort();
-      }
-      timer = setTimeout(function(){
-        xhr = func();
-      },delay);
+      timer = setTimeout(func, delay);
     });
   };
 })($);
@@ -199,7 +194,11 @@ Reflux.StoreMethods.onAjaxLoad = function () {
 };
 
 Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
-  return $.ajax({
+  if (this.xhr) {
+    this.xhr.abort();
+  }
+
+  this.xhr = $.ajax({
     url: UrlStore.urls[this.resourceName],
     type: 'POST',
     data: query,
@@ -257,7 +256,7 @@ Reflux.StoreMethods.onLoadError = function () {
 
 Reflux.StoreMethods.onSearchSuccess = function (response) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
-  this.pageCount = response.meta.pageCount;
+  this.meta = response.meta;
 
   if (!(this.data instanceof Array)) {
     this.data = [this.data].notEmpty();

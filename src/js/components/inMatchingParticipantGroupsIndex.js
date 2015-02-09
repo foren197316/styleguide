@@ -70,12 +70,14 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     var employer = this.state.employer[0];
 
     var page = query.getCurrentPage();
-    var pageCount = InMatchingParticipantGroupStore.pageCount;
+    var pageCount = InMatchingParticipantGroupStore.meta.pageCount;
+    var recordCount = InMatchingParticipantGroupStore.meta.recordCount;
+    var formSendingLink = this.linkState('formSending');
 
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, actions: actions.InMatchingParticipantGroupActions, formSending: this.linkState('formSending') },
+          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
             AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
             AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
@@ -106,7 +108,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                                   employer: employer,
                                   enrollment: enrollment,
                                   inMatchingParticipantGroup: inMatchingParticipantGroup,
-                                  footerName: inMatchingParticipantGroup.name + ' - ' + program.name,
+                                  program: program,
                                   key: inMatchingParticipantGroup.id});
                       }, this)
                     )
@@ -114,7 +116,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                 ),
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
-                    pageCount > 1 ? Pagination({ pageCount: pageCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: this.linkState('formSending') }) : null
+                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink })
                   )
                 )
               );
