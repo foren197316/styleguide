@@ -30,8 +30,14 @@ describe('AjaxSearchForm', function () {
       render: function(){return React.DOM.div(null);}
     });
 
+    var actions = {
+      ajaxSearch: function (data, callback) {
+        callback();
+      }
+    };
+
     var ajaxSearchForm = TestUtils.renderIntoDocument(
-      AjaxSearchForm({ url: '', reloadAction: jest.genMockFn() },
+      AjaxSearchForm({ url: '', actions: actions },
         child(null)
       )
     );
@@ -43,7 +49,6 @@ describe('AjaxSearchForm', function () {
     var expectedData = query;
     var expectedPath = '#' + Base64.urlsafeEncode64(expectedData);
 
-    expect($.ajax).toBeCalled();
     expect(global.history.pushState).toBeCalledWith(expectedData, '', expectedPath);
   });
 });

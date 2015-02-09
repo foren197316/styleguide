@@ -9,6 +9,7 @@ module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
   mixins: [UrlQueryMixin],
 
   propTypes: {
+    title: React.PropTypes.string.isRequired,
     searchFrom: React.PropTypes.string.isRequired,
     searchTo: React.PropTypes.string.isRequired,
     submit: React.PropTypes.func.isRequired

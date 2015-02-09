@@ -25,7 +25,8 @@ var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
 var AjaxBooleanFilter = require('./AjaxBooleanFilter');
 var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
 
-var Base64 = require('../base64');
+var query = require('../query');
+var Pagination = require('./Pagination');
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
@@ -43,20 +44,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
     actions.setUrls(this.props.urls);
 
-    var query;
-    var hash = global.location.hash;
-    if (hash.length > 1) {
-      try {
-        query = Base64.urlsafeDecode64(hash.slice(1));
-      } catch (e) {}
-    }
-
-    if (query != null) {
-      actions.InMatchingParticipantGroupActions.ajaxSearch(query, actions.loadFromInMatchingParticipantGroups);
-    } else {
-      actions.InMatchingParticipantGroupActions.ajaxSearch(actions.loadFromInMatchingParticipantGroups);
-    }
-
+    actions.InMatchingParticipantGroupActions.ajaxSearch(query.getQuery());
     actions.EmployerActions.ajaxLoadSingleton();
     actions.PositionActions.ajaxLoad();
     actions.ProgramActions.ajaxLoad();
@@ -75,17 +63,20 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
   renderLoaded: function () {
     var employer = this.state.employer[0];
 
+    var page = query.getCurrentPage();
+    var pageCount = InMatchingParticipantGroupStore.pageCount;
+
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
+          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, actions: actions.InMatchingParticipantGroupActions },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
             AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
             AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
             AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
             AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
-            AjaxDateRangeFilter({searchFrom: 'arrival_date_plus_two', searchTo: 'departure_date'}),
+            AjaxDateRangeFilter({title: 'Availability Date', searchFrom: 'arrival_date_plus_two', searchTo: 'departure_date'}),
             AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
             AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
             AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
@@ -115,7 +106,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
             } else {
               return Alert({type: 'warning', message: InMatchingParticipantGroupsIndex.noResultsMessage, closeable: false});
             }
-          }.bind(this)()
+          }.bind(this)(),
+          pageCount > 1 ? Pagination({ pageCount: pageCount, page: page, actions: actions.InMatchingParticipantGroupActions }) : null
         )
       )
     );

@@ -3,6 +3,7 @@
 var actions = require('./actions');
 var Reflux = require('reflux');
 var $ = require('jquery');
+var Base64 = require('./base64');
 
 $.ajaxPrefilter(function(options, originalOptions, xhr) {
   if (!options.crossDomain) {
@@ -179,21 +180,21 @@ Reflux.StoreMethods.onAjaxLoad = function () {
   }
 };
 
-Reflux.StoreMethods.onAjaxSearch = function () {
-  var args = arguments;
-  var query = typeof args[0] === 'string' ? args[0] : null;
-
+Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
   var doAjaxLoad = function (urls) {
     $.ajax({
       url: urls[this.resourceName],
       type: 'POST',
       data: query,
       success: function (response) {
-        if (query != null) {
-          [].shift.call(args);
+        if (query) {
+          global.history.pushState(query, '', '#' + Base64.urlsafeEncode64(query));
         }
-        [].unshift.call(args, response);
-        this.onSearchSuccess.apply(this, args);
+
+        if (typeof callback === 'function') {
+          callback(response);
+        }
+        this.onSearchSuccess(response);
       }.bind(this),
       error: this.onSearchError.bind(this)
     });
@@ -248,29 +249,15 @@ Reflux.StoreMethods.onLoadError = function () {
 };
 
 Reflux.StoreMethods.onSearchSuccess = function (response) {
-  var args = arguments;
-
   this.data = response[this.resourceName.camelCaseToUnderscore()];
+  this.pageCount = response.meta.pageCount;
 
   if (!(this.data instanceof Array)) {
     this.data = [this.data].notEmpty();
   }
 
   this.permission = true;
-
-  if (typeof this.initPostAjaxLoad === 'function') {
-    [].shift.call(args);
-    [].unshift.call(args, this.data);
-    this.initPostAjaxLoad.apply(this, args);
-  } else {
-    this.trigger(this.data);
-  }
-
-  if (args.length > 1) {
-    for (var i=1; i<args.length; i++) {
-      args[i](this.data);
-    }
-  }
+  this.trigger(this.data);
 };
 
 Reflux.StoreMethods.onSearchError = function () {

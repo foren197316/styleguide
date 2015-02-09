@@ -9,12 +9,6 @@ module.exports = Reflux.createStore({
   resourceName: 'inMatchingParticipantGroups',
   listenables: actions.InMatchingParticipantGroupActions,
 
-  reload: function (data) {
-    this.data = data[this.resourceName.camelCaseToUnderscore()];
-    // actions.loadFromInMatchingParticipantGroups(this.data);
-    this.trigger(this.data);
-  },
-
   onOffer: function (inMatchingParticipantGroup, employer, enrollment, onReviewExpiresOn, onComplete) {
     $.ajax({
       url: '/on_review_participant_groups.json',

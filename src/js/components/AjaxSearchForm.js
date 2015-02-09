@@ -2,13 +2,11 @@
 'use strict';
 
 var React = require('react/addons');
-var $ = require('jquery');
-var Base64 = require('../base64');
 
 module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
     url: React.PropTypes.string.isRequired,
-    reloadAction: React.PropTypes.func.isRequired,
+    actions: React.PropTypes.object.isRequired,
     includedStores: React.PropTypes.array
   },
 
@@ -42,17 +40,9 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
       return datum != null;
     }).join('&');
 
-    $.ajax({
-      url: this.props.url,
-      type: 'POST',
-      data: data,
-      dataType: 'json',
-      success: function (response) {
-        global.history.pushState(data, '', '#' + Base64.urlsafeEncode64(data));
-        this.setState({ sending: false });
-        this.props.reloadAction(response);
-      }.bind(this)
-    });
+    this.props.actions.ajaxSearch(data, function () {
+      this.setState({ sending: false });
+    }.bind(this));
   },
 
   render: function () {
