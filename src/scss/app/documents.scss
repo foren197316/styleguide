@@ -1,0 +1,173 @@
+@charset "UTF-8";
+
+@import "../interexchange-variables";
+@import "../bootstrap-variables";
+
+.panel-documents {
+  .title {
+    display: block;
+    float: left;
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: 18px;
+    vertical-align: middle;
+  }
+
+  .result, .actions {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+
+    .btn {
+      margin-left: 5px;
+    }
+  }
+
+  .attachments {
+    clear: both;
+    list-style: none;
+    padding: 0 0 10px 0;
+  }
+
+  .result {
+    display: block;
+    height: 30px;
+
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: bold;
+
+    &.success, &.failure {
+      border-radius: 4px;
+      padding: 0 10px;
+    }
+
+    &.success {
+      color: $state-success-text;
+      background-color: $state-success-bg;
+    }
+
+    &.failure {
+      color: $state-danger-text;
+      background-color: $state-danger-bg;
+    }
+
+    &.pending {
+      color: $state-warning-text;
+
+      i {
+        @extend .icon-large;
+        @extend .icon-waiting;
+        position: relative;
+        top: 3px;
+      }
+    }
+  }
+
+  .alert.alert-danger {
+    margin-bottom: 0;
+    h4 {
+      margin-bottom: 0;
+      small {
+        color: $state-danger-text;
+      }
+    }
+  }
+
+  .result {
+    &.offset,
+    &.large-offset {
+      top: 10px !important;
+      height: 35px !important;
+    }
+
+    &.offset {
+      right: 70px !important;
+    }
+
+    &.large-offset {
+      right: 120px !important;
+    }
+
+    span {
+      display: block;
+      width: 100%;
+      float: left;
+
+      text-align: right;
+      line-height: 17px;
+
+      &:last-child {
+        clear: left;
+        font: {
+          size: 12px;
+          weight: normal;
+        }
+      }
+    }
+  }
+}
+
+.documents-form {
+  &.is-other-document {
+    .other-document {
+      display: block;
+    }
+  }
+
+  &.is-needs-translation {
+    .needs-translation {
+      display: block;
+    }
+  }
+
+  &.isnt-in-english {
+    .attachment-translation {
+      display: block;
+      margin-top: 10px;
+    }
+  }
+
+  &.is-instructions {
+    .document-instructions {
+      display: block;
+    }
+  }
+
+  .other-document, .needs-translation, .attachment-translation, .document-instructions, .has-passport, .has-no-passport {
+    display: none;
+  }
+
+  .select2-container {
+    margin-left: 0;
+  }
+
+  .fileurl, .fileremove {
+    display: block;
+    float: left;
+  }
+
+  .fileremove {
+    color: $state-danger-text;
+    padding-left: 10px;
+    padding-right: 40px;
+    margin-left: 15px;
+  }
+}
+
+.passport-form {
+  &.is-has-passport {
+    .has-passport {
+      display: block;
+    }
+  }
+
+  &.isnt-has-passport {
+    .has-no-passport {
+      display: block;
+    }
+  }
+}
