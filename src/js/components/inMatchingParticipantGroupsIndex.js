@@ -80,6 +80,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
         React.DOM.div({className: 'col-md-3'},
           AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
+            AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
             AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
             AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
