@@ -11,6 +11,7 @@ module.exports = React.createClass({displayName: 'AjaxBooleanFilter',
     title: React.PropTypes.string.isRequired,
     label: React.PropTypes.string.isRequired,
     fieldName: React.PropTypes.string.isRequired,
+    submit: React.PropTypes.func.isRequired,
     bool: React.PropTypes.bool
   },
 
@@ -32,7 +33,9 @@ module.exports = React.createClass({displayName: 'AjaxBooleanFilter',
 
   onChange: function () {
     var isChecked = !this.state.isChecked;
-    this.setState({ isChecked: isChecked });
+    this.setState({ isChecked: isChecked }, function () {
+      this.props.submit();
+    }.bind(this));
   },
 
   searchField: function () {

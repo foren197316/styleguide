@@ -74,15 +74,13 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
 
   renderLoaded: function () {
     var employer = this.state.employer[0];
-    var programIds = this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-      return inMatchingParticipantGroup.participants[0].program_id;
-    }).sort().uniq();
 
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
           AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, reloadAction: InMatchingParticipantGroupStore.reload },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
+            AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
             AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
             AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
             AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
@@ -96,45 +94,24 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
         ),
         React.DOM.div({className: 'col-md-9'},
           function () {
-            if (programIds.length > 0) {
-              return programIds.map(function (programId) {
-                var program = this.state.programs.findById(programId);
-                var enrollment = employer.enrollments.findById(program.id, 'program_id');
-                var participantCount = 0;
-                var inMatchingParticipantGroups = this.state.inMatchingParticipantGroups.filter(function (inMatchingParticipantGroup) {
-                  if (inMatchingParticipantGroup.participants[0].program_id === program.id) {
-                    participantCount += inMatchingParticipantGroup.participants.length;
-                    return true;
-                  }
-                  return false;
-                });
+            if (this.state.inMatchingParticipantGroups.length > 0) {
+              return React.DOM.div({className: 'row'},
+                React.DOM.div({className: 'col-md-12'},
+                  React.DOM.div({id: 'participant-group-panels'},
+                    this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
+                      var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
+                      var enrollment = employer.enrollments.findById(program.id, 'program_id');
 
-                return (
-                  React.DOM.div({className: 'programs', key: 'in_matching_participant_group_program_'+program.id},
-                    React.DOM.div({className: 'row'},
-                      React.DOM.div({className: 'col-md-12'},
-                        React.DOM.h2({className: 'page-header'},
-                          program.name,
-                          React.DOM.small({className: 'pull-right'}, participantCount, ' Participants')
-                        )
-                      )
-                    ),
-                    React.DOM.div({className: 'row'},
-                      React.DOM.div({className: 'col-md-12'},
-                        React.DOM.div({id: 'participant-group-panels'},
-                          inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-                            return InMatchingParticipantGroupPanel({
-                                      employer: employer,
-                                      enrollment: enrollment,
-                                      inMatchingParticipantGroup: inMatchingParticipantGroup,
-                                      key: inMatchingParticipantGroup.id});
-                          })
-                        )
-                      )
-                    )
+                      return InMatchingParticipantGroupPanel({
+                                employer: employer,
+                                enrollment: enrollment,
+                                inMatchingParticipantGroup: inMatchingParticipantGroup,
+                                footerName: inMatchingParticipantGroup.name + ' - ' + program.name,
+                                key: inMatchingParticipantGroup.id});
+                    }, this)
                   )
-                );
-              }.bind(this));
+                )
+              );
             } else {
               return Alert({type: 'warning', message: InMatchingParticipantGroupsIndex.noResultsMessage, closeable: false});
             }

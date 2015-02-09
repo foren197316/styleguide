@@ -2,40 +2,40 @@
   "files": {
     "css/interexchange-app.min-58400d0d.css": {
       "logical_path": "css/interexchange-app.min.css",
-      "mtime": "2015-02-09T16:02:15.000Z",
+      "mtime": "2015-02-05T15:24:56.000Z",
       "size": 2625,
       "digest": "58400d0d"
     },
-    "css/interexchange.min-afa7dd76.css": {
+    "css/interexchange.min-24b705a6.css": {
       "logical_path": "css/interexchange.min.css",
-      "mtime": "2015-02-09T16:43:06.000Z",
-      "size": 192927,
-      "digest": "afa7dd76"
+      "mtime": "2015-02-06T21:09:58.000Z",
+      "size": 193970,
+      "digest": "24b705a6"
     },
-    "js/interexchange-components.min-4d3951ef.js": {
+    "js/interexchange-components.min-d362beab.js": {
       "logical_path": "js/interexchange-components.min.js",
-      "mtime": "2015-02-09T16:43:10.000Z",
-      "size": 114150,
-      "digest": "4d3951ef"
+      "mtime": "2015-02-09T16:50:10.000Z",
+      "size": 114272,
+      "digest": "d362beab"
     },
     "js/interexchange-development.min-f8ddae2b.js": {
       "logical_path": "js/interexchange-development.min.js",
-      "mtime": "2015-02-09T16:43:08.000Z",
+      "mtime": "2015-02-09T16:50:09.000Z",
       "size": 134,
       "digest": "f8ddae2b"
     },
-    "js/interexchange.min-a5fc7cb6.js": {
+    "js/interexchange.min-e3c844db.js": {
       "logical_path": "js/interexchange.min.js",
-      "mtime": "2015-02-09T16:43:08.000Z",
-      "size": 408092,
-      "digest": "a5fc7cb6"
+      "mtime": "2015-02-09T16:50:09.000Z",
+      "size": 442701,
+      "digest": "e3c844db"
     }
   },
   "assets": {
     "css/interexchange-app.min.css": "css/interexchange-app.min-58400d0d.css",
-    "css/interexchange.min.css": "css/interexchange.min-afa7dd76.css",
-    "js/interexchange-components.min.js": "js/interexchange-components.min-4d3951ef.js",
+    "css/interexchange.min.css": "css/interexchange.min-24b705a6.css",
+    "js/interexchange-components.min.js": "js/interexchange-components.min-d362beab.js",
     "js/interexchange-development.min.js": "js/interexchange-development.min-f8ddae2b.js",
-    "js/interexchange.min.js": "js/interexchange.min-a5fc7cb6.js"
+    "js/interexchange.min.js": "js/interexchange.min-e3c844db.js"
   }
 }

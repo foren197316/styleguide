@@ -11,6 +11,7 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
   propTypes: {
     title: React.PropTypes.string.isRequired,
     fieldName: React.PropTypes.string.isRequired,
+    submit: React.PropTypes.func.isRequired,
     store: React.PropTypes.object.isRequired
   },
 
@@ -21,31 +22,31 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
     };
   },
 
-  setCheckedValues: function () {
-    var ids = this.getValueFromUrl(this.searchField());
-
-    if (ids != null) {
-      this.setState({ ids: ids });
-    }
+  getCheckedValues: function () {
+    return this.getValueFromUrl(this.searchField());
   },
 
   componentDidMount: function () {
     if (!this.state.isLoaded) {
       this.stopListener = this.props.store.listen(function () {
         this.stopListener();
-        this.setState({ isLoaded: true });
-        this.setCheckedValues();
+        var ids = this.getCheckedValues() || [];
+        this.setState({ ids: ids, isLoaded: true });
       }.bind(this));
     } else {
-      this.setCheckedValues();
+      var ids = this.getCheckedValues() || [];
+      this.setState({ ids: ids });
     }
   },
 
   onChange: function () {
-    var ids = $.map($(this.getDOMNode()).find('input[type="checkbox"]:checked'), function (checkbox) {
+    var $domNode = $(this.getDOMNode());
+    var ids = $.map($domNode.find('input[type="checkbox"]:checked'), function (checkbox) {
       return checkbox.getAttribute('value');
     });
-    this.setState({ ids: ids });
+    this.setState({ ids: ids }, function () {
+      this.props.submit();
+    }.bind(this));
   },
 
   searchField: function () {

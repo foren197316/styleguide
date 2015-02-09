@@ -10,7 +10,8 @@ module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
 
   propTypes: {
     searchFrom: React.PropTypes.string.isRequired,
-    searchTo: React.PropTypes.string.isRequired
+    searchTo: React.PropTypes.string.isRequired,
+    submit: React.PropTypes.func.isRequired
   },
 
   getInitialState: function () {
@@ -64,7 +65,9 @@ module.exports = React.createClass({displayName: 'AjaxDateRangeFilter',
       startToDate   : this.date('start_to') || null,
       finishFromDate: this.date('finish_from') || null,
       finishToDate  : this.date('finish_to') || null
-    });
+    }, function () {
+      this.props.submit();
+    }.bind(this));
   },
 
   date: function (name) {

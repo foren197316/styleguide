@@ -25,7 +25,9 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
   },
 
   onSubmit: function (e) {
-    e.preventDefault();
+    if (e != null) {
+      e.preventDefault();
+    }
 
     var data = [];
     this.setState({ sending: true });
@@ -57,19 +59,16 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
     var buttonAttributes = {
       className: 'btn btn-block btn-default',
       type: 'submit',
-      style: { marginBottom: '15px'}
+      style: { marginBottom: '15px'},
+      disabled: this.state.sending ? 'disabled' : ''
     };
-
-    if (this.state.sending) {
-      buttonAttributes.disabled = 'disabled';
-    }
 
     return (
       React.DOM.form({method: '', action: '', onSubmit: this.onSubmit},
-        React.DOM.button(buttonAttributes, 'Search'),
         React.Children.map(this.props.children, function (child, index) {
-          return React.addons.cloneWithProps(child, { ref: 'child' + index });
-        })
+          return React.addons.cloneWithProps(child, { ref: 'child' + index, submit: this.onSubmit });
+        }.bind(this)),
+        React.DOM.button(buttonAttributes, 'Search')
       )
     );
   }
