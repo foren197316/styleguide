@@ -114,7 +114,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                 ),
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
-                    pageCount > 1 ? Pagination({ pageCount: pageCount, page: page, actions: actions.InMatchingParticipantGroupActions }) : null
+                    pageCount > 1 ? Pagination({ pageCount: pageCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: this.linkState('formSending') }) : null
                   )
                 )
               );

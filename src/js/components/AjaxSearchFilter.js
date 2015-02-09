@@ -3,6 +3,7 @@
 
 var React = require('react/addons');
 var UrlQueryMixin = require('../mixins').UrlQueryMixin;
+var $ = require('jquery');
 
 module.exports = React.createClass({displayName: 'AjaxSearchFilter',
   mixins: [UrlQueryMixin],
@@ -14,13 +15,16 @@ module.exports = React.createClass({displayName: 'AjaxSearchFilter',
       React.PropTypes.array
     ]).isRequired,
     autoFocus: React.PropTypes.bool,
-    placeholder: React.PropTypes.string
+    submit: React.PropTypes.func.isRequired,
+    placeholder: React.PropTypes.string,
+    delay: React.PropTypes.number
   },
 
   getDefaultProps: function () {
     return {
       autoFocus: true,
-      placeholder: 'Search'
+      placeholder: 'Search',
+      delay: 500
     };
   },
 
@@ -38,6 +42,10 @@ module.exports = React.createClass({displayName: 'AjaxSearchFilter',
     if (this.props.autoFocus) {
       this.refs.searchInput.getDOMNode().focus();
     }
+
+    $(this.refs.searchInput.getDOMNode()).bindDelayed('keyup change', this.props.delay, function () {
+      this.props.submit();
+    }.bind(this));
   },
 
   onChange: function (event) {

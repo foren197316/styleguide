@@ -14,6 +14,24 @@ $.ajaxPrefilter(function(options, originalOptions, xhr) {
   }
 });
 
+(function($){
+  // Instructions: http://phrogz.net/jquery-bind-delayed-get
+  // Copyright:    Gavin Kistner, !@phrogz.net
+  // License:      http://phrogz.net/js/_ReuseLicense.txt
+  $.fn.bindDelayed = function(event,delay,func){
+    var xhr, timer;
+    return this.on(event,function(){
+      clearTimeout(timer);
+      if (xhr) {
+        xhr.abort();
+      }
+      timer = setTimeout(function(){
+        xhr = func();
+      },delay);
+    });
+  };
+})($);
+
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -181,33 +199,22 @@ Reflux.StoreMethods.onAjaxLoad = function () {
 };
 
 Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
-  var doAjaxLoad = function (urls) {
-    $.ajax({
-      url: urls[this.resourceName],
-      type: 'POST',
-      data: query,
-      success: function (response) {
-        if (query) {
-          global.history.pushState(query, '', '#' + Base64.urlsafeEncode64(query));
-        }
+  return $.ajax({
+    url: UrlStore.urls[this.resourceName],
+    type: 'POST',
+    data: query,
+    success: function (response) {
+      if (query != null) {
+        global.history.pushState(query, '', '#' + Base64.urlsafeEncode64(query));
+      }
 
-        if (typeof callback === 'function') {
-          callback(response);
-        }
-        this.onSearchSuccess(response);
-      }.bind(this),
-      error: this.onSearchError.bind(this)
-    });
-  }.bind(this);
-
-  if (UrlStore.urls != null) {
-    doAjaxLoad(UrlStore.urls);
-  } else {
-    this.urlListener = this.listenTo(actions.setUrls, function (urls) {
-      this.urlListener.stop();
-      doAjaxLoad(urls);
-    }.bind(this));
-  }
+      if (typeof callback === 'function') {
+        callback(response);
+      }
+      this.onSearchSuccess(response);
+    }.bind(this),
+    error: this.onSearchError.bind(this)
+  });
 };
 
 Reflux.StoreMethods.onAjaxLoadSingleton = function () {

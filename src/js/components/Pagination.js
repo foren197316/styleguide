@@ -8,7 +8,8 @@ module.exports = React.createClass({displayName: 'Pagination',
   propTypes: {
     pageCount: React.PropTypes.number.isRequired,
     actions: React.PropTypes.object.isRequired,
-    page: React.PropTypes.number
+    page: React.PropTypes.number,
+    formSending: React.PropTypes.object.isRequired
   },
 
   getDefaultProps: function () {
@@ -22,15 +23,21 @@ module.exports = React.createClass({displayName: 'Pagination',
   },
 
   onClick: function (page) {
+    this.props.formSending.requestChange(true);
     this.setState({ page: page });
+
     var queryWithPage;
     var originalQuery = query.getQuery();
+
     if (originalQuery && originalQuery.length > 0) {
       queryWithPage = originalQuery.replace(/&?\bpage=\d+\b/i, '') + '&page=' + page;
     } else {
       queryWithPage = 'page=' + page;
     }
-    this.props.actions.ajaxSearch(queryWithPage);
+
+    this.props.actions.ajaxSearch(queryWithPage, function () {
+      this.props.formSending.requestChange(false);
+    }.bind(this));
   },
 
   render: function () {
