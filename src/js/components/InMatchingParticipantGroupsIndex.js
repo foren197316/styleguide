@@ -73,6 +73,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     var pageCount = InMatchingParticipantGroupStore.meta.pageCount;
     var recordCount = InMatchingParticipantGroupStore.meta.recordCount;
     var formSendingLink = this.linkState('formSending');
+    var anchor = 'searchTop';
 
     return (
       React.DOM.div({className: 'row'},
@@ -92,6 +93,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
           )
         ),
         React.DOM.div({className: 'col-md-9'},
+          React.DOM.a({name: anchor}),
           function () {
             if (this.state.formSending) {
               return Spinner(null);
@@ -121,7 +123,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                 ),
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
-                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink })
+                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink })
                   )
                 )
               );

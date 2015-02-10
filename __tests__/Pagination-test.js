@@ -31,21 +31,21 @@ describe('Pagination', function () {
       })
     );
 
-    var anchors = TestUtils.scryRenderedDOMComponentsWithTag(pagination, 'a');
+    var buttons = TestUtils.scryRenderedDOMComponentsWithTag(pagination, 'button');
 
-    expect(anchors.length).toBe(pageCount);
+    expect(buttons.length).toBe(pageCount);
 
     for (var i=0; i<pageCount; i++) {
-      expect(anchors[i].getDOMNode().innerHTML).toBe((i+1).toString());
+      expect(buttons[i].getDOMNode().innerHTML).toBe((i+1).toString());
 
       if (i+1 === page) {
-        expect(anchors[i].getDOMNode().className.indexOf('disabled')).toBeGreaterThan(-1);
+        expect(buttons[i].getDOMNode().disabled).toBeTruthy();
       } else {
-        expect(anchors[i].getDOMNode().className.indexOf('disabled')).toBe(-1);
+        expect(buttons[i].getDOMNode().disabled).toBeFalsy();
       }
     }
 
-    TestUtils.Simulate.click(anchors[1]);
+    TestUtils.Simulate.click(buttons[1]);
 
     expect(actions.ajaxSearch).toBeCalledWith('page=2', function(){});
   });

@@ -10,13 +10,15 @@ module.exports = React.createClass({displayName: 'Pagination',
     recordCount: React.PropTypes.number.isRequired,
     actions: React.PropTypes.object.isRequired,
     page: React.PropTypes.number,
-    formSending: React.PropTypes.object.isRequired
+    formSending: React.PropTypes.object.isRequired,
+    anchor: React.PropTypes.string
   },
 
   getDefaultProps: function () {
     return {
       page: 1,
-      pageCount: 1
+      pageCount: 1,
+      anchor: null
     };
   },
 
@@ -27,6 +29,10 @@ module.exports = React.createClass({displayName: 'Pagination',
   },
 
   onClick: function (page) {
+    if (this.props.anchor) {
+      global.location = '#' + this.props.anchor;
+    }
+
     this.props.formSending.requestChange(true);
     this.setState({ page: page });
 
@@ -48,9 +54,9 @@ module.exports = React.createClass({displayName: 'Pagination',
     var anchors = [];
     if (this.props.pageCount > 1) {
       for (var i=1; i<=this.props.pageCount; i++) {
-        var disabled = (i.toString()===this.state.page.toString()) ? ' disabled' : '';
+        var disabled = (i.toString()===this.state.page.toString()) ? 'disabled' : '';
         anchors.push(
-          React.DOM.a({className: 'btn btn-default' + disabled, onClick: this.onClick.bind(this, i), href: '#', key: 'pagination-'+i}, i)
+          React.DOM.button({className: 'btn btn-default', onClick: this.onClick.bind(this, i), disabled: disabled, key: 'pagination-'+i}, i)
         );
       }
     }
