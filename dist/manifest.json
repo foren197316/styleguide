@@ -2,31 +2,31 @@
   "files": {
     "css/interexchange-app.min-58400d0d.css": {
       "logical_path": "css/interexchange-app.min.css",
-      "mtime": "2015-02-09T17:54:06.000Z",
+      "mtime": "2015-02-09T23:41:55.000Z",
       "size": 2625,
       "digest": "58400d0d"
     },
     "css/interexchange.min-c215d4b7.css": {
       "logical_path": "css/interexchange.min.css",
-      "mtime": "2015-02-09T17:46:31.000Z",
+      "mtime": "2015-02-09T23:41:55.000Z",
       "size": 192982,
       "digest": "c215d4b7"
     },
     "js/interexchange-components.min-d362beab.js": {
       "logical_path": "js/interexchange-components.min.js",
-      "mtime": "2015-02-09T17:46:36.000Z",
+      "mtime": "2015-02-10T00:04:15.000Z",
       "size": 114272,
       "digest": "d362beab"
     },
     "js/interexchange-development.min-f8ddae2b.js": {
       "logical_path": "js/interexchange-development.min.js",
-      "mtime": "2015-02-09T17:46:34.000Z",
+      "mtime": "2015-02-10T00:04:13.000Z",
       "size": 134,
       "digest": "f8ddae2b"
     },
     "js/interexchange.min-1d8f982c.js": {
       "logical_path": "js/interexchange.min.js",
-      "mtime": "2015-02-09T17:46:34.000Z",
+      "mtime": "2015-02-10T00:04:13.000Z",
       "size": 443081,
       "digest": "1d8f982c"
     }
