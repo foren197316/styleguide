@@ -55,9 +55,9 @@ module.exports = React.createClass({displayName: 'Pagination',
       }
     }
 
-    return React.DOM.div({className: 'row'},
+    return React.DOM.div({className: 'row react-pagination'},
       React.DOM.div({className: 'col-xs-4'},
-        React.DOM.div({className: 'label label-default', style: {'fontSize': '20px'}}, this.props.recordCount + ' Participants')
+        React.DOM.div({className: 'label label-default'}, this.props.recordCount + ' Participants')
       ),
       React.DOM.div({className: 'col-xs-8'},
         React.DOM.div({className: 'btn-group pull-right'}, anchors)

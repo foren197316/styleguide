@@ -99,6 +99,11 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
               return React.DOM.div(null,
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
+                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink })
+                  )
+                ),
+                React.DOM.div({className: 'row'},
+                  React.DOM.div({className: 'col-md-12'},
                     React.DOM.div({id: 'participant-group-panels'},
                       this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
                         var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
