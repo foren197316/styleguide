@@ -78,7 +78,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          AjaxSearchForm({ url: this.props.urls.inMatchingParticipantGroups, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
+          AjaxSearchForm({ actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
             AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
             AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),

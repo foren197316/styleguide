@@ -5,7 +5,6 @@ var React = require('react/addons');
 
 module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
-    url: React.PropTypes.string.isRequired,
     actions: React.PropTypes.object.isRequired,
     formSending: React.PropTypes.object.isRequired
   },

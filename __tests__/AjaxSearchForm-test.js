@@ -40,7 +40,7 @@ describe('AjaxSearchForm', function () {
     };
 
     var ajaxSearchForm = TestUtils.renderIntoDocument(
-      AjaxSearchForm({ url: '', actions: actions, formSending: formSending },
+      AjaxSearchForm({ actions: actions, formSending: formSending },
         child(null)
       )
     );
