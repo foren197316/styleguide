@@ -15,9 +15,6 @@ $.ajaxPrefilter(function(options, originalOptions, xhr) {
 });
 
 (function($){
-  // Instructions: http://phrogz.net/jquery-bind-delayed-get
-  // Copyright:    Gavin Kistner, !@phrogz.net
-  // License:      http://phrogz.net/js/_ReuseLicense.txt
   $.fn.bindDelayed = function(event,delay,func){
     var timer;
     return this.on(event,function(){
