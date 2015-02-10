@@ -2,8 +2,17 @@
 
 jest.dontMock('../src/js/components/AjaxSearchFilter');
 
+/*
+ * These are needed to fix some mocking problem with vinyl-source-stream
+ */
+jest.dontMock('events');
+jest.dontMock('http');
+jest.dontMock('https');
+
 describe('AjaxSearchFilter', function () {
   it('populates its input from the url', function () {
+    require('../src/js/main');
+
     var React = require('../node_modules/react/addons');
     var TestUtils = React.addons.TestUtils;
 

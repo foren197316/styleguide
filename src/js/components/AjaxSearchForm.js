@@ -7,14 +7,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
     url: React.PropTypes.string.isRequired,
     actions: React.PropTypes.object.isRequired,
-    includedStores: React.PropTypes.array,
     formSending: React.PropTypes.object.isRequired
-  },
-
-  getDefaultProps: function () {
-    return {
-      includedStores: []
-    };
   },
 
   onSubmit: function (e) {

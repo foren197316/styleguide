@@ -12,6 +12,11 @@ describe('AjaxSearchForm', function () {
     var $ = require('../node_modules/jquery');
     var Base64 = require('../src/js/base64');
 
+    var formSending = {
+      requestChange: jest.genMockFn(),
+      value: false
+    };
+
     $.ajax = jest.genMockFn().mockImpl(function (ajaxOptions) {
       ajaxOptions.success();
     });
@@ -31,13 +36,11 @@ describe('AjaxSearchForm', function () {
     });
 
     var actions = {
-      ajaxSearch: function (data, callback) {
-        callback();
-      }
+      ajaxSearch: jest.genMockFn()
     };
 
     var ajaxSearchForm = TestUtils.renderIntoDocument(
-      AjaxSearchForm({ url: '', actions: actions },
+      AjaxSearchForm({ url: '', actions: actions, formSending: formSending },
         child(null)
       )
     );
@@ -49,6 +52,6 @@ describe('AjaxSearchForm', function () {
     var expectedData = query;
     var expectedPath = '#' + Base64.urlsafeEncode64(expectedData);
 
-    expect(global.history.pushState).toBeCalledWith(expectedData, '', expectedPath);
+    expect(actions.ajaxSearch).toBeCalledWith(expectedData, function(){});
   });
 });

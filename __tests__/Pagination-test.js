@@ -9,14 +9,26 @@ describe('Pagination', function () {
 
     var pageCount = 5;
     var page = 3;
+    var recordCount = 50;
     var Pagination = require('../src/js/components/Pagination');
 
     var actions = {
       ajaxSearch: jest.genMockFn()
     };
 
+    var formSending = {
+      requestChange: jest.genMockFn(),
+      value: false
+    };
+
     var pagination = TestUtils.renderIntoDocument(
-      Pagination({ pageCount: pageCount, page: page, actions: actions })
+      Pagination({
+        pageCount: pageCount,
+        page: page,
+        recordCount: recordCount,
+        actions: actions,
+        formSending: formSending
+      })
     );
 
     var buttons = TestUtils.scryRenderedDOMComponentsWithTag(pagination, 'button');
@@ -34,6 +46,6 @@ describe('Pagination', function () {
 
     TestUtils.Simulate.click(buttons[1]);
 
-    expect(actions.ajaxSearch).toBeCalledWith('page=2');
+    expect(actions.ajaxSearch).toBeCalledWith('page=2', function(){});
   });
 });
