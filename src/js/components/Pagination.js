@@ -45,11 +45,12 @@ module.exports = React.createClass({displayName: 'Pagination',
   },
 
   render: function () {
-    var buttons = [];
+    var anchors = [];
     if (this.props.pageCount > 1) {
       for (var i=1; i<=this.props.pageCount; i++) {
-        buttons.push(
-          React.DOM.button({className: 'btn btn-default', onClick: this.onClick.bind(this, i), disabled: (i.toString()===this.state.page.toString()) ? 'disabled' : '', key: 'pagination-'+i}, i)
+        var disabled = (i.toString()===this.state.page.toString()) ? ' disabled' : '';
+        anchors.push(
+          React.DOM.a({className: 'btn btn-default' + disabled, onClick: this.onClick.bind(this, i), href: '#', key: 'pagination-'+i}, i)
         );
       }
     }
@@ -59,7 +60,7 @@ module.exports = React.createClass({displayName: 'Pagination',
         React.DOM.div({className: 'label label-default', style: {'fontSize': '20px'}}, this.props.recordCount + ' Participants')
       ),
       React.DOM.div({className: 'col-xs-8'},
-        React.DOM.div({className: 'btn-group pull-right'}, buttons)
+        React.DOM.div({className: 'btn-group pull-right'}, anchors)
       )
     );
   }
