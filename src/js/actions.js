@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
@@ -38,6 +39,5 @@ module.exports = {
   loadFromJobOfferGroups: Reflux.createAction('loadFromJobOfferGroups'),
   loadFromOfferedParticipantGroups: Reflux.createAction('loadFromOfferedParticipantGroups'),
   loadFromJobOfferParticipantAgreements: Reflux.createAction('loadFromJobOfferParticipantAgreements'),
-  loadFromInMatchingParticipantGroups: Reflux.createAction('loadFromInMatchingParticipantGroups'),
   setUrls: Reflux.createAction('setUrls')
 };

@@ -9,13 +9,14 @@ var Alert = require('./Alert');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var moment = require('moment');
+var ParticipantGroupHeader = require('./ParticipantGroupHeader');
 
 var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchingParticipantGroupPanel',
   propTypes: {
     employer: React.PropTypes.object.isRequired,
     enrollment: React.PropTypes.object.isRequired,
     inMatchingParticipantGroup: React.PropTypes.object.isRequired,
-    footerName: React.PropTypes.string.isRequired
+    program: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
@@ -107,12 +108,15 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
 
       return (
         React.DOM.div({className: 'panel panel-default participant-group-panel', 'data-participant-names': this.participantNames()},
+          ParticipantGroupHeader(null,
+            React.DOM.div(null, this.props.program.name)
+          ),
           React.DOM.div({className: 'list-group'},
             this.props.inMatchingParticipantGroup.participants.map(function (participant) {
               return ParticipantGroupParticipant({key: participant.id, participant: participant});
             })
           ),
-          ParticipantGroupPanelFooter({name: this.props.footerName},
+          ParticipantGroupPanelFooter({name: this.props.inMatchingParticipantGroup.name},
             action,
             legalese
           )

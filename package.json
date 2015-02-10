@@ -58,7 +58,8 @@
       "./node_modules",
       "./src/js/main",
       "./src/js/mixins",
-      "./src/js/base64"
+      "./src/js/base64",
+      "./src/js/query"
     ]
   },
   "scripts": {

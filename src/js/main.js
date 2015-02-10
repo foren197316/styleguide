@@ -3,6 +3,7 @@
 var actions = require('./actions');
 var Reflux = require('reflux');
 var $ = require('jquery');
+var Base64 = require('./base64');
 
 $.ajaxPrefilter(function(options, originalOptions, xhr) {
   if (!options.crossDomain) {
@@ -12,6 +13,16 @@ $.ajaxPrefilter(function(options, originalOptions, xhr) {
     }
   }
 });
+
+(function($){
+  $.fn.bindDelayed = function(event,delay,func){
+    var timer;
+    return this.on(event,function(){
+      clearTimeout(timer);
+      timer = setTimeout(func, delay);
+    });
+  };
+})($);
 
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -179,34 +190,27 @@ Reflux.StoreMethods.onAjaxLoad = function () {
   }
 };
 
-Reflux.StoreMethods.onAjaxSearch = function () {
-  var args = arguments;
-  var query = typeof args[0] === 'string' ? args[0] : null;
-
-  var doAjaxLoad = function (urls) {
-    $.ajax({
-      url: urls[this.resourceName],
-      type: 'POST',
-      data: query,
-      success: function (response) {
-        if (query != null) {
-          [].shift.call(args);
-        }
-        [].unshift.call(args, response);
-        this.onSearchSuccess.apply(this, args);
-      }.bind(this),
-      error: this.onSearchError.bind(this)
-    });
-  }.bind(this);
-
-  if (UrlStore.urls != null) {
-    doAjaxLoad(UrlStore.urls);
-  } else {
-    this.urlListener = this.listenTo(actions.setUrls, function (urls) {
-      this.urlListener.stop();
-      doAjaxLoad(urls);
-    }.bind(this));
+Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
+  if (this.xhr) {
+    this.xhr.abort();
   }
+
+  this.xhr = $.ajax({
+    url: UrlStore.urls[this.resourceName],
+    type: 'POST',
+    data: query,
+    success: function (response) {
+      if (query != null) {
+        global.history.pushState(query, '', '#' + Base64.urlsafeEncode64(query));
+      }
+
+      if (typeof callback === 'function') {
+        callback(response);
+      }
+      this.onSearchSuccess(response);
+    }.bind(this),
+    error: this.onSearchError.bind(this)
+  });
 };
 
 Reflux.StoreMethods.onAjaxLoadSingleton = function () {
@@ -248,29 +252,15 @@ Reflux.StoreMethods.onLoadError = function () {
 };
 
 Reflux.StoreMethods.onSearchSuccess = function (response) {
-  var args = arguments;
-
   this.data = response[this.resourceName.camelCaseToUnderscore()];
+  this.meta = response.meta;
 
   if (!(this.data instanceof Array)) {
     this.data = [this.data].notEmpty();
   }
 
   this.permission = true;
-
-  if (typeof this.initPostAjaxLoad === 'function') {
-    [].shift.call(args);
-    [].unshift.call(args, this.data);
-    this.initPostAjaxLoad.apply(this, args);
-  } else {
-    this.trigger(this.data);
-  }
-
-  if (args.length > 1) {
-    for (var i=1; i<args.length; i++) {
-      args[i](this.data);
-    }
-  }
+  this.trigger(this.data);
 };
 
 Reflux.StoreMethods.onSearchError = function () {

@@ -4,7 +4,7 @@
 var React = require('react/addons');
 var actions = require('./actions');
 var Spinner = require('./components/Spinner');
-var Base64 = require('./base64');
+var getQuery = require('./query').getQuery;
 
 module.exports = {
   SetUrlsMixin: {
@@ -57,21 +57,8 @@ module.exports = {
       return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     },
 
-    getQuery: function () {
-      var hash = global.location.hash;
-      var query = null;
-
-      if (hash.length > 1) {
-        try {
-          query = Base64.urlsafeDecode64(hash.slice(1));
-        } catch (e) {}
-      }
-
-      return query;
-    },
-
     getValueFromUrl: function (searchField) {
-      var query = this.getQuery();
+      var query = getQuery();
 
       if (query != null) {
         var results = [];

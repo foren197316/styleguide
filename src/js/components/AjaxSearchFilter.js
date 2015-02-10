@@ -3,6 +3,7 @@
 
 var React = require('react/addons');
 var UrlQueryMixin = require('../mixins').UrlQueryMixin;
+var $ = require('jquery');
 
 module.exports = React.createClass({displayName: 'AjaxSearchFilter',
   mixins: [UrlQueryMixin],
@@ -14,18 +15,24 @@ module.exports = React.createClass({displayName: 'AjaxSearchFilter',
       React.PropTypes.array
     ]).isRequired,
     autoFocus: React.PropTypes.bool,
-    placeholder: React.PropTypes.string
+    submit: React.PropTypes.func.isRequired,
+    placeholder: React.PropTypes.string,
+    delay: React.PropTypes.number
   },
 
   getDefaultProps: function () {
     return {
       autoFocus: true,
-      placeholder: 'Search'
+      placeholder: 'Search',
+      delay: 500
     };
   },
 
   getInitialState: function () {
-    return { value: '' };
+    return {
+      lastValue: '',
+      value: ''
+    };
   },
 
   componentDidMount: function () {
@@ -38,10 +45,19 @@ module.exports = React.createClass({displayName: 'AjaxSearchFilter',
     if (this.props.autoFocus) {
       this.refs.searchInput.getDOMNode().focus();
     }
+
+    $(this.refs.searchInput.getDOMNode()).bindDelayed('keyup change', this.props.delay, function () {
+      if (this.state.value !== this.state.lastValue) {
+        return this.props.submit();
+      }
+    }.bind(this));
   },
 
   onChange: function (event) {
-    this.setState({ value: event.target.value });
+    this.setState({
+      lastValue: this.state.value,
+      value: event.target.value
+    });
   },
 
   searchField: function () {
@@ -57,10 +73,8 @@ module.exports = React.createClass({displayName: 'AjaxSearchFilter',
   },
 
   render: function () {
-    return (
-      React.DOM.label({className: 'list-group'},
-        React.DOM.input({type: 'search', ref: 'searchInput', name: 'search_' + this.props.title, onChange: this.onChange, className: 'list-group-item form-control', placeholder: this.props.placeholder, value: this.state.value})
-      )
+    return React.DOM.label({className: 'list-group'},
+      React.DOM.input({type: 'search', ref: 'searchInput', name: 'search_' + this.props.title, onChange: this.onChange, className: 'list-group-item form-control', placeholder: this.props.placeholder, value: this.state.value})
     );
   }
 });

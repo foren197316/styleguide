@@ -1,10 +1,12 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
 var StaffStore = require('../stores/StaffStore');
 var LinkToIf = require('./LinkToIf');
+var ParticipantGroupHeader = require('./ParticipantGroupHeader');
 
-var EmployerHeader = React.createClass({displayName: 'EmployerHeader',
+module.exports = React.createClass({displayName: 'EmployerHeader',
   propTypes: {
     employer: React.PropTypes.object.isRequired
   },
@@ -13,15 +15,9 @@ var EmployerHeader = React.createClass({displayName: 'EmployerHeader',
     var employer = this.props.employer;
     var staff = StaffStore.findById(employer.staff_id) || {};
 
-    return (
-      React.DOM.div({className: 'panel-heading'},
-        React.DOM.h1({className: 'panel-title'},
-          React.DOM.span({className: 'pull-right text-muted'}, staff.name),
-          LinkToIf({name: employer.name, href: employer.href})
-        )
-      )
+    return ParticipantGroupHeader(null,
+      React.DOM.span({className: 'pull-right text-muted'}, staff.name),
+      LinkToIf({name: employer.name, href: employer.href})
     );
   }
 });
-
-module.exports = EmployerHeader;
