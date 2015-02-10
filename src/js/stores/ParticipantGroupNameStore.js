@@ -9,10 +9,10 @@ module.exports = Reflux.createStore({
   permission: true,
   init: function () {
     var names = [
-      'Couple',
       'Individual',
-      'Friends',
+      'Couple',
       'Cousins',
+      'Friends',
       'Siblings'
     ];
 
