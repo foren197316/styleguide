@@ -14,16 +14,6 @@ $.ajaxPrefilter(function(options, originalOptions, xhr) {
   }
 });
 
-(function($){
-  $.fn.bindDelayed = function(event,delay,func){
-    var timer;
-    return this.on(event,function(){
-      clearTimeout(timer);
-      timer = setTimeout(func, delay);
-    });
-  };
-})($);
-
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
