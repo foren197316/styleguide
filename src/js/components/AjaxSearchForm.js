@@ -12,7 +12,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
 
   getDefaultProps: function () {
     return {
-      delay: 500
+      delay: 750
     };
   },
 
