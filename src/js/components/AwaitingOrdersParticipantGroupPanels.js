@@ -1,5 +1,7 @@
+/* @flow */
 'use strict';
 
+require('../main');
 var React = require('react/addons');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
@@ -104,7 +106,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
   }
 });
 
-var AwaitingOrdersParticipantGroupPanels = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanels',
+module.exports = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanels',
   propTypes: {
     source: React.PropTypes.string.isRequired
   },
@@ -139,5 +141,3 @@ var AwaitingOrdersParticipantGroupPanels = React.createClass({displayName: 'Awai
     }
   }
 });
-
-module.exports = AwaitingOrdersParticipantGroupPanels;

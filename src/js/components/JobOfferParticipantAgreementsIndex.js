@@ -1,5 +1,7 @@
+/* @flow */
 'use strict';
 
+require('../main');
 var React = require('react/addons');
 var Reflux = require('reflux');
 var actions = require('../actions');
@@ -12,7 +14,7 @@ var BooleanFilter = require('./BooleanFilter');
 var ExportButton = require('./ExportButton');
 var ProgramStore = require('../stores/ProgramStore');
 
-var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOfferParticipantAgreementsIndex',
+module.exports = React.createClass({displayName: 'JobOfferParticipantAgreementsIndex',
   mixins: [
     mixins.SetUrlsMixin,
     Reflux.connect(JobOfferParticipantAgreementStore, 'jobOfferParticipantAgreements')
@@ -38,5 +40,3 @@ var JobOfferParticipantAgreementsIndex = React.createClass({displayName: 'JobOff
     );
   }
 });
-
-module.exports = JobOfferParticipantAgreementsIndex;

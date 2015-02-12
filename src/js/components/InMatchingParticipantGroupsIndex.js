@@ -1,6 +1,7 @@
 /* @flow */
 'use strict';
 
+require('../main');
 var Reflux = require('reflux');
 var React = require('react/addons');
 var actions = require('../actions');
@@ -29,7 +30,7 @@ var query = require('../query');
 var Pagination = require('./Pagination');
 var Spinner = require('./Spinner');
 
-var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
+module.exports = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, 'inMatchingParticipantGroups'),
     Reflux.connect(EmployerStore, 'employer'),
@@ -38,9 +39,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     React.addons.LinkedStateMixin
   ],
 
-  statics: {
-    noResultsMessage: 'There are currently no participants available who match your criteria. Check back soon!'
-  },
+  noResultsMessage: 'There are currently no participants available who match your criteria. Check back soon!',
 
   getInitialState: function () {
     return { formSending: false };
@@ -128,7 +127,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                 )
               );
             } else {
-              return Alert({type: 'warning', message: InMatchingParticipantGroupsIndex.noResultsMessage, closeable: false});
+              return Alert({type: 'warning', message: this.noResultsMessage, closeable: false});
             }
           }.bind(this)()
         )
@@ -136,5 +135,3 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     );
   }
 });
-
-module.exports = InMatchingParticipantGroupsIndex;

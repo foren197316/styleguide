@@ -9,3 +9,4 @@ dist/images
 dist/js
 *.log
 npm-debug.log
+webpack

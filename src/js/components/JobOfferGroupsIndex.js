@@ -1,5 +1,7 @@
+/* @flow */
 'use strict';
 
+require('../main');
 var React = require('react/addons');
 var actions = require('../actions');
 var SetUrlsMixin = require('../mixins').SetUrlsMixin;
@@ -11,7 +13,7 @@ var ProgramStore = require('../stores/ProgramStore');
 var EmployerStore = require('../stores/EmployerStore');
 var StaffStore = require('../stores/StaffStore');
 
-var JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
+module.exports = React.createClass({displayName: 'JobOfferGroupsIndex',
   mixins: [SetUrlsMixin],
 
   render: function () {
@@ -31,5 +33,3 @@ var JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
     );
   }
 });
-
-module.exports = JobOfferGroupsIndex;

@@ -1,5 +1,7 @@
+/* @flow */
 'use strict';
 
+require('../main');
 var React = require('react/addons');
 var Reflux = require('reflux');
 var actions = require('../actions');
@@ -13,7 +15,7 @@ var EmployerStore = require('../stores/EmployerStore');
 var StaffStore = require('../stores/StaffStore');
 var OfferedParticipantGroupPanel = require('./OfferedParticipantGroupPanel');
 
-var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedParticipantGroupsIndex',
+module.exports = React.createClass({displayName: 'OfferedParticipantGroupsIndex',
   mixins: [
     Reflux.connect(OfferedParticipantGroupStore, 'offeredParticipantGroups'),
     Reflux.connect(ProgramStore, 'programs'),
@@ -68,5 +70,3 @@ var OfferedParticipantGroupsIndex = React.createClass({displayName: 'OfferedPart
     );
   }
 });
-
-module.exports = OfferedParticipantGroupsIndex;

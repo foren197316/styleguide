@@ -1,5 +1,7 @@
+/* @flow */
 'use strict';
 
+require('../main');
 var React = require('react/addons');
 var dateFormatMDY = require('../globals').dateFormatMDY;
 var Spinner = require('./Spinner');
@@ -99,7 +101,7 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
   }
 });
 
-var ReservedParticipantGroupPanels = React.createClass({displayName: 'ReservedParticipantGroupPanels',
+module.exports = React.createClass({displayName: 'ReservedParticipantGroupPanels',
   propTypes: {
     source: React.PropTypes.string.isRequired
   },
@@ -136,5 +138,3 @@ var ReservedParticipantGroupPanels = React.createClass({displayName: 'ReservedPa
     }
   }
 });
-
-module.exports = ReservedParticipantGroupPanels;
