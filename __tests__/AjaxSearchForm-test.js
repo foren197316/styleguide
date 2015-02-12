@@ -49,8 +49,12 @@ describe('AjaxSearchForm', function () {
 
     TestUtils.Simulate.submit(form);
 
+    expect(actions.ajaxSearch).not.toBeCalled();
+
     var expectedData = query;
     var expectedPath = '#' + Base64.urlsafeEncode64(expectedData);
+
+    jest.runAllTimers();
 
     expect(actions.ajaxSearch).toBeCalledWith(expectedData, function(){});
   });
