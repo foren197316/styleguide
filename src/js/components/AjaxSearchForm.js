@@ -6,16 +6,22 @@ var React = require('react/addons');
 module.exports = React.createClass({displayName: 'AjaxSearchForm',
   propTypes: {
     actions: React.PropTypes.object.isRequired,
-    formSending: React.PropTypes.object.isRequired
+    formSending: React.PropTypes.object.isRequired,
+    delay: React.PropTypes.number
   },
 
-  onSubmit: function (e) {
-    if (e != null) {
-      e.preventDefault();
-    }
+  getDefaultProps: function () {
+    return {
+      delay: 750
+    };
+  },
 
+  getInitialState: function () {
+    return { lastData: null };
+  },
+
+  ajaxPost: function () {
     var data = [];
-    this.props.formSending.requestChange(true);
 
     for (var i in this.refs) {
       if (this.refs.hasOwnProperty(i)) {
@@ -27,9 +33,28 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
       return datum != null;
     }).join('&');
 
+    if (data === this.state.lastData) {
+      return;
+    }
+
+    this.props.formSending.requestChange(true);
+    this.setState({ lastData: data });
+
     this.props.actions.ajaxSearch(data, function () {
       this.props.formSending.requestChange(false);
     }.bind(this));
+  },
+
+  onSubmit: function (e) {
+    if (e != null) {
+      e.preventDefault();
+    }
+
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    this.timer = setTimeout(this.ajaxPost.bind(this), this.props.delay);
   },
 
   render: function () {
