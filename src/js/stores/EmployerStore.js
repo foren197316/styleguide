@@ -1,11 +1,16 @@
+'use strict';
+
+var Reflux = require('reflux');
+var actions = require('../actions');
+
 var EmployerStore = Reflux.createStore({
-  resourceName: "employers",
-  listenables: EmployerActions,
+  resourceName: 'employers',
+  listenables: actions.EmployerActions,
 
   init: function () {
-    this.listenTo(GlobalActions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
-    this.listenTo(GlobalActions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
-    this.listenTo(GlobalActions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
+    this.listenTo(actions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
+    this.listenTo(actions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
+    this.listenTo(actions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
   },
 
   initPostAjaxLoad: function () {
@@ -13,23 +18,23 @@ var EmployerStore = Reflux.createStore({
   },
 
   onLoadFromJobOfferGroups: function (jobOfferGroups) {
-    EmployerActions.ajaxLoad(
-      jobOfferGroups.mapAttribute("employer_id"),
-      StaffActions.loadFromEmployer
+    actions.EmployerActions.ajaxLoad(
+      jobOfferGroups.mapAttribute('employer_id'),
+      actions.StaffActions.loadFromEmployer
     );
   },
 
   onLoadFromOfferedParticipantGroups: function (offeredParticipantGroups) {
-    EmployerActions.ajaxLoad(
-      offeredParticipantGroups.mapAttribute("employer_id"),
-      StaffActions.loadFromEmployer
+    actions.EmployerActions.ajaxLoad(
+      offeredParticipantGroups.mapAttribute('employer_id'),
+      actions.StaffActions.loadFromEmployer
     );
   },
 
   onLoadFromJobOfferParticipantAgreements: function (jobOfferParticipantAgreements) {
-    EmployerActions.ajaxLoad(
-      jobOfferParticipantAgreements.mapAttribute("job_offer").mapAttribute("employer_id"),
-      StaffActions.loadFromEmployer
+    actions.EmployerActions.ajaxLoad(
+      jobOfferParticipantAgreements.mapAttribute('job_offer').mapAttribute('employer_id'),
+      actions.StaffActions.loadFromEmployer
     );
   },
 
@@ -49,3 +54,5 @@ var EmployerStore = Reflux.createStore({
     this.trigger(this.data);
   }
 });
+
+module.exports = EmployerStore;

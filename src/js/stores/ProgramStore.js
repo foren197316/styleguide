@@ -1,12 +1,17 @@
+'use strict';
+
+var Reflux = require('reflux');
+var actions = require('../actions');
+
 var ProgramStore = Reflux.createStore({
-  resourceName: "programs",
-  listenables: ProgramActions,
+  resourceName: 'programs',
+  listenables: actions.ProgramActions,
   applicableIds: null,
 
   init: function () {
-    this.listenTo(GlobalActions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
-    this.listenTo(GlobalActions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
-    this.listenTo(GlobalActions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
+    this.listenTo(actions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
+    this.listenTo(actions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
+    this.listenTo(actions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
   },
 
   initPostAjaxLoad: function () {
@@ -24,7 +29,7 @@ var ProgramStore = Reflux.createStore({
       return jobOfferGroup.job_offers[0].participant.program_id;
     }).uniq();
 
-    ProgramActions.ajaxLoad();
+    actions.ProgramActions.ajaxLoad();
   },
 
   onLoadFromOfferedParticipantGroups: function (offeredParticipantGroups) {
@@ -32,7 +37,7 @@ var ProgramStore = Reflux.createStore({
       return offeredParticipantGroup.participants[0].program_id;
     }).uniq();
 
-    ProgramActions.ajaxLoad();
+    actions.ProgramActions.ajaxLoad();
   },
 
   onLoadFromJobOfferParticipantAgreements: function (jobOfferParticipantAgreements) {
@@ -40,6 +45,8 @@ var ProgramStore = Reflux.createStore({
       return jobOfferParticipantAgreement.job_offer.participant.program_id;
     }).uniq();
 
-    ProgramActions.ajaxLoad();
+    actions.ProgramActions.ajaxLoad();
   }
 });
+
+module.exports = ProgramStore;

@@ -1,17 +1,24 @@
-var CountryStore = Reflux.createStore({
+/* @flow */
+'use strict';
+
+var Reflux = require('reflux');
+var CountryActions = require('../actions').CountryActions;
+
+module.exports = Reflux.createStore({
+  resourceName: 'countries',
   listenables: CountryActions,
-  permission: false,
+  initPostAjaxLoad: function (data) {
+    this.data = [];
+    var countries = data[0];
 
-  init: function () {
-    this.listenTo(GlobalActions.loadFromInMatchingParticipantGroups, this.onLoadFromInMatchingParticipantGroups);
-  },
-
-  onLoadFromInMatchingParticipantGroups: function (inMatchingParticipantGroups) {
-    this.permission = true;
-
-    this.data = inMatchingParticipantGroups.mapAttribute("participants").flatten().mapAttribute("country_name").flatten().sort().uniq().map(function (countryName) {
-      return { id: countryName, name: countryName };
-    });
+    for (var code in countries) {
+      if (countries.hasOwnProperty(code)) {
+        this.data.push({
+          id: code,
+          name: countries[code]
+        });
+      }
+    }
 
     this.trigger(this.data);
   }

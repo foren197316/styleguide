@@ -3,13 +3,13 @@
   "browser": true,
   "esnext": true,
   "bitwise": true,
-  "camelcase": true,
+  "camelcase": false,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
   "indent": 4,
   "latedef": true,
-  "newcap": true,
+  "newcap": false,
   "noarg": true,
   "quotmark": "single",
   "undef": true,
@@ -17,5 +17,9 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "jquery": true
+  "jquery": false,
+  "browserify": true,
+  "forin": true,
+  "maxdepth": 3,
+  "eqnull": true
 }
