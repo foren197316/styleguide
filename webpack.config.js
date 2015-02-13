@@ -1,4 +1,7 @@
+var webpack = require('webpack');
+
 module.exports = {
+  devtool: '#source-map',
   entry: {
     AwaitingOrdersParticipantGroupPanels: './src/js/components/AwaitingOrdersParticipantGroupPanels.js',
     InMatchingParticipantGroupsIndex: './src/js/components/InMatchingParticipantGroupsIndex.js',
@@ -9,8 +12,9 @@ module.exports = {
     JobOfferParticipantAgreementsIndex: './src/js/components/JobOfferParticipantAgreementsIndex.js'
   },
   output: {
-    path: 'webpack',
-    filename: '[name].js'
+    path: './webpack',
+    filename: '[name].min.js',
+    sourceMapFilename: '[file].map'
   },
   externals: {
     jquery: 'jQuery',
@@ -20,5 +24,8 @@ module.exports = {
     'react-radio-group': 'RadioGroup',
     'intercom.io': 'Intercom',
     moment: 'moment'
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({minimize: true})
+  ]
 };

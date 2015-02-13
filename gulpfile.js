@@ -20,7 +20,9 @@ var gulp        = require('gulp'),
     source      = require('vinyl-source-stream'),
     sourcemaps  = require('gulp-sourcemaps'),
     uglify      = require('gulp-uglify'),
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    webpack     = require("gulp-webpack-build"),
+    WebpackDevServer = require("webpack-dev-server");
 
 gulp.task('font-awesome-interexchange', function() {
   return gulp.src(['src/vectors/*.svg'])
@@ -104,35 +106,27 @@ gulp.task('javascript', function() {
     'bower_components/react-bootstrap/react-bootstrap.js',
     'bower_components/reflux/dist/reflux.js'
   ])
-    .pipe(sourcemaps.init({debug: true}))
-    .pipe(uglify())
-    .pipe(concat('interexchange.min.js'))
-    .pipe(sourcemaps.write('../maps'))
-    .pipe(gulp.dest('build/js'))
+  .pipe(sourcemaps.init({debug: true}))
+  .pipe(uglify())
+  .pipe(concat('interexchange.min.js'))
+  .pipe(sourcemaps.write('../maps'))
+  .pipe(gulp.dest('build/js'))
 });
 
 gulp.task('javascript-components', function () {
-  return browserify({
-    fullPaths: false,
-    entries: './src/js/main.js',
-    dest: './build',
-    outputName: 'interexchange-components.min.js',
-    debug: true
-  })
-    .plugin('minifyify', {
-      map: '/maps/interexchange-components.min.js.map',
-      output: 'build/maps/interexchange-components.min.js.map'
-    })
-    .bundle()
-    .on('error', function (err) {
-      console.log(err);
-      this.emit('end');
-    })
-    .pipe(source('interexchange-components.min.js'))
-    .pipe(gulp.dest('build/js'));
+  return gulp.src('./webpack.config.js')
+    .pipe(webpack.compile({}))
+    .pipe(webpack.format({
+      version: false,
+      warnings: true
+    }))
+    .pipe(webpack.failAfter({
+      errors: true,
+      warnings: true
+    }));
 });
 
-gulp.task('javascript-development', ['javascript'], function() {
+gulp.task('javascript-development', function() {
   return gulp.src(['src/js/development.js'])
     .pipe(sourcemaps.init({debug: true}))
     .pipe(uglify())
@@ -174,10 +168,9 @@ gulp.task('rev', ['rev-clean'], function() {
 gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev', 'json', 'images', 'fonts', 'styleguide'], function () {
   browserSync({server: {baseDir: ['build', 'dist']}, open: false});
 
-  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app', 'rev', 'styleguide'); });
-  gulp.watch(['src/**/*.js'], function() { runSequence('javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev'); });
+  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app', 'rev'); });
+  gulp.watch(['src/**/*.js'], function() { runSequence('javascript-development', 'javascript-components', 'jshint', 'rev'); });
   gulp.watch(['src/**/*.json'], function() { runSequence('json'); });
   gulp.watch(['src/images/*'], function() { runSequence('images'); });
   gulp.watch(['src/vectors/*.svg'], function() { runSequence('fonts'); });
-  gulp.watch(['layout/*', 'build/css/*', 'build/js/*'], function() { runSequence('styleguide'); });
 });
