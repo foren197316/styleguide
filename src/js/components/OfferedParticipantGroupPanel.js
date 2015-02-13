@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
@@ -9,8 +10,9 @@ var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var OfferedParticipantGroupParticipant = require('./OfferedParticipantGroupParticipant');
 var Alert = require('./Alert');
 var $ = require('jquery');
+var moment = require('moment');
 
-var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParticipantGroupPanel',
+module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
     offeredParticipantGroup: React.PropTypes.object.isRequired
   },
@@ -119,11 +121,10 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
           participantNodes
         ),
         ParticipantGroupPanelFooter({name: footerName},
-          actions
+          actions,
+          React.DOM.div(null, moment(this.props.offeredParticipantGroup.created_at).fromNow())
         )
       )
     );
   }
 });
-
-module.exports = OfferedParticipantGroupPanel;

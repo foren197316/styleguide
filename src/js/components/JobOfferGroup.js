@@ -6,6 +6,7 @@ var JobOfferGroupActions = require('../actions').JobOfferGroupActions;
 var EmployerHeader = require('./EmployerHeader');
 var JobOffer = require('./JobOffer');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+var moment = require('moment');
 
 var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
   propTypes: {
@@ -55,7 +56,8 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
           })
         ),
         ParticipantGroupPanelFooter({name: this.props.jobOfferGroup.name},
-          actions
+          actions,
+          React.DOM.div(null, moment(this.props.jobOfferGroup.created_at).fromNow())
         )
       )
     );
