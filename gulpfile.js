@@ -45,8 +45,8 @@ gulp.task('fonts', ['font-awesome-interexchange'], function() {
     'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
     'bower_components/components-font-awesome/fonts/*'
   ])
-    .pipe(gulp.dest('build/fonts'))
-    .pipe(gulp.dest('dist/fonts'));
+  .pipe(gulp.dest('build/fonts'))
+  .pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('images', function() {
@@ -65,12 +65,12 @@ gulp.task('styles', function() {
     'src/scss/interexchange.scss',
     'src/scss/font-awesome-interexchange.scss'
   ])
-    .pipe(sass({keepSpecialComments: 0}))
-    .pipe(concat('interexchange.css'))
-    .pipe(gulp.dest('build/css'))
-    .pipe(minifyCSS())
-    .pipe(rename('interexchange.min.css'))
-    .pipe(gulp.dest('build/css'));
+  .pipe(sass({keepSpecialComments: 0}))
+  .pipe(concat('interexchange.css'))
+  .pipe(gulp.dest('build/css'))
+  .pipe(minifyCSS())
+  .pipe(rename('interexchange.min.css'))
+  .pipe(gulp.dest('build/css'));
 });
 
 gulp.task('styles-app', function() {
@@ -86,10 +86,7 @@ gulp.task('styles-app', function() {
 gulp.task('javascript', function() {
   return gulp.src([
     'bower_components/jquery/dist/jquery.js',
-    'bower_components/react/react-with-addons.js',
-    'bower_components/moment/moment.js',
     'bower_components/jquery.serializeJSON/jquery.serializejson.js',
-    'bower_components/react-radio-group/react-radiogroup.js',
     'bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js',
     'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js',
     'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js',
@@ -102,9 +99,7 @@ gulp.task('javascript', function() {
     'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js',
     'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js',
     'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js',
-    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js',
-    'bower_components/react-bootstrap/react-bootstrap.js',
-    'bower_components/reflux/dist/reflux.js'
+    'bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js'
   ])
   .pipe(sourcemaps.init({debug: true}))
   .pipe(uglify())
@@ -116,11 +111,6 @@ gulp.task('javascript', function() {
 gulp.task('javascript-components', function () {
   return gulp.src('./webpack.config.js')
     .pipe(webpack.watch({watch: true}, function (stream) {
-      stream
-        .pipe(webpack.format({
-          verbose: true,
-          version: false
-        }));
       runSequence('jshint', 'rev');
     }));
 });

@@ -2,6 +2,7 @@
 'use strict';
 
 require('../main');
+var $ = require('jquery');
 var Reflux = require('reflux');
 var React = require('react/addons');
 var actions = require('../actions');
@@ -30,7 +31,7 @@ var query = require('../query');
 var Pagination = require('./Pagination');
 var Spinner = require('./Spinner');
 
-module.exports = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
+var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, 'inMatchingParticipantGroups'),
     Reflux.connect(EmployerStore, 'employer'),
@@ -135,3 +136,21 @@ module.exports = React.createClass({displayName: 'InMatchingParticipantGroupsInd
     );
   }
 });
+
+$('document').ready(function () {
+  var InMatchingParticipantGroupsIndexTag = global.document.getElementById('InMatchingParticipantGroupsIndex');
+  React.render(
+    InMatchingParticipantGroupsIndex({
+      urls: {
+        employer: InMatchingParticipantGroupsIndexTag.getAttribute('employer'),
+        inMatchingParticipantGroups: InMatchingParticipantGroupsIndexTag.getAttribute('inMatchingParticipantGroups'),
+        programs: InMatchingParticipantGroupsIndexTag.getAttribute('programs'),
+        positions: InMatchingParticipantGroupsIndexTag.getAttribute('positions'),
+        countries: InMatchingParticipantGroupsIndexTag.getAttribute('countries')
+      }
+    }),
+    InMatchingParticipantGroupsIndexTag
+  );
+});
+
+module.exports = InMatchingParticipantGroupsIndex;

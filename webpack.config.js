@@ -12,20 +12,16 @@ module.exports = {
     JobOfferParticipantAgreementsIndex: './src/js/components/JobOfferParticipantAgreementsIndex.js'
   },
   output: {
-    path: './webpack',
+    path: './build/js',
     filename: '[name].min.js',
-    sourceMapFilename: '[file].map'
+    sourceMapFilename: '../maps/[file].map'
   },
   externals: {
     jquery: 'jQuery',
-    'react/addons': 'React',
-    reflux: 'Reflux',
-    'react-bootstrap': 'ReactBootstrap',
-    'react-radio-group': 'RadioGroup',
-    'intercom.io': 'Intercom',
-    moment: 'moment'
+    'intercom.io': 'Intercom'
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({minimize: true})
+    new webpack.optimize.UglifyJsPlugin({minimize: true}),
+    new webpack.optimize.CommonsChunkPlugin('common.min.js')
   ]
 };
