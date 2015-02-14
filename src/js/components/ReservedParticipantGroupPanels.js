@@ -1,7 +1,6 @@
 /* @flow */
 'use strict';
 
-require('../main');
 var React = require('react/addons');
 var dateFormatMDY = require('../globals').dateFormatMDY;
 var Spinner = require('./Spinner');

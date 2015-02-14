@@ -1,7 +1,6 @@
 /* @flow */
 'use strict';
 
-require('../main');
 var React = require('react/addons');
 var actions = require('../actions');
 var SetUrlsMixin = require('../mixins').SetUrlsMixin;

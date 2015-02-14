@@ -1,7 +1,6 @@
 /* @flow */
 'use strict';
 
-require('../main');
 var React = require('react/addons');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');

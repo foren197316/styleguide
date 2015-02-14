@@ -1,8 +1,6 @@
 /* @flow */
 'use strict';
 
-require('../main');
-var $ = require('jquery');
 var Reflux = require('reflux');
 var React = require('react/addons');
 var actions = require('../actions');
@@ -135,22 +133,6 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
       )
     );
   }
-});
-
-$('document').ready(function () {
-  var InMatchingParticipantGroupsIndexTag = global.document.getElementById('InMatchingParticipantGroupsIndex');
-  React.render(
-    InMatchingParticipantGroupsIndex({
-      urls: {
-        employer: InMatchingParticipantGroupsIndexTag.getAttribute('employer'),
-        inMatchingParticipantGroups: InMatchingParticipantGroupsIndexTag.getAttribute('inMatchingParticipantGroups'),
-        programs: InMatchingParticipantGroupsIndexTag.getAttribute('programs'),
-        positions: InMatchingParticipantGroupsIndexTag.getAttribute('positions'),
-        countries: InMatchingParticipantGroupsIndexTag.getAttribute('countries')
-      }
-    }),
-    InMatchingParticipantGroupsIndexTag
-  );
 });
 
 module.exports = InMatchingParticipantGroupsIndex;

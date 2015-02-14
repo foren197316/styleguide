@@ -9,6 +9,7 @@ var gulp        = require('gulp'),
     consolidate = require('gulp-consolidate'),
     deploy      = require('gulp-gh-pages'),
     flow        = require('gulp-flowtype'),
+    gutil       = require('gulp-util'),
     hologram    = require('gulp-hologram'),
     iconfont    = require('gulp-iconfont'),
     jshint      = require('gulp-jshint'),
@@ -21,7 +22,8 @@ var gulp        = require('gulp'),
     sourcemaps  = require('gulp-sourcemaps'),
     uglify      = require('gulp-uglify'),
     runSequence = require('run-sequence'),
-    webpack     = require("gulp-webpack-build"),
+    webpackBuild= require("gulp-webpack-build"),
+    webpack     = require("webpack"),
     WebpackDevServer = require("webpack-dev-server");
 
 gulp.task('font-awesome-interexchange', function() {
@@ -110,8 +112,8 @@ gulp.task('javascript', function() {
 
 gulp.task('javascript-components', function () {
   return gulp.src('./webpack.config.js')
-    .pipe(webpack.watch({watch: true}, function (stream) {
-      runSequence('jshint', 'rev');
+    .pipe(webpackBuild.compile({}, function (stream) {
+      // runSequence('jshint', 'rev');
     }));
 });
 
@@ -146,12 +148,35 @@ gulp.task('rev-clean', function () {
     .pipe(clean());
 });
 
-gulp.task('rev', ['rev-clean'], function() {
+gulp.task('copy-maps', function () {
+  return gulp.src(['build/maps/*'])
+    .pipe(gulp.dest('dist/maps'));
+});
+
+gulp.task('rev', ['rev-clean', 'copy-maps'], function() {
   return gulp.src(['build/**/*.min.css', 'build/**/*.min.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
     .pipe(manifest({path: 'manifest.json'}))
     .pipe(gulp.dest('dist'));
+});
+
+gulp.task("webpack-dev-server", function(callback) {
+    // Start a webpack-dev-server
+    var compiler = webpack(require('./webpack.config.js'));
+
+    new WebpackDevServer(compiler, {
+      hot: true,
+      contentBase: __dirname + '/build',
+      publicPath: '/js/'
+    }).listen(3000, 'localhost', function(err) {
+        if(err) throw new gutil.PluginError("webpack-dev-server", err);
+        // Server listening
+        gutil.log('[webpack-dev-server]', 'http://localhost:3000/webpack-dev-server/index.html');
+
+        // keep the server alive or continue?
+        // callback();
+    });
 });
 
 gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev', 'json', 'images', 'fonts', 'styleguide'], function () {
