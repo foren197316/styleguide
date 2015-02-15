@@ -105,7 +105,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
   }
 });
 
-module.exports = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanels',
+var AwaitingOrdersParticipantGroupPanels = React.createClass({displayName: 'AwaitingOrdersParticipantGroupPanels',
   propTypes: {
     source: React.PropTypes.string.isRequired
   },
@@ -140,3 +140,5 @@ module.exports = React.createClass({displayName: 'AwaitingOrdersParticipantGroup
     }
   }
 });
+
+module.exports = AwaitingOrdersParticipantGroupPanels;

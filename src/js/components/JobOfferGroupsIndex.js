@@ -12,7 +12,7 @@ var ProgramStore = require('../stores/ProgramStore');
 var EmployerStore = require('../stores/EmployerStore');
 var StaffStore = require('../stores/StaffStore');
 
-module.exports = React.createClass({displayName: 'JobOfferGroupsIndex',
+var JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
   mixins: [SetUrlsMixin],
 
   render: function () {
@@ -32,3 +32,5 @@ module.exports = React.createClass({displayName: 'JobOfferGroupsIndex',
     );
   }
 });
+
+module.exports = JobOfferGroupsIndex;

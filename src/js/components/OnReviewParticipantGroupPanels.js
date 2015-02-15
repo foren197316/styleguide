@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
@@ -278,10 +279,14 @@ var OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
 });
 
 var OnReviewParticipantGroupPanels = React.createClass({displayName: 'OnReviewParticipantGroupPanels',
+  propTypes: {
+    source: React.PropTypes.string.isRequired,
+    employerId: React.PropTypes.string.isRequired,
+    employerName: React.PropTypes.string.isRequired
+  },
+
   getInitialState: function () {
-    return {
-      groups: null
-    };
+    return { groups: [] };
   },
 
   componentDidMount: function() {
