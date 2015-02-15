@@ -10,9 +10,7 @@ $('document').ready(function () {
   var AwaitingOrdersParticipantGroupPanelsNode = document.getElementById('AwaitingOrdersParticipantGroups');
   React.render(
     AwaitingOrdersParticipantGroupPanels({
-      urls: {
-        source: AwaitingOrdersParticipantGroupPanelsNode.getAttribute('source')
-      }
+      source: AwaitingOrdersParticipantGroupPanelsNode.getAttribute('source')
     }),
     AwaitingOrdersParticipantGroupPanelsNode
   );
