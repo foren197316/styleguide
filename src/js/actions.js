@@ -12,6 +12,7 @@ module.exports = {
   InMatchingParticipantGroupActions: Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
     ['offer', 'toggleInternationalDriversLicense', 'togglePreviousParticipation']
   )),
+  JobListingActions: Reflux.createActions(genericStoreActions),
   JobOfferGroupActions: Reflux.createActions(genericStoreActions.concat(filterableStoreActions)),
   ParticipantGroupNameActions: Reflux.createActions(genericStoreActions.concat(
     ['setNames']
