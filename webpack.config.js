@@ -11,13 +11,13 @@ var createEntry = function (component) {
 module.exports = {
   devtool: 'eval',
   entry: {
-    awaiting_orders_participant_groups: createEntry('awaiting_orders_participant_groups'),
-    in_matching_participant_groups: createEntry('in_matching_participant_groups'),
-    reserved_participant_groups: createEntry('reserved_participant_groups'),
-    on_review_participant_groups: createEntry('on_review_participant_groups'),
-    offered_participant_groups: createEntry('offered_participant_groups'),
-    job_offer_groups: createEntry('job_offer_groups'),
-    job_offer_participant_agreements: createEntry('job_offer_participant_agreements')
+    AwaitingOrdersParticipantGroups: createEntry('AwaitingOrdersParticipantGroups'),
+    InMatchingParticipantGroups: createEntry('InMatchingParticipantGroups'),
+    ReservedParticipantGroups: createEntry('ReservedParticipantGroups'),
+    OnReviewParticipantGroups: createEntry('OnReviewParticipantGroups'),
+    OfferedParticipantGroups: createEntry('OfferedParticipantGroups'),
+    JobOfferGroups: createEntry('JobOfferGroups'),
+    JobOfferParticipantAgreements: createEntry('JobOfferParticipantAgreements')
   },
   output: {
     path: __dirname + '/build/js/',
