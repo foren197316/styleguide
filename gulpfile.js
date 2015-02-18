@@ -21,10 +21,9 @@ var gulp        = require('gulp'),
     sourcemaps  = require('gulp-sourcemaps'),
     uglify      = require('gulp-uglify'),
     runSequence = require('run-sequence'),
-    webpackBuild= require("gulp-webpack-build"),
     webpack     = require("webpack"),
     WebpackDevServer = require("webpack-dev-server"),
-    webpackConfig = require(__dirname + '/webpack.config.js');
+    webpackDevConfig = require(__dirname + '/webpack-development.config.js');
 
 
 gulp.task('font-awesome-interexchange', function() {
@@ -112,10 +111,15 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('javascript-components', function () {
-  return gulp.src(__dirname + '/webpack.config.js')
-    .pipe(webpackBuild.watch({watch: true}, function () {
+  var config = require('./webpack-production.config.js');
+  config.watch = true;
+  return webpack(config, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
       runSequence('jshint', 'rev');
-    }));
+    }
+  });
 });
 
 gulp.task('javascript-development', function() {
@@ -153,16 +157,15 @@ gulp.task('rev', ['rev-clean'], function() {
   return gulp.src(['build/**/*.min.css', 'build/**/*.min.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
-    .pipe(gulp.dest('build'))
     .pipe(manifest({path: 'manifest.json'}))
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task("webpack-dev-server", function(callback) {
-  new WebpackDevServer(webpack(webpackConfig), {
+gulp.task('webpack-dev-server', function(callback) {
+  new WebpackDevServer(webpack(webpackDevConfig), {
     hot: true,
     contentBase: __dirname + '/build',
-    publicPath: webpackConfig.output.publicPath
+    publicPath: webpackDevConfig.output.publicPath
   }).listen(3000, 'localhost', function(err) {
     if (err) {
       console.log(err);
