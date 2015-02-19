@@ -2,13 +2,13 @@
   "files": {
     "css/interexchange-app.min-58400d0d.css": {
       "logical_path": "css/interexchange-app.min.css",
-      "mtime": "2015-02-19T15:11:17.000Z",
+      "mtime": "2015-02-19T15:24:25.000Z",
       "size": 2625,
       "digest": "58400d0d"
     },
     "css/interexchange.min-ff4012d1.css": {
       "logical_path": "css/interexchange.min.css",
-      "mtime": "2015-02-19T15:11:17.000Z",
+      "mtime": "2015-02-19T15:24:25.000Z",
       "size": 193097,
       "digest": "ff4012d1"
     },
@@ -68,7 +68,7 @@
     },
     "js/interexchange.min-86b0fe6a.js": {
       "logical_path": "js/interexchange.min.js",
-      "mtime": "2015-02-19T15:11:18.000Z",
+      "mtime": "2015-02-19T15:24:25.000Z",
       "size": 146307,
       "digest": "86b0fe6a"
     }

@@ -10,8 +10,8 @@ $('document').ready(function () {
   var ReservedParticipantGroupsNode = document.getElementById('ReservedParticipantGroups');
   React.render(
     ReservedParticipantGroupPanels({
-      source: ReservedParticipantGroupsNode.getAttribute('source'),
-      employerId: ReservedParticipantGroupsNode.getAttribute('employerId')
+      source: ReservedParticipantGroupsNode.dataset.source,
+      employerId: ReservedParticipantGroupsNode.dataset.employer_id
     }),
     ReservedParticipantGroupsNode
   );

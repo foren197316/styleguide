@@ -110,19 +110,17 @@ gulp.task('javascript', function() {
   .pipe(gulp.dest('build/js'))
 });
 
-gulp.task('javascript-components', function () {
+gulp.task('javascript-components', ['jshint'], function () {
   var config = require('./webpack-production.config.js');
-  config.watch = true;
+  config.watch = false;
   return webpack(config, function (err) {
     if (err) {
       console.log(err);
-    } else {
-      runSequence('jshint', 'rev');
     }
   });
 });
 
-gulp.task('javascript-development', function() {
+gulp.task('javascript-development', ['jshint'], function() {
   return gulp.src(['src/js/development.js'])
     .pipe(sourcemaps.init({debug: true}))
     .pipe(uglify())
@@ -153,7 +151,7 @@ gulp.task('rev-clean', function () {
     .pipe(clean());
 });
 
-gulp.task('rev', ['rev-clean'], function() {
+gulp.task('rev', ['rev-clean', 'styles', 'styles-app', 'javascript', 'javascript-components', 'jshint'], function() {
   return gulp.src(['build/**/*.min.css', 'build/**/*.min.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
@@ -173,11 +171,11 @@ gulp.task('webpack-dev-server', function(callback) {
   });
 });
 
-gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'jshint', 'rev', 'json', 'images', 'fonts', 'styleguide'], function () {
+gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'json', 'images', 'fonts', 'styleguide'], function () {
   gulp.start('webpack-dev-server');
 
-  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app', 'rev'); });
-  gulp.watch(['src/js/development.js'], function() { runSequence('javascript-development', 'jshint', 'rev'); });
+  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app'); });
+  gulp.watch(['src/js/**/*.js'], function() { runSequence('jshint'); });
   gulp.watch(['src/**/*.json'], function() { runSequence('json'); });
   gulp.watch(['src/images/*'], function() { runSequence('images'); });
   gulp.watch(['src/vectors/*.svg'], function() { runSequence('fonts'); });

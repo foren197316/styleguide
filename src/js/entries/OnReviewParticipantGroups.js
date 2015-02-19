@@ -10,9 +10,9 @@ $('document').ready(function () {
   var OnReviewParticipantGroupsNode = document.getElementById('OnReviewParticipantGroups');
   React.render(
     OnReviewParticipantGroupPanels({
-      employerId: OnReviewParticipantGroupsNode.getAttribute('employerId'),
-      employerName: OnReviewParticipantGroupsNode.getAttribute('employerName'),
-      source: OnReviewParticipantGroupsNode.getAttribute('source')
+      employerId: OnReviewParticipantGroupsNode.dataset.employer_id,
+      employerName: OnReviewParticipantGroupsNode.dataset.employer_name,
+      source: OnReviewParticipantGroupsNode.dataset.source
     }),
     OnReviewParticipantGroupsNode
   );

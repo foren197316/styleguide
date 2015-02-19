@@ -11,11 +11,11 @@ $('document').ready(function () {
   React.render(
     JobOfferGroupsIndex({
       urls: {
-        jobOfferGroups: JobOfferGroupsNode.getAttribute('jobOfferGroups'),
-        programs: JobOfferGroupsNode.getAttribute('programs'),
-        positions: JobOfferGroupsNode.getAttribute('positions'),
-        employers: JobOfferGroupsNode.getAttribute('employers'),
-        staffs: JobOfferGroupsNode.getAttribute('staffs')
+        jobOfferGroups: JobOfferGroupsNode.dataset.job_offer_groups,
+        programs: JobOfferGroupsNode.dataset.programs,
+        positions: JobOfferGroupsNode.dataset.positions,
+        employers: JobOfferGroupsNode.dataset.employers,
+        staffs: JobOfferGroupsNode.dataset.staffs
       }
     }),
     JobOfferGroupsNode

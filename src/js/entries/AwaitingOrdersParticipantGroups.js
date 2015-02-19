@@ -10,7 +10,7 @@ $('document').ready(function () {
   var AwaitingOrdersParticipantGroupPanelsNode = document.getElementById('AwaitingOrdersParticipantGroups');
   React.render(
     AwaitingOrdersParticipantGroupPanels({
-      source: AwaitingOrdersParticipantGroupPanelsNode.getAttribute('source')
+      source: AwaitingOrdersParticipantGroupPanelsNode.dataset.source
     }),
     AwaitingOrdersParticipantGroupPanelsNode
   );

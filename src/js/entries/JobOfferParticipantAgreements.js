@@ -11,12 +11,12 @@ $('document').ready(function () {
   React.render(
     JobOfferParticipantAgreementsIndex({
       urls: {
-        jobOfferParticipantAgreements: JobOfferParticipantAgreementsNode.getAttribute('jobOfferParticipantAgreements'),
-        programs: JobOfferParticipantAgreementsNode.getAttribute('programs'),
-        positions: JobOfferParticipantAgreementsNode.getAttribute('positions'),
-        employers: JobOfferParticipantAgreementsNode.getAttribute('employers'),
-        staffs: JobOfferParticipantAgreementsNode.getAttribute('staffs'),
-        export: JobOfferParticipantAgreementsNode.getAttribute('export')
+        jobOfferParticipantAgreements: JobOfferParticipantAgreementsNode.dataset.job_offer_participant_agreements,
+        programs: JobOfferParticipantAgreementsNode.dataset.programs,
+        positions: JobOfferParticipantAgreementsNode.dataset.positions,
+        employers: JobOfferParticipantAgreementsNode.dataset.employers,
+        staffs: JobOfferParticipantAgreementsNode.dataset.staffs,
+        export: JobOfferParticipantAgreementsNode.dataset.export
       }
     }),
     JobOfferParticipantAgreementsNode
