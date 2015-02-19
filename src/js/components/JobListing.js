@@ -21,7 +21,7 @@ var JobListing = React.createClass({displayName: 'JobListing',
           React.DOM.div({className: 'col-xs-12 col-md-3'}, jobListing.employer_region_name)
         ),
         React.DOM.div({className: 'panel-footer clearfix'},
-          React.DOM.div({className: 'col-xs-12 col-md-4'}, jobListing.openings + ' Positions Available'),
+          React.DOM.div({className: 'col-xs-12 col-md-4'}, jobListing.openings + ' Position'.pluralize(jobListing.openings) + ' Available'),
           React.DOM.div({className: 'col-xs-12 col-md-4'}, jobListing.site_city + ', ' + jobListing.site_state),
           React.DOM.div({className: 'col-xs-12 col-md-4'}, (jobListing.has_tips === 'true' ? 'Tipped' : 'Not Tipped')),
           React.DOM.div({className: 'col-xs-12 col-md-4'}, jobListing.hours + ' hours per week'),
