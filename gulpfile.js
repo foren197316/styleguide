@@ -3,7 +3,7 @@
 var gulp        = require('gulp'),
     clean       = require('gulp-clean'),
     _if         = require('gulp-if'),
-    browserify  = require('browserify'),
+    browserSync = require('browser-sync'),
     concat      = require('gulp-concat'),
     consolidate = require('gulp-consolidate'),
     deploy      = require('gulp-gh-pages'),
@@ -172,21 +172,22 @@ gulp.task('webpack-dev-server', function(callback) {
   });
 });
 
-gulp.task('webpack-test-server', function(callback) {
-  new WebpackDevServer(webpack(webpackProdConfig), {
-    hot: false,
-    contentBase: __dirname + '/dist',
-    publicPath: 'http://localhost:3001/js/'
-  }).listen(3001, 'localhost', function(err) {
-    if (err) {
-      console.log(err);
+gulp.task('browser-sync-dist-server', function(callback) {
+  return browserSync({
+    open: false,
+    port: 8080,
+    ui: {
+      port: 8081
+    },
+    server: {
+      baseDir: './dist'
     }
   });
 });
 
 gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'json', 'images', 'fonts', 'styleguide'], function () {
   gulp.start('webpack-dev-server');
-  gulp.start('webpack-test-server');
+  gulp.start('browser-sync-dist-server');
 
   gulp.watch(['build/**/*'], function() { runSequence('rev'); });
   gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app'); });

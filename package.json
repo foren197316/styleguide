@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "main": "index.html",
   "devDependencies": {
+    "browser-sync": "^2.2.0",
     "del": "~0.1.2",
     "expose-loader": "^0.6.0",
-    "gulp": "^3.8.7",
+    "gulp": "^3.8.11",
     "gulp-autoprefixer": "0.0.9",
     "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.3.4",
@@ -63,19 +64,5 @@
   },
   "scripts": {
     "test": "jest"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "react/addons": "global:React",
-    "reflux": "global:Reflux",
-    "react-bootstrap": "global:ReactBootstrap",
-    "react-radio-group": "global:RadioGroup",
-    "intercom.io": "global:Intercom",
-    "moment": "global:moment",
-    "jquery": "global:$"
   }
 }
