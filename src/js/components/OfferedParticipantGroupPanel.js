@@ -12,6 +12,8 @@ var Alert = require('./Alert');
 var $ = require('jquery');
 var moment = require('moment');
 
+require('../stores/JobOfferGroupStore'); /* TODO move to store method, not action */
+
 module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
     offeredParticipantGroup: React.PropTypes.object.isRequired

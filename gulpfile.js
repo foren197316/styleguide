@@ -23,7 +23,8 @@ var gulp        = require('gulp'),
     runSequence = require('run-sequence'),
     webpack     = require("webpack"),
     WebpackDevServer = require("webpack-dev-server"),
-    webpackDevConfig = require(__dirname + '/webpack-development.config.js');
+    webpackDevConfig = require(__dirname + '/webpack-development.config.js'),
+    webpackProdConfig = require(__dirname + '/webpack-production.config.js');
 
 
 gulp.task('font-awesome-interexchange', function() {
@@ -151,7 +152,7 @@ gulp.task('rev-clean', function () {
     .pipe(clean());
 });
 
-gulp.task('rev', ['rev-clean', 'styles', 'styles-app', 'javascript', 'javascript-components', 'jshint'], function() {
+gulp.task('rev', ['rev-clean'], function() {
   return gulp.src(['build/**/*.min.css', 'build/**/*.min.js'])
     .pipe(rev())
     .pipe(gulp.dest('dist'))
@@ -171,9 +172,23 @@ gulp.task('webpack-dev-server', function(callback) {
   });
 });
 
+gulp.task('webpack-test-server', function(callback) {
+  new WebpackDevServer(webpack(webpackProdConfig), {
+    hot: false,
+    contentBase: __dirname + '/dist',
+    publicPath: 'http://localhost:3001/js/'
+  }).listen(3001, 'localhost', function(err) {
+    if (err) {
+      console.log(err);
+    }
+  });
+});
+
 gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'json', 'images', 'fonts', 'styleguide'], function () {
   gulp.start('webpack-dev-server');
+  gulp.start('webpack-test-server');
 
+  gulp.watch(['build/*'], function() { runSequence('rev'); });
   gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app'); });
   gulp.watch(['src/js/**/*.js'], function() { runSequence('jshint'); });
   gulp.watch(['src/**/*.json'], function() { runSequence('json'); });
