@@ -8,7 +8,6 @@ var gulp        = require('gulp'),
     consolidate = require('gulp-consolidate'),
     deploy      = require('gulp-gh-pages'),
     flow        = require('gulp-flowtype'),
-    gutil       = require('gulp-util'),
     hologram    = require('gulp-hologram'),
     iconfont    = require('gulp-iconfont'),
     jshint      = require('gulp-jshint'),
@@ -17,7 +16,6 @@ var gulp        = require('gulp'),
     rev         = require('gulp-rev'),
     manifest    = require('gulp-rev-rails-manifest'),
     sass        = require('gulp-sass'),
-    source      = require('vinyl-source-stream'),
     sourcemaps  = require('gulp-sourcemaps'),
     uglify      = require('gulp-uglify'),
     runSequence = require('run-sequence'),
@@ -25,7 +23,6 @@ var gulp        = require('gulp'),
     WebpackDevServer = require("webpack-dev-server"),
     webpackDevConfig = require(__dirname + '/webpack-development.config.js'),
     webpackProdConfig = require(__dirname + '/webpack-production.config.js');
-
 
 gulp.task('font-awesome-interexchange', function() {
   return gulp.src(['src/vectors/*.svg'])
@@ -112,11 +109,14 @@ gulp.task('javascript', function() {
 });
 
 gulp.task('javascript-components', ['jshint'], function () {
-  var config = require('./webpack-production.config.js');
-  config.watch = false;
+  var config = webpackProdConfig;
+  config.watch = true;
+  config.cache = true;
   return webpack(config, function (err) {
     if (err) {
       console.log(err);
+    } else {
+      runSequence('rev');
     }
   });
 });
@@ -188,7 +188,7 @@ gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-developmen
   gulp.start('webpack-dev-server');
   gulp.start('webpack-test-server');
 
-  gulp.watch(['build/*'], function() { runSequence('rev'); });
+  gulp.watch(['build/**/*'], function() { runSequence('rev'); });
   gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app'); });
   gulp.watch(['src/js/**/*.js'], function() { runSequence('jshint'); });
   gulp.watch(['src/**/*.json'], function() { runSequence('json'); });

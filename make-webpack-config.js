@@ -8,7 +8,6 @@ module.exports = function (environment) {
 
   var config = {
     output: {
-      path: __dirname + '/build/js',
       filename: '[name].min.js'
     },
     externals: {
@@ -25,6 +24,7 @@ module.exports = function (environment) {
   };
 
   if (environment === 'development') {
+    config.output.path = __dirname + '/build/js';
     config.devtool = 'eval';
     config.output.publicPath = 'http://localhost:3000/js/';
     config.plugins = config.plugins.concat([
@@ -40,6 +40,8 @@ module.exports = function (environment) {
       'webpack-dev-server/client?http://localhost:3000',
       'webpack/hot/only-dev-server'
     ]);
+  } else if (environment === 'production') {
+    config.output.path = __dirname + '/build/js';
   }
 
   config.entry = {
