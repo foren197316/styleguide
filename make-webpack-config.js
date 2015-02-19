@@ -48,6 +48,7 @@ module.exports = function (environment) {
     ReservedParticipantGroups: createEntry('ReservedParticipantGroups'),
     OnReviewParticipantGroups: createEntry('OnReviewParticipantGroups'),
     OfferedParticipantGroups: createEntry('OfferedParticipantGroups'),
+    JobListingsIndex: createEntry('JobListingsIndex'),
     JobOfferGroups: createEntry('JobOfferGroups'),
     JobOfferParticipantAgreements: createEntry('JobOfferParticipantAgreements')
   };
