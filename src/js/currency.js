@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = function (string) {
-  return '$' + parseFloat(string).toFixed(2);
+  return '$' + (parseFloat(string) || 0).toFixed(2);
 };
