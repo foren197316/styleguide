@@ -38,9 +38,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     React.addons.LinkedStateMixin
   ],
 
-  statics: {
-    noResultsMessage: 'There are currently no participants available who match your criteria. Check back soon!'
-  },
+  noResultsMessage: 'There are currently no participants available who match your criteria. Check back soon!',
 
   getInitialState: function () {
     return { formSending: false };
@@ -128,7 +126,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                 )
               );
             } else {
-              return Alert({type: 'warning', message: InMatchingParticipantGroupsIndex.noResultsMessage, closeable: false});
+              return Alert({type: 'warning', message: this.noResultsMessage, closeable: false});
             }
           }.bind(this)()
         )

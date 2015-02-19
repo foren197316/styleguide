@@ -1,8 +1,9 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
 var EmployerStore = require('../stores/EmployerStore');
-var JobOfferGroupActions = require('../actions').JobOfferGroupActions;
+var JobOfferGroupStore = require('../stores/JobOfferGroupStore');
 var EmployerHeader = require('./EmployerHeader');
 var JobOffer = require('./JobOffer');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
@@ -27,7 +28,7 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
 
   handleConfirm: function() {
     this.setState({ sending: true });
-    JobOfferGroupActions.destroy(this.props.jobOfferGroup.id);
+    JobOfferGroupStore.destroy(this.props.jobOfferGroup.id);
   },
 
   render: function () {

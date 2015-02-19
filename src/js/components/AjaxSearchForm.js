@@ -54,7 +54,7 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
       clearTimeout(this.timer);
     }
 
-    this.timer = setTimeout(this.ajaxPost.bind(this), this.props.delay);
+    this.timer = setTimeout(this.ajaxPost, this.props.delay);
   },
 
   render: function () {

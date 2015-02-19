@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
@@ -99,7 +100,7 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
   }
 });
 
-var ReservedParticipantGroupPanels = React.createClass({displayName: 'ReservedParticipantGroupPanels',
+module.exports = React.createClass({displayName: 'ReservedParticipantGroupPanels',
   propTypes: {
     source: React.PropTypes.string.isRequired
   },
@@ -136,5 +137,3 @@ var ReservedParticipantGroupPanels = React.createClass({displayName: 'ReservedPa
     }
   }
 });
-
-module.exports = ReservedParticipantGroupPanels;

@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
@@ -7,7 +8,7 @@ var JobOffer = require('./JobOffer');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var moment = require('moment');
 
-var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferParticipantAgreement',
+module.exports = React.createClass({displayName: 'JobOfferParticipantAgreement',
   propTypes: {
     jobOfferParticipantAgreement: React.PropTypes.object.isRequired
   },
@@ -32,5 +33,3 @@ var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferPart
     );
   }
 });
-
-module.exports = JobOfferParticipantAgreement;

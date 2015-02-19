@@ -11,6 +11,7 @@ var OfferedParticipantGroupParticipant = require('./OfferedParticipantGroupParti
 var Alert = require('./Alert');
 var $ = require('jquery');
 var moment = require('moment');
+var JobOfferGroupStore = require('../stores/JobOfferGroupStore');
 
 module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
@@ -44,11 +45,10 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
 
   handleConfirm: function() {
     this.setState({ sending: true });
-
     var node = this.getDOMNode();
 
     if (this.state.sendingJobOffer) {
-      actions.JobOfferGroupActions.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
+      JobOfferGroupStore.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
         this.setState({ status: response.responseJSON.status });
       }.bind(this));
     } else if (this.state.rejecting) {
@@ -60,24 +60,25 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   },
 
   render: function() {
-    var actions,
-        footerName = this.props.offeredParticipantGroup.name,
-        employer = EmployerStore.findById(this.props.offeredParticipantGroup.employer_id),
-        draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers,
-        participants = this.props.offeredParticipantGroup.participants,
-        participantNodes = draftJobOffers.map(function (draftJobOffer) {
-          var participant = participants.findById(draftJobOffer.participant_id);
-          var position = PositionStore.findById(draftJobOffer.position_id);
+    var actions;
+    var footerName = this.props.offeredParticipantGroup.name;
+    var employer = EmployerStore.findById(this.props.offeredParticipantGroup.employer_id);
+    var draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers;
+    var participants = this.props.offeredParticipantGroup.participants;
 
-          return (
-            OfferedParticipantGroupParticipant({
-              key: participant.id,
-              participant: participant,
-              position: position,
-              offer: draftJobOffer,
-              offerLinkTitle: 'Preview'})
-          );
-        }.bind(this));
+    var participantNodes = draftJobOffers.map(function (draftJobOffer) {
+      var participant = participants.findById(draftJobOffer.participant_id);
+      var position = PositionStore.findById(draftJobOffer.position_id);
+
+      return (
+        OfferedParticipantGroupParticipant({
+          key: participant.id,
+          participant: participant,
+          position: position,
+          offer: draftJobOffer,
+          offerLinkTitle: 'Preview'})
+      );
+    }, this);
 
     if (this.state.status) {
       var status = this.state.status;
