@@ -7,7 +7,6 @@ var SetUrlsMixin = require('../mixins').SetUrlsMixin;
 var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
 var JobListingStore = require('../stores/JobListingStore');
 var JobListing = require('./JobListing');
-var JobListingDetails = require('./JobListingDetails');
 var JobListingActions = require('../actions').JobListingActions;
 var Pagination = require('./Pagination');
 var ReloadingComponent = require('./ReloadingComponent');
@@ -27,16 +26,6 @@ var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
 
   componentDidMount: function () {
     JobListingActions.ajaxSearch(query.getQuery());
-  },
-
-  pushJobListingState: function (jobListing, event) {
-    if (event) {
-      event.preventDefault();
-    }
-    var rootNode = global.document.getElementById('RootNode');
-    global.history.pushState(jobListing, '', '/job_listings/' + jobListing.id);
-    React.unmountComponentAtNode(rootNode);
-    React.render(JobListingDetails({jobListing: jobListing}), rootNode);
   },
 
   renderLoaded: function () {
@@ -62,7 +51,7 @@ var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
             ),
             React.DOM.div(null,
               this.state.jobListings.map(function (jobListing, index) {
-                return JobListing({jobListing: jobListing, linkMethod: this.pushJobListingState.bind(this, jobListing), key: 'jobListing-' + index});
+                return JobListing({jobListing: jobListing, key: 'jobListing-' + index});
               }, this)
             ),
             React.DOM.div({className: 'row'},
