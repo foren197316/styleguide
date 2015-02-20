@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
@@ -9,8 +10,10 @@ var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var OfferedParticipantGroupParticipant = require('./OfferedParticipantGroupParticipant');
 var Alert = require('./Alert');
 var $ = require('jquery');
+var moment = require('moment');
+var JobOfferGroupStore = require('../stores/JobOfferGroupStore');
 
-var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParticipantGroupPanel',
+module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
   propTypes: {
     offeredParticipantGroup: React.PropTypes.object.isRequired
   },
@@ -42,11 +45,10 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
 
   handleConfirm: function() {
     this.setState({ sending: true });
-
     var node = this.getDOMNode();
 
     if (this.state.sendingJobOffer) {
-      actions.JobOfferGroupActions.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
+      JobOfferGroupStore.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, function (response) {
         this.setState({ status: response.responseJSON.status });
       }.bind(this));
     } else if (this.state.rejecting) {
@@ -58,24 +60,25 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
   },
 
   render: function() {
-    var actions,
-        footerName = this.props.offeredParticipantGroup.name,
-        employer = EmployerStore.findById(this.props.offeredParticipantGroup.employer_id),
-        draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers,
-        participants = this.props.offeredParticipantGroup.participants,
-        participantNodes = draftJobOffers.map(function (draftJobOffer) {
-          var participant = participants.findById(draftJobOffer.participant_id);
-          var position = PositionStore.findById(draftJobOffer.position_id);
+    var actions;
+    var footerName = this.props.offeredParticipantGroup.name;
+    var employer = EmployerStore.findById(this.props.offeredParticipantGroup.employer_id);
+    var draftJobOffers = this.props.offeredParticipantGroup.draft_job_offers;
+    var participants = this.props.offeredParticipantGroup.participants;
 
-          return (
-            OfferedParticipantGroupParticipant({
-              key: participant.id,
-              participant: participant,
-              position: position,
-              offer: draftJobOffer,
-              offerLinkTitle: 'Preview'})
-          );
-        }.bind(this));
+    var participantNodes = draftJobOffers.map(function (draftJobOffer) {
+      var participant = participants.findById(draftJobOffer.participant_id);
+      var position = PositionStore.findById(draftJobOffer.position_id);
+
+      return (
+        OfferedParticipantGroupParticipant({
+          key: participant.id,
+          participant: participant,
+          position: position,
+          offer: draftJobOffer,
+          offerLinkTitle: 'Preview'})
+      );
+    }, this);
 
     if (this.state.status) {
       var status = this.state.status;
@@ -119,11 +122,10 @@ var OfferedParticipantGroupPanel = React.createClass({displayName: 'OfferedParti
           participantNodes
         ),
         ParticipantGroupPanelFooter({name: footerName},
-          actions
+          actions,
+          React.DOM.div(null, moment(this.props.offeredParticipantGroup.created_at).fromNow())
         )
       )
     );
   }
 });
-
-module.exports = OfferedParticipantGroupPanel;

@@ -4,6 +4,25 @@ var actions = require('./actions');
 var Reflux = require('reflux');
 var $ = require('jquery');
 var Base64 = require('./base64');
+var moment = require('moment');
+
+moment.locale('en', {
+  relativeTime: {
+    future : 'in %s',
+    past : '%s ago',
+    s : 'a few seconds',
+    m : '1 minute',
+    mm : '%d minutes',
+    h : '1 hour',
+    hh : '%d hours',
+    d : '1 day',
+    dd : '%d days',
+    M : '1 month',
+    MM : '%d months',
+    y : '1 year',
+    yy : '%d years'
+  }
+});
 
 $.ajaxPrefilter(function(options, originalOptions, xhr) {
   if (!options.crossDomain) {
@@ -438,11 +457,3 @@ Reflux.StoreMethods.map = function (func) {
 Reflux.StoreMethods.mapAttribute = function (func) {
   return this.data.mapAttribute(func);
 };
-
-global.AwaitingOrdersParticipantGroupPanels = require('./components/AwaitingOrdersParticipantGroupPanels');
-global.InMatchingParticipantGroupsIndex = require('./components/InMatchingParticipantGroupsIndex');
-global.ReservedParticipantGroupPanels = require('./components/ReservedParticipantGroupPanels');
-global.OnReviewParticipantGroupPanels = require('./components/OnReviewParticipantGroupPanels');
-global.OfferedParticipantGroupsIndex = require('./components/OfferedParticipantGroupsIndex');
-global.JobOfferGroupsIndex = require('./components/JobOfferGroupsIndex');
-global.JobOfferParticipantAgreementsIndex = require('./components/JobOfferParticipantAgreementsIndex');

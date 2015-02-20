@@ -22,12 +22,12 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
   },
 
   render: function () {
-    var overtimeRate = null,
-        jobOfferParticipantAgreement = null,
-        jobOfferFileMakerReference = null,
-        jobOfferLink = this.props.offer.href ?
-          React.DOM.a({href: this.props.offer.href}, this.props.offerLinkTitle) :
-          null;
+    var overtimeRate = null;
+    var jobOfferParticipantAgreement = null;
+    var jobOfferFileMakerReference = null;
+    var jobOfferLink = this.props.offer.href ?
+      React.DOM.a({href: this.props.offer.href}, this.props.offerLinkTitle) :
+      null;
 
     if (this.props.offer.overtime === 'yes') {
       overtimeRate = (

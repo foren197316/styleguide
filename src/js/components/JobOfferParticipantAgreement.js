@@ -1,11 +1,14 @@
+/* @flow */
 'use strict';
 
 var React = require('react/addons');
 var EmployerStore = require('../stores/EmployerStore');
 var EmployerHeader = require('./EmployerHeader');
 var JobOffer = require('./JobOffer');
+var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+var moment = require('moment');
 
-var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferParticipantAgreement',
+module.exports = React.createClass({displayName: 'JobOfferParticipantAgreement',
   propTypes: {
     jobOfferParticipantAgreement: React.PropTypes.object.isRequired
   },
@@ -22,10 +25,11 @@ var JobOfferParticipantAgreement = React.createClass({displayName: 'JobOfferPart
         EmployerHeader({employer: employer}),
         React.DOM.div({className: 'list-group'},
           JobOffer({jobOffer: this.props.jobOfferParticipantAgreement.job_offer, jobOfferParticipantAgreement: this.props.jobOfferParticipantAgreement})
+        ),
+        ParticipantGroupPanelFooter({name: ''},
+          React.DOM.div(null, moment(this.props.jobOfferParticipantAgreement.created_at).fromNow())
         )
       )
     );
   }
 });
-
-module.exports = JobOfferParticipantAgreement;

@@ -4,8 +4,8 @@ var React = require('react/addons');
 
 var ReadOnlyFormGroup = React.createClass({displayName: 'ReadOnlyFormGroup',
   render: function () {
-    var label = this.props.label,
-        value = this.props.value;
+    var label = this.props.label;
+    var value = this.props.value;
 
     return (
       React.DOM.div({className: 'form-group'},

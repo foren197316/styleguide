@@ -1,3 +1,4 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
@@ -80,7 +81,7 @@ var JobOfferGroupStore = Reflux.createStore({
     this.emitFilteredData();
   },
 
-  onCreate: function (data, callback) {
+  create: function (data, callback) {
     $.ajax({
       url: '/job_offer_groups.json',
       type: 'POST',
@@ -90,7 +91,7 @@ var JobOfferGroupStore = Reflux.createStore({
     });
   },
 
-  onDestroy: function (jobOfferGroupId) {
+  destroy: function (jobOfferGroupId) {
     $.ajax({
       url: '/job_offer_groups/' + parseInt(jobOfferGroupId) + '.json',
       type: 'POST',
