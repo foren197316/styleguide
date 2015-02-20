@@ -7,7 +7,7 @@ var React = require('react/addons');
 var JobListingsIndex = require('../components/JobListingsIndex');
 
 $('document').ready(function () {
-  var JobListingsNode = document.getElementById('JobListings');
+  var JobListingsNode = document.getElementById('RootNode');
   React.render(
     JobListingsIndex({
       urls: {

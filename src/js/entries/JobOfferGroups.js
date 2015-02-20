@@ -7,7 +7,7 @@ var React = require('react/addons');
 var JobOfferGroupsIndex = require('../components/JobOfferGroupsIndex');
 
 $('document').ready(function () {
-  var JobOfferGroupsNode = document.getElementById('JobOfferGroups');
+  var JobOfferGroupsNode = document.getElementById('RootNode');
   React.render(
     JobOfferGroupsIndex({
       urls: {

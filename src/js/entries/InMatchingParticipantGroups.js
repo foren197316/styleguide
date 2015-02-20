@@ -7,7 +7,7 @@ var React = require('react/addons');
 var InMatchingParticipantGroupsIndex = require('../components/InMatchingParticipantGroupsIndex');
 
 $('document').ready(function () {
-  var InMatchingParticipantGroupsNode = document.getElementById('InMatchingParticipantGroups');
+  var InMatchingParticipantGroupsNode = document.getElementById('RootNode');
   React.render(
     InMatchingParticipantGroupsIndex({
       urls: {

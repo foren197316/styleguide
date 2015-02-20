@@ -7,7 +7,7 @@ var React = require('react/addons');
 var OfferedParticipantGroupsIndex = require('../components/OfferedParticipantGroupsIndex');
 
 $('document').ready(function () {
-  var OfferedParticipantGroupsNode = document.getElementById('OfferedParticipantGroups');
+  var OfferedParticipantGroupsNode = document.getElementById('RootNode');
   React.render(
     OfferedParticipantGroupsIndex({
       urls: {

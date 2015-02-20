@@ -7,7 +7,7 @@ var React = require('react/addons');
 var OnReviewParticipantGroupPanels = require('../components/OnReviewParticipantGroupPanels');
 
 $('document').ready(function () {
-  var OnReviewParticipantGroupsNode = document.getElementById('OnReviewParticipantGroups');
+  var OnReviewParticipantGroupsNode = document.getElementById('RootNode');
   React.render(
     OnReviewParticipantGroupPanels({
       employerId: OnReviewParticipantGroupsNode.dataset.employer_id,

@@ -7,7 +7,7 @@ var React = require('react/addons');
 var ReservedParticipantGroupPanels = require('../components/ReservedParticipantGroupPanels');
 
 $('document').ready(function () {
-  var ReservedParticipantGroupsNode = document.getElementById('ReservedParticipantGroups');
+  var ReservedParticipantGroupsNode = document.getElementById('RootNode');
   React.render(
     ReservedParticipantGroupPanels({
       source: ReservedParticipantGroupsNode.dataset.source,

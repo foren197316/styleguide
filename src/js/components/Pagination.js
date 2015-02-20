@@ -11,14 +11,16 @@ module.exports = React.createClass({displayName: 'Pagination',
     actions: React.PropTypes.object.isRequired,
     page: React.PropTypes.number,
     formSending: React.PropTypes.object.isRequired,
-    anchor: React.PropTypes.string
+    anchor: React.PropTypes.string,
+    recordName: React.PropTypes.string
   },
 
   getDefaultProps: function () {
     return {
       page: 1,
       pageCount: 1,
-      anchor: null
+      anchor: null,
+      recordName: 'Records'
     };
   },
 
@@ -63,7 +65,7 @@ module.exports = React.createClass({displayName: 'Pagination',
 
     return React.DOM.div({className: 'row react-pagination'},
       React.DOM.div({className: 'col-xs-4'},
-        React.DOM.div({className: 'label label-default'}, this.props.recordCount + ' Participants')
+        React.DOM.div({className: 'label label-default'}, this.props.recordCount + ' ' + this.props.recordName)
       ),
       React.DOM.div({className: 'col-xs-8'},
         React.DOM.div({className: 'btn-group pull-right'}, buttons)

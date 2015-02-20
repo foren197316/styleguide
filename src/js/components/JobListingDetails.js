@@ -2,27 +2,16 @@
 'use strict';
 
 var React = require('react/addons');
-var Reflux = require('reflux');
 var JobListing = require('./JobListing');
-var JobListingStore = require('../stores/JobListingStore');
-var JobListingActions = require('../actions').JobListingActions;
-var SetUrlsMixin = require('../mixins').SetUrlsMixin;
-var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
 var currency = require('../currency');
 
 module.exports = React.createClass({displayName: 'JobListingDetails',
-  mixins: [
-    SetUrlsMixin,
-    Reflux.connect(JobListingStore, 'jobListing'),
-    RenderLoadedMixin('jobListing')
-  ],
-
-  componentDidMount: function () {
-    JobListingActions.ajaxLoadSingleton();
+  propTypes: {
+    jobListing: React.PropTypes.object.isRequired
   },
 
-  renderLoaded: function () {
-    var jobListing = this.state.jobListing;
+  render: function () {
+    var jobListing = this.props.jobListing;
 
     return (
       JobListing({jobListing: jobListing},

@@ -4,12 +4,12 @@
 require('../main');
 var $ = require('jquery');
 var React = require('react/addons');
-var JobListingDetails = require('../components/JobListingDetails');
+var JobListingIndex = require('../components/JobListingIndex');
 
 $('document').ready(function () {
-  var JobListingNode = document.getElementById('JobListing');
+  var JobListingNode = document.getElementById('RootNode');
   React.render(
-    JobListingDetails({
+    JobListingIndex({
       urls: {
         jobListing: JobListingNode.dataset.job_listing
       }
