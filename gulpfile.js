@@ -115,8 +115,6 @@ gulp.task('javascript-components', ['jshint'], function () {
   return webpack(config, function (err) {
     if (err) {
       console.log(err);
-    } else {
-      runSequence('rev');
     }
   });
 });
@@ -145,6 +143,11 @@ gulp.task('flow', function () {
 gulp.task('styleguide', function () {
   return gulp.src(['hologram_config.yml'])
     .pipe(hologram());
+});
+
+gulp.task('build-clean', function () {
+  return gulp.src(['build/css/**/*.css', 'build/js/**/*.js'], {read: false})
+    .pipe(clean());
 });
 
 gulp.task('rev-clean', function () {
@@ -195,4 +198,8 @@ gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-developmen
   gulp.watch(['src/**/*.json'], function() { runSequence('json'); });
   gulp.watch(['src/images/*'], function() { runSequence('images'); });
   gulp.watch(['src/vectors/*.svg'], function() { runSequence('fonts'); });
+});
+
+gulp.task('start', ['build-clean'], function () {
+  gulp.start('serve');
 });

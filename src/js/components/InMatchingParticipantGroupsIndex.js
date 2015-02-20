@@ -55,18 +55,17 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     actions.CountryActions.ajaxLoad();
   },
 
-  intercom: function (employers) {
+  intercom: function (employer) {
     this.intercomListener.stop();
 
     require('intercom.io')('trackEvent', 'visited-employer-participants-search', {
-      employer_id: employers[0].id,
-      employer_name: employers[0].name
+      employer_id: employer.id,
+      employer_name: employer.name
     });
   },
 
   renderLoaded: function () {
-    var employer = this.state.employer[0];
-
+    var employer = this.state.employer;
     var page = query.getCurrentPage();
     var pageCount = InMatchingParticipantGroupStore.meta.pageCount;
     var recordCount = InMatchingParticipantGroupStore.meta.recordCount;

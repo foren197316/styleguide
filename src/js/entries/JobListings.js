@@ -7,13 +7,13 @@ var React = require('react/addons');
 var JobListingsIndex = require('../components/JobListingsIndex');
 
 $('document').ready(function () {
-  var JobListingsIndexNode = document.getElementById('JobListingsIndex');
+  var JobListingsNode = document.getElementById('JobListings');
   React.render(
     JobListingsIndex({
       urls: {
-        jobListings: JobListingsIndexNode.dataset.job_listings
+        jobListings: JobListingsNode.dataset.job_listings
       }
     }),
-    JobListingsIndexNode
+    JobListingsNode
   );
 });

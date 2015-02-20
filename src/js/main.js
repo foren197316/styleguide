@@ -233,8 +233,12 @@ Reflux.StoreMethods.onLoadSuccess = function (response) {
 
   this.data = response[this.resourceName.camelCaseToUnderscore()];
 
-  if (!(this.data instanceof Array)) {
+  if (!(this.data instanceof Array) && !this.singleton) {
     this.data = [this.data].notEmpty();
+  }
+
+  if (this.data == null) {
+    this.data = [];
   }
 
   this.permission = true;

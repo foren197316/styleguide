@@ -1,9 +1,10 @@
+/* @flow */
 'use strict';
 
 var Reflux = require('reflux');
 var actions = require('../actions');
 
-var EmployerStore = Reflux.createStore({
+module.exports = Reflux.createStore({
   resourceName: 'employers',
   listenables: actions.EmployerActions,
 
@@ -35,20 +36,24 @@ var EmployerStore = Reflux.createStore({
   },
 
   onUpdateOnReviewCount: function (employerId, enrollmentId, count) {
-    this.data = this.data.map(function (employer) {
-      if (employer.id === employerId) {
-        employer.enrollments = employer.enrollments.map(function (enrollment) {
-          if (enrollment.id === enrollmentId) {
-            enrollment.on_review_count += count;
-          }
-          return enrollment;
-        });
+    var updateEnrollmentOnReviewCount = function (enrollment) {
+      if (enrollment.id === enrollmentId) {
+        enrollment.on_review_count += count;
       }
-      return employer;
-    });
+      return enrollment;
+    };
+
+    if (this.singleton) {
+      this.data.enrollments = this.data.enrollments.map(updateEnrollmentOnReviewCount);
+    } else {
+      this.data = this.data.map(function (employer) {
+        if (employer.id === employerId) {
+          employer.enrollments = employer.enrollments.map(updateEnrollmentOnReviewCount);
+        }
+        return employer;
+      });
+    }
 
     this.trigger(this.data);
   }
 });
-
-module.exports = EmployerStore;
