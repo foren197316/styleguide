@@ -19,7 +19,7 @@ var JobListing = React.createClass({displayName: 'JobListing',
     }
 
     return (
-      React.DOM.div({className: 'panel panel-default participant-group-panel'},
+      React.DOM.div({className: 'panel panel-default'},
         React.DOM.div({className: 'panel-body'},
           React.DOM.div({className: 'col-xs-12 col-md-4'},
             React.DOM.a(linkAttributes, jobListing.position_name)
