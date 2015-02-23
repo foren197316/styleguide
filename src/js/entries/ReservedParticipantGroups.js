@@ -2,17 +2,13 @@
 'use strict';
 
 require('../main');
-var $ = require('jquery');
 var React = require('react/addons');
+var withRootNode = require('../root-node');
 var ReservedParticipantGroupPanels = require('../components/ReservedParticipantGroupPanels');
 
-$('document').ready(function () {
-  var ReservedParticipantGroupsNode = document.getElementById('RootNode');
-  React.render(
-    ReservedParticipantGroupPanels({
-      source: ReservedParticipantGroupsNode.dataset.source,
-      employerId: ReservedParticipantGroupsNode.dataset.employer_id
-    }),
-    ReservedParticipantGroupsNode
-  );
+withRootNode(function (rootNode) {
+  React.render(ReservedParticipantGroupPanels({
+    source: rootNode.dataset.source,
+    employerId: rootNode.dataset.employer_id
+  }), rootNode);
 });

@@ -2,18 +2,14 @@
 'use strict';
 
 require('../main');
-var $ = require('jquery');
 var React = require('react/addons');
 var JobListingShow = require('../components/JobListingShow');
+var withRootNode = require('../root-node');
 
-$('document').ready(function () {
-  var JobListingNode = document.getElementById('RootNode');
-  React.render(
-    JobListingShow({
-      urls: {
-        jobListing: JobListingNode.dataset.job_listing
-      }
-    }),
-    JobListingNode
-  );
+withRootNode(function (rootNode) {
+  React.render(JobListingShow({
+    urls: {
+      jobListing: rootNode.dataset.job_listing
+    }
+  }), rootNode);
 });

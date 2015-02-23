@@ -2,22 +2,18 @@
 'use strict';
 
 require('../main');
-var $ = require('jquery');
 var React = require('react/addons');
+var withRootNode = require('../root-node');
 var JobOfferGroupsIndex = require('../components/JobOfferGroupsIndex');
 
-$('document').ready(function () {
-  var JobOfferGroupsNode = document.getElementById('RootNode');
-  React.render(
-    JobOfferGroupsIndex({
-      urls: {
-        jobOfferGroups: JobOfferGroupsNode.dataset.job_offer_groups,
-        programs: JobOfferGroupsNode.dataset.programs,
-        positions: JobOfferGroupsNode.dataset.positions,
-        employers: JobOfferGroupsNode.dataset.employers,
-        staffs: JobOfferGroupsNode.dataset.staffs
-      }
-    }),
-    JobOfferGroupsNode
-  );
+withRootNode(function (rootNode) {
+  React.render(JobOfferGroupsIndex({
+    urls: {
+      jobOfferGroups: rootNode.dataset.job_offer_groups,
+      programs: rootNode.dataset.programs,
+      positions: rootNode.dataset.positions,
+      employers: rootNode.dataset.employers,
+      staffs: rootNode.dataset.staffs
+    }
+  }), rootNode);
 });

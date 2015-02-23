@@ -2,16 +2,12 @@
 'use strict';
 
 require('../main');
-var $ = require('jquery');
 var React = require('react/addons');
 var AwaitingOrdersParticipantGroupPanels = require('../components/AwaitingOrdersParticipantGroupPanels');
+var withRootNode = require('../root-node');
 
-$('document').ready(function () {
-  var AwaitingOrdersParticipantGroupPanelsNode = document.getElementById('RootNode');
-  React.render(
-    AwaitingOrdersParticipantGroupPanels({
-      source: AwaitingOrdersParticipantGroupPanelsNode.dataset.source
-    }),
-    AwaitingOrdersParticipantGroupPanelsNode
-  );
+withRootNode(function (rootNode) {
+  React.render(AwaitingOrdersParticipantGroupPanels({
+    source: rootNode.dataset.source
+  }), rootNode);
 });

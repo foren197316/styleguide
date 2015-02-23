@@ -2,22 +2,18 @@
 'use strict';
 
 require('../main');
-var $ = require('jquery');
+var withRootNode = require('../root-node');
 var React = require('react/addons');
 var InMatchingParticipantGroupsIndex = require('../components/InMatchingParticipantGroupsIndex');
 
-$('document').ready(function () {
-  var InMatchingParticipantGroupsNode = document.getElementById('RootNode');
-  React.render(
-    InMatchingParticipantGroupsIndex({
-      urls: {
-        employer: InMatchingParticipantGroupsNode.dataset.employer,
-        inMatchingParticipantGroups: InMatchingParticipantGroupsNode.dataset.in_matching_participant_groups,
-        programs: InMatchingParticipantGroupsNode.dataset.programs,
-        positions: InMatchingParticipantGroupsNode.dataset.positions,
-        countries: InMatchingParticipantGroupsNode.dataset.countries
-      }
-    }),
-    InMatchingParticipantGroupsNode
-  );
+withRootNode(function (rootNode) {
+  React.render(InMatchingParticipantGroupsIndex({
+    urls: {
+      employer: rootNode.dataset.employer,
+      inMatchingParticipantGroups: rootNode.dataset.in_matching_participant_groups,
+      programs: rootNode.dataset.programs,
+      positions: rootNode.dataset.positions,
+      countries: rootNode.dataset.countries
+    }
+  }), rootNode);
 });

@@ -2,22 +2,18 @@
 'use strict';
 
 require('../main');
-var $ = require('jquery');
 var React = require('react/addons');
+var withRootNode = require('../root-node');
 var OfferedParticipantGroupsIndex = require('../components/OfferedParticipantGroupsIndex');
 
-$('document').ready(function () {
-  var OfferedParticipantGroupsNode = document.getElementById('RootNode');
-  React.render(
-    OfferedParticipantGroupsIndex({
-      urls: {
-        employers: OfferedParticipantGroupsNode.dataset.employers,
-        offeredParticipantGroups: OfferedParticipantGroupsNode.dataset.offered_participant_groups,
-        programs: OfferedParticipantGroupsNode.dataset.programs,
-        positions: OfferedParticipantGroupsNode.dataset.positions,
-        staffs: OfferedParticipantGroupsNode.dataset.staffs
-      }
-    }),
-    OfferedParticipantGroupsNode
-  );
+withRootNode(function (rootNode) {
+  React.render(OfferedParticipantGroupsIndex({
+    urls: {
+      employers: rootNode.dataset.employers,
+      offeredParticipantGroups: rootNode.dataset.offered_participant_groups,
+      programs: rootNode.dataset.programs,
+      positions: rootNode.dataset.positions,
+      staffs: rootNode.dataset.staffs
+    }
+  }), rootNode);
 });
