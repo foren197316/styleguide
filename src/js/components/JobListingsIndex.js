@@ -40,10 +40,6 @@ var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
         React.DOM.div({className: 'col-md-3'}),
         ReloadingComponent({loadingLink: formSendingLink},
           React.DOM.div({className: 'col-md-9'},
-            React.DOM.div({className: 'alert alert-info'},
-              'You are currently seeing Job Listings that match your position and location preferences. To change these ',
-              React.DOM.a({href: ''}, 'edit your preferences'), '.'
-            ),
             React.DOM.div({className: 'row'},
               React.DOM.div({className: 'col-md-12'},
                 Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
