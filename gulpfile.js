@@ -121,15 +121,6 @@ gulp.task('javascript-components', ['jshint'], function () {
   });
 });
 
-gulp.task('javascript-development', ['jshint'], function() {
-  return gulp.src(['src/js/development.js'])
-    .pipe(sourcemaps.init({debug: true}))
-    .pipe(uglify())
-    .pipe(concat('interexchange-development.min.js'))
-    .pipe(sourcemaps.write('../maps'))
-    .pipe(gulp.dest('build/js'));
-});
-
 gulp.task('jshint', function () {
   return gulp.src(['src/js/**/*.js'])
     .pipe(jshint())
@@ -190,7 +181,7 @@ gulp.task('browser-sync-dist-server', function(callback) {
   });
 });
 
-gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-development', 'javascript-components', 'json', 'images', 'fonts', 'styleguide'], function () {
+gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-components', 'json', 'images', 'fonts', 'styleguide'], function () {
   gulp.start('webpack-dev-server');
   gulp.start('browser-sync-dist-server');
 

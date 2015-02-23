@@ -17,7 +17,10 @@ module.exports = function (environment) {
     },
     plugins: [
       new webpack.optimize.UglifyJsPlugin({minimize: true}),
-      new webpack.optimize.CommonsChunkPlugin('interexchange-components.min.js')
+      new webpack.optimize.CommonsChunkPlugin('interexchange-components.min.js'),
+      new webpack.DefinePlugin({
+        __DEV__: environment === 'development' ? 'true' : 'false'
+      })
     ],
     resolve: {
       extensions: ['', '.js']
