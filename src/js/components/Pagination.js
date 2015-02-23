@@ -62,13 +62,17 @@ module.exports = React.createClass({displayName: 'Pagination',
       var currentPage = pageNumbers[i];
       if (lastPage && (currentPage - lastPage) > 1) {
         buttons.push(
-          React.DOM.button({className: 'btn btn-default', disabled: 'disabled', key: 'pagination-ellipsis-'+currentPage}, '...')
+          React.DOM.li({className: 'disabled'},
+            React.DOM.a({key: 'pagination-ellipsis-'+currentPage}, '...')
+          )
         );
       }
 
       var active = (currentPage.toString() === this.state.page.toString()) ? ' active' : '';
       buttons.push(
-        React.DOM.button({className: 'btn btn-default' + active, onClick: this.onClick.bind(this, currentPage), key: 'pagination-'+currentPage}, currentPage)
+        React.DOM.li({className: active},
+          React.DOM.a({href: '#', onClick: this.onClick.bind(this, currentPage), key: 'pagination-'+currentPage}, currentPage)
+        )
       );
       lastPage = currentPage;
     }
@@ -101,11 +105,13 @@ module.exports = React.createClass({displayName: 'Pagination',
 
   render: function () {
     return React.DOM.div({className: 'row react-pagination'},
-      React.DOM.div({className: 'col-xs-4'},
-        React.DOM.div({className: 'label label-default'}, this.props.recordCount + ' ' + this.props.recordName)
+      React.DOM.div({className: 'col-xs-12 col-md-4'},
+        React.DOM.div({className: 'count label label-default'}, this.props.recordCount + ' ' + this.props.recordName)
       ),
-      React.DOM.div({className: 'col-xs-8'},
-        React.DOM.div({className: 'btn-group pull-right'}, this.getPagination())
+      React.DOM.div({className: 'col-xs-12 col-md-8 text-right'},
+        React.DOM.nav(null,
+          React.DOM.ul({className: 'pagination'}, this.getPagination())
+        )
       )
     );
   }

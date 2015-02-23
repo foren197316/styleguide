@@ -34,11 +34,15 @@ describe('Pagination', function () {
         formSending: formSending
       })
     );
-    buttons = TestUtils.scryRenderedDOMComponentsWithTag(pagination, 'button');
+    buttons = TestUtils.scryRenderedDOMComponentsWithTag(pagination, 'a');
   };
 
   var isActive = function (element) {
-    return /\bactive\b/.test(element.getDOMNode().className);
+    return /\bactive\b/.test(element.getDOMNode().parentNode.className);
+  };
+
+  var isDisabled = function (element) {
+    return /\bdisabled\b/.test(element.getDOMNode().parentNode.className);
   };
 
   describe('20 pages, in the middle', function () {
@@ -55,9 +59,9 @@ describe('Pagination', function () {
 
     it('outputs two ellipsis buttons', function () {
       expect(buttons[2].getDOMNode().innerHTML).toEqual('...');
-      expect(buttons[2].getDOMNode().disabled).toBeTruthy();
+      expect(isDisabled(buttons[2])).toBeTruthy();
       expect(buttons[6].getDOMNode().innerHTML).toEqual('...');
-      expect(buttons[6].getDOMNode().disabled).toBeTruthy();
+      expect(isDisabled(buttons[6])).toBeTruthy();
     });
 
     it('outputs an active button for current page', function () {
@@ -109,7 +113,7 @@ describe('Pagination', function () {
 
     it('outputs one ellipsis button', function () {
       expect(buttons[6].getDOMNode().innerHTML).toEqual('...');
-      expect(buttons[6].getDOMNode().disabled).toBeTruthy();
+      expect(isDisabled(buttons[6])).toBeTruthy();
     });
 
     it('outputs an active button for current page', function () {
@@ -162,7 +166,7 @@ describe('Pagination', function () {
 
     it('outputs one ellipsis button', function () {
       expect(buttons[2].getDOMNode().innerHTML).toEqual('...');
-      expect(buttons[2].getDOMNode().disabled).toBeTruthy();
+      expect(isDisabled(buttons[2])).toBeTruthy();
     });
 
     it('outputs an active button for current page', function () {

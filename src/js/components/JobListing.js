@@ -22,7 +22,7 @@ var JobListing = React.createClass({displayName: 'JobListing',
       React.DOM.div({className: 'panel panel-default'},
         React.DOM.div({className: 'panel-body'},
           React.DOM.div({className: 'col-xs-12 col-md-4'},
-            React.DOM.a(linkAttributes, jobListing.position_name)
+            React.DOM.a(linkAttributes, React.DOM.strong(null, jobListing.position_name))
           ),
           React.DOM.div({className: 'col-xs-12 col-md-2'}, currency(jobListing.wage) + '/hour'),
           React.DOM.div({className: 'col-xs-12 col-md-3'}, jobListing.employer_type_name),
