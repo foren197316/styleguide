@@ -11,6 +11,7 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
 
   render: function () {
     var jobListing = this.props.jobListing;
+    var href = '/job_listings/' + this.props.jobListing.id;
 
     return (
       React.DOM.div({className: 'panel panel-default'},
@@ -44,7 +45,7 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
           React.DOM.div({className: 'col-xs-12 col-md-12'}, jobListing.employer_cultural_opportunites)
         ),
         React.DOM.div({className: 'panel-footer clearfix'},
-          React.DOM.a({href: '/job_listings/' + jobListing.id},
+          React.DOM.a({href: href},
             React.DOM.strong(null, 'Job Listing #' + jobListing.id)
           )
         )

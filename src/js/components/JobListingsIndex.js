@@ -45,7 +45,7 @@ var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
                 Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
               )
             ),
-            React.DOM.div(null,
+            React.DOM.div({className: 'list-group'},
               this.state.jobListings.map(function (jobListing, index) {
                 return JobListing({jobListing: jobListing, key: 'jobListing-' + index});
               }, this)
