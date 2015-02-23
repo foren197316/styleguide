@@ -15,7 +15,7 @@ var JobListing = React.createClass({displayName: 'JobListing',
 
     return (
       React.DOM.a({href: href, className: 'list-group-item clearfix'},
-        React.DOM.div({className: 'col-xs-12 col-md-4'}, React.DOM.strong(null, jobListing.position_name)),
+        React.DOM.div({className: 'col-xs-12 col-md-4'}, React.DOM.strong({className: 'text-primary'}, jobListing.position_name)),
         React.DOM.div({className: 'col-xs-12 col-md-2'}, currency(jobListing.wage) + '/hour'),
         React.DOM.div({className: 'col-xs-12 col-md-3'}, jobListing.employer_type_name),
         React.DOM.div({className: 'col-xs-12 col-md-3'}, jobListing.employer_region_name)
