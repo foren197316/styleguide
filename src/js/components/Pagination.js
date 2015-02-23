@@ -62,7 +62,7 @@ module.exports = React.createClass({displayName: 'Pagination',
       var currentPage = pageNumbers[i];
       if (lastPage && (currentPage - lastPage) > 1) {
         buttons.push(
-          React.DOM.button({className: 'btn btn-default', onClick: this.onClick.bind(this, currentPage), disabled: 'disabled', key: 'pagination-ellipsis-'+currentPage}, '...')
+          React.DOM.button({className: 'btn btn-default', disabled: 'disabled', key: 'pagination-ellipsis-'+currentPage}, '...')
         );
       }
 
