@@ -42,6 +42,11 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
           React.DOM.div({className: 'col-xs-12 col-md-12'}, React.DOM.hr(null)),
           React.DOM.h3(null, 'Cultural Opportunities'),
           React.DOM.div({className: 'col-xs-12 col-md-12'}, jobListing.employer_cultural_opportunites)
+        ),
+        React.DOM.div({className: 'panel-footer clearfix'},
+          React.DOM.a({href: '/job_listings/' + jobListing.id},
+            React.DOM.strong(null, 'Job Listing #' + jobListing.id)
+          )
         )
       )
     );
