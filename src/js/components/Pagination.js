@@ -93,11 +93,11 @@ module.exports = React.createClass({displayName: 'Pagination',
         pages.push(i);
       }
     } else if (this.state.page <= 4) {
-      pages = pages.concat([1, 2, 3, 4, 5, 6, pageCount-1, pageCount]);
+      pages = [1, 2, 3, 4, 5, 6, pageCount-1, pageCount];
     } else if (this.state.page > pageCount - 4) {
-      pages = pages.concat([1, 2, pageCount-5, pageCount-4, pageCount-3, pageCount-2, pageCount-1, pageCount]);
+      pages = [1, 2, pageCount-5, pageCount-4, pageCount-3, pageCount-2, pageCount-1, pageCount];
     } else {
-      pages = pages.concat([1, 2, this.state.page-1, this.state.page, this.state.page+1, pageCount-1, pageCount]);
+      pages = [1, 2, this.state.page-1, this.state.page, this.state.page+1, pageCount-1, pageCount];
     }
 
     return this.makeButtons(pages);
