@@ -34,8 +34,16 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
       ),
       RD.div({className: 'row'},
         RD.div({className: 'col-xs-12 col-md-6'},
-          RD.strong(null, 'Cultural Opportunities'),
-          RD.p(null, jobListing.employer_cultural_opportunites)
+          (function () {
+            if (jobListing.employer_cultural_opportunites) {
+              return (
+                RD.div(null,
+                  RD.strong(null, 'Cultural Opportunities'),
+                  RD.p(null, jobListing.employer_cultural_opportunites)
+                )
+              );
+            }
+          })()
         ),
         RD.div({className: 'col-xs-12 col-md-6 text-right'},
           RD.strong(null, 'Description'),
