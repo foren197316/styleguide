@@ -19,14 +19,18 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
         RD.div({className: 'col-xs-12 col-md-9'},
           RD.strong(null, jobListing.site_city, ', ', jobListing.site_state)
         ),
-        RD.div({className: 'col-xs-12 col-md-3 text-right'},
-          RD.dl({className: 'dl-horizontal'},
-            RD.dt(null, 'Deposit'),
-            RD.dd(null, currency(jobListing.housing_deposit)),
-            RD.dt(null, 'Rent'),
-            RD.dd(null, currency(jobListing.housing_rent))
-          )
-        )
+        (function () {
+          if (jobListing.housing_type === 'Provided') {
+            return RD.div({className: 'col-xs-12 col-md-3 text-right'},
+              RD.dl({className: 'dl-horizontal'},
+                RD.dt(null, 'Deposit'),
+                RD.dd(null, currency(jobListing.housing_deposit)),
+                RD.dt(null, 'Rent'),
+                RD.dd(null, currency(jobListing.housing_rent))
+              )
+            );
+          }
+        })()
       ),
       RD.div({className: 'row'},
         RD.div({className: 'col-xs-12 col-md-6'},
