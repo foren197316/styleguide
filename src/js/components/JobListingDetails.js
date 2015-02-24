@@ -2,6 +2,8 @@
 'use strict';
 
 var React = require('react/addons');
+var RD = React.DOM;
+var JobListing = require('./JobListing');
 var currency = require('../currency');
 
 module.exports = React.createClass({displayName: 'JobListingDetails',
@@ -11,42 +13,49 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
 
   render: function () {
     var jobListing = this.props.jobListing;
-    var href = '/job_listings/' + this.props.jobListing.id;
 
-    return (
-      React.DOM.div({className: 'panel panel-default'},
-        React.DOM.div({className: 'panel-body clearfix'},
-          React.DOM.h1(null, jobListing.position_name, ' ', React.DOM.small(null, currency(jobListing.wage), '/hour')),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, React.DOM.hr(null)),
-          React.DOM.h3(null, 'Location ', React.DOM.small(null, jobListing.employer_region_name)),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, jobListing.site_city + ', ' + jobListing.site_state),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, React.DOM.hr(null)),
-          React.DOM.h3(null, 'Details ', React.DOM.small(null, jobListing.employer_type_name)),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, jobListing.openings + ' Position'.pluralize(jobListing.openings) + ' Available'),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, (jobListing.has_tips === 'true' ? 'Tipped' : 'Not Tipped')),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, jobListing.hours + ' hours per week'),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, React.DOM.hr(null)),
-          React.DOM.h3(null,
-            'Housing ',
-            React.DOM.small(null, jobListing.housing_type)
+    return JobListing({jobListing: this.props.jobListing},
+      RD.div({className: 'row'}, RD.hr(null)),
+      RD.div({className: 'row'},
+        RD.div({className: 'col-xs-12 col-md-8'},
+          RD.span(null,
+            RD.strong(null, 'Deposit '),
+            RD.small(null, currency(jobListing.housing_deposit))
           ),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, jobListing.housing_description),
-          (function() {
-            if (jobListing.housing_type === 'Provided') {
-              return React.DOM.div({className: 'col-xs-12 col-md-12'},
-                React.DOM.br(null),
-                React.DOM.div(null, currency(jobListing.housing_deposit) + ' deposit'),
-                React.DOM.div(null, currency(jobListing.housing_rent) + '/week')
-              );
-            }
-          })(),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, React.DOM.hr(null)),
-          React.DOM.h3(null, 'Cultural Opportunities'),
-          React.DOM.div({className: 'col-xs-12 col-md-12'}, jobListing.employer_cultural_opportunites)
+          ' ',
+          RD.span(null,
+            RD.strong(null, 'Rent '),
+            RD.small(null, currency(jobListing.housing_rent))
+          )
         ),
-        React.DOM.div({className: 'panel-footer clearfix'},
-          React.DOM.a({href: href},
-            React.DOM.strong(null, 'Job Listing #' + jobListing.id)
+        RD.div({className: 'col-xs-12 col-md-4'},
+          RD.strong(null, jobListing.site_city, ', ', jobListing.site_state)
+        )
+      ),
+      RD.div({className: 'row'},
+        RD.div({className: 'col-xs-12 col-md-6'},
+          jobListing.housing_description
+        )
+      ),
+      RD.div({className: 'row'}, RD.hr(null)),
+      RD.div({className: 'row'},
+        RD.div({className: 'col-xs-12 col-md-6'},
+          RD.strong(null, 'Cultural Opportunities')
+        )
+      ),
+      RD.div({className: 'row'},
+        RD.div({className: 'col-xs-12 col-md-6'},
+          jobListing.employer_cultural_opportunites
+        )
+      ),
+      RD.div({className: 'row'}, RD.hr(null)),
+      RD.a({href: '/job_listings/' + jobListing.id},
+        RD.div({className: 'row'},
+          RD.div({className: 'col-xs-12 col-md-8'},
+            RD.strong(null, 'Job Listing #', jobListing.id)
+          ),
+          RD.div({className: 'col-xs-12 col-md-4'},
+            RD.strong(null, jobListing.employer_name)
           )
         )
       )

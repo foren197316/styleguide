@@ -41,17 +41,19 @@ var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
         React.DOM.div({className: 'col-xs-12 col-md-9'},
           ReloadingComponent({loadingLink: formSendingLink},
             React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-md-12'},
+              React.DOM.div({className: 'col-xs-12'},
                 Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
               )
             ),
-            React.DOM.div({className: 'list-group'},
-              this.state.jobListings.map(function (jobListing, index) {
-                return JobListing({jobListing: jobListing, key: 'jobListing-' + index});
-              }, this)
+            React.DOM.div({className: 'row'},
+              React.DOM.div({className: 'col-xs-12'},
+                this.state.jobListings.map(function (jobListing, index) {
+                  return JobListing({jobListing: jobListing, key: 'jobListing-' + index});
+                }, this)
+              )
             ),
             React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-md-12'},
+              React.DOM.div({className: 'col-xs-12'},
                 Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
               )
             )
