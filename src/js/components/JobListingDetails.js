@@ -39,15 +39,21 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
         )
       ),
       RD.div({className: 'row'}, RD.hr(null)),
-      RD.a({href: '/job_listings/' + jobListing.id},
-        RD.div({className: 'row'},
-          RD.div({className: 'col-xs-12 col-md-2'},
+      RD.div({className: 'row'},
+        RD.div({className: 'col-xs-12 col-md-2'},
+          RD.a({href: '/job_listings/' + jobListing.id},
             RD.strong(null, 'Job Listing #', jobListing.id)
-          ),
-          RD.div({className: 'col-xs-12 col-md-10 text-right'},
-            RD.strong(null, jobListing.employer_name)
           )
-        )
+        ),
+        (function () {
+          if (jobListing.employer_id) {
+            return RD.div({className: 'col-xs-12 col-md-10 text-right'},
+              RD.a({href: '/employers/' + jobListing.employer_id + '/job_listings'},
+                RD.strong(null, jobListing.employer_name)
+              )
+            );
+          }
+        })()
       )
     );
   }
