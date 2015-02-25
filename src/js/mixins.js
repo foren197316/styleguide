@@ -12,7 +12,7 @@ module.exports = {
       urls: React.PropTypes.object.isRequired
     },
 
-    componentDidMount: function () {
+    componentWillMount: function () {
       actions.setUrls(this.props.urls);
     }
   },

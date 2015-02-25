@@ -14,9 +14,15 @@
 }
 
 .react-pagination {
-  margin-bottom: 20px;
+  .pagination {
+    margin: 0;
+  }
 
-  .label {
+  .count, .pagination {
+    margin-bottom: 10px;
+  }
+
+  .count {
     display: inline-block;
     font-size: 16px;
     padding: 9px 10px;

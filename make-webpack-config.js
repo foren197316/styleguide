@@ -17,7 +17,10 @@ module.exports = function (environment) {
     },
     plugins: [
       new webpack.optimize.UglifyJsPlugin({minimize: true}),
-      new webpack.optimize.CommonsChunkPlugin('interexchange-components.min.js')
+      new webpack.optimize.CommonsChunkPlugin('interexchange-components.min.js'),
+      new webpack.DefinePlugin({
+        __DEV__: (environment === 'development').toString()
+      })
     ],
     resolve: {
       extensions: ['', '.js']
@@ -48,6 +51,8 @@ module.exports = function (environment) {
     ReservedParticipantGroups: createEntry('ReservedParticipantGroups'),
     OnReviewParticipantGroups: createEntry('OnReviewParticipantGroups'),
     OfferedParticipantGroups: createEntry('OfferedParticipantGroups'),
+    JobListings: createEntry('JobListings'),
+    JobListing: createEntry('JobListing'),
     JobOfferGroups: createEntry('JobOfferGroups'),
     JobOfferParticipantAgreements: createEntry('JobOfferParticipantAgreements')
   };

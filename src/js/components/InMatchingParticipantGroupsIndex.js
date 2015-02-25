@@ -55,22 +55,22 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     actions.CountryActions.ajaxLoad();
   },
 
-  intercom: function (employers) {
+  intercom: function (employer) {
     this.intercomListener.stop();
 
     require('intercom.io')('trackEvent', 'visited-employer-participants-search', {
-      employer_id: employers[0].id,
-      employer_name: employers[0].name
+      employer_id: employer.id,
+      employer_name: employer.name
     });
   },
 
   renderLoaded: function () {
-    var employer = this.state.employer[0];
-
+    var employer = this.state.employer;
     var page = query.getCurrentPage();
     var pageCount = InMatchingParticipantGroupStore.meta.pageCount;
     var recordCount = InMatchingParticipantGroupStore.meta.recordCount;
     var formSendingLink = this.linkState('formSending');
+    var recordName = 'Participants';
     var anchor = 'searchTop';
 
     return (
@@ -99,7 +99,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
               return React.DOM.div(null,
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
-                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink })
+                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
                   )
                 ),
                 React.DOM.div({className: 'row'},
@@ -121,7 +121,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                 ),
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
-                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink })
+                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
                   )
                 )
               );

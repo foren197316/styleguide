@@ -6,3 +6,6 @@ btoa = function (string) {
 atob = function (base64) {
   return new Buffer(base64, 'base64').toString();
 };
+
+/* Webpack definition */
+__DEV__ = true;

@@ -55,7 +55,9 @@
   "jest": {
     "setupEnvScriptFile": "./jest_setup.js",
     "unmockedModulePathPatterns": [
-      "./node_modules",
+      "./node_modules/reflux",
+      "./node_modules/react",
+      "./node_modules/jquery",
       "./src/js/main",
       "./src/js/mixins",
       "./src/js/base64",

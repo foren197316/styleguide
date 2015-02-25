@@ -33,6 +33,27 @@ $.ajaxPrefilter(function(options, originalOptions, xhr) {
   }
 });
 
+if (__DEV__) {
+  global.Intercom = function (action, name, data) {
+    console.log('Intercom', action, name, data);
+  };
+} else {
+  var React = require('react/addons');
+  var withRootNode = require('./root-node');
+
+  global.onerror = function (message) {
+    withRootNode(function (rootNode) {
+      React.render(
+        React.DOM.div({className: 'alert alert-danger'},
+          React.DOM.strong(null, 'An error occurred: '), message
+        ),
+        rootNode
+      );
+    });
+    return false;
+  };
+}
+
 String.prototype.capitaliseWord = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -233,8 +254,12 @@ Reflux.StoreMethods.onLoadSuccess = function (response) {
 
   this.data = response[this.resourceName.camelCaseToUnderscore()];
 
-  if (!(this.data instanceof Array)) {
+  if (!(this.data instanceof Array) && !this.singleton) {
     this.data = [this.data].notEmpty();
+  }
+
+  if (this.data == null) {
+    this.data = [];
   }
 
   this.permission = true;
