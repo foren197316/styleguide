@@ -5,7 +5,7 @@ var React = require('react/addons');
 var currency = require('../currency');
 var RD = React.DOM;
 
-var JobListing = React.createClass({displayName: 'JobListing',
+module.exports = React.createClass({displayName: 'JobListing',
   propTypes: {
     jobListing: React.PropTypes.object.isRequired
   },
@@ -19,9 +19,9 @@ var JobListing = React.createClass({displayName: 'JobListing',
         RD.div({className: 'panel-body'},
           RD.a({href: href},
             RD.div({className: 'row'},
-              RD.div({className: 'col-xs-12 col-md-9'},
-                RD.strong(null, jobListing.position_name, ' (', jobListing.openings, ')'),
-                RD.div(null,
+              RD.div({className: 'col-xs-7'},
+                RD.strong({className: 'hover-underline'}, jobListing.position_name, ' (', jobListing.openings, ')'),
+                RD.div({className: 'text-black'},
                   (function () {
                     if (jobListing.has_tips === 'true') {
                       return RD.span({className: 'label label-success'}, 'Tipped');
@@ -37,7 +37,7 @@ var JobListing = React.createClass({displayName: 'JobListing',
                   })()
                 )
               ),
-              RD.div({className: 'col-xs-12 col-md-3 text-right'},
+              RD.div({className: 'col-xs-5 text-right text-black'},
                 RD.div(null,
                   RD.strong(null, currency(jobListing.wage)),
                   RD.small(null, '/hour')
@@ -48,14 +48,14 @@ var JobListing = React.createClass({displayName: 'JobListing',
                 )
               )
             ),
-            RD.hr(null),
-            RD.div({className: 'row'},
-              RD.div({className: 'col-xs-12 col-md-9'},
+            RD.hr(),
+            RD.div({className: 'row text-black'},
+              RD.div({className: 'col-xs-6'},
                 RD.strong(null, jobListing.employer_type_name),
                 ' ',
-                RD.span(null, jobListing.employer_region_name)
+                RD.span({className: 'text-no-wrap'}, jobListing.employer_region_name)
               ),
-              RD.div({className: 'col-xs-12 col-md-3 text-right'},
+              RD.div({className: 'col-xs-6 text-right'},
                 (function () {
                   if (jobListing.housing_type === 'Provided') {
                     return RD.strong({className: 'text-success'}, 'Housing Provided');
@@ -72,5 +72,3 @@ var JobListing = React.createClass({displayName: 'JobListing',
     );
   }
 });
-
-module.exports = JobListing;

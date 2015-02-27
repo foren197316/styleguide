@@ -16,12 +16,12 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
 
     return JobListing({jobListing: this.props.jobListing},
       RD.div({className: 'row'},
-        RD.div({className: 'col-xs-12 col-md-9'},
-          RD.strong(null, jobListing.site_city, ', ', jobListing.site_state)
+        RD.address({className: 'col-xs-9'},
+          RD.span(null, jobListing.site_city, ', ', jobListing.site_state)
         ),
         (function () {
           if (jobListing.housing_type === 'Provided') {
-            return RD.div({className: 'col-xs-12 col-md-3 text-right'},
+            return RD.div({className: 'col-xs-3 text-right'},
               RD.dl({className: 'dl-horizontal'},
                 RD.dt(null, 'Deposit'),
                 RD.dd(null, currency(jobListing.housing_deposit)),
@@ -46,20 +46,20 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
           })()
         ),
         RD.div({className: 'col-xs-12 col-md-6 text-right'},
-          RD.strong(null, 'Description'),
+          RD.strong(null, 'Housing'),
           RD.p(null, jobListing.housing_description)
         )
       ),
       RD.div({className: 'row'}, RD.hr(null)),
       RD.div({className: 'row'},
-        RD.div({className: 'col-xs-12 col-md-2'},
+        RD.div({className: 'col-xs-6'},
           RD.a({href: '/job_listings/' + jobListing.id},
             RD.strong(null, 'Job Listing #', jobListing.id)
           )
         ),
         (function () {
           if (jobListing.employer_id) {
-            return RD.div({className: 'col-xs-12 col-md-10 text-right'},
+            return RD.div({className: 'col-xs-6 text-right'},
               RD.a({href: '/employers/' + jobListing.employer_id + '/job_listings'},
                 RD.strong(null, jobListing.employer_name)
               )
