@@ -53,7 +53,7 @@ module.exports = React.createClass({displayName: 'JobListing',
               RD.div({className: 'col-xs-6'},
                 RD.strong(null, jobListing.employer_type_name),
                 ' ',
-                RD.span(null, jobListing.employer_region_name)
+                RD.span({className: 'text-no-wrap'}, jobListing.employer_region_name)
               ),
               RD.div({className: 'col-xs-6 text-right'},
                 (function () {

@@ -16,12 +16,12 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
 
     return JobListing({jobListing: this.props.jobListing},
       RD.div({className: 'row'},
-        RD.address({className: 'col-xs-6'},
+        RD.address({className: 'col-xs-9'},
           RD.span(null, jobListing.site_city, ', ', jobListing.site_state)
         ),
         (function () {
           if (jobListing.housing_type === 'Provided') {
-            return RD.div({className: 'col-xs-6 text-right'},
+            return RD.div({className: 'col-xs-3 text-right'},
               RD.dl({className: 'dl-horizontal'},
                 RD.dt(null, 'Deposit'),
                 RD.dd(null, currency(jobListing.housing_deposit)),
