@@ -17,9 +17,9 @@ var JobListing = React.createClass({displayName: 'JobListing',
     return (
       RD.div({className: 'panel panel-default'},
         RD.div({className: 'panel-body'},
-          RD.a({href: href},
+          RD.a({href: href, className: 'text-black'},
             RD.div({className: 'row'},
-              RD.div({className: 'col-xs-12 col-md-9'},
+              RD.div({className: 'col-xs-7'},
                 RD.strong(null, jobListing.position_name, ' (', jobListing.openings, ')'),
                 RD.div(null,
                   (function () {
@@ -37,7 +37,7 @@ var JobListing = React.createClass({displayName: 'JobListing',
                   })()
                 )
               ),
-              RD.div({className: 'col-xs-12 col-md-3 text-right'},
+              RD.div({className: 'col-xs-5 text-right'},
                 RD.div(null,
                   RD.strong(null, currency(jobListing.wage)),
                   RD.small(null, '/hour')
@@ -50,12 +50,12 @@ var JobListing = React.createClass({displayName: 'JobListing',
             ),
             RD.hr(null),
             RD.div({className: 'row'},
-              RD.div({className: 'col-xs-12 col-md-9'},
+              RD.div({className: 'col-xs-6'},
                 RD.strong(null, jobListing.employer_type_name),
                 ' ',
                 RD.span(null, jobListing.employer_region_name)
               ),
-              RD.div({className: 'col-xs-12 col-md-3 text-right'},
+              RD.div({className: 'col-xs-6 text-right'},
                 (function () {
                   if (jobListing.housing_type === 'Provided') {
                     return RD.strong({className: 'text-success'}, 'Housing Provided');
