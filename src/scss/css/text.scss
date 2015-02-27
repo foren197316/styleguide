@@ -1,3 +1,7 @@
-.text-black, a.text-black {
+.text-black {
   color: $text-color;
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
 }
