@@ -20,7 +20,7 @@ module.exports = React.createClass({displayName: 'ExportButton',
 
   render: function () {
     return (
-      React.DOM.form({action: this.props.url, method: 'GET'},
+      React.DOM.form({action: this.props.url, method: 'POST'},
         React.DOM.button({className: 'btn btn-block btn-default', type: 'submit', style: { marginBottom: '15px'}},
           React.DOM.i({className: 'fa fa-download'}), ' Export to CSV'
         ),
