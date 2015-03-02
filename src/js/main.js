@@ -5,6 +5,7 @@ var Reflux = require('reflux');
 var $ = require('jquery');
 var Base64 = require('./base64');
 var moment = require('moment');
+var getCsrfToken = require('./csrf-token');
 
 moment.locale('en', {
   relativeTime: {
@@ -26,7 +27,7 @@ moment.locale('en', {
 
 $.ajaxPrefilter(function(options, originalOptions, xhr) {
   if (!options.crossDomain) {
-    var token = $('meta[name="csrf-token"]').attr('content');
+    var token = getCsrfToken();
     if (token) {
       xhr.setRequestHeader('X-CSRF-Token', token);
     }
