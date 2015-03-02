@@ -13,6 +13,7 @@ withRootNode(function (rootNode) {
       programs: rootNode.dataset.programs,
       positions: rootNode.dataset.positions,
       employers: rootNode.dataset.employers,
+      export: rootNode.dataset.export,
       staffs: rootNode.dataset.staffs
     }
   }), rootNode);
