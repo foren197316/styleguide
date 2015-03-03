@@ -63,7 +63,7 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
         footerName = this.props.data.name,
         participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
         participantNodes = this.props.data.participants.map(function (participant) {
-          return ParticipantGroupParticipant({key: participant.id, participant: participant});
+          return React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant});
         });
 
     if (this.state.puttingOnReview) {
@@ -75,9 +75,9 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
       );
 
       additionalContent = (
-        React.DOM.div(null,
-          React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong(null, this.props.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
-          React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong(null, this.props.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
+        React.DOM.div({},
+          React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong({}, this.props.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
+          React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong({}, this.props.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
         )
       );
     } else {
@@ -91,7 +91,7 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
         React.DOM.div({className: 'list-group'},
           participantNodes
         ),
-        ParticipantGroupPanelFooter({name: footerName},
+        React.createElement(ParticipantGroupPanelFooter, {name: footerName},
           actions,
           additionalContent
         )
@@ -128,12 +128,12 @@ module.exports = React.createClass({displayName: 'ReservedParticipantGroupPanels
       return (
         React.DOM.div({id: 'participant-group-panels'},
           this.state.groups.map(function (group) {
-            return ReservedParticipantGroupPanel({key: group.id, data: group, employerId: employerId});
+            return React.createElement(ReservedParticipantGroupPanel, {key: group.id, data: group, employerId: employerId});
           })
         )
       );
     } else {
-      return Spinner(null);
+      return React.createElement(Spinner, {});
     }
   }
 });

@@ -109,7 +109,7 @@ module.exports = React.createClass({displayName: 'Pagination',
         React.DOM.div({className: 'count label label-default'}, this.props.recordCount + ' ' + this.props.recordName)
       ),
       React.DOM.div({className: 'col-xs-12 col-md-8 text-right'},
-        React.DOM.nav(null,
+        React.DOM.nav({},
           React.DOM.ul({className: 'pagination'}, this.getPagination())
         )
       )

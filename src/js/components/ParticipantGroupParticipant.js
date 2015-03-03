@@ -15,7 +15,7 @@ var ParticipantGroupParticipant = React.createClass({displayName: 'ParticipantGr
 
   render: function () {
     var participant = this.props.participant,
-        hr = React.Children.count(this.props.children) > 0 ? React.DOM.hr(null) : null;
+        hr = React.Children.count(this.props.children) > 0 ? React.DOM.hr({}) : null;
 
     return (
       React.DOM.div({className: 'list-group-item list-group-item-participant', 'data-participant-name': participant.name},
@@ -25,39 +25,39 @@ var ParticipantGroupParticipant = React.createClass({displayName: 'ParticipantGr
             React.DOM.div({className: 'row'},
               React.DOM.div({className: 'col-xs-12'},
                 React.DOM.h4({className: 'media-heading'},
-                  LinkToIf({name: participant.name, href: participant.href})
+                  React.createElement(LinkToIf, {name: participant.name, href: participant.href})
                 )
               )
             ),
             React.DOM.div({className: 'row'},
               React.DOM.div({className: 'col-xs-12 col-md-6'},
-                React.DOM.strong(null, participant.country_name),
-                React.DOM.br(null),
-                React.DOM.strong(null, YearCalculator({from: participant.date_of_birth, to: participant.arrival_date})),
+                React.DOM.strong({}, participant.country_name),
+                React.DOM.br({}),
+                React.DOM.strong({}, React.createElement(YearCalculator, {from: participant.date_of_birth, to: participant.arrival_date})),
                 React.DOM.strong({style: { 'paddingLeft': '5px'}}, participant.gender)
               )
             ),
-            React.DOM.hr(null),
+            React.DOM.hr({}),
             React.DOM.div({className: 'row'},
               React.DOM.div({className: 'col-xs-12 col-md-4 col-md-offset-4'},
                 React.DOM.div({className: 'row text-right'},
                   React.DOM.div({className: 'col-xs-6 col-md-10'},
-                    React.DOM.strong(null, 'English ', React.DOM.span({className: 'hidden-xs'}, 'Level'), ' ')
+                    React.DOM.strong({}, 'English ', React.DOM.span({className: 'hidden-xs'}, 'Level'), ' ')
                   ),
                   React.DOM.div({className: 'col-xs-6 col-md-2'},
-                    React.DOM.span(null, participant.english_level)
+                    React.DOM.span({}, participant.english_level)
                   )
                 )
               ),
               React.DOM.div({className: 'col-xs-12 col-md-4'},
                 React.DOM.div({className: 'row text-right'},
                   React.DOM.div({className: 'col-xs-6 col-md-5 col-lg-7'},
-                    React.DOM.strong(null, 'Availability')
+                    React.DOM.strong({}, 'Availability')
                   ),
                   React.DOM.div({className: 'col-xs-6 col-md-7 col-lg-5'},
-                    React.DOM.span(null, moment(participant.arrival_date, dateFormatYMD).add(2, 'days').format(dateFormatMDY)),
-                    React.DOM.br(null),
-                    React.DOM.span(null, moment(participant.departure_date, dateFormatYMD).format(dateFormatMDY))
+                    React.DOM.span({}, moment(participant.arrival_date, dateFormatYMD).add(2, 'days').format(dateFormatMDY)),
+                    React.DOM.br({}),
+                    React.DOM.span({}, moment(participant.departure_date, dateFormatYMD).format(dateFormatMDY))
                   )
                 )
               )

@@ -43,7 +43,7 @@ var ValidatingFormGroup = React.createClass({displayName: 'ValidatingFormGroup',
 
   render: function () {
     return (
-      React.DOM.div(null,
+      React.DOM.div({},
         React.Children.map(this.props.children, function (child, index) {
           var props = {
             validationState: this.linkState(this.stateName(index))

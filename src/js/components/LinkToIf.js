@@ -10,8 +10,8 @@ var LinkToIf = React.createClass({displayName: 'LinkToIf',
 
   render: function () {
     return this.props.href ?
-      React.DOM.span(null, React.DOM.a({href: this.props.href}, this.props.name)) :
-      React.DOM.span(null, this.props.name);
+      React.DOM.span({}, React.DOM.a({href: this.props.href}, this.props.name)) :
+      React.DOM.span({}, this.props.name);
   }
 });
 

@@ -21,6 +21,6 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
   },
 
   renderLoaded: function () {
-    return React.DOM.div(null, JobListingDetails({jobListing: this.state.jobListing}));
+    return React.DOM.div({}, React.createElement(JobListingDetails, {jobListing: this.state.jobListing}));
   }
 });

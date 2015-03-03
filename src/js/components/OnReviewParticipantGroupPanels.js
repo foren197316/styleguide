@@ -15,7 +15,7 @@ var OnReviewParticipantGroupPanelHeading = React.createClass({displayName: 'OnRe
   render: function() {
     return (
       React.DOM.div({className: 'panel-heading text-right'},
-        React.DOM.h1({className: 'panel-title'}, 'On Review until ', React.DOM.strong(null, this.props.data.expires_on))
+        React.DOM.h1({className: 'panel-title'}, 'On Review until ', React.DOM.strong({}, this.props.data.expires_on))
       )
     );
   }
@@ -65,11 +65,11 @@ var OnReviewParticipantGroupPanelListGroup = React.createClass({displayName: 'On
   render: function() {
     var participantNodes = this.props.data.participants.map(function (participant, i) {
           if (this.props.isOfferingState.value) {
-            return ParticipantGroupParticipantOffering({validationState: this.linkState(this.stateName(i)), key: participant.id, data: participant});
+            return React.createElement(ParticipantGroupParticipantOffering, {validationState: this.linkState(this.stateName(i)), key: participant.id, data: participant});
           } else if (this.props.isDecliningState.value) {
-            return ParticipantGroupParticipantDeclining({key: participant.id, data: participant});
+            return React.createElement(ParticipantGroupParticipantDeclining, {key: participant.id, data: participant});
           } else {
-            return ParticipantGroupParticipant({key: participant.id, participant: participant});
+            return React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant});
           }
         }.bind(this));
 
@@ -166,27 +166,27 @@ var OnReviewParticipantGroupPanelFooter = React.createClass({displayName: 'OnRev
         footerName = this.props.data.name + (this.props.data.program != null ? ' - ' + this.props.data.program.name : ''),
         buttonGroup = (function (participant) {
           if (isOfferingState.value) {
-            return OnReviewParticipantGroupPanelFooterButtonsConfirmCancel({data: participant, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.props.participantNames, draftJobOfferValidState: draftJobOfferValidState, isOfferingState: isOfferingState});
+            return React.createElement(OnReviewParticipantGroupPanelFooterButtonsConfirmCancel, {data: participant, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.props.participantNames, draftJobOfferValidState: draftJobOfferValidState, isOfferingState: isOfferingState});
           } else if (isDecliningState.value) {
-            return OnReviewParticipantGroupPanelFooterButtonsDeclineCancel({data: participant, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.props.participantNames, isDecliningState: isDecliningState});
+            return React.createElement(OnReviewParticipantGroupPanelFooterButtonsDeclineCancel, {data: participant, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.props.participantNames, isDecliningState: isDecliningState});
           } else {
-            return OnReviewParticipantGroupPanelFooterButtonsOfferDecline({data: participant, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.props.participantNames, isOfferingState: isOfferingState, isDecliningState: isDecliningState});
+            return React.createElement(OnReviewParticipantGroupPanelFooterButtonsOfferDecline, {data: participant, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.props.participantNames, isOfferingState: isOfferingState, isDecliningState: isDecliningState});
           }
         }.bind(this))(),
         legalese = (function () {
           if (isOfferingState.value) {
             return (
-              React.DOM.small(null,
+              React.DOM.small({},
                 'By clicking offer I agree that the information entered is true and accurate to the best of my knowledge and that I will contact InterExchange if any information changes.'
               )
             );
           } else if (isDecliningState.value) {
-            return React.DOM.span(null, 'Are you sure you want to decline this participant?');
+            return React.DOM.span({}, 'Are you sure you want to decline this participant?');
           }
         })();
 
     return (
-      ParticipantGroupPanelFooter({name: footerName},
+      React.createElement(ParticipantGroupPanelFooter, {name: footerName},
         buttonGroup,
         legalese
       )
@@ -265,13 +265,13 @@ var OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
+      return React.createElement(Alert, {type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
     } else {
       return (
         React.DOM.form({className: 'panel panel-default participant-group-panel form-horizontal', role: 'form', onSubmit: this.handleSubmit},
-          OnReviewParticipantGroupPanelHeading({data: this.props.data}),
-          OnReviewParticipantGroupPanelListGroup({data: this.props.data, isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState}),
-          OnReviewParticipantGroupPanelFooter({data: this.props.data, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.participantNames(), isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState})
+          React.createElement(OnReviewParticipantGroupPanelHeading, {data: this.props.data}),
+          React.createElement(OnReviewParticipantGroupPanelListGroup, {data: this.props.data, isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState}),
+          React.createElement(OnReviewParticipantGroupPanelFooter, {data: this.props.data, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.participantNames(), isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState})
         )
       );
     }
@@ -307,12 +307,12 @@ var OnReviewParticipantGroupPanels = React.createClass({displayName: 'OnReviewPa
       return (
         React.DOM.div({id: 'participant-group-panels'},
           this.state.groups.map(function (group) {
-            return OnReviewParticipantGroupPanel({key: group.id, data: group, employerId: employerId, employerName: employerName});
+            return React.createElement(OnReviewParticipantGroupPanel, {key: group.id, data: group, employerId: employerId, employerName: employerName});
           })
         )
       );
     } else {
-      return Spinner(null);
+      return React.createElement(Spinner, {});
     }
   }
 });

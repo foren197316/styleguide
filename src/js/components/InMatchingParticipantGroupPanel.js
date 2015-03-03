@@ -85,7 +85,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
+      return React.createElement(Alert, {type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
     } else {
       if (this.state.puttingOnReview) {
         action = (
@@ -95,9 +95,9 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
           )
         );
         legalese = (
-          React.DOM.div(null,
-            React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong(null, this.state.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
-            React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong(null, this.state.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
+          React.DOM.div({},
+            React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong({}, this.state.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
+            React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong({}, this.state.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
           )
         );
       } else if (this.canPutOnReview()) {
@@ -108,15 +108,15 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
 
       return (
         React.DOM.div({className: 'panel panel-default participant-group-panel', 'data-participant-names': this.participantNames()},
-          ParticipantGroupHeader(null,
-            React.DOM.div(null, this.props.program.name)
+          React.createElement(ParticipantGroupHeader, {},
+            React.DOM.div({}, this.props.program.name)
           ),
           React.DOM.div({className: 'list-group'},
             this.props.inMatchingParticipantGroup.participants.map(function (participant) {
-              return ParticipantGroupParticipant({key: participant.id, participant: participant});
+              return React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant});
             })
           ),
-          ParticipantGroupPanelFooter({name: this.props.inMatchingParticipantGroup.name},
+          React.createElement(ParticipantGroupPanelFooter, {name: this.props.inMatchingParticipantGroup.name},
             action,
             legalese
           )

@@ -7,7 +7,7 @@ var withRootNode = require('../root-node');
 var ReservedParticipantGroupPanels = require('../components/ReservedParticipantGroupPanels');
 
 withRootNode(function (rootNode) {
-  React.render(ReservedParticipantGroupPanels({
+  React.render(React.createElement(ReservedParticipantGroupPanels, {
     source: rootNode.dataset.source,
     employerId: rootNode.dataset.employer_id
   }), rootNode);

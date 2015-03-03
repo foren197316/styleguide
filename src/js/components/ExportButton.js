@@ -28,7 +28,7 @@ module.exports = React.createClass({displayName: 'ExportButton',
           RD.i({className: 'fa fa-download'}), ' Export to CSV'
         ),
         this.props.ids.map(function (id) {
-          return HiddenIdInput({id: id, key: 'hidden_input_'+id});
+          return React.createElement(HiddenIdInput, {id: id, key: 'hidden_input_'+id});
         })
       )
     );

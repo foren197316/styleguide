@@ -38,20 +38,20 @@ module.exports = React.createClass({displayName: 'JobListing',
                 )
               ),
               RD.div({className: 'col-xs-5 text-right text-black'},
-                RD.div(null,
-                  RD.strong(null, currency(jobListing.wage)),
-                  RD.small(null, '/hour')
+                RD.div({},
+                  RD.strong({}, currency(jobListing.wage)),
+                  RD.small({}, '/hour')
                 ),
-                RD.div(null,
-                  RD.strong(null, jobListing.hours, ' hours'),
-                  RD.small(null, '/week')
+                RD.div({},
+                  RD.strong({}, jobListing.hours, ' hours'),
+                  RD.small({}, '/week')
                 )
               )
             ),
             RD.hr(),
             RD.div({className: 'row text-black'},
               RD.div({className: 'col-xs-6'},
-                RD.strong(null, jobListing.employer_type_name),
+                RD.strong({}, jobListing.employer_type_name),
                 ' ',
                 RD.span({className: 'text-no-wrap'}, jobListing.employer_region_name)
               ),

@@ -46,7 +46,7 @@ if (__DEV__) {
     withRootNode(function (rootNode) {
       React.render(
         React.DOM.div({className: 'alert alert-danger'},
-          React.DOM.strong(null, 'An error occurred: '), message
+          React.DOM.strong({}, 'An error occurred: '), message
         ),
         rootNode
       );
