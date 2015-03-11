@@ -24,8 +24,8 @@ module.exports = React.createClass({displayName: 'DraftJobOfferHoursInput',
         bsStyle: ValidateNumber(this.state.value),
         label: 'Hours per week',
         hasFeedback: true,
-        labelClassName: 'col-sm-4',
         type: 'text',
+        labelClassName: 'col-sm-4',
         wrapperClassName: 'col-sm-8'
       }
     );

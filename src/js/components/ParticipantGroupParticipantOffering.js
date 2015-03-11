@@ -98,8 +98,6 @@ var ParticipantGroupParticipantOfferingFormOvertimeRate = React.createClass({dis
   },
 
   render: function () {
-    var participantKey = this.props.resourceId;
-
     return React.createElement(
       ReactBootstrap.Input, {name: this.props.name, id: this.props.id, value: this.state.value, hasFeedback: true, bsStyle: ValidateMoney(this.state.value), onChange: this.handleChange, label: 'Overtime rate per hour', addonBefore: '$', type: 'text', labelClassName: 'col-sm-4', wrapperClassName: 'col-sm-8'}
     );

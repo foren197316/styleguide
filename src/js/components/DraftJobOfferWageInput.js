@@ -24,8 +24,8 @@ module.exports = React.createClass({displayName: 'DraftJobOfferWageInput',
         bsStyle: ValidateMoney(this.state.value),
         label: 'Wage per hour',
         hasFeedback: true,
-        labelClassName: 'col-sm-4',
         type: 'text',
+        labelClassName: 'col-sm-4',
         wrapperClassName: 'col-sm-8',
         addonBefore: '$'
       }
