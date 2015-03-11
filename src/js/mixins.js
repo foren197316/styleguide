@@ -17,6 +17,14 @@ module.exports = {
     }
   },
 
+  ValidateMoney: function (value) {
+    if (value) {
+      if (!/^\d+([\.,]\d{1,2})?$/.test(value)) {
+        return 'error';
+      }
+    }
+  },
+
   ValidatingInputMixin: {
     statics: { validates: true },
 
