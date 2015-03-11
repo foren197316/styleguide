@@ -31,4 +31,3 @@ module.exports = React.createClass({displayName: 'DraftJobOfferHoursInput',
     );
   }
 });
-

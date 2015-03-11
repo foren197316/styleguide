@@ -8,7 +8,8 @@ module.exports = React.createClass({displayName: 'DraftJobOfferPositionSelect',
   mixins: [ValidatingInputMixin],
 
   validate: function (value) {
-    return value !== null && value.length > 0;
+    return value !== null &&
+           value.length > 0;
   },
 
   render: function () {
@@ -18,9 +19,9 @@ module.exports = React.createClass({displayName: 'DraftJobOfferPositionSelect',
         id: this.props.id,
         name: this.props.name,
         defaultValue: this.props.position_id,
+        onChange: this.handleChange,
         label: 'Position',
         help: 'You can offer a participant any position they are interested in.',
-        onChange: this.props.handleChange,
         type: 'select',
         labelClassName: 'col-sm-4',
         wrapperClassName: 'col-sm-8'
