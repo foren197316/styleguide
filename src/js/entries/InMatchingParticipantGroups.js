@@ -7,7 +7,7 @@ var React = require('react/addons');
 var InMatchingParticipantGroupsIndex = require('../components/InMatchingParticipantGroupsIndex');
 
 withRootNode(function (rootNode) {
-  React.render(InMatchingParticipantGroupsIndex({
+  React.render(React.createElement(InMatchingParticipantGroupsIndex, {
     urls: {
       employer: rootNode.dataset.employer,
       inMatchingParticipantGroups: rootNode.dataset.in_matching_participant_groups,

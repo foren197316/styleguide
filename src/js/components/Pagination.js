@@ -62,7 +62,7 @@ module.exports = React.createClass({displayName: 'Pagination',
       var currentPage = pageNumbers[i];
       if (lastPage && (currentPage - lastPage) > 1) {
         buttons.push(
-          React.DOM.li({className: 'disabled'},
+          React.DOM.li({className: 'disabled', key: 'ellipsis-'+i},
             React.DOM.a({key: 'pagination-ellipsis-'+currentPage}, '...')
           )
         );
@@ -70,7 +70,7 @@ module.exports = React.createClass({displayName: 'Pagination',
 
       var active = (currentPage.toString() === this.state.page.toString()) ? ' active' : '';
       buttons.push(
-        React.DOM.li({className: active},
+        React.DOM.li({className: active, key: 'page-'+currentPage},
           React.DOM.a({href: '#', onClick: this.onClick.bind(this, currentPage), key: 'pagination-'+currentPage}, currentPage)
         )
       );
@@ -109,7 +109,7 @@ module.exports = React.createClass({displayName: 'Pagination',
         React.DOM.div({className: 'count label label-default'}, this.props.recordCount + ' ' + this.props.recordName)
       ),
       React.DOM.div({className: 'col-xs-12 col-md-8 text-right'},
-        React.DOM.nav(null,
+        React.DOM.nav({},
           React.DOM.ul({className: 'pagination'}, this.getPagination())
         )
       )

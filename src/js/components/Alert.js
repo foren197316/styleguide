@@ -30,7 +30,7 @@ var Alert = React.createClass({displayName: 'Alert',
 
   render: function () {
     var action = this.props.actionTitle && this.props.actionUrl ?
-      React.DOM.span(null,
+      React.DOM.span({},
           ' ',
           React.DOM.a({className: 'alert-link', href: this.props.actionUrl}, this.props.actionTitle), '.'
       ) :
@@ -38,9 +38,9 @@ var Alert = React.createClass({displayName: 'Alert',
 
     return (
       React.DOM.div({className: 'alert alert-' + this.props.type},
-        this.props.closeable ? AlertClose(null) : null,
-        React.DOM.strong(null, this.props.message), React.DOM.br(null),
-        React.DOM.span(null, this.props.instructions),
+        this.props.closeable ? React.createElement(AlertClose, {}) : null,
+        React.DOM.strong({}, this.props.message), React.DOM.br({}),
+        React.DOM.span({}, this.props.instructions),
         action
       )
     );

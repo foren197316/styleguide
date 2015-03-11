@@ -7,7 +7,7 @@ var withRootNode = require('../root-node');
 var OfferedParticipantGroupsIndex = require('../components/OfferedParticipantGroupsIndex');
 
 withRootNode(function (rootNode) {
-  React.render(OfferedParticipantGroupsIndex({
+  React.render(React.createElement(OfferedParticipantGroupsIndex, {
     urls: {
       employers: rootNode.dataset.employers,
       offeredParticipantGroups: rootNode.dataset.offered_participant_groups,

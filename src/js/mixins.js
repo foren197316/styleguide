@@ -44,7 +44,7 @@ module.exports = {
       render: function () {
         for (var i=0; i<args.length; i++) {
           if (!this.state[args[i]]) {
-            return Spinner(null);
+            return React.createElement(Spinner);
           }
         }
         return this.renderLoaded();

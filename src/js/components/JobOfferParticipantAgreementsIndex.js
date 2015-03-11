@@ -27,13 +27,13 @@ module.exports = React.createClass({displayName: 'JobOfferParticipantAgreementsI
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'Search', searchOn: [['job_offer', 'participant', 'name'], ['job_offer', 'participant', 'email'], ['job_offer', 'participant', 'uuid']], actions: actions.JobOfferParticipantAgreementActions}),
-          CheckBoxFilter({title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
-          BooleanFilter({title: 'FileMaker', label: 'Not in FileMaker', action: JobOfferParticipantAgreementStore.toggleNotInFileMaker}),
-          ExportButton({url: this.props.urls.export, ids: jobOfferIds})
+          React.createElement(SearchFilter, {title: 'Search', searchOn: [['job_offer', 'participant', 'name'], ['job_offer', 'participant', 'email'], ['job_offer', 'participant', 'uuid']], actions: actions.JobOfferParticipantAgreementActions}),
+          React.createElement(CheckBoxFilter, {title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
+          React.createElement(BooleanFilter, {title: 'FileMaker', label: 'Not in FileMaker', action: JobOfferParticipantAgreementStore.toggleNotInFileMaker}),
+          React.createElement(ExportButton, {url: this.props.urls.export, ids: jobOfferIds})
         ),
         React.DOM.div({className: 'col-md-9'},
-          JobOfferParticipantAgreementsPanel({jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements})
+          React.createElement(JobOfferParticipantAgreementsPanel, {jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements})
         )
       )
     );

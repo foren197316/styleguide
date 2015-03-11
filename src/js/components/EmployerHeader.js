@@ -15,9 +15,9 @@ module.exports = React.createClass({displayName: 'EmployerHeader',
     var employer = this.props.employer;
     var staff = StaffStore.findById(employer.staff_id) || {};
 
-    return ParticipantGroupHeader(null,
+    return React.createElement(ParticipantGroupHeader, {},
       React.DOM.span({className: 'pull-right text-muted'}, staff.name),
-      LinkToIf({name: employer.name, href: employer.href})
+      React.createElement(LinkToIf, {name: employer.name, href: employer.href})
     );
   }
 });

@@ -36,18 +36,18 @@ var ParticipantGroupPanelFooter = React.createClass({displayName: 'ParticipantGr
           }
 
           if (index === 0) {
-            return ParticipantGroupPanelFooterName({name: name}, child);
+            return React.createElement(ParticipantGroupPanelFooterName, {name: name}, child);
           } else {
             return (
               React.DOM.div({className: 'row'},
                 React.DOM.div({className: 'col-xs-12 text-right'},
-                  React.DOM.hr(null),
+                  React.DOM.hr({}),
                   child
                 )
               )
             );
           }
-        }) || ParticipantGroupPanelFooterName({name: name});
+        }) || React.createElement(ParticipantGroupPanelFooterName, {name: name});
 
     return (
       React.DOM.div({className: 'panel-footer clearfix'},

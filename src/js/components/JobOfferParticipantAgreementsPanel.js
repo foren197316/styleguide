@@ -40,9 +40,9 @@ var JobOfferParticipantAgreementsPanel = React.createClass({displayName: 'JobOff
           if (programJobOfferParticipantAgreements.length > 0) {
             return (
               React.DOM.div({key: 'program_'+program.id},
-                ProgramHeader({program: program, collectionName: 'Participant Agreement', collection: programJobOfferParticipantAgreements}),
+                React.createElement(ProgramHeader, {program: program, collectionName: 'Participant Agreement', collection: programJobOfferParticipantAgreements}),
                 programJobOfferParticipantAgreements.map(function (jobOfferParticipantAgreement) {
-                  return JobOfferParticipantAgreement({jobOfferParticipantAgreement: jobOfferParticipantAgreement, key: 'jobOfferParticipantAgreement_'+jobOfferParticipantAgreement.id});
+                  return React.createElement(JobOfferParticipantAgreement, {jobOfferParticipantAgreement: jobOfferParticipantAgreement, key: 'jobOfferParticipantAgreement_'+jobOfferParticipantAgreement.id});
                 })
               )
             );

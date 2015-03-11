@@ -16,7 +16,7 @@ var YearCalculator = React.createClass({displayName: 'YearCalculator',
 
   render: function() {
     return (
-      React.DOM.span(null, calculateAgeAtArrival(this.props.to, this.props.from))
+      React.DOM.span({}, calculateAgeAtArrival(this.props.to, this.props.from))
     );
   }
 });

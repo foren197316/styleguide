@@ -31,17 +31,17 @@ var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
   renderLoaded: function () {
     return (
       React.DOM.div({id: 'participant-group-panels'},
-        this.state.programs.map(function (program) {
+        this.state.programs.map(function (program, loopIndex) {
           var programJobOfferGroups = this.state.jobOfferGroups.filter(function (jobOfferGroup) {
             return jobOfferGroup.program_id === program.id;
           });
 
           if (programJobOfferGroups.length > 0) {
             return (
-              React.DOM.div(null,
-                ProgramHeader({program: program, collectionName: 'Job Offer', collection: programJobOfferGroups.mapAttribute('job_offers').flatten()}),
+              React.DOM.div({key: 'job-offer-group-header-' + loopIndex},
+                React.createElement(ProgramHeader, {program: program, collectionName: 'Job Offer', collection: programJobOfferGroups.mapAttribute('job_offers').flatten()}),
                 programJobOfferGroups.map(function (jobOfferGroup) {
-                  return JobOfferGroup({jobOfferGroup: jobOfferGroup, key: 'program_job_offer_group'+program.id+'-'+jobOfferGroup.id});
+                  return React.createElement(JobOfferGroup, {jobOfferGroup: jobOfferGroup, key: 'program_job_offer_group'+program.id+'-'+jobOfferGroup.id});
                 })
               )
             );

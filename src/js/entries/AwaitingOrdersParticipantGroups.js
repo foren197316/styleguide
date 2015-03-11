@@ -7,7 +7,7 @@ var AwaitingOrdersParticipantGroupPanels = require('../components/AwaitingOrders
 var withRootNode = require('../root-node');
 
 withRootNode(function (rootNode) {
-  React.render(AwaitingOrdersParticipantGroupPanels({
+  React.render(React.createElement(AwaitingOrdersParticipantGroupPanels, {
     source: rootNode.dataset.source
   }), rootNode);
 });

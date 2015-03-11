@@ -34,14 +34,14 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupsIndex'
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'offered_names', searchOn: ['participant_names', 'participant_emails', 'participant_uuids'], store: OfferedParticipantGroupStore, actions: actions.OfferedParticipantGroupActions}),
-          CheckBoxFilter({title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
-          CheckBoxFilter({title: 'Coordinator', store: StaffStore, actions: actions.StaffActions}),
-          CheckBoxFilter({title: 'Employer', store: EmployerStore, actions: actions.EmployerActions})
+          React.createElement(SearchFilter, {title: 'offered_names', searchOn: ['participant_names', 'participant_emails', 'participant_uuids'], store: OfferedParticipantGroupStore, actions: actions.OfferedParticipantGroupActions}),
+          React.createElement(CheckBoxFilter, {title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
+          React.createElement(CheckBoxFilter, {title: 'Coordinator', store: StaffStore, actions: actions.StaffActions}),
+          React.createElement(CheckBoxFilter, {title: 'Employer', store: EmployerStore, actions: actions.EmployerActions})
         ),
         React.DOM.div({className: 'col-md-9'},
           React.DOM.div({id: 'participant-group-panels'},
-            this.state.programs.map(function (program) {
+            this.state.programs.map(function (program, loopIndex) {
               var programOfferedParticipantGroups = this.state.offeredParticipantGroups.filter(function (offeredParticipantGroup) {
                 return offeredParticipantGroup.participants[0].program_id === program.id;
               });
@@ -50,14 +50,14 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupsIndex'
                 return null;
               } else {
                 return (
-                  React.DOM.div(null,
+                  React.DOM.div({key: 'offered_header_'+loopIndex},
                     React.DOM.h2({className: 'page-header'},
                       program.name,
                       React.DOM.small({className: 'pull-right'}, programOfferedParticipantGroups.mapAttribute('draft_job_offers').flatten().mapAttribute('participant_ids').flatten().length, ' Offered')
                     ),
 
                     programOfferedParticipantGroups.map(function (offeredParticipantGroup) {
-                      return OfferedParticipantGroupPanel({offeredParticipantGroup: offeredParticipantGroup, key: 'offered_participant_group_'+offeredParticipantGroup.id});
+                      return React.createElement(OfferedParticipantGroupPanel, {offeredParticipantGroup: offeredParticipantGroup, key: 'offered_participant_group_'+offeredParticipantGroup.id});
                     })
                   )
                 );

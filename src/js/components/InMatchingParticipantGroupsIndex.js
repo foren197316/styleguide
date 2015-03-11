@@ -76,30 +76,30 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          AjaxSearchForm({ actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
-            AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
-            AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
-            AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
-            AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
-            AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
-            AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
-            AjaxDateRangeFilter({title: 'Availability Date', searchFrom: 'arrival_date_plus_two', searchTo: 'departure_date'}),
-            AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
-            AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
-            AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
-            AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', fieldName: 'has_international_drivers_license', bool: true})
+          React.createElement(AjaxSearchForm, { actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
+            React.createElement(AjaxSearchFilter, {title: 'Search', searchOn: 'name'}),
+            React.createElement(AjaxCheckBoxFilter, {title: 'Program', fieldName: 'program_id', store: ProgramStore}),
+            React.createElement(AjaxCustomCheckBoxFilter, {title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
+            React.createElement(AjaxCheckBoxFilter, {title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
+            React.createElement(AjaxCheckBoxFilter, {title: 'Gender', fieldName: 'gender', store: GenderStore}),
+            React.createElement(AjaxCheckBoxFilter, {title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
+            React.createElement(AjaxDateRangeFilter, {title: 'Availability Date', searchFrom: 'arrival_date_plus_two', searchTo: 'departure_date'}),
+            React.createElement(AjaxCheckBoxFilter, {title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
+            React.createElement(AjaxCheckBoxFilter, {title: 'Country', fieldName: 'country_code', store: CountryStore}),
+            React.createElement(AjaxBooleanFilter, {title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
+            React.createElement(AjaxBooleanFilter, {title: 'Drivers License', label: 'International Drivers License', fieldName: 'has_international_drivers_license', bool: true})
           )
         ),
         React.DOM.div({className: 'col-md-9'},
           React.DOM.a({name: anchor}),
           function () {
             if (this.state.formSending) {
-              return Spinner(null);
+              return React.createElement(Spinner, {});
             } else if (this.state.inMatchingParticipantGroups.length > 0) {
-              return React.DOM.div(null,
+              return React.DOM.div({},
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
-                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
+                    React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
                   )
                 ),
                 React.DOM.div({className: 'row'},
@@ -109,7 +109,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                         var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
                         var enrollment = employer.enrollments.findById(program.id, 'program_id');
 
-                        return InMatchingParticipantGroupPanel({
+                        return React.createElement(InMatchingParticipantGroupPanel, {
                                   employer: employer,
                                   enrollment: enrollment,
                                   inMatchingParticipantGroup: inMatchingParticipantGroup,
@@ -121,12 +121,12 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
                 ),
                 React.DOM.div({className: 'row'},
                   React.DOM.div({className: 'col-md-12'},
-                    Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
+                    React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
                   )
                 )
               );
             } else {
-              return Alert({type: 'warning', message: this.noResultsMessage, closeable: false});
+              return React.createElement(Alert, {type: 'warning', message: this.noResultsMessage, closeable: false});
             }
           }.bind(this)()
         )

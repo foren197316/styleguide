@@ -39,22 +39,22 @@ var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-xs-12 col-md-3'}),
         React.DOM.div({className: 'col-xs-12 col-md-9'},
-          ReloadingComponent({loadingLink: formSendingLink},
+          React.createElement(ReloadingComponent, {loadingLink: formSendingLink},
             React.DOM.div({className: 'row'},
               React.DOM.div({className: 'col-xs-12'},
-                Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
+                React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
               )
             ),
             React.DOM.div({className: 'row'},
               React.DOM.div({className: 'col-xs-12'},
                 this.state.jobListings.map(function (jobListing, index) {
-                  return JobListing({jobListing: jobListing, key: 'jobListing-' + index});
+                  return React.createElement(JobListing, {jobListing: jobListing, key: 'jobListing-' + index});
                 }, this)
               )
             ),
             React.DOM.div({className: 'row'},
               React.DOM.div({className: 'col-xs-12'},
-                Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
+                React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
               )
             )
           )

@@ -73,7 +73,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
     var actions,
         footerName = this.props.data.name + (this.props.data.program != null ? ' - ' + this.props.data.program.name : ''),
         participantNodes = this.props.data.participants.map(function (participant) {
-          return ParticipantGroupParticipant({key: participant.id, participant: participant});
+          return React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant});
         });
 
     if (this.state.puttingInMatching || this.state.puttingOnReserve) {
@@ -97,7 +97,7 @@ var AwaitingOrdersParticipantGroupPanel = React.createClass({displayName: 'Await
         React.DOM.div({className: 'list-group'},
           participantNodes
         ),
-        ParticipantGroupPanelFooter({name: footerName},
+        React.createElement(ParticipantGroupPanelFooter, {name: footerName},
           actions
         )
       )
@@ -131,12 +131,12 @@ var AwaitingOrdersParticipantGroupPanels = React.createClass({displayName: 'Awai
       return (
         React.DOM.div({id: 'participant-group-panels'},
           this.state.groups.map(function (group) {
-            return AwaitingOrdersParticipantGroupPanel({key: group.id, data: group});
+            return React.createElement(AwaitingOrdersParticipantGroupPanel, {key: group.id, data: group});
           })
         )
       );
     } else {
-      return Spinner(null);
+      return React.createElement(Spinner, {});
     }
   }
 });

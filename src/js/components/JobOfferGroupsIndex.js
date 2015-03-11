@@ -29,15 +29,15 @@ var JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
     return (
       React.DOM.div({className: 'row'},
         React.DOM.div({className: 'col-md-3'},
-          SearchFilter({title: 'Search', searchOn: 'participant_names', actions: actions.JobOfferGroupActions}),
-          CheckBoxFilter({title: 'Participant Agreement', store: JobOfferSignedStore, actions: actions.JobOfferSignedActions}),
-          CheckBoxFilter({title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
-          CheckBoxFilter({title: 'Employer', store: EmployerStore, actions: actions.EmployerActions}),
-          CheckBoxFilter({title: 'Coordinator', store: StaffStore, actions: actions.StaffActions}),
-          ExportButton({url: this.props.urls.export, ids: jobOfferIds})
+          React.createElement(SearchFilter, {title: 'Search', searchOn: 'participant_names', actions: actions.JobOfferGroupActions}),
+          React.createElement(CheckBoxFilter, {title: 'Participant Agreement', store: JobOfferSignedStore, actions: actions.JobOfferSignedActions}),
+          React.createElement(CheckBoxFilter, {title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
+          React.createElement(CheckBoxFilter, {title: 'Employer', store: EmployerStore, actions: actions.EmployerActions}),
+          React.createElement(CheckBoxFilter, {title: 'Coordinator', store: StaffStore, actions: actions.StaffActions}),
+          React.createElement(ExportButton, {url: this.props.urls.export, ids: jobOfferIds})
         ),
         React.DOM.div({className: 'col-md-9'},
-          JobOfferGroupsPanel(null)
+          React.createElement(JobOfferGroupsPanel, {})
         )
       )
     );

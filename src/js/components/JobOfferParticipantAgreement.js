@@ -22,12 +22,12 @@ module.exports = React.createClass({displayName: 'JobOfferParticipantAgreement',
 
     return (
       React.DOM.div({className: 'panel panel-default participant-group-panel'},
-        EmployerHeader({employer: employer}),
+        React.createElement(EmployerHeader, {employer: employer}),
         React.DOM.div({className: 'list-group'},
-          JobOffer({jobOffer: this.props.jobOfferParticipantAgreement.job_offer, jobOfferParticipantAgreement: this.props.jobOfferParticipantAgreement})
+          React.createElement(JobOffer, {jobOffer: this.props.jobOfferParticipantAgreement.job_offer, jobOfferParticipantAgreement: this.props.jobOfferParticipantAgreement})
         ),
-        ParticipantGroupPanelFooter({name: ''},
-          React.DOM.div(null, moment(this.props.jobOfferParticipantAgreement.created_at).fromNow())
+        React.createElement(ParticipantGroupPanelFooter, {name: ''},
+          React.DOM.div({}, moment(this.props.jobOfferParticipantAgreement.created_at).fromNow())
         )
       )
     );

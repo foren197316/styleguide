@@ -50,15 +50,15 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
 
     return (
       React.DOM.div({className: 'panel panel-default participant-group-panel'},
-        EmployerHeader({employer: employer}),
+        React.createElement(EmployerHeader, {employer: employer}),
         React.DOM.div({className: 'list-group'},
           this.props.jobOfferGroup.job_offers.map(function (jobOffer) {
-            return JobOffer({jobOffer: jobOffer, key: 'job_offer_'+jobOffer.id});
+            return React.createElement(JobOffer, {jobOffer: jobOffer, key: 'job_offer_'+jobOffer.id});
           })
         ),
-        ParticipantGroupPanelFooter({name: this.props.jobOfferGroup.name},
+        React.createElement(ParticipantGroupPanelFooter, {name: this.props.jobOfferGroup.name},
           actions,
-          React.DOM.div(null, moment(this.props.jobOfferGroup.created_at).fromNow())
+          React.DOM.div({}, moment(this.props.jobOfferGroup.created_at).fromNow())
         )
       )
     );

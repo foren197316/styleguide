@@ -11,9 +11,9 @@ module.exports = React.createClass({displayName: 'ReloadingComponent',
 
   render: function () {
     if (this.props.loadingLink.value) {
-      return Spinner(null);
+      return React.createElement(Spinner, {});
     } else {
-      return React.DOM.div(null, this.props.children);
+      return React.DOM.div({}, this.props.children);
     }
   }
 });

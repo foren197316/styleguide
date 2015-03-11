@@ -71,7 +71,7 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
       var position = PositionStore.findById(draftJobOffer.position_id);
 
       return (
-        OfferedParticipantGroupParticipant({
+        React.createElement(OfferedParticipantGroupParticipant, {
           key: participant.id,
           participant: participant,
           position: position,
@@ -82,7 +82,7 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
 
     if (this.state.status) {
       var status = this.state.status;
-      return Alert({type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
+      return React.createElement(Alert, {type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
     } else if (this.state.sendingJobOffer) {
       actions = (
         React.DOM.div({className: 'btn-group'},
@@ -101,7 +101,7 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
       actions = null;
     } else if (!employer.vetted) {
       actions = (
-        React.DOM.div(null,
+        React.DOM.div({},
           React.DOM.span({className: 'label label-warning pull-left'}, 'Employer Not Vetted'),
           React.DOM.button({className: 'btn btn-small btn-danger', onClick: this.handleReject}, 'Reject')
         )
@@ -117,13 +117,13 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
 
     return (
       React.DOM.div({className: 'panel panel-default participant-group-panel'},
-        EmployerHeader({employer: employer}),
+        React.createElement(EmployerHeader, {employer: employer}),
         React.DOM.div({className: 'list-group'},
           participantNodes
         ),
-        ParticipantGroupPanelFooter({name: footerName},
+        React.createElement(ParticipantGroupPanelFooter, {name: footerName},
           actions,
-          React.DOM.div(null, moment(this.props.offeredParticipantGroup.created_at).fromNow())
+          React.DOM.div({}, moment(this.props.offeredParticipantGroup.created_at).fromNow())
         )
       )
     );

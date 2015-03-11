@@ -31,34 +31,34 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
 
     if (this.props.offer.overtime === 'yes') {
       overtimeRate = (
-        ReadOnlyFormGroup({label: 'Overtime rate per hour', value: '$' + parseFloat(this.props.offer.overtime_rate).toFixed(2)})
+        React.createElement(ReadOnlyFormGroup, {label: 'Overtime rate per hour', value: '$' + parseFloat(this.props.offer.overtime_rate).toFixed(2)})
       );
     }
 
     if (this.props.jobOfferParticipantAgreement != null) {
       jobOfferParticipantAgreement = (
-        ReadOnlyFormGroup({label: 'Signed by', value: this.props.jobOfferParticipantAgreement.full_name + ' on ' + moment(this.props.jobOfferParticipantAgreement.created_at, dateFormatYMD).format(dateFormatMDY)})
+        React.createElement(ReadOnlyFormGroup, {label: 'Signed by', value: this.props.jobOfferParticipantAgreement.full_name + ' on ' + moment(this.props.jobOfferParticipantAgreement.created_at, dateFormatYMD).format(dateFormatMDY)})
       );
     }
 
     if (this.props.jobOfferFileMakerReference != null) {
       jobOfferFileMakerReference = (
-        ReadOnlyFormGroup({label: 'Imported on', value: moment(this.props.jobOfferFileMakerReference.created_at, dateFormatYMD).format(dateFormatMDY)})
+        React.createElement(ReadOnlyFormGroup, {label: 'Imported on', value: moment(this.props.jobOfferFileMakerReference.created_at, dateFormatYMD).format(dateFormatMDY)})
       );
     }
 
     return (
-      ParticipantGroupParticipant({participant: this.props.participant},
+      React.createElement(ParticipantGroupParticipant, {participant: this.props.participant},
         React.DOM.div({className: 'form form-horizontal'},
-          ReadOnlyFormGroup({label: 'Position', value: this.props.position.name}),
-          ReadOnlyFormGroup({label: 'Wage per hour', value: '$' + parseFloat(this.props.offer.wage).toFixed(2)}),
-          ReadOnlyFormGroup({label: 'Tipped?', value: this.props.offer.tipped ? 'Yes' : 'No'}),
-          ReadOnlyFormGroup({label: 'Hours per week', value: this.props.offer.hours}),
-          ReadOnlyFormGroup({label: 'Overtime?', value: this.props.offer.overtime.capitaliseWord()}),
+          React.createElement(ReadOnlyFormGroup, {label: 'Position', value: this.props.position.name}),
+          React.createElement(ReadOnlyFormGroup, {label: 'Wage per hour', value: '$' + parseFloat(this.props.offer.wage).toFixed(2)}),
+          React.createElement(ReadOnlyFormGroup, {label: 'Tipped?', value: this.props.offer.tipped ? 'Yes' : 'No'}),
+          React.createElement(ReadOnlyFormGroup, {label: 'Hours per week', value: this.props.offer.hours}),
+          React.createElement(ReadOnlyFormGroup, {label: 'Overtime?', value: this.props.offer.overtime.capitaliseWord()}),
           overtimeRate,
           jobOfferParticipantAgreement,
           jobOfferFileMakerReference,
-          ReadOnlyFormGroup({label: '', value: jobOfferLink})
+          React.createElement(ReadOnlyFormGroup, {label: '', value: jobOfferLink})
         )
       )
     );
