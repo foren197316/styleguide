@@ -3,15 +3,15 @@
 var React = require('react/addons');
 var RB = require('react-bootstrap');
 var ValidatingInputMixin = require('../mixins').ValidatingInputMixin;
-var ValidateMoney = require('../mixins').ValidateMoney;
+var ValidateNumber = require('../mixins').ValidateNumber;
 
-module.exports = React.createClass({displayName: 'DraftJobOfferWageInput',
+module.exports = React.createClass({displayName: 'DraftJobOfferHoursInput',
   mixins: [ValidatingInputMixin],
 
   validate: function (value) {
     return value !== null   &&
            value.length > 0 &&
-           ValidateMoney(value) !== 'error';
+           ValidateNumber(value) !== 'error';
   },
 
   render: function () {
@@ -19,16 +19,16 @@ module.exports = React.createClass({displayName: 'DraftJobOfferWageInput',
       RB.Input, {
         id: this.props.id,
         name: this.props.name,
-        defaultValue: this.state.value,
+        value: this.state.value,
         onChange: this.handleChange,
-        bsStyle: ValidateMoney(this.state.value),
-        label: 'Wage per hour',
+        bsStyle: ValidateNumber(this.state.value),
+        label: 'Hours per week',
         hasFeedback: true,
         labelClassName: 'col-sm-4',
         type: 'text',
-        wrapperClassName: 'col-sm-8',
-        addonBefore: '$'
+        wrapperClassName: 'col-sm-8'
       }
     );
   }
 });
+

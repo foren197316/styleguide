@@ -6,18 +6,11 @@ var RadioGroup = require('react-radio-group');
 var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 var DraftJobOfferPositionSelect = require('./DraftJobOfferPositionSelect');
 var DraftJobOfferWageInput = require('./DraftJobOfferWageInput');
+var DraftJobOfferHoursInput = require('./DraftJobOfferHoursInput');
 var RadioGroupButton = require('./RadioGroupButton');
 var ValidatingFormGroup = require('./ValidatingFormGroup');
 var ValidatingInputMixin = require('../mixins').ValidatingInputMixin;
 var ValidateMoney = require('../mixins').ValidateMoney;
-
-var validateNumber = function (value) {
-  if (value) {
-    if (!/^\d+(\.\d+)?$/.test(value)) {
-     return 'error';
-    }
-  }
-};
 
 var draftJobOfferFormName = function (key, field) {
   return 'draft_job_offers[' + key + '][' + field + ']';
@@ -47,32 +40,6 @@ var ParticipantGroupParticipantOfferingFormTipped = React.createClass({displayNa
           )
         )
       )
-    );
-  }
-});
-
-var ParticipantGroupParticipantOfferingFormHours = React.createClass({displayName: 'ParticipantGroupParticipantOfferingFormHours',
-  statics: { validates: true},
-
-  getInitialState: function() {
-    return {hours: null};
-  },
-
-  handleChange: function (event) {
-    var newState = this.validate(event.target.value);
-    this.setState({hours: event.target.value});
-    this.props.validationState.requestChange(newState);
-  },
-
-  validate: function (value) {
-    return value !== null && value.length > 0 && validateNumber(value) !== 'error';
-  },
-
-  render: function () {
-    var key = this.props.resourceId;
-
-    return React.createElement(
-      ReactBootstrap.Input, {name: draftJobOfferFormName(key, 'hours'), id: draftJobOfferFormId(key, 'hours'), value: this.state.value, label: 'Hours per week', hasFeedback: true, bsStyle: validateNumber(this.state.value), labelClassName: 'col-sm-4', type: 'text', step: '1', wrapperClassName: 'col-sm-8', onChange: this.handleChange}
     );
   }
 });
@@ -146,9 +113,9 @@ var ParticipantGroupParticipantOffering = React.createClass({displayName: 'Parti
         React.createElement(ValidatingFormGroup, {validationState: this.props.validationState, resourceId: this.props.data.id},
           React.createElement(ReactBootstrap.Input, {name: draftJobOfferFormName(this.props.data.id, 'participant_id'), id: draftJobOfferFormId(this.props.data.id, 'participant_id'), defaultValue: this.props.data.id, type: 'hidden'}),
           React.createElement(DraftJobOfferPositionSelect, {positions: this.props.data.positions}),
-          React.createElement(DraftJobOfferWageInput, {name: draftJobOfferFormName(this.props.data.id, 'participant_id'), id: draftJobOfferFormId(this.props.data.id, 'participant_id')}),
+          React.createElement(DraftJobOfferWageInput, {name: draftJobOfferFormName(this.props.data.id, 'wage'), id: draftJobOfferFormName(this.props.data.id, 'wage')}),
           React.createElement(ParticipantGroupParticipantOfferingFormTipped, {}),
-          React.createElement(ParticipantGroupParticipantOfferingFormHours, {}),
+          React.createElement(DraftJobOfferHoursInput, {name: draftJobOfferFormName(this.props.data.id, 'hours'), id: draftJobOfferFormName(this.props.data.id, 'hours')}),
           React.createElement(ParticipantGroupParticipantOfferingFormOvertime, {},
             React.createElement(ParticipantGroupParticipantOfferingFormOvertimeRate, {})
           )
