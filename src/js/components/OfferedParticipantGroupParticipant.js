@@ -52,7 +52,7 @@ var OfferedParticipantGroupParticipant = React.createClass({displayName: 'Offere
         React.DOM.div({className: 'form form-horizontal'},
           React.createElement(ReadOnlyFormGroup, {label: 'Position', value: this.props.position.name}),
           React.createElement(ReadOnlyFormGroup, {label: 'Wage per hour', value: '$' + parseFloat(this.props.offer.wage).toFixed(2)}),
-          React.createElement(ReadOnlyFormGroup, {label: 'Tipped?', value: this.props.offer.tipped == true ? 'Yes' : 'No'}),
+          React.createElement(ReadOnlyFormGroup, {label: 'Tipped?', value: this.props.offer.tipped === true ? 'Yes' : 'No'}),
           React.createElement(ReadOnlyFormGroup, {label: 'Hours per week', value: this.props.offer.hours}),
           React.createElement(ReadOnlyFormGroup, {label: 'Overtime?', value: this.props.offer.overtime.capitaliseWord()}),
           overtimeRate,
