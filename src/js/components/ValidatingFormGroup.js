@@ -33,7 +33,8 @@ var ValidatingFormGroup = React.createClass({displayName: 'ValidatingFormGroup',
     var valid = true;
 
     React.Children.forEach(this.props.children, function (child, index) {
-      valid = valid && this.state[this.stateName(index)];
+      var isValid = this.state[this.stateName(index)];
+      valid = valid && isValid;
     }.bind(this));
 
     if (valid !== this.props.validationState.value) {

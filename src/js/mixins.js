@@ -17,6 +17,22 @@ module.exports = {
     }
   },
 
+  ValidateNumber: function (value) {
+    if (value) {
+      if (!/^\d+(\.\d+)?$/.test(value)) {
+       return 'error';
+      }
+    }
+  },
+
+  ValidateMoney: function (value) {
+    if (value) {
+      if (!/^\d+([\.,]\d{1,2})?$/.test(value)) {
+        return 'error';
+      }
+    }
+  },
+
   ValidatingInputMixin: {
     statics: { validates: true },
 
