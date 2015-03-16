@@ -22,6 +22,11 @@ module.exports = function (environment) {
         __DEV__: (environment === 'development').toString()
       })
     ],
+    module: {
+      loaders: [
+        { test: /\.jsx?$/, loaders: ['babel'], exclude: /node_modules/ }
+      ]
+    },
     resolve: {
       extensions: ['', '.js']
     }
@@ -34,11 +39,9 @@ module.exports = function (environment) {
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoErrorsPlugin()
     ]);
-    config.module = {
-      loaders: [
-        { test: /components\/.*\.js$/, loaders: ['react-hot'] }
-      ]
-    };
+    config.module.loaders.unshift(
+      { test: /\.jsx?$/, loaders: ['react-hot'], exclude: /node_modules/ }
+    );
     baseEntries = baseEntries.concat([
       'webpack-dev-server/client?http://localhost:3000',
       'webpack/hot/only-dev-server'
