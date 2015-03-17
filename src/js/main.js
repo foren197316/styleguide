@@ -1,11 +1,11 @@
 'use strict';
 
-var actions = require('./actions');
 var Reflux = require('reflux');
-var $ = require('jquery');
-var Base64 = require('./base64');
 var moment = require('moment');
-var getCsrfToken = require('./csrf-token');
+var $ = require('jquery');
+var actions = require('./actions');
+var Base64 = require('./base64');
+var csrfToken = require('./csrf-token');
 
 moment.locale('en', {
   relativeTime: {
@@ -27,9 +27,8 @@ moment.locale('en', {
 
 $.ajaxPrefilter(function(options, originalOptions, xhr) {
   if (!options.crossDomain) {
-    var token = getCsrfToken();
-    if (token) {
-      xhr.setRequestHeader('X-CSRF-Token', token);
+    if (csrfToken) {
+      xhr.setRequestHeader('X-CSRF-Token', csrfToken);
     }
   }
 });
@@ -40,17 +39,15 @@ if (__DEV__) {
   };
 } else {
   var React = require('react/addons');
-  var withRootNode = require('./root-node');
+  var rootNode = require('./root-node');
 
   global.onerror = function (message) {
-    withRootNode(function (rootNode) {
-      React.render(
-        React.DOM.div({className: 'alert alert-danger'},
-          React.DOM.strong({}, 'An error occurred: '), message
-        ),
-        rootNode
-      );
-    });
+    React.render(
+      React.DOM.div({className: 'alert alert-danger'},
+        React.DOM.strong({}, 'An error occurred: '), message
+      ),
+      rootNode
+    );
     return false;
   };
 }

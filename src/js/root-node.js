@@ -1,9 +1,2 @@
 'use strict';
-
-var $ = require('jquery');
-
-module.exports = function (callback) {
-  $('document').ready(function () {
-    callback(global.document.getElementById('RootNode'));
-  });
-};
+module.exports = global.document.getElementById('RootNode');

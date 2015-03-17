@@ -1,7 +1,2 @@
 'use strict';
-
-var $ = require('jquery');
-
-module.exports = function () {
-  return $('meta[name="csrf-token"]').attr('content');
-};
+module.exports = global.document.querySelector('meta[name="csrf-token"]').getAttribute('content');

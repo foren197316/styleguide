@@ -4,10 +4,8 @@
 require('../main');
 var React = require('react/addons');
 var AwaitingOrdersParticipantGroupPanels = require('../components/AwaitingOrdersParticipantGroupPanels');
-var withRootNode = require('../root-node');
+var rootNode = require('../root-node');
 
-withRootNode(function (rootNode) {
-  React.render(React.createElement(AwaitingOrdersParticipantGroupPanels, {
-    source: rootNode.dataset.source
-  }), rootNode);
-});
+React.render(React.createElement(AwaitingOrdersParticipantGroupPanels, {
+  source: rootNode.dataset.source
+}), rootNode);
