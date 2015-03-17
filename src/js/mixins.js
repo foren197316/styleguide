@@ -49,16 +49,14 @@ module.exports = {
     }
   },
 
-  RenderLoadedMixin: function () {
-    var args = arguments;
-
+  RenderLoadedMixin: function (...args) {
     if (args.length === 0) {
       throw new Error('RenderLoadedMixin takes at least one string argument.');
     }
 
     return {
       render: function () {
-        for (var i=0; i<args.length; i++) {
+        for (let i=0; i<args.length; i++) {
           if (!this.state[args[i]]) {
             return React.createElement(Spinner);
           }
