@@ -16,19 +16,21 @@ module.exports = React.createClass({
 
   getInitialState(){
     return {
-      applying: false
+      applying: false,
+      onReview: false
     };
   },
 
   putOnReview(){
-    let apiAction;
-    if (JobListingStore.meta.in_matching_participant_group_id) {
-      apiAction =
-    }
-    api.createOnReviewParticipantGroupFromInMatching(
-      JobListingStore.meta.in_matching_participant_group_id ||
+    api.createOnReviewParticipantGroup(
+      JobListingStore.meta.unmatched_participant_group_id,
+      this.props.jobListing.employer_id
     )
-    .then(data => {
+    .then(() => {
+      this.setState({ onReview: true });
+    })
+    .catch(err => {
+      console.log(err);
     });
   },
 

@@ -16,5 +16,9 @@ module.exports = {
 
   calculateAgeAtArrival: function (to, from) {
     return new moment(to, ymd).diff(moment(from, ymd), 'years');
+  },
+
+  onReviewExpiresOn () {
+    return moment().add(3, 'days').format(ymd);
   }
 };

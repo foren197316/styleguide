@@ -237,8 +237,11 @@ Reflux.StoreMethods.onAjaxLoadSingleton = function (...args) {
   this.onAjaxLoad(...args);
 };
 
-Reflux.StoreMethods.onLoadSuccess = function (response, ...args) {
+Reflux.StoreMethods.onLoadSuccess = function (response) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
+  this.meta = response.meta;
+
+  var args = arguments;
 
   if (!(this.data instanceof Array) && !this.singleton) {
     this.data = [this.data].notEmpty();
