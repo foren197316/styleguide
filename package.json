@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "main": "index.html",
   "devDependencies": {
+    "babel-core": "^4.7.12",
+    "babel-loader": "^4.2.0",
     "browser-sync": "^2.2.0",
     "del": "~0.1.2",
-    "expose-loader": "^0.6.0",
     "gulp": "^3.8.11",
     "gulp-autoprefixer": "0.0.9",
     "gulp-clean": "^0.3.1",
@@ -33,13 +34,10 @@
     "jquery-ui": "^1.10.5",
     "jshint-stylish": "^0.4.0",
     "lodash": "~2.4.1",
-    "minifyify": "^6.0.0",
     "moment": "^2.9.0",
-    "react": "*",
     "react-bootstrap": "^0.13.3",
     "react-hot-loader": "^1.1.5",
     "react-radio-group": "^1.0.0",
-    "react-tools": "*",
     "reflux": "^0.2.4",
     "run-sequence": "~0.3.6",
     "webpack": "^1.5.3",
@@ -49,8 +47,8 @@
   "dependencies": {
     "gulp-minify-css": "^0.3.10",
     "gulp-sass": "^1.0.0",
-    "react": "*",
-    "react-tools": "*"
+    "react": "^0.12.0",
+    "react-tools": "^0.12.0"
   },
   "jest": {
     "setupEnvScriptFile": "./jest_setup.js",
