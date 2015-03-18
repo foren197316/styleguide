@@ -51,6 +51,7 @@
     "react-tools": "^0.12.0"
   },
   "jest": {
+    "scriptPreprocessor": "<rootDir>/preprocessor.js",
     "setupEnvScriptFile": "./jest_setup.js",
     "unmockedModulePathPatterns": [
       "./node_modules/reflux",

@@ -38,7 +38,7 @@ moment.locale('en', {
   }
 });
 
-if (__DEV__) {
+if (process.env.__ENV__ === 'development') {
   global.Intercom = function (action, name, data) {
     console.log('Intercom', action, name, data);
   };
@@ -251,7 +251,7 @@ Reflux.StoreMethods.onLoadSuccess = function (response, ...args) {
   this.permission = true;
 
   if (typeof this.initPostAjaxLoad === 'function') {
-    this.initPostAjaxLoad(this.data, args);
+    this.initPostAjaxLoad(this.data, ...args);
   } else {
     this.trigger(this.data);
   }

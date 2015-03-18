@@ -21,8 +21,5 @@
   "browserify": true,
   "forin": true,
   "maxdepth": 3,
-  "eqnull": true,
-  "globals": {
-    "__DEV__": false
-  }
+  "eqnull": true
 }
