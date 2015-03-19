@@ -8,13 +8,14 @@ var currency = require('../currency');
 
 module.exports = React.createClass({displayName: 'JobListingDetails',
   propTypes: {
-    jobListing: React.PropTypes.object.isRequired
+    jobListing: React.PropTypes.object.isRequired,
+    meta: React.PropTypes.object.isRequired
   },
 
   render: function () {
     var jobListing = this.props.jobListing;
 
-    return React.createElement(JobListing, {jobListing: this.props.jobListing},
+    return React.createElement(JobListing, {jobListing: this.props.jobListing, meta: this.props.meta},
       RD.div({className: 'row'},
         RD.address({className: 'col-xs-9'},
           RD.span({}, jobListing.site_city, ', ', jobListing.site_state)

@@ -1,33 +1,34 @@
 /* @flow */
 'use strict';
 
-var Reflux = require('reflux');
-var React = require('react/addons');
-var actions = require('../actions');
-var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
-var Alert = require('./Alert');
-var InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel');
+let Alert = require('./Alert');
+let InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel');
+let React = require('react/addons');
+let Reflux = require('reflux');
+let RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+let actions = require('../actions');
 
-var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
-var EmployerStore = require('../stores/EmployerStore');
-var ProgramStore = require('../stores/ProgramStore');
-var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
-var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
-var GenderStore = require('../stores/GenderStore');
-var EnglishLevelStore = require('../stores/EnglishLevelStore');
-var PositionStore = require('../stores/PositionStore');
-var CountryStore = require('../stores/CountryStore');
+let AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
+let CountryStore = require('../stores/CountryStore');
+let EmployerStore = require('../stores/EmployerStore');
+let EnglishLevelStore = require('../stores/EnglishLevelStore');
+let GenderStore = require('../stores/GenderStore');
+let InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
+let MetaStore = require('../stores/MetaStore');
+let ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
+let PositionStore = require('../stores/PositionStore');
+let ProgramStore = require('../stores/ProgramStore');
 
-var AjaxSearchForm = require('./AjaxSearchForm');
-var AjaxSearchFilter = require('./AjaxSearchFilter');
-var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
-var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
-var AjaxBooleanFilter = require('./AjaxBooleanFilter');
-var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
+let AjaxBooleanFilter = require('./AjaxBooleanFilter');
+let AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
+let AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
+let AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
+let AjaxSearchFilter = require('./AjaxSearchFilter');
+let AjaxSearchForm = require('./AjaxSearchForm');
 
-var query = require('../query');
-var Pagination = require('./Pagination');
-var Spinner = require('./Spinner');
+let Pagination = require('./Pagination');
+let Spinner = require('./Spinner');
+let query = require('../query');
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
@@ -67,8 +68,8 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
   renderLoaded: function () {
     var employer = this.state.employer;
     var page = query.getCurrentPage();
-    var pageCount = InMatchingParticipantGroupStore.meta.pageCount;
-    var recordCount = InMatchingParticipantGroupStore.meta.recordCount;
+    var pageCount = MetaStore.data.pageCount;
+    var recordCount = MetaStore.data.recordCount;
     var formSendingLink = this.linkState('formSending');
     var recordName = 'Participants';
     var anchor = 'searchTop';

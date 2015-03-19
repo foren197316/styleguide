@@ -11,7 +11,8 @@ let ConfirmOrCancelButton = React.createClass({
 
   getInitialState(){
     return {
-      confirming: false
+      confirming: false,
+      disabled: false
     };
   },
 
@@ -23,12 +24,19 @@ let ConfirmOrCancelButton = React.createClass({
     this.setState({ confirming: true });
   },
 
+  handleConfirmation () {
+    this.setState({ disabled: true });
+    this.props.confirmFunction();
+  },
+
   render() {
     if (this.state.confirming) {
+      let disabled = this.state.disabled ? 'disabled' : '';
+
       return (
         div({className: 'btn-group'},
-          button({className: 'btn btn-success', onClick: this.props.confirmFunction}, 'Confirm'),
-          button({className: 'btn btn-danger', onClick: this.cancel}, 'Cancel')
+          button({className: 'btn btn-success', onClick: this.handleConfirmation, disabled}, 'Confirm'),
+          button({className: 'btn btn-danger', onClick: this.cancel, disabled}, 'Cancel')
         )
       );
     } else {

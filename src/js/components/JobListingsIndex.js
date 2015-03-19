@@ -1,23 +1,27 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var Reflux = require('reflux');
-var SetUrlsMixin = require('../mixins').SetUrlsMixin;
-var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
-var JobListingStore = require('../stores/JobListingStore');
-var JobListing = require('./JobListing');
-var JobListingActions = require('../actions').JobListingActions;
-var Pagination = require('./Pagination');
-var ReloadingComponent = require('./ReloadingComponent');
-var query = require('../query');
+let React = require('react/addons');
+let Reflux = require('reflux');
+let SetUrlsMixin = require('../mixins').SetUrlsMixin;
+let RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+let JobListing = require('./JobListing');
+let JobListingActions = require('../actions').JobListingActions;
+let Pagination = require('./Pagination');
+let ReloadingComponent = require('./ReloadingComponent');
+let query = require('../query');
+let { div } = React.DOM;
+
+let JobListingStore = require('../stores/JobListingStore');
+let MetaStore = require('../stores/MetaStore');
 
 var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
   mixins: [
     SetUrlsMixin,
     React.addons.LinkedStateMixin,
     Reflux.connect(JobListingStore, 'jobListings'),
-    RenderLoadedMixin('jobListings')
+    Reflux.connect(MetaStore, 'meta'),
+    RenderLoadedMixin('jobListings', 'meta')
   ],
 
   getInitialState: function () {
@@ -29,31 +33,31 @@ var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
   },
 
   renderLoaded: function () {
-    var pageCount = JobListingStore.meta.pageCount;
-    var recordCount = JobListingStore.meta.recordCount;
-    var page = query.getCurrentPage();
-    var formSendingLink = this.linkState('formSending');
-    var recordName = 'Job Listings';
+    let pageCount = this.state.meta.pageCount;
+    let recordCount = this.state.meta.recordCount;
+    let page = query.getCurrentPage();
+    let formSendingLink = this.linkState('formSending');
+    let recordName = 'Job Listings';
 
     return (
-      React.DOM.div({className: 'row'},
-        React.DOM.div({className: 'col-xs-12 col-md-3'}),
-        React.DOM.div({className: 'col-xs-12 col-md-9'},
+      div({className: 'row'},
+        div({className: 'col-xs-12 col-md-3'}),
+        div({className: 'col-xs-12 col-md-9'},
           React.createElement(ReloadingComponent, {loadingLink: formSendingLink},
-            React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-xs-12'},
+            div({className: 'row'},
+              div({className: 'col-xs-12'},
                 React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
               )
             ),
-            React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-xs-12'},
-                this.state.jobListings.map(function (jobListing, index) {
-                  return React.createElement(JobListing, {jobListing: jobListing, key: 'jobListing-' + index});
-                }, this)
+            div({className: 'row'},
+              div({className: 'col-xs-12'},
+                this.state.jobListings.map((jobListing, index) => (
+                  React.createElement(JobListing, {jobListing: jobListing, meta: this.state.meta, key: `jobListing-${index}`})
+                ))
               )
             ),
-            React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-xs-12'},
+            div({className: 'row'},
+              div({className: 'col-xs-12'},
                 React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, actions: JobListingActions, formSending: formSendingLink, recordName: recordName })
               )
             )

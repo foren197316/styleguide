@@ -1,12 +1,13 @@
 'use strict';
 
-let Reflux = require('reflux');
-let moment = require('moment');
 let $ = require('jquery');
-let actions = require('./actions');
 let Base64 = require('./base64');
-let csrfToken = require('./csrf-token');
+let MetaStore = require('./stores/MetaStore');
+let Reflux = require('reflux');
+let actions = require('./actions');
 let axios = require('axios');
+let csrfToken = require('./csrf-token');
+let moment = require('moment');
 let rootNode = require('./root-node');
 
 let axiosDefaults = require('axios/lib/defaults');
@@ -239,7 +240,7 @@ Reflux.StoreMethods.onAjaxLoadSingleton = function (...args) {
 
 Reflux.StoreMethods.onLoadSuccess = function (response) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
-  this.meta = response.meta;
+  MetaStore.set(response.meta);
 
   var args = arguments;
 
@@ -274,7 +275,7 @@ Reflux.StoreMethods.onLoadError = function () {
 
 Reflux.StoreMethods.onSearchSuccess = function (response) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
-  this.meta = response.meta;
+  MetaStore.set(response.meta);
 
   if (!(this.data instanceof Array)) {
     this.data = [this.data].notEmpty();

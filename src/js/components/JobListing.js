@@ -4,45 +4,32 @@ let React = require('react/addons');
 let factory = React.createFactory;
 let currency = require('../currency');
 let api = require('../api');
-let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
-let JobListingStore = require('../stores/JobListingStore');
+let moment = require('moment');
 let { div, a, span, strong, small, hr } = React.DOM;
 let { dateFormatMDY } = require('../globals');
-let moment = require('moment');
 
-let CONSTANTS = {
-  SHOW: 'SHOW',
-  APPLY: 'APPLY',
-  SUCCESS: 'SUCCESS'
-};
+let MetaStore = require('../stores/MetaStore');
+
+let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
+
+const SHOW = 'show';
+const APPLY = 'apply';
+const SUCCESS = 'success';
 
 module.exports = React.createClass({
   displayName: 'JobListing',
   propTypes: {
-    jobListing: React.PropTypes.object.isRequired
-  },
-
-  getInitialState(){
-    var status;
-
-    if (JobListingStore.meta.in_matching_participant_group_id) {
-      status = CONSTANTS.APPLY;
-    } else if (JobListingStore.meta.on_review_participant_group_employer_id === this.props.jobListing.employer_id) {
-      status = CONSTANTS.SUCCESS;
-    } else {
-      status = CONSTANTS.SHOW;
-    }
-
-    return { status };
+    jobListing: React.PropTypes.object.isRequired,
+    meta: React.PropTypes.object.isRequired
   },
 
   putOnReview(){
     api.createOnReviewParticipantGroup(
-      JobListingStore.meta.in_matching_participant_group_id,
+      this.props.meta.in_matching_participant_group_id,
       this.props.jobListing.employer_id
     )
     .then(() => {
-      JobListingStore.setOnReviewParticipantGroupEmployerId(this.props.jobListing.employer_id);
+      MetaStore.setAttribute('on_review_participant_group_employer_id', this.props.jobListing.employer_id);
     })
     .catch(err => {
       console.log(err);
@@ -50,8 +37,17 @@ module.exports = React.createClass({
   },
 
   render () {
-    var jobListing = this.props.jobListing;
-    var href = '/job_listings/' + this.props.jobListing.id;
+    let jobListing = this.props.jobListing;
+    let href = `/job_listings/${this.props.jobListing.id}`;
+
+    var status;
+    if (this.props.meta.on_review_participant_group_employer_id === this.props.jobListing.employer_id) {
+      status = SUCCESS;
+    } else if (this.props.meta.in_matching_participant_group_id) {
+      status = APPLY;
+    } else {
+      status = SHOW;
+    }
 
     return (
       div({className: 'panel panel-default'},
@@ -106,7 +102,7 @@ module.exports = React.createClass({
           ),
           this.props.children,
           (() => {
-            if (this.state.status === CONSTANTS.APPLY) {
+            if (status === APPLY) {
               return (
                 div({className: 'row text-black'},
                   hr(),
@@ -115,12 +111,15 @@ module.exports = React.createClass({
                   )
                 )
               );
-            } else if (this.state.status === CONSTANTS.SUCCESS) {
+            } else if (status === SUCCESS) {
               return (
                 div({className: 'row text-black'},
                   hr(),
                   div({className: 'col-xs-12 text-right'},
-                    `Your application will be shared with ${this.props.jobListing.employer.name} until ${moment().add(3, 'days').format(dateFormatMDY)}`
+                    span({}, 'Your application will be shared with '),
+                    strong({}, this.props.jobListing.employer_name),
+                    span({}, ' until '),
+                    strong({}, moment().add(3, 'days').format(dateFormatMDY))
                   )
                 )
               );
