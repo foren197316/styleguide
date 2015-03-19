@@ -7,6 +7,14 @@ let api = require('../api');
 let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
 let JobListingStore = require('../stores/JobListingStore');
 let { div, a, span, strong, small, hr } = React.DOM;
+let { dateFormatMDY } = require('../globals');
+let moment = require('moment');
+
+let CONSTANTS = {
+  SHOW: 'SHOW',
+  APPLY: 'APPLY',
+  SUCCESS: 'SUCCESS'
+};
 
 module.exports = React.createClass({
   displayName: 'JobListing',
@@ -15,10 +23,17 @@ module.exports = React.createClass({
   },
 
   getInitialState(){
-    return {
-      applying: false,
-      onReview: false
-    };
+    var status;
+
+    if (JobListingStore.meta.in_matching_participant_group_id) {
+      status = CONSTANTS.APPLY;
+    } else if (JobListingStore.meta.on_review_participant_group_employer_id === this.props.jobListing.employer_id) {
+      status = CONSTANTS.SUCCESS;
+    } else {
+      status = CONSTANTS.SHOW;
+    }
+
+    return { status };
   },
 
   putOnReview(){
@@ -27,7 +42,7 @@ module.exports = React.createClass({
       this.props.jobListing.employer_id
     )
     .then(() => {
-      this.setState({ onReview: true });
+      JobListingStore.setOnReviewParticipantGroupEmployerId(this.props.jobListing.employer_id);
     })
     .catch(err => {
       console.log(err);
@@ -91,12 +106,21 @@ module.exports = React.createClass({
           ),
           this.props.children,
           (() => {
-            if (JobListingStore.meta.in_matching_participant_group_id) {
+            if (this.state.status === CONSTANTS.APPLY) {
               return (
                 div({className: 'row text-black'},
                   hr(),
                   div({className: 'col-xs-12 text-right'},
                     ConfirmOrCancelButton({confirmFunction: this.putOnReview}, 'Apply')
+                  )
+                )
+              );
+            } else if (this.state.status === CONSTANTS.SUCCESS) {
+              return (
+                div({className: 'row text-black'},
+                  hr(),
+                  div({className: 'col-xs-12 text-right'},
+                    `Your application will be shared with ${this.props.jobListing.employer.name} until ${moment().add(3, 'days').format(dateFormatMDY)}`
                   )
                 )
               );
