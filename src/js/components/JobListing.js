@@ -23,7 +23,7 @@ module.exports = React.createClass({
 
   putOnReview(){
     api.createOnReviewParticipantGroup(
-      JobListingStore.meta.unmatched_participant_group_id,
+      JobListingStore.meta.in_matching_participant_group_id,
       this.props.jobListing.employer_id
     )
     .then(() => {
@@ -90,12 +90,20 @@ module.exports = React.createClass({
             )
           ),
           this.props.children,
-          hr(),
-          div({className: 'row text-black'},
-            div({className: 'col-xs-12 text-right'},
-              ConfirmOrCancelButton({confirmFunction: this.putOnReview}, 'Apply')
-            )
-          )
+          (() => {
+            if (JobListingStore.meta.in_matching_participant_group_id) {
+              return (
+                div({className: 'row text-black'},
+                  hr(),
+                  div({className: 'col-xs-12 text-right'},
+                    ConfirmOrCancelButton({confirmFunction: this.putOnReview}, 'Apply')
+                  )
+                )
+              );
+            } else {
+              return div();
+            }
+          })()
         )
       )
     );

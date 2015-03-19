@@ -4,11 +4,11 @@ let getCsrfToken = require('./csrf-token');
 let { onReviewExpiresOn } = require('./globals');
 
 module.exports = {
-  createOnReviewParticipantGroup (unmatchedParticipantGroupId, employerId) {
+  createOnReviewParticipantGroup (inMatchingParticipantGroupId, employerId) {
     let data = {
           authenticity_token: getCsrfToken(),
           on_review_participant_group: {
-            unmatched_participant_group_id: unmatchedParticipantGroupId,
+            unmatched_participant_group_id: inMatchingParticipantGroupId,
             employer_id: employerId,
             expires_on: onReviewExpiresOn()
           }
