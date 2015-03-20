@@ -1,15 +1,17 @@
 /* @flow */
 'use strict';
 
-let axios = require('axios');
-let ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
-let ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 let React = require('react/addons');
-let Spinner = require('./Spinner');
+let axios = require('axios');
+let ParticipantGroupPanelFooter = React.createFactory(require('./ParticipantGroupPanelFooter'));
+let ParticipantGroupParticipant = React.createFactory(require('./ParticipantGroupParticipant'));
+let Spinner = React.createFactory(require('./Spinner'));
 let { dateFormatMDY } = require('../globals');
 let moment = require('moment');
+let { div, button, p, strong } = React.DOM;
 
-var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedParticipantGroupPanel',
+let ReservedParticipantGroupPanel = React.createFactory(React.createClass({
+  displayName: 'ReservedParticipantGroupPanel',
   propTypes: {
     data: React.PropTypes.object.isRequired,
     employerId: React.PropTypes.string
@@ -56,45 +58,45 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
     var actions, additionalContent;
     let footerName = this.props.data.name;
     let participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
-    let participantNodes = this.props.data.participants.map(participant => (
-          React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant})
-        ));
 
     if (this.state.puttingOnReview) {
       actions = (
-        React.DOM.div({className: 'btn-group'},
-          React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
-          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
+        div({className: 'btn-group'},
+          button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       );
 
       additionalContent = (
-        React.DOM.div({},
-          React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong({}, this.props.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
-          React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong({}, this.props.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
+        div({},
+          p({className: 'panel-text'}, 'You will have until ', strong({}, this.props.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
+          p({className: 'panel-text'}, 'If you take no action by ', strong({}, this.props.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
         )
       );
     } else {
       actions = (
-        React.DOM.button({className: 'btn btn-success', onClick: this.handlePutOnReview}, 'Put on Review')
+        button({className: 'btn btn-success', onClick: this.handlePutOnReview}, 'Put on Review')
       );
     }
 
     return (
-      React.DOM.div({className: 'panel panel-default participant-group-panel'},
-        React.DOM.div({className: 'list-group'},
-          participantNodes
+      div({className: 'panel panel-default participant-group-panel'},
+        div({className: 'list-group'},
+          this.props.data.participants.map(participant => (
+            ParticipantGroupParticipant({key: participant.id, participant: participant})
+          ))
         ),
-        React.createElement(ParticipantGroupPanelFooter, {name: footerName},
+        ParticipantGroupPanelFooter({name: footerName},
           actions,
           additionalContent
         )
       )
     );
   }
-});
+}));
 
-module.exports = React.createClass({displayName: 'ReservedParticipantGroupPanels',
+module.exports = React.createClass({
+  displayName: 'ReservedParticipantGroupPanels',
   propTypes: {
     source: React.PropTypes.string.isRequired
   },
@@ -124,14 +126,14 @@ module.exports = React.createClass({displayName: 'ReservedParticipantGroupPanels
       let employerId = this.props.employerId;
 
       return (
-        React.DOM.div({id: 'participant-group-panels'},
+        div({id: 'participant-group-panels'},
           this.state.groups.map(group => (
-            React.createElement(ReservedParticipantGroupPanel, {key: group.id, data: group, employerId: employerId})
+            ReservedParticipantGroupPanel({key: group.id, data: group, employerId: employerId})
           ))
         )
       );
     } else {
-      return React.createElement(Spinner, {});
+      return Spinner();
     }
   }
 });
