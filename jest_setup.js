@@ -8,4 +8,4 @@ atob = function (base64) {
 };
 
 /* Webpack definition */
-__DEV__ = true;
+process.env.__ENV__ = 'test';

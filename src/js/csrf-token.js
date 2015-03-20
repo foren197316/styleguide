@@ -1,7 +1,6 @@
 'use strict';
-
-var $ = require('jquery');
-
-module.exports = function () {
-  return $('meta[name="csrf-token"]').attr('content');
-};
+if (process.env.__ENV__ === 'test') {
+  module.exports = 'lol';
+} else {
+  module.exports = global.document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+}

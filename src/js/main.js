@@ -1,11 +1,24 @@
 'use strict';
 
-var actions = require('./actions');
-var Reflux = require('reflux');
-var $ = require('jquery');
-var Base64 = require('./base64');
-var moment = require('moment');
-var getCsrfToken = require('./csrf-token');
+let Reflux = require('reflux');
+let moment = require('moment');
+let $ = require('jquery');
+let actions = require('./actions');
+let Base64 = require('./base64');
+let csrfToken = require('./csrf-token');
+let axios = require('axios');
+let rootNode = require('./root-node');
+
+let axiosDefaults = require('axios/lib/defaults');
+axiosDefaults.headers.common['X-CSRF-Token'] = csrfToken;
+
+$.ajaxPrefilter(function(options, originalOptions, xhr) {
+  if (!options.crossDomain) {
+    if (csrfToken) {
+      xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+    }
+  }
+});
 
 moment.locale('en', {
   relativeTime: {
@@ -25,32 +38,20 @@ moment.locale('en', {
   }
 });
 
-$.ajaxPrefilter(function(options, originalOptions, xhr) {
-  if (!options.crossDomain) {
-    var token = getCsrfToken();
-    if (token) {
-      xhr.setRequestHeader('X-CSRF-Token', token);
-    }
-  }
-});
-
-if (__DEV__) {
+if (process.env.__ENV__ === 'development') {
   global.Intercom = function (action, name, data) {
     console.log('Intercom', action, name, data);
   };
 } else {
-  var React = require('react/addons');
-  var withRootNode = require('./root-node');
+  let React = require('react/addons');
 
   global.onerror = function (message) {
-    withRootNode(function (rootNode) {
-      React.render(
-        React.DOM.div({className: 'alert alert-danger'},
-          React.DOM.strong({}, 'An error occurred: '), message
-        ),
-        rootNode
-      );
-    });
+    React.render(
+      React.DOM.div({className: 'alert alert-danger'},
+        React.DOM.strong({}, 'An error occurred: '), message
+      ),
+      rootNode
+    );
     return false;
   };
 }
@@ -186,8 +187,7 @@ var UrlStore = Reflux.createStore({
   }
 });
 
-Reflux.StoreMethods.onAjaxLoad = function () {
-  var args = arguments;
+Reflux.StoreMethods.onAjaxLoad = function (...args) {
   var data = null;
 
   /* first argument may be an array of ids, the rest are treated as callbacks */
@@ -195,30 +195,18 @@ Reflux.StoreMethods.onAjaxLoad = function () {
     data = { ids: args[0].notEmpty().sort().uniq() };
   }
 
-  var doAjaxLoad = function (urls) {
-    $.ajax({
-      url: urls[this.resourceName],
-      type: 'GET',
-      data: data,
-      success: function (response) {
-        if (data !== null) {
-          [].shift.call(args);
-        }
-        [].unshift.call(args, response);
-        this.onLoadSuccess.apply(this, args);
-      }.bind(this),
-      error: this.onLoadError.bind(this)
-    });
-  }.bind(this);
-
-  if (UrlStore.urls != null) {
-    doAjaxLoad(UrlStore.urls);
-  } else {
-    this.urlListener = this.listenTo(actions.setUrls, function (urls) {
-      this.urlListener.stop();
-      doAjaxLoad(urls);
-    }.bind(this));
-  }
+  axios({
+    url: rootNode.dataset[this.resourceName.camelCaseToUnderscore()],
+    method: 'get',
+    data
+  })
+  .then(response => {
+    let newArgs = args;
+    if (data != null) {
+      newArgs = newArgs.slice(1);
+    }
+    this.onLoadSuccess(response.data, ...newArgs);
+  }, this.onLoadError.bind(this));
 };
 
 Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
@@ -244,15 +232,12 @@ Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
   });
 };
 
-Reflux.StoreMethods.onAjaxLoadSingleton = function () {
+Reflux.StoreMethods.onAjaxLoadSingleton = function (...args) {
   this.onSetSingleton();
-  var args = arguments;
-  this.onAjaxLoad.apply(this, args);
+  this.onAjaxLoad(...args);
 };
 
-Reflux.StoreMethods.onLoadSuccess = function (response) {
-  var args = arguments;
-
+Reflux.StoreMethods.onLoadSuccess = function (response, ...args) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
 
   if (!(this.data instanceof Array) && !this.singleton) {
@@ -266,15 +251,13 @@ Reflux.StoreMethods.onLoadSuccess = function (response) {
   this.permission = true;
 
   if (typeof this.initPostAjaxLoad === 'function') {
-    [].shift.call(args);
-    [].unshift.call(args, this.data);
-    this.initPostAjaxLoad.apply(this, args);
+    this.initPostAjaxLoad(this.data, ...args);
   } else {
     this.trigger(this.data);
   }
 
-  if (args.length > 1) {
-    for (var i=1; i<args.length; i++) {
+  if (args.length > 0) {
+    for (let i=1; i<args.length; i++) {
       args[i](this.data);
     }
   }

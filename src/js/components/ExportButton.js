@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
-var getCsrfToken = require('../csrf-token');
+var csrfToken = require('../csrf-token');
 var RD = React.DOM;
 
 var HiddenIdInput = React.createClass({displayName: 'HiddenIdInput',
@@ -23,7 +23,7 @@ module.exports = React.createClass({displayName: 'ExportButton',
   render: function () {
     return (
       RD.form({action: this.props.url, method: 'POST'},
-        RD.input({type: 'hidden', name: 'authenticity_token', value: getCsrfToken()}),
+        RD.input({type: 'hidden', name: 'authenticity_token', value: csrfToken}),
         RD.button({className: 'btn btn-block btn-default', type: 'submit', style: { marginBottom: '15px'}},
           RD.i({className: 'fa fa-download'}), ' Export to CSV'
         ),

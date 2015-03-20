@@ -3,13 +3,11 @@
 
 require('../main');
 var React = require('react/addons');
-var withRootNode = require('../root-node');
+var rootNode = require('../root-node');
 var JobListingsIndex = require('../components/JobListingsIndex');
 
-withRootNode(function (rootNode) {
-  React.render(React.createElement(JobListingsIndex, {
-    urls: {
-      jobListings: rootNode.dataset.job_listings
-    }
-  }), rootNode);
-});
+React.render(React.createElement(JobListingsIndex, {
+  urls: {
+    jobListings: rootNode.dataset.job_listings
+  }
+}), rootNode);

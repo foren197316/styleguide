@@ -19,7 +19,7 @@ module.exports = function (environment) {
       new webpack.optimize.UglifyJsPlugin({minimize: true}),
       new webpack.optimize.CommonsChunkPlugin('interexchange-components.min.js'),
       new webpack.DefinePlugin({
-        __DEV__: (environment === 'development').toString()
+        'process.env.__ENV__': JSON.stringify(environment)
       })
     ],
     module: {

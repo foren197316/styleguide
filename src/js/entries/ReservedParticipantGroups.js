@@ -3,12 +3,10 @@
 
 require('../main');
 var React = require('react/addons');
-var withRootNode = require('../root-node');
+var rootNode = require('../root-node');
 var ReservedParticipantGroupPanels = require('../components/ReservedParticipantGroupPanels');
 
-withRootNode(function (rootNode) {
-  React.render(React.createElement(ReservedParticipantGroupPanels, {
-    source: rootNode.dataset.source,
-    employerId: rootNode.dataset.employer_id
-  }), rootNode);
-});
+React.render(React.createElement(ReservedParticipantGroupPanels, {
+  source: rootNode.dataset.source,
+  employerId: rootNode.dataset.employer_id
+}), rootNode);
