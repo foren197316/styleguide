@@ -1,7 +1,7 @@
 /* @flow */
 'use strict';
 
-let $ = require('jquery');
+let axios = require('axios');
 let ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 let ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
 let React = require('react/addons');
@@ -15,56 +15,50 @@ var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedPar
     employerId: React.PropTypes.string
   },
 
-  getInitialState: function() {
+  getInitialState () {
     return { sending: false, puttingOnReview: false };
   },
 
-  componentWillMount: function() {
-    this.props.onReviewExpiresOn = moment().add(3, 'days').format(dateFormatMDY);
-  },
-
-  handlePutOnReview: function() {
+  handlePutOnReview () {
     this.setState({ puttingOnReview: true });
   },
 
-  handleCancel: function() {
+  handleCancel () {
     this.setState({ puttingOnReview: false });
   },
 
-  handleConfirm: function() {
+  handleConfirm () {
     this.setState({ sending: true });
 
-    var node = this.getDOMNode(),
-        data = {
+    let data = {
           on_review_participant_group: {
             employer_id: this.props.employerId,
-            expires_on: this.props.onReviewExpiresOn,
-            reserved_participant_group_id: this.props.data.id
+            expires_on: moment().add(3, 'days').format(dateFormatMDY),
+            unmatched_participant_group_id: this.props.data.id
           }
         };
 
-    $.ajax({
+    axios({
       url: '/on_review_participant_groups.json',
-      type: 'POST',
-      data: data,
-      success: function() {
-        React.unmountComponentAtNode(node);
-        $(node).remove();
-      },
-      error: function() {
-        global.location = global.location;
-      }
+      method: 'post',
+      data
+    })
+    .then(() => {
+      let node = this.getDOMNode();
+      React.unmountComponentAtNode(node);
+      node.remove();
+    }, () => {
+      global.location = global.location;
     });
   },
 
-  render: function() {
-    var actions,
-        additionalContent,
-        footerName = this.props.data.name,
-        participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
-        participantNodes = this.props.data.participants.map(function (participant) {
-          return React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant});
-        });
+  render () {
+    var actions, additionalContent;
+    let footerName = this.props.data.name;
+    let participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
+    let participantNodes = this.props.data.participants.map(participant => (
+          React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant})
+        ));
 
     if (this.state.puttingOnReview) {
       actions = (
@@ -105,31 +99,35 @@ module.exports = React.createClass({displayName: 'ReservedParticipantGroupPanels
     source: React.PropTypes.string.isRequired
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {
-      groups: null
+      groups: []
     };
   },
 
-  componentDidMount: function() {
-    $.get(this.props.source, function(data) {
+  componentDidMount() {
+    axios({
+      url: this.props.source,
+      method: 'get'
+    })
+    .then(response => {
       if (this.isMounted()) {
         this.setState({
-          groups: data.reserved_participant_groups
+          groups: response.data.reserved_participant_groups
         });
       }
-    }.bind(this));
+    });
   },
 
-  render: function() {
+  render () {
     if (this.isMounted()) {
-      var employerId = this.props.employerId;
+      let employerId = this.props.employerId;
 
       return (
         React.DOM.div({id: 'participant-group-panels'},
-          this.state.groups.map(function (group) {
-            return React.createElement(ReservedParticipantGroupPanel, {key: group.id, data: group, employerId: employerId});
-          })
+          this.state.groups.map(group => (
+            React.createElement(ReservedParticipantGroupPanel, {key: group.id, data: group, employerId: employerId})
+          ))
         )
       );
     } else {
