@@ -4,7 +4,6 @@ let $ = require('jquery');
 let Base64 = require('./base64');
 let MetaStore = require('./stores/MetaStore');
 let Reflux = require('reflux');
-let actions = require('./actions');
 let axios = require('axios');
 let csrfToken = require('./csrf-token');
 let moment = require('moment');
@@ -13,7 +12,7 @@ let rootNode = require('./root-node');
 let axiosDefaults = require('axios/lib/defaults');
 axiosDefaults.headers.common['X-CSRF-Token'] = csrfToken;
 
-$.ajaxPrefilter(function(options, originalOptions, xhr) {
+$.ajaxPrefilter((options, originalOptions, xhr) => {
   if (!options.crossDomain) {
     if (csrfToken) {
       xhr.setRequestHeader('X-CSRF-Token', csrfToken);
@@ -40,13 +39,13 @@ moment.locale('en', {
 });
 
 if (process.env.__ENV__ === 'development') {
-  global.Intercom = function (action, name, data) {
+  global.Intercom = (action, name, data) => {
     console.log('Intercom', action, name, data);
   };
 } else {
   let React = require('react/addons');
 
-  global.onerror = function (message) {
+  global.onerror = (message) => {
     React.render(
       React.DOM.div({className: 'alert alert-danger'},
         React.DOM.strong({}, 'An error occurred: '), message
@@ -118,7 +117,7 @@ Array.prototype.mapAttribute = function (attribute) {
       return entry[attribute];
     });
   } catch (e) {
-    console.log(e.stack);
+    console.log(e);
   }
 };
 
@@ -174,20 +173,6 @@ var dateLessThan = function (dateList, comparisonDate) {
   }, false);
 };
 
-var UrlStore = Reflux.createStore({
-  urls: null,
-
-  init: function () {
-    this.listener = this.listenTo(actions.setUrls, this.onSetUrls);
-  },
-
-  onSetUrls: function (urls) {
-    this.listener.stop();
-    this.urls = urls;
-    this.trigger(this.urls);
-  }
-});
-
 Reflux.StoreMethods.onAjaxLoad = function (...args) {
   var data = null;
 
@@ -207,7 +192,10 @@ Reflux.StoreMethods.onAjaxLoad = function (...args) {
       newArgs = newArgs.slice(1);
     }
     this.onLoadSuccess(response.data, ...newArgs);
-  }, this.onLoadError.bind(this));
+  }, this.onLoadError.bind(this))
+  .catch(err => {
+    console.log(err.stack);
+  });
 };
 
 Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
@@ -216,10 +204,10 @@ Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
   }
 
   this.xhr = $.ajax({
-    url: UrlStore.urls[this.resourceName],
+    url: rootNode.dataset[this.resourceName.camelCaseToUnderscore()],
     type: 'POST',
     data: query,
-    success: function (response) {
+    success: (response) => {
       if (query != null) {
         global.history.pushState(query, '', '#' + Base64.urlsafeEncode64(query));
       }
@@ -227,8 +215,9 @@ Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
       if (typeof callback === 'function') {
         callback(response);
       }
+
       this.onSearchSuccess(response);
-    }.bind(this),
+    },
     error: this.onSearchError.bind(this)
   });
 };
@@ -238,11 +227,9 @@ Reflux.StoreMethods.onAjaxLoadSingleton = function (...args) {
   this.onAjaxLoad(...args);
 };
 
-Reflux.StoreMethods.onLoadSuccess = function (response) {
+Reflux.StoreMethods.onLoadSuccess = function (response, ...args) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
   MetaStore.set(response.meta);
-
-  var args = arguments;
 
   if (!(this.data instanceof Array) && !this.singleton) {
     this.data = [this.data].notEmpty();

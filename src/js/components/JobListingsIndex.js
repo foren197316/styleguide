@@ -3,7 +3,6 @@
 
 let React = require('react/addons');
 let Reflux = require('reflux');
-let SetUrlsMixin = require('../mixins').SetUrlsMixin;
 let RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
 let JobListing = require('./JobListing');
 let JobListingActions = require('../actions').JobListingActions;
@@ -17,7 +16,6 @@ let MetaStore = require('../stores/MetaStore');
 
 var JobListingsIndex = React.createClass({displayName: 'JobListingsIndex',
   mixins: [
-    SetUrlsMixin,
     React.addons.LinkedStateMixin,
     Reflux.connect(JobListingStore, 'jobListings'),
     Reflux.connect(MetaStore, 'meta'),

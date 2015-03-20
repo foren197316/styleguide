@@ -1,18 +1,18 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var dateFormatMDY = require('../globals').dateFormatMDY;
-var Spinner = require('./Spinner');
-var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
-var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
-var moment = require('moment');
-var $ = require('jquery');
+let $ = require('jquery');
+let ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+let ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+let React = require('react/addons');
+let Spinner = require('./Spinner');
+let { dateFormatMDY } = require('../globals');
+let moment = require('moment');
 
 var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedParticipantGroupPanel',
   propTypes: {
     data: React.PropTypes.object.isRequired,
-    employerId: React.PropTypes.number
+    employerId: React.PropTypes.string
   },
 
   getInitialState: function() {

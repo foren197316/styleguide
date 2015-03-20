@@ -25,7 +25,6 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupsIndex'
   ],
 
   componentDidMount: function() {
-    actions.setUrls(this.props.urls);
     actions.OfferedParticipantGroupActions.ajaxLoad(actions.loadFromOfferedParticipantGroups);
     actions.PositionActions.ajaxLoad();
   },

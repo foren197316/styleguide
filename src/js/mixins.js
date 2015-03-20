@@ -2,21 +2,10 @@
 'use strict';
 
 var React = require('react/addons');
-var actions = require('./actions');
 var Spinner = require('./components/Spinner');
 var getQuery = require('./query').getQuery;
 
 module.exports = {
-  SetUrlsMixin: {
-    propTypes: {
-      urls: React.PropTypes.object.isRequired
-    },
-
-    componentWillMount: function () {
-      actions.setUrls(this.props.urls);
-    }
-  },
-
   ValidateNumber: function (value) {
     if (value) {
       if (!/^\d+(\.\d+)?$/.test(value)) {
@@ -55,7 +44,7 @@ module.exports = {
     }
 
     return {
-      render: function () {
+      render () {
         for (let i=0; i<args.length; i++) {
           if (!this.state[args[i]]) {
             return React.createElement(Spinner);
