@@ -174,21 +174,21 @@ var dateLessThan = function (dateList, comparisonDate) {
 };
 
 Reflux.StoreMethods.onAjaxLoad = function (...args) {
-  var data = null;
+  var params = null;
 
   /* first argument may be an array of ids, the rest are treated as callbacks */
   if (args[0] instanceof Array) {
-    data = { ids: args[0].notEmpty().sort().uniq() };
+    params = { ids: args[0].notEmpty().sort().uniq() };
   }
 
   axios({
     url: rootNode.dataset[this.resourceName.camelCaseToUnderscore()],
     method: 'get',
-    data
+    params
   })
   .then(response => {
     let newArgs = args;
-    if (data != null) {
+    if (params != null) {
       newArgs = newArgs.slice(1);
     }
     this.onLoadSuccess(response.data, ...newArgs);

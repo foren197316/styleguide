@@ -50,7 +50,7 @@ var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
 
     return (
       React.DOM.div({className: 'panel panel-default participant-group-panel'},
-        React.createElement(EmployerHeader, {employer: employer}),
+        React.createElement(EmployerHeader, {employer}),
         React.DOM.div({className: 'list-group'},
           this.props.jobOfferGroup.job_offers.map(function (jobOffer) {
             return React.createElement(JobOffer, {jobOffer: jobOffer, key: 'job_offer_'+jobOffer.id});
