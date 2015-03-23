@@ -1,12 +1,10 @@
 'use strict';
 let axios = require('axios');
-let getCsrfToken = require('./csrf-token');
 let { onReviewExpiresOn } = require('./globals');
 
 module.exports = {
   createOnReviewParticipantGroup (inMatchingParticipantGroupId, employerId) {
     let data = {
-          authenticity_token: getCsrfToken(),
           on_review_participant_group: {
             unmatched_participant_group_id: inMatchingParticipantGroupId,
             employer_id: employerId,
