@@ -5,6 +5,7 @@ let React = require('react/addons');
 let { div, address, span, dl, dd, dt, strong, a, p, hr } = React.DOM;
 let JobListing = require('./JobListing');
 let currency = require('../currency');
+let LinkToIf = require('./LinkToIf');
 
 module.exports = React.createClass({displayName: 'JobListingDetails',
   propTypes: {
@@ -60,17 +61,9 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
             strong({}, 'Job Listing #', jobListing.id)
           )
         ),
-        (() => {
-          if (jobListing.employer_id) {
-            return (
-              div({className: 'col-xs-6 text-right'},
-                a({href: '/employers/' + jobListing.employer_id + '/job_listings'},
-                  strong({}, jobListing.employer_name)
-                )
-              )
-            );
-          }
-        })()
+        div({className: 'col-xs-6 text-right'},
+          LinkToIf({name: jobListing.employer_name, href: jobListing.employer_url})
+        )
       )
     );
   }
