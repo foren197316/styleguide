@@ -9,7 +9,9 @@ var JobOffer = require('./JobOffer');
 var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
 var moment = require('moment');
 
-var JobOfferGroup = React.createClass({displayName: 'JobOfferGroup',
+var JobOfferGroup = React.createClass({
+  displayName: 'JobOfferGroup',
+
   propTypes: {
     jobOfferGroup: React.PropTypes.object.isRequired
   },

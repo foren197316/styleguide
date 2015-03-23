@@ -178,7 +178,7 @@ Reflux.StoreMethods.onAjaxLoad = function (...args) {
 
   /* first argument may be an array of ids, the rest are treated as callbacks */
   if (args[0] instanceof Array) {
-    params = { ids: args[0].notEmpty().sort().uniq() };
+    params = { 'ids[]': args[0].notEmpty().sort().uniq() };
   }
 
   axios({
