@@ -1,17 +1,16 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var Intercom = require('intercom.io');
-var dateFormatMDY = require('../globals').dateFormatMDY;
-var actions = require('../actions');
-var Alert = require('./Alert');
-var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
-var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
-var moment = require('moment');
-var ParticipantGroupHeader = require('./ParticipantGroupHeader');
+let React = require('react/addons');
+let dateFormatMDY = require('../globals').dateFormatMDY;
+let actions = require('../actions');
+let Alert = require('./Alert');
+let ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
+let ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
+let moment = require('moment');
+let ParticipantGroupHeader = require('./ParticipantGroupHeader');
 
-var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchingParticipantGroupPanel',
+let InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchingParticipantGroupPanel',
   propTypes: {
     employer: React.PropTypes.object.isRequired,
     enrollment: React.PropTypes.object.isRequired,
@@ -19,7 +18,7 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     program: React.PropTypes.object.isRequired
   },
 
-  getInitialState: function() {
+  getInitialState () {
     return {
       sending: false,
       puttingOnReview: false,
@@ -27,32 +26,32 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
     };
   },
 
-  canPutOnReview: function () {
+  canPutOnReview () {
     return this.props.enrollment.on_review_count < this.props.enrollment.on_review_maximum &&
            this.props.inMatchingParticipantGroup.participants.length <= (this.props.enrollment.on_review_maximum - this.props.enrollment.on_review_count);
   },
 
-  handlePutOnReview: function() {
+  handlePutOnReview () {
     this.setState({ puttingOnReview: true });
 
-    Intercom('trackEvent', 'clicked-employer-participants-review', {
+    global.Intercom('trackEvent', 'clicked-employer-participants-review', {
       employer_id: this.props.employer.id,
       employer_name: this.props.employer.name,
       participant_names: this.participantNames()
     });
   },
 
-  handleCancel: function() {
+  handleCancel () {
     this.setState({ puttingOnReview: false });
 
-    Intercom('trackEvent', 'canceled-employer-participants-review', {
+    global.Intercom('trackEvent', 'canceled-employer-participants-review', {
       employer_id: this.props.employer.id,
       employer_name: this.props.employer.name,
       participant_names: this.participantNames()
     });
   },
 
-  handleConfirm: function() {
+  handleConfirm () {
     this.setState({ sending: true });
 
     actions.InMatchingParticipantGroupActions.offer(
@@ -60,31 +59,31 @@ var InMatchingParticipantGroupPanel = React.createClass({displayName: 'InMatchin
       this.props.employer,
       this.props.enrollment,
       this.state.onReviewExpiresOn,
-      function (data) {
-        this.setState({status: data.responseJSON.status});
+      (data) => {
+        this.setState({status: data.status});
 
-        Intercom('trackEvent', 'confirmed-employer-participants-review', {
+        global.Intercom('trackEvent', 'confirmed-employer-participants-review', {
           employer_id: this.props.employer.id,
           employer_name: this.props.employer.name,
           participant_names: this.participantNames()
         });
-      }.bind(this)
+      }
     );
   },
 
-  participantNames: function () {
+  participantNames () {
     return this.props.inMatchingParticipantGroup.participants.mapAttribute('name').join(', ');
   },
 
-  render: function() {
-    var action;
-    var legalese;
-    var participantPluralized = this.props.inMatchingParticipantGroup.participants.length > 1 ?
+  render () {
+    let action;
+    let legalese;
+    let participantPluralized = this.props.inMatchingParticipantGroup.participants.length > 1 ?
       'participants' :
       'participant';
 
     if (this.state.status) {
-      var status = this.state.status;
+      let status = this.state.status;
       return React.createElement(Alert, {type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
     } else {
       if (this.state.puttingOnReview) {
