@@ -1,52 +1,55 @@
 /* @flow */
 'use strict';
 
-var Reflux = require('reflux');
-var React = require('react/addons');
-var actions = require('../actions');
-var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
-var Alert = require('./Alert');
-var InMatchingParticipantGroupPanel = require('./InMatchingParticipantGroupPanel');
+let React = require('react/addons');
+let Alert = React.createFactory(require('./Alert'));
+let InMatchingParticipantGroupPanel = React.createFactory(require('./InMatchingParticipantGroupPanel'));
+let Reflux = require('reflux');
+let RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+let actions = require('../actions');
 
-var InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
-var EmployerStore = require('../stores/EmployerStore');
-var ProgramStore = require('../stores/ProgramStore');
-var AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
-var ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
-var GenderStore = require('../stores/GenderStore');
-var EnglishLevelStore = require('../stores/EnglishLevelStore');
-var PositionStore = require('../stores/PositionStore');
-var CountryStore = require('../stores/CountryStore');
+let AgeAtArrivalStore = require('../stores/AgeAtArrivalStore');
+let CountryStore = require('../stores/CountryStore');
+let EmployerStore = require('../stores/EmployerStore');
+let EnglishLevelStore = require('../stores/EnglishLevelStore');
+let GenderStore = require('../stores/GenderStore');
+let InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
+let MetaStore = require('../stores/MetaStore');
+let ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
+let PositionStore = require('../stores/PositionStore');
+let ProgramStore = require('../stores/ProgramStore');
 
-var AjaxSearchForm = require('./AjaxSearchForm');
-var AjaxSearchFilter = require('./AjaxSearchFilter');
-var AjaxCheckBoxFilter = require('./AjaxCheckBoxFilter');
-var AjaxCustomCheckBoxFilter = require('./AjaxCustomCheckBoxFilter');
-var AjaxBooleanFilter = require('./AjaxBooleanFilter');
-var AjaxDateRangeFilter = require('./AjaxDateRangeFilter');
+let AjaxBooleanFilter = React.createFactory(require('./AjaxBooleanFilter'));
+let AjaxCheckBoxFilter = React.createFactory(require('./AjaxCheckBoxFilter'));
+let AjaxCustomCheckBoxFilter = React.createFactory(require('./AjaxCustomCheckBoxFilter'));
+let AjaxDateRangeFilter = React.createFactory(require('./AjaxDateRangeFilter'));
+let AjaxSearchFilter = React.createFactory(require('./AjaxSearchFilter'));
+let AjaxSearchForm = React.createFactory(require('./AjaxSearchForm'));
 
-var query = require('../query');
-var Pagination = require('./Pagination');
-var Spinner = require('./Spinner');
+let Pagination = React.createFactory(require('./Pagination'));
+let Spinner = React.createFactory(require('./Spinner'));
+let query = require('../query');
+
+let { div, a } = React.DOM;
 
 var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, 'inMatchingParticipantGroups'),
     Reflux.connect(EmployerStore, 'employer'),
     Reflux.connect(ProgramStore, 'programs'),
-    RenderLoadedMixin('inMatchingParticipantGroups', 'employer', 'programs'),
+    Reflux.connect(MetaStore, 'meta'),
+    RenderLoadedMixin('inMatchingParticipantGroups', 'employer', 'programs', 'meta'),
     React.addons.LinkedStateMixin
   ],
 
   noResultsMessage: 'There are currently no participants available who match your criteria. Check back soon!',
 
-  getInitialState: function () {
+  getInitialState () {
     return { formSending: false };
   },
 
-  componentDidMount: function() {
+  componentDidMount () {
     this.intercomListener = this.listenTo(EmployerStore, this.intercom);
-    actions.setUrls(this.props.urls);
 
     actions.InMatchingParticipantGroupActions.ajaxSearch(query.getQuery());
     actions.EmployerActions.ajaxLoadSingleton();
@@ -58,77 +61,80 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
   intercom: function (employer) {
     this.intercomListener.stop();
 
-    require('intercom.io')('trackEvent', 'visited-employer-participants-search', {
+    global.Intercom('trackEvent', 'visited-employer-participants-search', {
       employer_id: employer.id,
       employer_name: employer.name
     });
   },
 
-  renderLoaded: function () {
-    var employer = this.state.employer;
-    var page = query.getCurrentPage();
-    var pageCount = InMatchingParticipantGroupStore.meta.pageCount;
-    var recordCount = InMatchingParticipantGroupStore.meta.recordCount;
-    var formSendingLink = this.linkState('formSending');
-    var recordName = 'Participants';
-    var anchor = 'searchTop';
+  renderLoaded () {
+    let employer = this.state.employer;
+    let page = query.getCurrentPage();
+    let pageCount = this.state.meta.pageCount;
+    let recordCount = this.state.meta.recordCount;
+    let formSendingLink = this.linkState('formSending');
+    let recordName = 'Participants';
+    let anchor = 'searchTop';
 
     return (
-      React.DOM.div({className: 'row'},
-        React.DOM.div({className: 'col-md-3'},
-          React.createElement(AjaxSearchForm, { actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
-            React.createElement(AjaxSearchFilter, {title: 'Search', searchOn: 'name'}),
-            React.createElement(AjaxCheckBoxFilter, {title: 'Program', fieldName: 'program_id', store: ProgramStore}),
-            React.createElement(AjaxCustomCheckBoxFilter, {title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
-            React.createElement(AjaxCheckBoxFilter, {title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
-            React.createElement(AjaxCheckBoxFilter, {title: 'Gender', fieldName: 'gender', store: GenderStore}),
-            React.createElement(AjaxCheckBoxFilter, {title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
-            React.createElement(AjaxDateRangeFilter, {title: 'Availability Date', searchFrom: 'arrival_date_plus_two', searchTo: 'departure_date'}),
-            React.createElement(AjaxCheckBoxFilter, {title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
-            React.createElement(AjaxCheckBoxFilter, {title: 'Country', fieldName: 'country_code', store: CountryStore}),
-            React.createElement(AjaxBooleanFilter, {title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
-            React.createElement(AjaxBooleanFilter, {title: 'Drivers License', label: 'International Drivers License', fieldName: 'has_international_drivers_license', bool: true})
+      div({className: 'row'},
+        div({className: 'col-md-3'},
+          AjaxSearchForm({ actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
+            AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
+            AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
+            AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
+            AjaxCheckBoxFilter({title: 'Group', fieldName: 'participant_group_name', store: ParticipantGroupNameStore}),
+            AjaxCheckBoxFilter({title: 'Gender', fieldName: 'gender', store: GenderStore}),
+            AjaxCheckBoxFilter({title: 'English Level', fieldName: 'english_level', store: EnglishLevelStore}),
+            AjaxDateRangeFilter({title: 'Availability Date', searchFrom: 'arrival_date_plus_two', searchTo: 'departure_date'}),
+            AjaxCheckBoxFilter({title: 'Positions', fieldName: 'positions_id', store: PositionStore}),
+            AjaxCheckBoxFilter({title: 'Country', fieldName: 'country_code', store: CountryStore}),
+            AjaxBooleanFilter({title: 'Previous Participation', label: 'Returning Participant', fieldName: 'has_had_j1', bool: true}),
+            AjaxBooleanFilter({title: 'Drivers License', label: 'International Drivers License', fieldName: 'has_international_drivers_license', bool: true})
           )
         ),
-        React.DOM.div({className: 'col-md-9'},
-          React.DOM.a({name: anchor}),
-          function () {
+        div({className: 'col-md-9'},
+          a({name: anchor}),
+          (() => {
             if (this.state.formSending) {
-              return React.createElement(Spinner, {});
+              return Spinner();
             } else if (this.state.inMatchingParticipantGroups.length > 0) {
-              return React.DOM.div({},
-                React.DOM.div({className: 'row'},
-                  React.DOM.div({className: 'col-md-12'},
-                    React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
-                  )
-                ),
-                React.DOM.div({className: 'row'},
-                  React.DOM.div({className: 'col-md-12'},
-                    React.DOM.div({id: 'participant-group-panels'},
-                      this.state.inMatchingParticipantGroups.map(function (inMatchingParticipantGroup) {
-                        var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
-                        var enrollment = employer.enrollments.findById(program.id, 'program_id');
-
-                        return React.createElement(InMatchingParticipantGroupPanel, {
-                                  employer: employer,
-                                  enrollment: enrollment,
-                                  inMatchingParticipantGroup: inMatchingParticipantGroup,
-                                  program: program,
-                                  key: inMatchingParticipantGroup.id});
-                      }, this)
+              return (
+                div({},
+                  div({className: 'row'},
+                    div({className: 'col-md-12'},
+                      Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
                     )
-                  )
-                ),
-                React.DOM.div({className: 'row'},
-                  React.DOM.div({className: 'col-md-12'},
-                    React.createElement(Pagination, { pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
+                  ),
+                  div({className: 'row'},
+                    div({className: 'col-md-12'},
+                      div({id: 'participant-group-panels'},
+                        this.state.inMatchingParticipantGroups.map(inMatchingParticipantGroup => {
+                          var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
+                          var enrollment = employer.enrollments.findById(program.id, 'program_id');
+
+                          return InMatchingParticipantGroupPanel({
+                            employer: employer,
+                            enrollment: enrollment,
+                            inMatchingParticipantGroup: inMatchingParticipantGroup,
+                            program: program,
+                            key: inMatchingParticipantGroup.id
+                          });
+                        })
+                      )
+                    )
+                  ),
+                  div({className: 'row'},
+                    div({className: 'col-md-12'},
+                      Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
+                    )
                   )
                 )
               );
             } else {
-              return React.createElement(Alert, {type: 'warning', message: this.noResultsMessage, closeable: false});
+              return Alert({type: 'warning', message: this.noResultsMessage, closeable: false});
             }
-          }.bind(this)()
+          })()
         )
       )
     );

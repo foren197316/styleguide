@@ -1,19 +1,20 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var Reflux = require('reflux');
-var JobListingStore = require('../stores/JobListingStore');
-var JobListingActions = require('../actions').JobListingActions;
-var JobListingDetails = require('./JobListingDetails');
-var SetUrlsMixin = require('../mixins').SetUrlsMixin;
-var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+let React = require('react/addons');
+let Reflux = require('reflux');
+let JobListingActions = require('../actions').JobListingActions;
+let JobListingDetails = require('./JobListingDetails');
+let RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+
+let JobListingStore = require('../stores/JobListingStore');
+let MetaStore = require('../stores/MetaStore');
 
 module.exports = React.createClass({displayName: 'JobListingDetails',
   mixins: [
-    SetUrlsMixin,
     Reflux.connect(JobListingStore, 'jobListing'),
-    RenderLoadedMixin('jobListing')
+    Reflux.connect(MetaStore, 'meta'),
+    RenderLoadedMixin('jobListing', 'meta')
   ],
 
   componentDidMount: function () {
@@ -21,6 +22,6 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
   },
 
   renderLoaded: function () {
-    return React.DOM.div({}, React.createElement(JobListingDetails, {jobListing: this.state.jobListing}));
+    return React.DOM.div({}, React.createElement(JobListingDetails, {jobListing: this.state.jobListing, meta: this.state.meta}));
   }
 });

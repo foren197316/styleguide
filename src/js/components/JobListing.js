@@ -1,72 +1,132 @@
 /* @flow */
 'use strict';
+let React = require('react/addons');
+let factory = React.createFactory;
+let currency = require('../currency');
+let api = require('../api');
+let moment = require('moment');
+let { div, a, span, strong, small, hr } = React.DOM;
+let { dateFormatMDY } = require('../globals');
 
-var React = require('react/addons');
-var currency = require('../currency');
-var RD = React.DOM;
+let MetaStore = require('../stores/MetaStore');
 
-module.exports = React.createClass({displayName: 'JobListing',
+let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
+
+const SHOW = 'show';
+const APPLY = 'apply';
+const SUCCESS = 'success';
+
+module.exports = React.createClass({
+  displayName: 'JobListing',
   propTypes: {
-    jobListing: React.PropTypes.object.isRequired
+    jobListing: React.PropTypes.object.isRequired,
+    meta: React.PropTypes.object.isRequired
   },
 
-  render: function () {
-    var jobListing = this.props.jobListing;
-    var href = '/job_listings/' + this.props.jobListing.id;
+  putOnReview(){
+    api.createOnReviewParticipantGroup(
+      this.props.meta.in_matching_participant_group_id,
+      this.props.jobListing.employer_id
+    )
+    .then(() => {
+      MetaStore.setAttribute('on_review_participant_group_employer_id', this.props.jobListing.employer_id);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  },
+
+  render () {
+    let jobListing = this.props.jobListing;
+    let href = `/job_listings/${this.props.jobListing.id}`;
+
+    var status;
+    if (this.props.meta.on_review_participant_group_employer_id === this.props.jobListing.employer_id) {
+      status = SUCCESS;
+    } else if (this.props.meta.in_matching_participant_group_id) {
+      status = APPLY;
+    } else {
+      status = SHOW;
+    }
 
     return (
-      RD.div({className: 'panel panel-default'},
-        RD.div({className: 'panel-body'},
-          RD.a({href: href},
-            RD.div({className: 'row'},
-              RD.div({className: 'col-xs-7'},
-                RD.strong({className: 'hover-underline'}, jobListing.position_name, ' (', jobListing.openings, ')'),
-                RD.div({className: 'text-black'},
+      div({className: 'panel panel-default'},
+        div({className: 'panel-body'},
+          a({href: href},
+            div({className: 'row'},
+              div({className: 'col-xs-7'},
+                strong({className: 'hover-underline'}, `${jobListing.position_name} (${jobListing.openings})`),
+                div({className: 'text-black'},
                   (function () {
                     if (jobListing.has_tips === 'true') {
-                      return RD.span({className: 'label label-success'}, 'Tipped');
+                      return span({className: 'label label-success'}, 'Tipped');
                     }
                   })(),
                   ' ',
                   (function () {
                     if (jobListing.has_overtime === 'true') {
-                      return RD.span({className: 'label label-success'}, 'Overtime');
+                      return span({className: 'label label-success'}, 'Overtime');
                     } else if (jobListing.has_overtime === 'maybe') {
-                      return RD.span({className: 'label label-primary'}, 'Maybe Overtime');
+                      return span({className: 'label label-primary'}, 'Maybe Overtime');
                     }
                   })()
                 )
               ),
-              RD.div({className: 'col-xs-5 text-right text-black'},
-                RD.div({},
-                  RD.strong({}, currency(jobListing.wage)),
-                  RD.small({}, '/hour')
+              div({className: 'col-xs-5 text-right text-black'},
+                div({},
+                  strong({}, currency(jobListing.wage)),
+                  small({}, '/hour')
                 ),
-                RD.div({},
-                  RD.strong({}, jobListing.hours, ' hours'),
-                  RD.small({}, '/week')
+                div({},
+                  strong({}, jobListing.hours, ' hours'),
+                  small({}, '/week')
                 )
               )
             ),
-            RD.hr(),
-            RD.div({className: 'row text-black'},
-              RD.div({className: 'col-xs-6'},
-                RD.strong({}, jobListing.employer_type_name),
-                ' ',
-                RD.span({className: 'text-no-wrap'}, jobListing.employer_region_name)
+            hr(),
+            div({className: 'row text-black'},
+              div({className: 'col-xs-6'},
+                strong({}, jobListing.employer_type_name), ' ',
+                span({className: 'text-no-wrap'}, jobListing.employer_region_name)
               ),
-              RD.div({className: 'col-xs-6 text-right'},
+              div({className: 'col-xs-6 text-right'},
                 (function () {
                   if (jobListing.housing_type === 'Provided') {
-                    return RD.strong({className: 'text-success'}, 'Housing Provided');
+                    return strong({className: 'text-success'}, 'Housing Provided');
                   } else {
-                    return RD.strong({className: 'text-info'}, 'Housing Assistance');
+                    return strong({className: 'text-info'}, 'Housing Assistance');
                   }
                 })()
               )
             )
           ),
-          this.props.children
+          this.props.children,
+          (() => {
+            if (status === APPLY) {
+              return (
+                div({className: 'row text-black'},
+                  hr(),
+                  div({className: 'col-xs-12 text-right'},
+                    ConfirmOrCancelButton({confirmFunction: this.putOnReview}, 'Apply')
+                  )
+                )
+              );
+            } else if (status === SUCCESS) {
+              return (
+                div({className: 'row text-black'},
+                  hr(),
+                  div({className: 'col-xs-12 text-right'},
+                    span({}, 'Your application will be shared with '),
+                    strong({}, this.props.jobListing.employer_name),
+                    span({}, ' until '),
+                    strong({}, moment().add(3, 'days').format(dateFormatMDY))
+                  )
+                )
+              );
+            } else {
+              return div();
+            }
+          })()
         )
       )
     );

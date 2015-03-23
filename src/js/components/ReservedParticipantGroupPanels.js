@@ -1,139 +1,139 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var dateFormatMDY = require('../globals').dateFormatMDY;
-var Spinner = require('./Spinner');
-var ParticipantGroupParticipant = require('./ParticipantGroupParticipant');
-var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
-var moment = require('moment');
-var $ = require('jquery');
+let React = require('react/addons');
+let axios = require('axios');
+let ParticipantGroupPanelFooter = React.createFactory(require('./ParticipantGroupPanelFooter'));
+let ParticipantGroupParticipant = React.createFactory(require('./ParticipantGroupParticipant'));
+let Spinner = React.createFactory(require('./Spinner'));
+let { dateFormatMDY } = require('../globals');
+let moment = require('moment');
+let { div, button, p, strong } = React.DOM;
 
-var ReservedParticipantGroupPanel = React.createClass({displayName: 'ReservedParticipantGroupPanel',
+let ReservedParticipantGroupPanel = React.createFactory(React.createClass({
+  displayName: 'ReservedParticipantGroupPanel',
   propTypes: {
     data: React.PropTypes.object.isRequired,
-    employerId: React.PropTypes.number
+    employerId: React.PropTypes.string
   },
 
-  getInitialState: function() {
+  getInitialState () {
     return { sending: false, puttingOnReview: false };
   },
 
-  componentWillMount: function() {
-    this.props.onReviewExpiresOn = moment().add(3, 'days').format(dateFormatMDY);
-  },
-
-  handlePutOnReview: function() {
+  handlePutOnReview () {
     this.setState({ puttingOnReview: true });
   },
 
-  handleCancel: function() {
+  handleCancel () {
     this.setState({ puttingOnReview: false });
   },
 
-  handleConfirm: function() {
+  handleConfirm () {
     this.setState({ sending: true });
 
-    var node = this.getDOMNode(),
-        data = {
+    let data = {
           on_review_participant_group: {
             employer_id: this.props.employerId,
-            expires_on: this.props.onReviewExpiresOn,
-            reserved_participant_group_id: this.props.data.id
+            expires_on: moment().add(3, 'days').format(dateFormatMDY),
+            unmatched_participant_group_id: this.props.data.id
           }
         };
 
-    $.ajax({
+    axios({
       url: '/on_review_participant_groups.json',
-      type: 'POST',
-      data: data,
-      success: function() {
-        React.unmountComponentAtNode(node);
-        $(node).remove();
-      },
-      error: function() {
-        global.location = global.location;
-      }
+      method: 'post',
+      data
+    })
+    .then(() => {
+      let node = this.getDOMNode();
+      React.unmountComponentAtNode(node);
+      node.remove();
+    }, () => {
+      global.location = global.location;
     });
   },
 
-  render: function() {
-    var actions,
-        additionalContent,
-        footerName = this.props.data.name,
-        participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant',
-        participantNodes = this.props.data.participants.map(function (participant) {
-          return React.createElement(ParticipantGroupParticipant, {key: participant.id, participant: participant});
-        });
+  render () {
+    var actions, additionalContent;
+    let footerName = this.props.data.name;
+    let participantPluralized = this.props.data.participants.length > 1 ? 'participants' : 'participant';
 
     if (this.state.puttingOnReview) {
       actions = (
-        React.DOM.div({className: 'btn-group'},
-          React.DOM.button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
-          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
+        div({className: 'btn-group'},
+          button({className: 'btn btn-success', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       );
 
       additionalContent = (
-        React.DOM.div({},
-          React.DOM.p({className: 'panel-text'}, 'You will have until ', React.DOM.strong({}, this.props.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
-          React.DOM.p({className: 'panel-text'}, 'If you take no action by ', React.DOM.strong({}, this.props.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
+        div({},
+          p({className: 'panel-text'}, 'You will have until ', strong({}, this.props.onReviewExpiresOn), ' to offer a position or decline the ', participantPluralized, '.'),
+          p({className: 'panel-text'}, 'If you take no action by ', strong({}, this.props.onReviewExpiresOn), ', the ', participantPluralized, ' will automatically be removed from your On Review list.')
         )
       );
     } else {
       actions = (
-        React.DOM.button({className: 'btn btn-success', onClick: this.handlePutOnReview}, 'Put on Review')
+        button({className: 'btn btn-success', onClick: this.handlePutOnReview}, 'Put on Review')
       );
     }
 
     return (
-      React.DOM.div({className: 'panel panel-default participant-group-panel'},
-        React.DOM.div({className: 'list-group'},
-          participantNodes
+      div({className: 'panel panel-default participant-group-panel'},
+        div({className: 'list-group'},
+          this.props.data.participants.map(participant => (
+            ParticipantGroupParticipant({key: participant.id, participant: participant})
+          ))
         ),
-        React.createElement(ParticipantGroupPanelFooter, {name: footerName},
+        ParticipantGroupPanelFooter({name: footerName},
           actions,
           additionalContent
         )
       )
     );
   }
-});
+}));
 
-module.exports = React.createClass({displayName: 'ReservedParticipantGroupPanels',
+module.exports = React.createClass({
+  displayName: 'ReservedParticipantGroupPanels',
   propTypes: {
     source: React.PropTypes.string.isRequired
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {
-      groups: null
+      groups: []
     };
   },
 
-  componentDidMount: function() {
-    $.get(this.props.source, function(data) {
+  componentDidMount() {
+    axios({
+      url: this.props.source,
+      method: 'get'
+    })
+    .then(response => {
       if (this.isMounted()) {
         this.setState({
-          groups: data.reserved_participant_groups
+          groups: response.data.reserved_participant_groups
         });
       }
-    }.bind(this));
+    });
   },
 
-  render: function() {
+  render () {
     if (this.isMounted()) {
-      var employerId = this.props.employerId;
+      let employerId = this.props.employerId;
 
       return (
-        React.DOM.div({id: 'participant-group-panels'},
-          this.state.groups.map(function (group) {
-            return React.createElement(ReservedParticipantGroupPanel, {key: group.id, data: group, employerId: employerId});
-          })
+        div({id: 'participant-group-panels'},
+          this.state.groups.map(group => (
+            ReservedParticipantGroupPanel({key: group.id, data: group, employerId: employerId})
+          ))
         )
       );
     } else {
-      return React.createElement(Spinner, {});
+      return Spinner();
     }
   }
 });

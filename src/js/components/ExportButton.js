@@ -1,16 +1,16 @@
 'use strict';
 
-var React = require('react/addons');
-var csrfToken = require('../csrf-token');
-var RD = React.DOM;
+let React = require('react/addons');
+let csrfToken = require('../csrf-token');
+let { input, form, button, i } = React.DOM;
 
-var HiddenIdInput = React.createClass({displayName: 'HiddenIdInput',
+let HiddenIdInput = React.createClass({displayName: 'HiddenIdInput',
   propTypes: {
     id: React.PropTypes.number.isRequired
   },
 
   render: function () {
-    return RD.input({type: 'hidden', name: 'ids[]', value: this.props.id});
+    return input({type: 'hidden', name: 'ids[]', value: this.props.id});
   }
 });
 
@@ -22,10 +22,10 @@ module.exports = React.createClass({displayName: 'ExportButton',
 
   render: function () {
     return (
-      RD.form({action: this.props.url, method: 'POST'},
-        RD.input({type: 'hidden', name: 'authenticity_token', value: csrfToken}),
-        RD.button({className: 'btn btn-block btn-default', type: 'submit', style: { marginBottom: '15px'}},
-          RD.i({className: 'fa fa-download'}), ' Export to CSV'
+      form({action: this.props.url, method: 'POST'},
+        input({type: 'hidden', name: 'authenticity_token', value: csrfToken}),
+        button({className: 'btn btn-block btn-default', type: 'submit', style: { marginBottom: '15px'}},
+          i({className: 'fa fa-download'}), ' Export to CSV'
         ),
         this.props.ids.map(function (id) {
           return React.createElement(HiddenIdInput, {id: id, key: 'hidden_input_'+id});

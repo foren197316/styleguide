@@ -1,18 +1,18 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var Reflux = require('reflux');
-var actions = require('../actions');
-var mixins = require('../mixins');
-var SearchFilter = require('./SearchFilter');
-var CheckBoxFilter = require('./CheckBoxFilter');
-var OfferedParticipantGroupStore = require('../stores/OfferedParticipantGroupStore');
-var ProgramStore = require('../stores/ProgramStore');
-var PositionStore = require('../stores/PositionStore');
-var EmployerStore = require('../stores/EmployerStore');
-var StaffStore = require('../stores/StaffStore');
-var OfferedParticipantGroupPanel = require('./OfferedParticipantGroupPanel');
+let React = require('react/addons');
+let Reflux = require('reflux');
+let actions = require('../actions');
+let mixins = require('../mixins');
+let SearchFilter = require('./SearchFilter');
+let CheckBoxFilter = require('./CheckBoxFilter');
+let OfferedParticipantGroupStore = require('../stores/OfferedParticipantGroupStore');
+let ProgramStore = require('../stores/ProgramStore');
+let PositionStore = require('../stores/PositionStore');
+let EmployerStore = require('../stores/EmployerStore');
+let StaffStore = require('../stores/StaffStore');
+let OfferedParticipantGroupPanel = require('./OfferedParticipantGroupPanel');
 
 module.exports = React.createClass({displayName: 'OfferedParticipantGroupsIndex',
   mixins: [
@@ -25,7 +25,6 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupsIndex'
   ],
 
   componentDidMount: function() {
-    actions.setUrls(this.props.urls);
     actions.OfferedParticipantGroupActions.ajaxLoad(actions.loadFromOfferedParticipantGroups);
     actions.PositionActions.ajaxLoad();
   },

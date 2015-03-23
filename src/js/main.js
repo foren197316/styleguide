@@ -1,18 +1,18 @@
 'use strict';
 
-let Reflux = require('reflux');
-let moment = require('moment');
 let $ = require('jquery');
-let actions = require('./actions');
 let Base64 = require('./base64');
-let csrfToken = require('./csrf-token');
+let MetaStore = require('./stores/MetaStore');
+let Reflux = require('reflux');
 let axios = require('axios');
+let csrfToken = require('./csrf-token');
+let moment = require('moment');
 let rootNode = require('./root-node');
 
 let axiosDefaults = require('axios/lib/defaults');
 axiosDefaults.headers.common['X-CSRF-Token'] = csrfToken;
 
-$.ajaxPrefilter(function(options, originalOptions, xhr) {
+$.ajaxPrefilter((options, originalOptions, xhr) => {
   if (!options.crossDomain) {
     if (csrfToken) {
       xhr.setRequestHeader('X-CSRF-Token', csrfToken);
@@ -39,13 +39,13 @@ moment.locale('en', {
 });
 
 if (process.env.__ENV__ === 'development') {
-  global.Intercom = function (action, name, data) {
+  global.Intercom = (action, name, data) => {
     console.log('Intercom', action, name, data);
   };
 } else {
   let React = require('react/addons');
 
-  global.onerror = function (message) {
+  global.onerror = (message) => {
     React.render(
       React.DOM.div({className: 'alert alert-danger'},
         React.DOM.strong({}, 'An error occurred: '), message
@@ -117,7 +117,7 @@ Array.prototype.mapAttribute = function (attribute) {
       return entry[attribute];
     });
   } catch (e) {
-    console.log(e.stack);
+    console.log(e);
   }
 };
 
@@ -173,40 +173,29 @@ var dateLessThan = function (dateList, comparisonDate) {
   }, false);
 };
 
-var UrlStore = Reflux.createStore({
-  urls: null,
-
-  init: function () {
-    this.listener = this.listenTo(actions.setUrls, this.onSetUrls);
-  },
-
-  onSetUrls: function (urls) {
-    this.listener.stop();
-    this.urls = urls;
-    this.trigger(this.urls);
-  }
-});
-
 Reflux.StoreMethods.onAjaxLoad = function (...args) {
-  var data = null;
+  var params = null;
 
   /* first argument may be an array of ids, the rest are treated as callbacks */
   if (args[0] instanceof Array) {
-    data = { ids: args[0].notEmpty().sort().uniq() };
+    params = { 'ids[]': args[0].notEmpty().sort().uniq() };
   }
 
   axios({
     url: rootNode.dataset[this.resourceName.camelCaseToUnderscore()],
     method: 'get',
-    data
+    params
   })
   .then(response => {
     let newArgs = args;
-    if (data != null) {
+    if (params != null) {
       newArgs = newArgs.slice(1);
     }
     this.onLoadSuccess(response.data, ...newArgs);
-  }, this.onLoadError.bind(this));
+  }, this.onLoadError.bind(this))
+  .catch(err => {
+    console.log(err.stack);
+  });
 };
 
 Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
@@ -215,10 +204,10 @@ Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
   }
 
   this.xhr = $.ajax({
-    url: UrlStore.urls[this.resourceName],
+    url: rootNode.dataset[this.resourceName.camelCaseToUnderscore()],
     type: 'POST',
     data: query,
-    success: function (response) {
+    success: (response) => {
       if (query != null) {
         global.history.pushState(query, '', '#' + Base64.urlsafeEncode64(query));
       }
@@ -226,8 +215,9 @@ Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
       if (typeof callback === 'function') {
         callback(response);
       }
+
       this.onSearchSuccess(response);
-    }.bind(this),
+    },
     error: this.onSearchError.bind(this)
   });
 };
@@ -239,6 +229,7 @@ Reflux.StoreMethods.onAjaxLoadSingleton = function (...args) {
 
 Reflux.StoreMethods.onLoadSuccess = function (response, ...args) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
+  MetaStore.set(response.meta);
 
   if (!(this.data instanceof Array) && !this.singleton) {
     this.data = [this.data].notEmpty();
@@ -257,7 +248,7 @@ Reflux.StoreMethods.onLoadSuccess = function (response, ...args) {
   }
 
   if (args.length > 0) {
-    for (let i=1; i<args.length; i++) {
+    for (let i=0; i<args.length; i++) {
       args[i](this.data);
     }
   }
@@ -271,7 +262,7 @@ Reflux.StoreMethods.onLoadError = function () {
 
 Reflux.StoreMethods.onSearchSuccess = function (response) {
   this.data = response[this.resourceName.camelCaseToUnderscore()];
-  this.meta = response.meta;
+  MetaStore.set(response.meta);
 
   if (!(this.data instanceof Array)) {
     this.data = [this.data].notEmpty();
