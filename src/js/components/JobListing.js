@@ -54,6 +54,13 @@ module.exports = React.createClass({
         div({className: 'panel-body'},
           a({href: href},
             div({className: 'row'},
+              div({className: 'col-xs-12'},
+                strong({}, jobListing.employer_name),
+                strong({className: 'pull-right'}, jobListing.employer_type_name)
+              )
+            ),
+            hr(),
+            div({className: 'row'},
               div({className: 'col-xs-7'},
                 strong({className: 'hover-underline'}, `${jobListing.position_name} (${jobListing.openings})`),
                 div({className: 'text-black'},
