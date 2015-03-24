@@ -55,5 +55,25 @@ module.exports = Reflux.createStore({
     }
 
     this.trigger(this.data);
+  },
+
+  set (data) {
+    if (data == null) {
+      return;
+    }
+
+    this.mergeData(data);
+
+    this.trigger(this.data);
+  },
+
+  mergeData (data) {
+    if (this.data == null) {
+      this.data = data;
+    } else {
+      Object.keys(data).forEach(key => {
+        this.data[key] = data[key];
+      });
+    }
   }
 });

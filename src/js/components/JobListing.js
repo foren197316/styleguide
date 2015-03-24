@@ -2,6 +2,7 @@
 'use strict';
 
 let React = require('react/addons');
+let Reflux = require('reflux');
 let factory = React.createFactory;
 let currency = require('../currency');
 let api = require('../api');
@@ -22,6 +23,7 @@ module.exports = React.createClass({
 
   propTypes: {
     jobListing: React.PropTypes.object.isRequired,
+    employer: React.PropTypes.object.isRequired,
     meta: React.PropTypes.object.isRequired
   },
 
@@ -41,11 +43,13 @@ module.exports = React.createClass({
   render () {
     let jobListing = this.props.jobListing;
     let href = `/job_listings/${this.props.jobListing.id}`;
+    let employer = this.props.employer;
+    let enrollment = employer.enrollments.findById(jobListing.program_id, 'program_id');
 
     var status;
     if (this.props.meta.on_review_participant_group_employer_id === jobListing.employer_id) {
       status = SUCCESS;
-    } else if (jobListing.employer_on_review_count >= jobListing.employer_on_review_maximum) {
+    } else if (enrollment.on_review_count >= enrollment.on_review_maximum) {
       status = UNAVAILABLE;
     } else if (this.props.meta.in_matching_participant_group_id) {
       status = APPLY;
@@ -59,8 +63,8 @@ module.exports = React.createClass({
           a({href: href},
             div({className: 'row'},
               div({className: 'col-xs-12'},
-                strong({className: 'text-black'}, jobListing.employer_name),
-                span({className: 'text-black pull-right'}, jobListing.employer_type_name)
+                strong({className: 'text-black'}, employer.name),
+                span({className: 'text-black pull-right'}, employer.type_name)
               )
             ),
             hr(),
@@ -98,7 +102,7 @@ module.exports = React.createClass({
             div({className: 'row text-black'},
               div({className: 'col-xs-6'},
                 (() => {
-                  if (jobListing.housing_type === 'Provided') {
+                  if (employer.housing_type === 'Provided') {
                     return strong({className: 'text-success'}, 'Housing Provided');
                   } else {
                     return strong({className: 'text-info'}, 'Housing Assistance');
@@ -106,7 +110,7 @@ module.exports = React.createClass({
                 })()
               ),
               div({className: 'col-xs-6 text-right'},
-                strong({className: 'text-no-wrap'}, jobListing.employer_region_name)
+                strong({className: 'text-no-wrap'}, employer.region_name)
               )
             )
           ),
@@ -118,7 +122,7 @@ module.exports = React.createClass({
                   hr(),
                   div({className: 'col-xs-12 text-right'},
                     span({}, 'Your application will be shared with '),
-                    strong({}, this.props.jobListing.employer_name),
+                    strong({}, employer.name),
                     span({}, ' until '),
                     strong({}, moment().add(3, 'days').format(dateFormatMDY))
                   )
