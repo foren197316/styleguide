@@ -93,9 +93,6 @@ module.exports = React.createClass({
             hr(),
             div({className: 'row text-black'},
               div({className: 'col-xs-6'},
-                strong({className: 'text-no-wrap'}, jobListing.employer_region_name)
-              ),
-              div({className: 'col-xs-6 text-right'},
                 (function () {
                   if (jobListing.housing_type === 'Provided') {
                     return strong({className: 'text-success'}, 'Housing Provided');
@@ -103,6 +100,9 @@ module.exports = React.createClass({
                     return strong({className: 'text-info'}, 'Housing Assistance');
                   }
                 })()
+              ),
+              div({className: 'col-xs-6 text-right'},
+                strong({className: 'text-no-wrap'}, jobListing.employer_region_name)
               )
             )
           ),
