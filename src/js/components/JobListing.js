@@ -55,8 +55,8 @@ module.exports = React.createClass({
           a({href: href},
             div({className: 'row'},
               div({className: 'col-xs-12'},
-                strong({}, jobListing.employer_name),
-                strong({className: 'pull-right'}, jobListing.employer_type_name)
+                strong({className: 'text-black'}, jobListing.employer_name),
+                span({className: 'text-black pull-right'}, jobListing.employer_type_name)
               )
             ),
             hr(),
