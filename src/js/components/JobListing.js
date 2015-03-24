@@ -54,6 +54,13 @@ module.exports = React.createClass({
         div({className: 'panel-body'},
           a({href: href},
             div({className: 'row'},
+              div({className: 'col-xs-12'},
+                strong({className: 'text-black'}, jobListing.employer_name),
+                span({className: 'text-black pull-right'}, jobListing.employer_type_name)
+              )
+            ),
+            hr(),
+            div({className: 'row'},
               div({className: 'col-xs-7'},
                 strong({className: 'hover-underline'}, `${jobListing.position_name} (${jobListing.openings})`),
                 div({className: 'text-black'},
@@ -86,10 +93,6 @@ module.exports = React.createClass({
             hr(),
             div({className: 'row text-black'},
               div({className: 'col-xs-6'},
-                strong({}, jobListing.employer_type_name), ' ',
-                span({className: 'text-no-wrap'}, jobListing.employer_region_name)
-              ),
-              div({className: 'col-xs-6 text-right'},
                 (function () {
                   if (jobListing.housing_type === 'Provided') {
                     return strong({className: 'text-success'}, 'Housing Provided');
@@ -97,6 +100,9 @@ module.exports = React.createClass({
                     return strong({className: 'text-info'}, 'Housing Assistance');
                   }
                 })()
+              ),
+              div({className: 'col-xs-6 text-right'},
+                strong({className: 'text-no-wrap'}, jobListing.employer_region_name)
               )
             )
           ),
