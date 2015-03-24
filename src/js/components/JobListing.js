@@ -12,9 +12,10 @@ let MetaStore = require('../stores/MetaStore');
 
 let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
 
-const SHOW = 'show';
-const APPLY = 'apply';
-const SUCCESS = 'success';
+const SHOW = 0;
+const APPLY = 1;
+const UNAVAILABLE = 2;
+const SUCCESS = 3;
 
 module.exports = React.createClass({
   displayName: 'JobListing',
@@ -43,6 +44,8 @@ module.exports = React.createClass({
     var status;
     if (this.props.meta.on_review_participant_group_employer_id === jobListing.employer_id) {
       status = SUCCESS;
+    } else if (jobListing.employer_on_review_count >= jobListing.employer_on_review_maximum) {
+      status = UNAVAILABLE;
     } else if (this.props.meta.in_matching_participant_group_id) {
       status = APPLY;
     } else {
@@ -93,10 +96,6 @@ module.exports = React.createClass({
             hr(),
             div({className: 'row text-black'},
               div({className: 'col-xs-6'},
-                strong({}, jobListing.employer_type_name), ' ',
-                span({className: 'text-no-wrap'}, jobListing.employer_region_name)
-              ),
-              div({className: 'col-xs-6 text-right'},
                 (() => {
                   if (jobListing.housing_type === 'Provided') {
                     return strong({className: 'text-success'}, 'Housing Provided');
