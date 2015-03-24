@@ -112,7 +112,7 @@ module.exports = React.createClass({
           ),
           this.props.children,
           (() => {
-            if (status === APPLY && jobListing.employer_on_review_count < jobListing.employer_on_review_maximum) {
+            if (status === APPLY) {
               return (
                 div({className: 'row text-black'},
                   hr(),
