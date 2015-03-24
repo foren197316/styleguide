@@ -23,7 +23,7 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
             if (jobListing.housing_type === 'Provided') {
               return (
                 div({className: 'row'},
-                  div({className: 'col-xs-6'},
+                  div({className: 'col-xs-12 col-md-6'},
                     div({className: ''},
                       span({className: 'clearfix'},
                        strong({}, 'Deposit'),
