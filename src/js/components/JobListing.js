@@ -1,5 +1,6 @@
 /* @flow */
 'use strict';
+
 let React = require('react/addons');
 let factory = React.createFactory;
 let currency = require('../currency');
@@ -7,10 +8,9 @@ let api = require('../api');
 let moment = require('moment');
 let { div, a, span, strong, small, hr } = React.DOM;
 let { dateFormatMDY } = require('../globals');
+let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
 
 let MetaStore = require('../stores/MetaStore');
-
-let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
 
 const SHOW = 0;
 const APPLY = 1;
@@ -19,6 +19,7 @@ const SUCCESS = 3;
 
 module.exports = React.createClass({
   displayName: 'JobListing',
+
   propTypes: {
     jobListing: React.PropTypes.object.isRequired,
     meta: React.PropTypes.object.isRequired
@@ -111,16 +112,7 @@ module.exports = React.createClass({
           ),
           this.props.children,
           (() => {
-            if (status === APPLY) {
-              return (
-                div({className: 'row text-black'},
-                  hr(),
-                  div({className: 'col-xs-12 text-right'},
-                    ConfirmOrCancelButton({confirmFunction: this.putOnReview}, 'Apply')
-                  )
-                )
-              );
-            } else if (status === SUCCESS) {
+            if (status === SUCCESS) {
               return (
                 div({className: 'row text-black'},
                   hr(),
@@ -129,6 +121,24 @@ module.exports = React.createClass({
                     strong({}, this.props.jobListing.employer_name),
                     span({}, ' until '),
                     strong({}, moment().add(3, 'days').format(dateFormatMDY))
+                  )
+                )
+              );
+            } else if (status === UNAVAILABLE) {
+              return (
+                div({className: 'row text-black'},
+                  hr(),
+                  div({className: 'col-xs-12 text-right'},
+                    span({}, 'This employer is not accepting new applications now, check back soon.')
+                  )
+                )
+              );
+            } else if (status === APPLY) {
+              return (
+                div({className: 'row text-black'},
+                  hr(),
+                  div({className: 'col-xs-12 text-right'},
+                    ConfirmOrCancelButton({confirmFunction: this.putOnReview}, 'Apply')
                   )
                 )
               );

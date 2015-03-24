@@ -12,29 +12,31 @@ let query = require('../query');
 let { div } = React.DOM;
 let initialData = query.getQuery() ? {} : (global.INITIAL_DATA || {});
 let { job_listings:initialJobListings, meta:initialMeta } = initialData;
-let JobListingsStore = require('../stores/JobListingStore');
+
+let JobListingStore = require('../stores/JobListingStore');
 let MetaStore = require('../stores/MetaStore');
 
 let JobListingsIndex = React.createClass({
   displayName: 'JobListingsIndex',
   mixins: [
     React.addons.LinkedStateMixin,
-    Reflux.connect(JobListingsStore, 'jobListings'),
+    Reflux.connect(JobListingStore, 'jobListings'),
     Reflux.connect(MetaStore, 'meta'),
     RenderLoadedMixin('jobListings', 'meta')
   ],
 
   getInitialState: function () {
     return {
-      formSending: false,
-      jobListings: initialJobListings,
-      meta: initialMeta
+      formSending: false
     };
   },
 
   componentDidMount: function () {
     if (!initialJobListings || query.getQuery()) {
       JobListingActions.ajaxSearch(query.getQuery());
+    } else {
+      JobListingStore.set(initialJobListings);
+      MetaStore.set(initialMeta);
     }
   },
 
