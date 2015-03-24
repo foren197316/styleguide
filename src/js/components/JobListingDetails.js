@@ -7,7 +7,8 @@ let JobListing = require('./JobListing');
 let currency = require('../currency');
 let LinkToIf = require('./LinkToIf');
 
-module.exports = React.createClass({displayName: 'JobListingDetails',
+let JobListingDetails = React.createClass({
+  displayName: 'JobListingDetails',
   propTypes: {
     jobListing: React.PropTypes.object.isRequired,
     meta: React.PropTypes.object.isRequired
@@ -60,7 +61,7 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
           })()
         )
       ),
-      div({className: 'row'}, hr({})),
+      div({className: 'row'}, hr()),
       div({className: 'row job-listing-meta'},
         div({className: 'col-xs-6'},
           a({href: '/job_listings/' + jobListing.id},
@@ -74,3 +75,5 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
     );
   }
 });
+
+module.exports = JobListingDetails;

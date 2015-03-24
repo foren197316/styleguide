@@ -41,7 +41,7 @@ module.exports = React.createClass({
     let href = `/job_listings/${this.props.jobListing.id}`;
 
     var status;
-    if (this.props.meta.on_review_participant_group_employer_id === this.props.jobListing.employer_id) {
+    if (this.props.meta.on_review_participant_group_employer_id === jobListing.employer_id) {
       status = SUCCESS;
     } else if (this.props.meta.in_matching_participant_group_id) {
       status = APPLY;
@@ -64,13 +64,13 @@ module.exports = React.createClass({
               div({className: 'col-xs-7'},
                 strong({className: 'hover-underline'}, `${jobListing.position_name} (${jobListing.openings})`),
                 div({className: 'text-black'},
-                  (function () {
+                  (() => {
                     if (jobListing.has_tips === 'true') {
                       return span({className: 'label label-success'}, 'Tipped');
                     }
                   })(),
                   ' ',
-                  (function () {
+                  (() => {
                     if (jobListing.has_overtime === 'true') {
                       return span({className: 'label label-success'}, 'Overtime');
                     } else if (jobListing.has_overtime === 'maybe') {
@@ -93,7 +93,11 @@ module.exports = React.createClass({
             hr(),
             div({className: 'row text-black'},
               div({className: 'col-xs-6'},
-                (function () {
+                strong({}, jobListing.employer_type_name), ' ',
+                span({className: 'text-no-wrap'}, jobListing.employer_region_name)
+              ),
+              div({className: 'col-xs-6 text-right'},
+                (() => {
                   if (jobListing.housing_type === 'Provided') {
                     return strong({className: 'text-success'}, 'Housing Provided');
                   } else {
@@ -108,7 +112,7 @@ module.exports = React.createClass({
           ),
           this.props.children,
           (() => {
-            if (status === APPLY) {
+            if (status === APPLY && jobListing.employer_on_review_count < jobListing.employer_on_review_maximum) {
               return (
                 div({className: 'row text-black'},
                   hr(),

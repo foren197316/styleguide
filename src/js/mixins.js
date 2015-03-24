@@ -45,6 +45,7 @@ module.exports = {
 
     return {
       render () {
+        console.log(Object.keys(this.state).join(','));
         for (let i=0; i<args.length; i++) {
           if (!this.state[args[i]]) {
             return React.createElement(Spinner);
