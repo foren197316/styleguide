@@ -93,8 +93,7 @@ module.exports = React.createClass({
             hr(),
             div({className: 'row text-black'},
               div({className: 'col-xs-6'},
-                strong({}, jobListing.employer_type_name), ' ',
-                span({className: 'text-no-wrap'}, jobListing.employer_region_name)
+                strong({className: 'text-no-wrap'}, jobListing.employer_region_name)
               ),
               div({className: 'col-xs-6 text-right'},
                 (function () {
