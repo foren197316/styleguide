@@ -61,14 +61,14 @@ module.exports = React.createClass({displayName: 'JobListingDetails',
         )
       ),
       div({className: 'row'}, hr({})),
-      div({className: 'row'},
+      div({className: 'row job-listing-meta'},
         div({className: 'col-xs-6'},
           a({href: '/job_listings/' + jobListing.id},
             strong({}, 'Job Listing #', jobListing.id)
           )
         ),
         div({className: 'col-xs-6 text-right'},
-          LinkToIf({name: jobListing.employer_name, href: jobListing.employer_url})
+          LinkToIf({name: jobListing.employer_name, href: jobListing.employer_url}, span())
         )
       )
     );
