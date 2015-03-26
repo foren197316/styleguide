@@ -25,6 +25,7 @@ let JobListingsIndex = React.createClass({
   displayName: 'JobListingsIndex',
   mixins: [
     Reflux.ListenerMixin,
+    Reflux.connect(MetaStore, 'meta'),
     React.addons.LinkedStateMixin,
     RenderLoadedMixin('jobListings', 'employers', 'meta')
   ],
@@ -36,7 +37,7 @@ let JobListingsIndex = React.createClass({
   },
 
   componentDidMount () {
-    this.joinTrailing(JobListingStore, EmployerStore, MetaStore, this.setStoreData);
+    this.joinTrailing(JobListingStore, EmployerStore, this.setStoreData);
 
     if (!this.state.jobListings) {
       if (query.getQuery()) {
@@ -49,12 +50,11 @@ let JobListingsIndex = React.createClass({
     }
   },
 
-  setStoreData (jobListingsData, employersData, metaData) {
+  setStoreData (jobListingsData, employersData) {
     if (this.isMounted()) {
       let jobListings = jobListingsData[0];
       let employers = employersData[0];
-      let meta = metaData[0];
-      this.setState({ jobListings, employers, meta });
+      this.setState({ jobListings, employers });
     }
   },
 

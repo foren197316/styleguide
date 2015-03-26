@@ -12,10 +12,10 @@ let ConfirmOrCancelButton = factory(require('./ConfirmOrCancelButton'));
 
 let MetaStore = require('../stores/MetaStore');
 
-const SHOW = 0;
-const APPLY = 1;
-const UNAVAILABLE = 2;
-const SUCCESS = 3;
+const SHOW = 'show';
+const APPLY = 'apply';
+const UNAVAILABLE = 'unavailable';
+const SUCCESS = 'success';
 
 module.exports = React.createClass({
   displayName: 'JobListing',
@@ -44,18 +44,14 @@ module.exports = React.createClass({
     let href = `/job_listings/${this.props.jobListing.id}`;
     let employer = this.props.employer;
     let enrollment = employer.enrollments.findById(jobListing.program_id, 'program_id');
+    let onReviewParticipantGroupEmployerId = this.props.meta.on_review_participant_group_employer_id;
 
     var status;
-    if (this.props.meta.on_review_participant_group_employer_id === jobListing.employer_id) {
+    if (onReviewParticipantGroupEmployerId === jobListing.employer_id) {
       status = SUCCESS;
     } else if (!enrollment || enrollment.on_review_count >= enrollment.on_review_maximum) {
-      /**
-       * Check that enrollment exists in case Employer isn't enrolled
-       * in the same program as the Job Listing is for.
-       * Hopefully this won't happen much in production.
-       */
       status = UNAVAILABLE;
-    } else if (this.props.meta.in_matching_participant_group_id) {
+    } else if (this.props.meta.in_matching_participant_group_id && !onReviewParticipantGroupEmployerId) {
       status = APPLY;
     } else {
       status = SHOW;
