@@ -1,13 +1,14 @@
 'use strict';
 
-var Reflux = require('reflux');
-var StaffActions = require('../actions').StaffActions;
+let Reflux = require('reflux');
+let { StaffActions } = require('../actions');
 
-var StaffStore = Reflux.createStore({
+let StaffStore = Reflux.createStore({
   resourceName: 'staffs',
   listenables: StaffActions,
 
-  onLoadFromEmployer: function (employers) {
+  onLoadFromEmployer (data) {
+    let { employers } = data;
     StaffActions.ajaxLoad(employers.mapAttribute('staff_id'));
   }
 });

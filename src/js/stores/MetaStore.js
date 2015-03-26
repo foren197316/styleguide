@@ -1,19 +1,14 @@
 /* @flow */
 'use strict';
-
 let Reflux = require('reflux');
 
 let MetaStore = Reflux.createStore({
-  set (meta) {
-    if (meta == null) {
+  set (data) {
+    if (data == null) {
       return;
     }
 
-    if (this.data != null) {
-      this.mergeData(meta);
-    } else {
-      this.data = meta;
-    }
+    this.mergeData(data);
 
     this.trigger(this.data);
   },
@@ -23,10 +18,14 @@ let MetaStore = Reflux.createStore({
     this.trigger(this.data);
   },
 
-  mergeData (newData) {
-    Object.keys(newData).forEach(key => {
-      this.data[key] = newData[key];
-    });
+  mergeData (data) {
+    if (this.data == null) {
+      this.data = data;
+    } else {
+      Object.keys(data).forEach(key => {
+        this.data[key] = data[key];
+      });
+    }
   }
 });
 

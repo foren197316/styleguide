@@ -9,18 +9,18 @@ let ConfirmOrCancelButton = React.createClass({
     confirmFunction: React.PropTypes.func.isRequired
   },
 
-  getInitialState(){
+  getInitialState () {
     return {
       confirming: false,
       disabled: false
     };
   },
 
-  cancel(){
+  cancel () {
     this.setState({ confirming: false });
   },
 
-  handleAction(){
+  handleAction () {
     this.setState({ confirming: true });
   },
 
@@ -29,7 +29,7 @@ let ConfirmOrCancelButton = React.createClass({
     this.props.confirmFunction();
   },
 
-  render() {
+  render () {
     if (this.state.confirming) {
       let disabled = this.state.disabled ? 'disabled' : '';
 
