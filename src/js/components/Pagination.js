@@ -1,10 +1,12 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var query = require('../query');
+let React = require('react/addons');
+let query = require('../query');
+let { li, a, div, ul, nav } = React.DOM;
 
-module.exports = React.createClass({displayName: 'Pagination',
+let Pagination = React.createClass({
+  displayName: 'Pagination',
   propTypes: {
     pageCount: React.PropTypes.number.isRequired,
     recordCount: React.PropTypes.number.isRequired,
@@ -13,10 +15,11 @@ module.exports = React.createClass({displayName: 'Pagination',
     formSending: React.PropTypes.object.isRequired,
     anchor: React.PropTypes.string,
     recordName: React.PropTypes.string,
-    maxPages: React.PropTypes.number
+    maxPages: React.PropTypes.number,
+    callbacks: React.PropTypes.array
   },
 
-  getDefaultProps: function () {
+  getDefaultProps () {
     return {
       page: 1,
       pageCount: 1,
@@ -26,52 +29,54 @@ module.exports = React.createClass({displayName: 'Pagination',
     };
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {
       page: this.props.page
     };
   },
 
-  onClick: function (page) {
+  onClick (page) {
     if (this.props.anchor) {
       global.location = '#' + this.props.anchor;
     }
 
     this.props.formSending.requestChange(true);
-    this.setState({ page: page });
+    this.setState({ page });
 
     var queryWithPage;
-    var originalQuery = query.getQuery();
+    let originalQuery = query.getQuery();
 
     if (originalQuery && originalQuery.length > 0) {
       queryWithPage = originalQuery.replace(/&?\bpage=\d+\b/i, '&page=' + page);
     } else {
-      queryWithPage = 'page=' + page;
+      queryWithPage = `page=${page}`;
     }
 
-    this.props.actions.ajaxSearch(queryWithPage, function () {
+    let callbacks = [() => {
       this.props.formSending.requestChange(false);
-    }.bind(this));
+    }].concat(this.props.callbacks || []);
+
+    this.props.actions.ajaxSearch(queryWithPage, ...callbacks);
   },
 
-  makeButtons: function (pageNumbers) {
-    var buttons = [];
+  makeButtons (pageNumbers) {
+    let buttons = [];
     var lastPage;
 
-    for (var i=0; i<pageNumbers.length; i++) {
-      var currentPage = pageNumbers[i];
+    for (let i=0; i<pageNumbers.length; i++) {
+      let currentPage = pageNumbers[i];
       if (lastPage && (currentPage - lastPage) > 1) {
         buttons.push(
-          React.DOM.li({className: 'disabled', key: 'ellipsis-'+i},
-            React.DOM.a({key: 'pagination-ellipsis-'+currentPage}, '...')
+          li({className: 'disabled', key: `ellipsis-${i}`},
+            a({key: `pagination-ellipsis-${currentPage}`}, '...')
           )
         );
       }
 
-      var active = (currentPage.toString() === this.state.page.toString()) ? ' active' : '';
+      let active = (currentPage.toString() === this.state.page.toString()) ? ' active' : '';
       buttons.push(
-        React.DOM.li({className: active, key: 'page-'+currentPage},
-          React.DOM.a({href: '#', onClick: this.onClick.bind(this, currentPage), key: 'pagination-'+currentPage}, currentPage)
+        li({className: active, key: `page-${currentPage}`},
+          a({href: '#', onClick: this.onClick.bind(this, currentPage), key: `pagination-${currentPage}`}, currentPage)
         )
       );
       lastPage = currentPage;
@@ -79,17 +84,17 @@ module.exports = React.createClass({displayName: 'Pagination',
     return buttons;
   },
 
-  getPagination: function () {
-    var pageCount = this.props.pageCount;
+  getPagination () {
+    let pageCount = this.props.pageCount;
 
     if (pageCount <= 1) {
       return [];
     }
 
-    var pages = [];
+    let pages = [];
 
     if (pageCount <= this.props.maxPages) {
-      for (var i=1; i<=pageCount; i++) {
+      for (let i=1; i<=pageCount; i++) {
         pages.push(i);
       }
     } else if (this.state.page <= 4) {
@@ -103,16 +108,18 @@ module.exports = React.createClass({displayName: 'Pagination',
     return this.makeButtons(pages);
   },
 
-  render: function () {
-    return React.DOM.div({className: 'row react-pagination'},
-      React.DOM.div({className: 'col-xs-12 col-md-4'},
-        React.DOM.div({className: 'count label label-default'}, this.props.recordCount + ' ' + this.props.recordName)
+  render () {
+    return div({className: 'row react-pagination'},
+      div({className: 'col-xs-12 col-md-4'},
+        div({className: 'count label label-default'}, `${this.props.recordCount} ${this.props.recordName}`)
       ),
-      React.DOM.div({className: 'col-xs-12 col-md-8 text-right'},
-        React.DOM.nav({},
-          React.DOM.ul({className: 'pagination'}, this.getPagination())
+      div({className: 'col-xs-12 col-md-8 text-right'},
+        nav({},
+          ul({className: 'pagination'}, this.getPagination())
         )
       )
     );
   }
 });
+
+module.exports = Pagination;

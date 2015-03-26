@@ -198,7 +198,7 @@ Reflux.StoreMethods.onAjaxLoad = function (...args) {
   });
 };
 
-Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
+Reflux.StoreMethods.onAjaxSearch = function (query, ...callbacks) {
   if (this.xhr) {
     this.xhr.abort();
   }
@@ -212,9 +212,7 @@ Reflux.StoreMethods.onAjaxSearch = function (query, callback) {
         global.history.pushState(query, '', '#' + Base64.urlsafeEncode64(query));
       }
 
-      if (typeof callback === 'function') {
-        callback(response);
-      }
+      callbacks.forEach(cb => cb(response));
 
       this.onSearchSuccess(response);
     },
@@ -249,7 +247,7 @@ Reflux.StoreMethods.onLoadSuccess = function (response, ...args) {
 
   if (args.length > 0) {
     for (let i=0; i<args.length; i++) {
-      args[i](this.data);
+      args[i](response);
     }
   }
 };

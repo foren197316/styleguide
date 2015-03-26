@@ -2,7 +2,6 @@
 'use strict';
 
 let React = require('react/addons');
-let Reflux = require('reflux');
 let factory = React.createFactory;
 let currency = require('../currency');
 let api = require('../api');
@@ -49,7 +48,12 @@ module.exports = React.createClass({
     var status;
     if (this.props.meta.on_review_participant_group_employer_id === jobListing.employer_id) {
       status = SUCCESS;
-    } else if (enrollment.on_review_count >= enrollment.on_review_maximum) {
+    } else if (!enrollment || enrollment.on_review_count >= enrollment.on_review_maximum) {
+      /**
+       * Check that enrollment exists in case Employer isn't enrolled
+       * in the same program as the Job Listing is for.
+       * Hopefully this won't happen much in production.
+       */
       status = UNAVAILABLE;
     } else if (this.props.meta.in_matching_participant_group_id) {
       status = APPLY;

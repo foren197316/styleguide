@@ -1,6 +1,5 @@
 /* @flow */
 'use strict';
-
 let Reflux = require('reflux');
 
 let MetaStore = Reflux.createStore({

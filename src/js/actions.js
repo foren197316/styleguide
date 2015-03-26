@@ -37,5 +37,6 @@ module.exports = {
   PositionActions: Reflux.createActions(genericStoreActions),
   loadFromJobOfferGroups: Reflux.createAction('loadFromJobOfferGroups'),
   loadFromOfferedParticipantGroups: Reflux.createAction('loadFromOfferedParticipantGroups'),
-  loadFromJobOfferParticipantAgreements: Reflux.createAction('loadFromJobOfferParticipantAgreements')
+  loadFromJobOfferParticipantAgreements: Reflux.createAction('loadFromJobOfferParticipantAgreements'),
+  loadFromJobListings: Reflux.createAction('loadFromJobListings')
 };
