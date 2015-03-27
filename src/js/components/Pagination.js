@@ -52,9 +52,9 @@ let Pagination = React.createClass({
       queryWithPage = `page=${page}`;
     }
 
-    let callbacks = [() => {
+    let callbacks = (this.props.callbacks || []).concat([() => {
       this.props.formSending.requestChange(false);
-    }].concat(this.props.callbacks || []);
+    }]);
 
     this.props.actions.ajaxSearch(queryWithPage, ...callbacks);
   },
