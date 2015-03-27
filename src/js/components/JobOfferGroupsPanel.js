@@ -24,18 +24,33 @@ let JobOfferGroupsPanel = React.createClass({
   displayName: 'JobOfferGroupsPanel',
   mixins: [
     React.addons.LinkedStateMixin,
-    Reflux.connect(JobOfferGroupStore, 'jobOfferGroups'),
-    Reflux.connect(ProgramStore, 'programs'),
     Reflux.connect(PositionStore, 'positions'),
-    Reflux.connect(EmployerStore, 'employers'),
-    Reflux.connect(StaffStore, 'staffs'),
-    Reflux.connect(MetaStore, 'meta'),
     RenderLoadedMixin('jobOfferGroups', 'programs', 'positions', 'employers', 'staffs', 'meta')
   ],
 
   componentDidMount () {
+    if (!this.joiner) {
+      this.joinTrailing(
+        JobOfferGroupStore,
+        ProgramStore,
+        EmployerStore,
+        StaffStore,
+        MetaStore,
+        this.setData
+      );
+    }
+
     JobOfferGroupActions.ajaxSearch(getQuery(), loadFromJobOfferGroups);
     PositionActions.ajaxLoad();
+  },
+
+  setData (jobOfferGroupData, programData, employerData, staffData, metaData) {
+    let jobOfferGroups = jobOfferGroupData[0];
+    let programs = programData[0];
+    let employers = employerData[0];
+    let staffs = staffData[0];
+    let meta = metaData[0];
+    this.setState({ jobOfferGroups, programs, employers, staffs, meta });
   },
 
   renderLoaded () {
@@ -46,6 +61,7 @@ let JobOfferGroupsPanel = React.createClass({
     let recordName = 'Job Offers';
     let anchor = 'searchTop';
     let positions = this.state.positions;
+    let callbacks = [loadFromJobOfferGroups];
 
     return (
       div({id: 'participant-group-panels'},
@@ -53,7 +69,7 @@ let JobOfferGroupsPanel = React.createClass({
         ReloadingComponent({ loadingLink: formSending },
           div({className: 'row'},
             div({className: 'col-md-12'},
-              Pagination({ pageCount, recordCount, page, actions: JobOfferGroupActions, formSending, recordName })
+              Pagination({ pageCount, recordCount, page, actions: JobOfferGroupActions, formSending, recordName, callbacks })
             )
           ),
           this.state.jobOfferGroups.map(jobOfferGroup => {
@@ -65,7 +81,7 @@ let JobOfferGroupsPanel = React.createClass({
           }),
           div({className: 'row'},
             div({className: 'col-md-12'},
-              Pagination({ pageCount, recordCount, page, anchor, actions: JobOfferGroupActions, formSending, recordName })
+              Pagination({ pageCount, recordCount, page, anchor, actions: JobOfferGroupActions, formSending, recordName, callbacks })
             )
           )
         )
