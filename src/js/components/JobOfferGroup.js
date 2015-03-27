@@ -1,66 +1,80 @@
 /* @flow */
 'use strict';
+let React = require('react/addons');
+let JobOfferGroupStore = require('../stores/JobOfferGroupStore');
+let EmployerHeader = React.createFactory(require('./EmployerHeader'));
+let JobOffer = React.createFactory(require('./JobOffer'));
+let ParticipantGroupPanelFooter = React.createFactory(require('./ParticipantGroupPanelFooter'));
+let moment = require('moment');
+let { div, button, strong } = React.DOM;
 
-var React = require('react/addons');
-var EmployerStore = require('../stores/EmployerStore');
-var JobOfferGroupStore = require('../stores/JobOfferGroupStore');
-var EmployerHeader = require('./EmployerHeader');
-var JobOffer = require('./JobOffer');
-var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
-var moment = require('moment');
-
-var JobOfferGroup = React.createClass({
+let JobOfferGroup = React.createClass({
   displayName: 'JobOfferGroup',
 
   propTypes: {
-    jobOfferGroup: React.PropTypes.object.isRequired
+    jobOfferGroup: React.PropTypes.object.isRequired,
+    employer: React.PropTypes.object.isRequired,
+    program: React.PropTypes.object.isRequired,
+    positions: React.PropTypes.array.isRequired,
+    staff: React.PropTypes.object
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {};
   },
 
-  handleReject: function () {
+  handleReject () {
     this.setState({ rejecting: true });
   },
 
-  handleCancel: function() {
+  handleCancel() {
     this.setState({ rejecting: false });
   },
 
-  handleConfirm: function() {
+  handleConfirm () {
     this.setState({ sending: true });
     JobOfferGroupStore.destroy(this.props.jobOfferGroup.id);
   },
 
-  render: function () {
-    var actions = null;
-    var employer = EmployerStore.findById(this.props.jobOfferGroup.employer_id);
+  render () {
+    let actions = null;
+    let jobOfferGroup = this.props.jobOfferGroup;
+    let employer = this.props.employer;
+    let program = this.props.program;
 
     if (this.state.rejecting) {
       actions = (
-        React.DOM.div({className: 'btn-group'},
-          React.DOM.button({className: 'btn btn-danger', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
-          React.DOM.button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
+        div({className: 'btn-group'},
+          button({className: 'btn btn-danger', onClick: this.handleConfirm, disabled: this.state.sending ? 'disabled' : ''}, 'Confirm'),
+          button({className: 'btn btn-default', onClick: this.handleCancel}, 'Cancel')
         )
       );
-    } else if (this.props.jobOfferGroup.can_reject) {
+    } else if (jobOfferGroup.can_reject) {
       actions = (
-        React.DOM.button({className: 'btn btn-small btn-danger', onClick: this.handleReject}, 'Reject')
+        button({className: 'btn btn-small btn-danger', onClick: this.handleReject}, 'Reject')
       );
     }
 
     return (
-      React.DOM.div({className: 'panel panel-default participant-group-panel'},
-        React.createElement(EmployerHeader, {employer}),
-        React.DOM.div({className: 'list-group'},
-          this.props.jobOfferGroup.job_offers.map(function (jobOffer) {
-            return React.createElement(JobOffer, {jobOffer: jobOffer, key: 'job_offer_'+jobOffer.id});
+      div({className: 'panel panel-default participant-group-panel'},
+        EmployerHeader({ employer }),
+        div({className: 'list-group'},
+          jobOfferGroup.job_offers.map(jobOffer => {
+            let key = jobOffer.id;
+            let position = this.props.positions.findById(jobOffer.position_id);
+            return JobOffer({ jobOffer, position, key });
           })
         ),
-        React.createElement(ParticipantGroupPanelFooter, {name: this.props.jobOfferGroup.name},
+        ParticipantGroupPanelFooter({name: jobOfferGroup.name},
           actions,
-          React.DOM.div({}, moment(this.props.jobOfferGroup.created_at).fromNow())
+          div({ className: 'clearfix' },
+            div({ className: 'pull-left' },
+              strong({}, program.name)
+            ),
+            div({ className: 'pull-right' },
+              moment(jobOfferGroup.created_at).fromNow()
+            )
+          )
         )
       )
     );

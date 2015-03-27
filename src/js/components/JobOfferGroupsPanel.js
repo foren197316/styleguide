@@ -45,6 +45,7 @@ let JobOfferGroupsPanel = React.createClass({
     let formSending = this.linkState('formSending');
     let recordName = 'Job Offers';
     let anchor = 'searchTop';
+    let positions = this.state.positions;
 
     return (
       div({id: 'participant-group-panels'},
@@ -55,9 +56,13 @@ let JobOfferGroupsPanel = React.createClass({
               Pagination({ pageCount, recordCount, page, actions: JobOfferGroupActions, formSending, recordName })
             )
           ),
-          this.state.jobOfferGroups.map(jobOfferGroup => (
-            JobOfferGroup({jobOfferGroup, key: jobOfferGroup.id})
-          )),
+          this.state.jobOfferGroups.map(jobOfferGroup => {
+            let employer = this.state.employers.findById(jobOfferGroup.employer_id);
+            let staff = this.state.staffs.findById(employer.staff_id);
+            let program = this.state.programs.findById(jobOfferGroup.program_id);
+            let key = jobOfferGroup.id;
+            return JobOfferGroup({ jobOfferGroup, employer, positions, staff, program, key });
+          }),
           div({className: 'row'},
             div({className: 'col-md-12'},
               Pagination({ pageCount, recordCount, page, anchor, actions: JobOfferGroupActions, formSending, recordName })

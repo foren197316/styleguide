@@ -65,22 +65,23 @@ String.prototype.camelCaseToUnderscore = function () {
 };
 
 Array.prototype.flatten = function () {
-  return this.reduce(function (prev, curr) {
-    return prev.concat(curr);
-  }, []);
+  return this.reduce((prev, curr) => (
+    prev.concat(curr)
+  ), []);
 };
 
 Array.prototype.diff = function(array) {
-  return this.filter(function(i) {return array.indexOf(i) < 0;});
+  return this.filter(i => (array.indexOf(i) < 0));
 };
 
+/* TODO: get rid of this and use the native ES6 "find" */
 Array.prototype.findById = function (id, alternateKey) {
   var key = alternateKey || 'id';
 
   if (id instanceof Array) {
-    return this.filter(function (entry) {
-      return id.indexOf(entry[key]) >= 0;
-    });
+    return this.filter(entry => (
+      id.indexOf(entry[key]) >= 0
+    ));
   }
 
   for (var i=0; i<this.length; i++) {
@@ -106,25 +107,23 @@ Array.prototype.intersects = function (array) {
 };
 
 Array.prototype.intersection = function (a) {
-  return this.filter(function (entry) {
-    return a.indexOf(entry) >= 0;
-  });
+  return this.filter(entry => (
+    a.indexOf(entry) >= 0
+  ));
 };
 
 Array.prototype.mapAttribute = function (attribute) {
   try {
-    return this.map(function (entry) {
-      return entry[attribute];
-    });
+    return this.map(entry => (
+      entry[attribute]
+    ));
   } catch (e) {
     console.log(e);
   }
 };
 
 Array.prototype.notEmpty = function () {
-  return this.filter(function (entry) {
-    return entry != null;
-  });
+  return this.filter(entry => (entry != null));
 };
 
 String.prototype.pluralize = function (count) {
@@ -136,7 +135,7 @@ String.prototype.pluralize = function (count) {
 };
 
 Array.prototype.uniq = function () {
-  return this.reduce(function (prev, curr) {
+  return this.reduce((prev, curr) => {
     if (prev.indexOf(curr) < 0) {
       prev.push(curr);
     }
@@ -144,14 +143,14 @@ Array.prototype.uniq = function () {
   }, []);
 };
 
-var traverse = function (subject, attributes) {
-  var curr = subject;
+let traverse = function (subject, attributes) {
+  let curr = subject;
 
   if (typeof attributes === 'string') {
     return curr[attributes];
   }
 
-  for (var i=0; i<attributes.length; i++) {
+  for (let i=0; i<attributes.length; i++) {
     if (!curr) {
       return null;
     }
@@ -161,16 +160,16 @@ var traverse = function (subject, attributes) {
   return curr;
 };
 
-var dateGreaterThan = function (dateList, comparisonDate) {
-  return dateList.reduce(function (prev, curr) {
-    return prev || !curr.isBefore(comparisonDate);
-  }, false);
+let dateGreaterThan = function (dateList, comparisonDate) {
+  return dateList.reduce((prev, curr) => (
+    prev || !curr.isBefore(comparisonDate)
+  ), false);
 };
 
-var dateLessThan = function (dateList, comparisonDate) {
-  return dateList.reduce(function (prev, curr) {
-    return prev || !curr.isAfter(comparisonDate);
-  }, false);
+let dateLessThan = function (dateList, comparisonDate) {
+  return dateList.reduce((prev, curr) => (
+    prev || !curr.isAfter(comparisonDate)
+  ), false);
 };
 
 Reflux.StoreMethods.onAjaxLoad = function (...args) {

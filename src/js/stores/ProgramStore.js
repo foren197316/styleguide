@@ -1,17 +1,21 @@
 'use strict';
-
 let Reflux = require('reflux');
-let actions = require('../actions');
+let {
+  ProgramActions,
+  loadFromJobOfferGroups,
+  loadFromOfferedParticipantGroups,
+  loadFromJobOfferParticipantAgreements
+} = require('../actions');
 
 let ProgramStore = Reflux.createStore({
   resourceName: 'programs',
-  listenables: actions.ProgramActions,
+  listenables: ProgramActions,
   applicableIds: null,
 
   init () {
-    this.listenTo(actions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
-    this.listenTo(actions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
-    this.listenTo(actions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
+    this.listenTo(loadFromJobOfferGroups, this.extractProgramsFromResponse);
+    this.listenTo(loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
+    this.listenTo(loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
   },
 
   initPostAjaxLoad () {
@@ -24,13 +28,9 @@ let ProgramStore = Reflux.createStore({
     this.trigger(this.data);
   },
 
-  onLoadFromJobOfferGroups (data) {
-    let jobOfferGroups = data.job_offer_groups;
-    this.applicableIds = jobOfferGroups.map(jobOfferGroup => (
-      jobOfferGroup.job_offers[0].participant.program_id
-    )).uniq();
-
-    actions.ProgramActions.ajaxLoad();
+  extractProgramsFromResponse (data) {
+    this.data = data.programs;
+    this.trigger(this.data);
   },
 
   onLoadFromOfferedParticipantGroups (data) {
@@ -39,7 +39,7 @@ let ProgramStore = Reflux.createStore({
       offeredParticipantGroup.participants[0].program_id
     )).uniq();
 
-    actions.ProgramActions.ajaxLoad();
+    ProgramActions.ajaxLoad();
   },
 
   onLoadFromJobOfferParticipantAgreements (data) {
@@ -48,7 +48,7 @@ let ProgramStore = Reflux.createStore({
       jobOfferParticipantAgreement.job_offer.participant.program_id
     )).uniq();
 
-    actions.ProgramActions.ajaxLoad();
+    ProgramActions.ajaxLoad();
   }
 });
 
