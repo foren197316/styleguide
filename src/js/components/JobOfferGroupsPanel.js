@@ -1,19 +1,20 @@
 /* @flow */
 'use strict';
+let React = require('react/addons');
+let Reflux = require('reflux');
+let { JobOfferGroupActions, loadFromJobOfferGroups, PositionActions } = require('../actions');
+let JobOfferGroupStore = require('../stores/JobOfferGroupStore');
+let ProgramStore = require('../stores/ProgramStore');
+let PositionStore = require('../stores/PositionStore');
+let EmployerStore = require('../stores/EmployerStore');
+let StaffStore = require('../stores/StaffStore');
+let RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
+let ProgramHeader = require('./ProgramHeader');
+let JobOfferGroup = React.createFactory(require('./JobOfferGroup'));
+let { div } = React.DOM;
 
-var React = require('react/addons');
-var Reflux = require('reflux');
-var actions = require('../actions');
-var JobOfferGroupStore = require('../stores/JobOfferGroupStore');
-var ProgramStore = require('../stores/ProgramStore');
-var PositionStore = require('../stores/PositionStore');
-var EmployerStore = require('../stores/EmployerStore');
-var StaffStore = require('../stores/StaffStore');
-var RenderLoadedMixin = require('../mixins').RenderLoadedMixin;
-var ProgramHeader = require('./ProgramHeader');
-var JobOfferGroup = require('./JobOfferGroup');
-
-var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
+let JobOfferGroupsPanel = React.createClass({
+  displayName: 'JobOfferGroupsPanel',
   mixins: [
     Reflux.connect(JobOfferGroupStore, 'jobOfferGroups'),
     Reflux.connect(ProgramStore, 'programs'),
@@ -23,30 +24,30 @@ var JobOfferGroupsPanel = React.createClass({displayName: 'JobOfferGroupsPanel',
     RenderLoadedMixin('jobOfferGroups', 'programs', 'positions', 'employers', 'staffs')
   ],
 
-  componentDidMount: function () {
-    actions.JobOfferGroupActions.ajaxLoad(actions.loadFromJobOfferGroups);
-    actions.PositionActions.ajaxLoad();
+  componentDidMount () {
+    JobOfferGroupActions.ajaxLoad(loadFromJobOfferGroups);
+    PositionActions.ajaxLoad();
   },
 
-  renderLoaded: function () {
+  renderLoaded () {
     return (
-      React.DOM.div({id: 'participant-group-panels'},
-        this.state.programs.map(function (program, loopIndex) {
-          var programJobOfferGroups = this.state.jobOfferGroups.filter(function (jobOfferGroup) {
-            return jobOfferGroup.program_id === program.id;
-          });
+      div({id: 'participant-group-panels'},
+        this.state.programs.map((program, loopIndex) => {
+          let programJobOfferGroups = this.state.jobOfferGroups.filter(jobOfferGroup => (
+            jobOfferGroup.program_id === program.id
+          ));
 
           if (programJobOfferGroups.length > 0) {
             return (
-              React.DOM.div({key: 'job-offer-group-header-' + loopIndex},
-                React.createElement(ProgramHeader, {program: program, collectionName: 'Job Offer', collection: programJobOfferGroups.mapAttribute('job_offers').flatten()}),
-                programJobOfferGroups.map(function (jobOfferGroup) {
-                  return React.createElement(JobOfferGroup, {jobOfferGroup: jobOfferGroup, key: 'program_job_offer_group'+program.id+'-'+jobOfferGroup.id});
-                })
+              div({key: 'job-offer-group-header-' + loopIndex},
+                React.createElement(ProgramHeader, {program, collectionName: 'Job Offer', collection: programJobOfferGroups.mapAttribute('job_offers').flatten()}),
+                programJobOfferGroups.map(jobOfferGroup => (
+                  JobOfferGroup({jobOfferGroup, key: `program_job_offer_group${program.id}-${jobOfferGroup.id}`})
+                ))
               )
             );
           }
-        }, this)
+        })
       )
     );
   }
