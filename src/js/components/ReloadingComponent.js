@@ -1,19 +1,23 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var Spinner = require('./Spinner');
+let React = require('react/addons');
+let Spinner = React.createFactory(require('./Spinner'));
+let { div } = React.DOM;
 
-module.exports = React.createClass({displayName: 'ReloadingComponent',
+let ReloadingComponent = React.createClass({
+  displayName: 'ReloadingComponent',
   propTypes: {
     loadingLink: React.PropTypes.object.isRequired /* React LinkState */
   },
 
-  render: function () {
+  render () {
     if (this.props.loadingLink.value) {
-      return React.createElement(Spinner, {});
+      return Spinner();
     } else {
-      return React.DOM.div({}, this.props.children);
+      return div({}, this.props.children);
     }
   }
 });
+
+module.exports = ReloadingComponent;
