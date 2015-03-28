@@ -30,7 +30,7 @@ let JobOfferGroupsPanel = React.createClass({
 
   componentDidMount () {
     if (!this.joiner) {
-      this.joinTrailing(
+      this.joiner = this.joinTrailing(
         JobOfferGroupStore,
         ProgramStore,
         EmployerStore,
