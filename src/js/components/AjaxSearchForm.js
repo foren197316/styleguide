@@ -1,51 +1,50 @@
 /* @flow */
 'use strict';
+let React = require('react/addons');
 
-var React = require('react/addons');
-
-module.exports = React.createClass({displayName: 'AjaxSearchForm',
+let AjaxSearchForm = React.createClass({
+  displayName: 'AjaxSearchForm',
   propTypes: {
     actions: React.PropTypes.object.isRequired,
     formSending: React.PropTypes.object.isRequired,
     delay: React.PropTypes.number
   },
 
-  getDefaultProps: function () {
+  getDefaultProps () {
     return {
       delay: 750
     };
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return { lastData: null };
   },
 
-  ajaxPost: function () {
-    var data = [];
+  ajaxPost () {
+    let data = [];
 
-    for (var i in this.refs) {
+    for (let i in this.refs) {
       if (this.refs.hasOwnProperty(i)) {
         data.push(this.refs[i].query());
       }
     }
 
-    data = data.filter(function (datum) {
-      return datum != null;
-    }).join('&');
+    let lastData = data.filter(datum => (datum != null)).join('&');
 
-    if (data === this.state.lastData) {
+    /* TODO: does this ever return true? */
+    if (lastData === this.state.lastData) {
       return;
     }
 
     this.props.formSending.requestChange(true);
-    this.setState({ lastData: data });
+    this.setState({ lastData });
 
-    this.props.actions.ajaxSearch(data, function () {
+    this.props.actions.ajaxSearch(lastData, () => {
       this.props.formSending.requestChange(false);
-    }.bind(this));
+    });
   },
 
-  onSubmit: function (e) {
+  onSubmit (e) {
     if (e != null) {
       e.preventDefault();
     }
@@ -57,11 +56,15 @@ module.exports = React.createClass({displayName: 'AjaxSearchForm',
     this.timer = setTimeout(this.ajaxPost, this.props.delay);
   },
 
-  render: function () {
-    return React.DOM.form({method: '', action: '', onSubmit: this.onSubmit},
-      React.Children.map(this.props.children, function (child, index) {
-        return React.addons.cloneWithProps(child, { ref: 'child' + index, submit: this.onSubmit });
-      }.bind(this))
+  render () {
+    return (
+      React.DOM.form({method: '', action: '', onSubmit: this.onSubmit},
+        React.Children.map(this.props.children, (child, index) => (
+          React.addons.cloneWithProps(child, { ref: `child${index}`, submit: this.onSubmit })
+        ))
+      )
     );
   }
 });
+
+module.exports = AjaxSearchForm;
