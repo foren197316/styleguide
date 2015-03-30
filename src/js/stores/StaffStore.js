@@ -12,6 +12,7 @@ let StaffStore = Reflux.createStore({
   },
 
   onLoadFromJobOfferGroups (data) {
+    this.permission = true;
     this.data = data.staffs;
     this.trigger(this.data);
   },

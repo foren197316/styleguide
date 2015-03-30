@@ -29,6 +29,7 @@ let ProgramStore = Reflux.createStore({
   },
 
   extractProgramsFromResponse (data) {
+    this.permission = true;
     this.data = data.programs;
     this.trigger(this.data);
   },

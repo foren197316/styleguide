@@ -38,6 +38,7 @@ let EmployerStore = Reflux.createStore({
   },
 
   extractEmployersFromResponse (data) {
+    this.permission = true;
     this.data = data.employers;
     this.trigger(this.data);
   },

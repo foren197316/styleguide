@@ -43,13 +43,13 @@ let Pagination = React.createClass({
     this.props.formSending.requestChange(true);
     this.setState({ page });
 
-    var queryWithPage;
+    let queryWithPage = '';
     let originalQuery = query.getQuery();
 
-    if (originalQuery && originalQuery.length > 0) {
-      queryWithPage = originalQuery.replace(/&?\bpage=\d+\b/i, '&page=' + page);
+    if (/\bpage=/i.test(originalQuery)) {
+      queryWithPage = originalQuery.replace(/&?\bpage=\d+\b/i, `&page=${page}`);
     } else {
-      queryWithPage = `page=${page}`;
+      queryWithPage += `page=${page}`;
     }
 
     let callbacks = (this.props.callbacks || []).concat([() => {

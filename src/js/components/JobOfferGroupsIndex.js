@@ -42,12 +42,6 @@ let JobOfferGroupsIndex = React.createClass({
   },
 
   componentDidMount () {
-    this.listenTo(JobOfferGroupStore, () => console.log('JobOfferGroupStore triggered'));
-    this.listenTo(ProgramStore, () => console.log('ProgramStore triggered'));
-    this.listenTo(EmployerStore, () => console.log('EmployerStore triggered'));
-    this.listenTo(StaffStore, () => console.log('StaffStore triggered'));
-    this.listenTo(MetaStore, () => console.log('MetaStore triggered'));
-
     this.joinTrailing(
       JobOfferGroupStore,
       ProgramStore,
@@ -68,7 +62,6 @@ let JobOfferGroupsIndex = React.createClass({
     let staffs = staffData[0];
     let meta = metaData[0];
     let state = { jobOfferGroups, programs, employers, staffs, meta };
-    console.log(state);
     this.setState(state);
   },
 
