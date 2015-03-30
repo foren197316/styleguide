@@ -1,25 +1,21 @@
 /* @flow */
 'use strict';
-
 let React = require('react/addons');
 let Reflux = require('reflux');
-let {
-  JobOfferGroupActions,
-  JobOfferSignedActions,
-  ProgramActions,
-  EmployerActions,
-  StaffActions
-} = require('../actions');
-let AjaxSearchFilter = React.createFactory(require('./SearchFilter'));
-let AjaxCheckBoxFilter = React.createFactory(require('./CheckBoxFilter'));
+let { JobOfferGroupActions } = require('../actions');
+
+let AjaxSearchForm = React.createFactory(require('./AjaxSearchForm'));
+let AjaxSearchFilter = React.createFactory(require('./AjaxSearchFilter'));
+let AjaxCheckBoxFilter = React.createFactory(require('./AjaxCheckBoxFilter'));
 let JobOfferGroupsPanel = React.createFactory(require('./JobOfferGroupsPanel'));
+let ExportButton = React.createFactory(require('./ExportButton'));
+
 let JobOfferSignedStore = require('../stores/JobOfferSignedStore');
 let ProgramStore = require('../stores/ProgramStore');
 let EmployerStore = require('../stores/EmployerStore');
 let StaffStore = require('../stores/StaffStore');
 let JobOfferGroupStore = require('../stores/JobOfferGroupStore');
-let ExportButton = React.createFactory(require('./ExportButton'));
-let AjaxSearchForm = require('./AjaxSearchForm');
+let { div } = React.DOM;
 
 let JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
   mixins: [
@@ -44,18 +40,18 @@ let JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
       [];
 
     return (
-      React.DOM.div({className: 'row'},
-        React.DOM.div({className: 'col-md-3'},
+      div({className: 'row'},
+        div({className: 'col-md-3'},
           AjaxSearchForm({ actions: JobOfferGroupActions, formSending },
-            AjaxSearchFilter({title: 'Search', searchOn: 'participant_names', actions: JobOfferGroupActions}),
-            AjaxCheckBoxFilter({title: 'Participant Agreement', store: JobOfferSignedStore, actions: JobOfferSignedActions}),
-            AjaxCheckBoxFilter({title: 'Program', store: ProgramStore, actions: ProgramActions}),
-            AjaxCheckBoxFilter({title: 'Employer', store: EmployerStore, actions: EmployerActions}),
-            AjaxCheckBoxFilter({title: 'Coordinator', store: StaffStore, actions: StaffActions}),
-            ExportButton({url: this.props.exportUrl, ids: jobOfferIds})
-          )
+            AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
+            AjaxCheckBoxFilter({title: 'Participant Agreement', fieldName: 'participant_agreement', store: JobOfferSignedStore}),
+            AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
+            AjaxCheckBoxFilter({title: 'Employer', fieldName: 'participant_agreement_employer_id', store: EmployerStore}),
+            AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'staff_id', store: StaffStore})
+          ),
+          ExportButton({url: this.props.exportUrl, ids: jobOfferIds})
         ),
-        React.DOM.div({className: 'col-md-9'},
+        div({className: 'col-md-9'},
           JobOfferGroupsPanel()
         )
       )
