@@ -32,7 +32,8 @@ let query = require('../query');
 
 let { div, a } = React.DOM;
 
-var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
+var InMatchingParticipantGroupsIndex = React.createClass({
+  displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, 'inMatchingParticipantGroups'),
     Reflux.connect(EmployerStore, 'employer'),

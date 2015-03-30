@@ -42,16 +42,20 @@ let JobOfferGroupsIndex = React.createClass({
   },
 
   componentDidMount () {
-    if (!this.joiner) {
-      this.joiner = this.joinTrailing(
-        JobOfferGroupStore,
-        ProgramStore,
-        EmployerStore,
-        StaffStore,
-        MetaStore,
-        this.setData
-      );
-    }
+    this.listenTo(JobOfferGroupStore, () => console.log('JobOfferGroupStore triggered'));
+    this.listenTo(ProgramStore, () => console.log('ProgramStore triggered'));
+    this.listenTo(EmployerStore, () => console.log('EmployerStore triggered'));
+    this.listenTo(StaffStore, () => console.log('StaffStore triggered'));
+    this.listenTo(MetaStore, () => console.log('MetaStore triggered'));
+
+    this.joinTrailing(
+      JobOfferGroupStore,
+      ProgramStore,
+      EmployerStore,
+      StaffStore,
+      MetaStore,
+      this.setData
+    );
 
     JobOfferGroupActions.ajaxSearch(getQuery(), loadFromJobOfferGroups);
     PositionActions.ajaxLoad();
@@ -63,7 +67,9 @@ let JobOfferGroupsIndex = React.createClass({
     let employers = employerData[0];
     let staffs = staffData[0];
     let meta = metaData[0];
-    this.setState({ jobOfferGroups, programs, employers, staffs, meta });
+    let state = { jobOfferGroups, programs, employers, staffs, meta };
+    console.log(state);
+    this.setState(state);
   },
 
   renderLoaded () {
@@ -82,7 +88,7 @@ let JobOfferGroupsIndex = React.createClass({
     return (
       div({className: 'row'},
         div({className: 'col-md-3'},
-          AjaxSearchForm({ actions: JobOfferGroupActions, formSending },
+          AjaxSearchForm({ actions: JobOfferGroupActions, formSending, callbacks },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
             AjaxCheckBoxFilter({title: 'Participant Agreement', fieldName: 'participant_agreement', store: JobOfferSignedStore}),
             AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),

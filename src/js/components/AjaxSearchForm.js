@@ -7,7 +7,8 @@ let AjaxSearchForm = React.createClass({
   propTypes: {
     actions: React.PropTypes.object.isRequired,
     formSending: React.PropTypes.object.isRequired,
-    delay: React.PropTypes.number
+    delay: React.PropTypes.number,
+    callbacks: React.PropTypes.array
   },
 
   getDefaultProps () {
@@ -39,9 +40,11 @@ let AjaxSearchForm = React.createClass({
     this.props.formSending.requestChange(true);
     this.setState({ lastData });
 
-    this.props.actions.ajaxSearch(lastData, () => {
+    let callbacks = (this.props.callbacks || []).concat([() => {
       this.props.formSending.requestChange(false);
-    });
+    }]);
+
+    this.props.actions.ajaxSearch(lastData, ...callbacks);
   },
 
   onSubmit (e) {
