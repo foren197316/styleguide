@@ -2,25 +2,33 @@
 'use strict';
 let React = require('react/addons');
 let Reflux = require('reflux');
-let { JobOfferGroupActions } = require('../actions');
+let { JobOfferGroupActions, loadFromJobOfferGroups, PositionActions } = require('../actions');
 
 let AjaxSearchForm = React.createFactory(require('./AjaxSearchForm'));
 let AjaxSearchFilter = React.createFactory(require('./AjaxSearchFilter'));
 let AjaxCheckBoxFilter = React.createFactory(require('./AjaxCheckBoxFilter'));
-let JobOfferGroupsPanel = React.createFactory(require('./JobOfferGroupsPanel'));
 let ExportButton = React.createFactory(require('./ExportButton'));
+let JobOfferGroup = React.createFactory(require('./JobOfferGroup'));
+let Pagination = React.createFactory(require('./Pagination'));
+let ReloadingComponent = React.createFactory(require('./ReloadingComponent'));
 
 let JobOfferSignedStore = require('../stores/JobOfferSignedStore');
-let ProgramStore = require('../stores/ProgramStore');
-let EmployerStore = require('../stores/EmployerStore');
-let StaffStore = require('../stores/StaffStore');
 let JobOfferGroupStore = require('../stores/JobOfferGroupStore');
-let { div } = React.DOM;
+let ProgramStore = require('../stores/ProgramStore');
+let PositionStore = require('../stores/PositionStore');
+let EmployerStore = require('../stores/EmployerStore');
+let MetaStore = require('../stores/MetaStore');
+let StaffStore = require('../stores/StaffStore');
+let { RenderLoadedMixin } = require('../mixins');
+let { getQuery, getCurrentPage } = require('../query');
+let { div, a } = React.DOM;
 
-let JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
+let JobOfferGroupsIndex = React.createClass({
+  displayName: 'JobOfferGroupsIndex',
   mixins: [
     React.addons.LinkedStateMixin,
-    Reflux.connect(JobOfferGroupStore, 'jobOfferGroups')
+    Reflux.connect(PositionStore, 'positions'),
+    RenderLoadedMixin('jobOfferGroups', 'programs', 'positions', 'employers', 'staffs', 'meta')
   ],
 
   propTypes: {
@@ -33,10 +41,42 @@ let JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
     };
   },
 
-  render () {
+  componentDidMount () {
+    if (!this.joiner) {
+      this.joiner = this.joinTrailing(
+        JobOfferGroupStore,
+        ProgramStore,
+        EmployerStore,
+        StaffStore,
+        MetaStore,
+        this.setData
+      );
+    }
+
+    JobOfferGroupActions.ajaxSearch(getQuery(), loadFromJobOfferGroups);
+    PositionActions.ajaxLoad();
+  },
+
+  setData (jobOfferGroupData, programData, employerData, staffData, metaData) {
+    let jobOfferGroups = jobOfferGroupData[0];
+    let programs = programData[0];
+    let employers = employerData[0];
+    let staffs = staffData[0];
+    let meta = metaData[0];
+    this.setState({ jobOfferGroups, programs, employers, staffs, meta });
+  },
+
+  renderLoaded () {
+    let { jobOfferGroups, programs, positions, employers, staffs, meta } = this.state;
     let formSending = this.linkState('formSending');
-    let jobOfferIds = this.state.jobOfferGroups ?
-      this.state.jobOfferGroups.mapAttribute('job_offers').flatten().mapAttribute('id') :
+    let recordName = 'Job Offers';
+    let anchor = 'searchTop';
+    let page = getCurrentPage();
+    let pageCount = meta.pageCount;
+    let recordCount = meta.recordCount;
+    let callbacks = [loadFromJobOfferGroups];
+    let jobOfferIds = jobOfferGroups ?
+      jobOfferGroups.mapAttribute('job_offers').flatten().mapAttribute('id') :
       [];
 
     return (
@@ -52,7 +92,28 @@ let JobOfferGroupsIndex = React.createClass({displayName: 'JobOfferGroupsIndex',
           ExportButton({url: this.props.exportUrl, ids: jobOfferIds})
         ),
         div({className: 'col-md-9'},
-          JobOfferGroupsPanel()
+          div({id: 'participant-group-panels'},
+            a({ name: anchor }),
+            ReloadingComponent({ loadingLink: formSending },
+              div({className: 'row'},
+                div({className: 'col-md-12'},
+                  Pagination({ pageCount, recordCount, page, actions: JobOfferGroupActions, formSending, recordName, callbacks })
+                )
+              ),
+              jobOfferGroups.map(jobOfferGroup => {
+                let employer = employers.findById(jobOfferGroup.employer_id);
+                let staff = staffs.findById(employer.staff_id);
+                let program = programs.findById(jobOfferGroup.program_id);
+                let key = jobOfferGroup.id;
+                return JobOfferGroup({ jobOfferGroup, employer, positions, staff, program, key });
+              }),
+              div({className: 'row'},
+                div({className: 'col-md-12'},
+                  Pagination({ pageCount, recordCount, page, anchor, actions: JobOfferGroupActions, formSending, recordName, callbacks })
+                )
+              )
+            )
+          )
         )
       )
     );
