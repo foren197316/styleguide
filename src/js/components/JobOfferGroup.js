@@ -38,9 +38,7 @@ let JobOfferGroup = React.createClass({
 
   render () {
     let actions = null;
-    let jobOfferGroup = this.props.jobOfferGroup;
-    let employer = this.props.employer;
-    let program = this.props.program;
+    let { jobOfferGroup, employer, program, staff } = this.props;
 
     if (this.state.rejecting) {
       actions = (
@@ -57,7 +55,7 @@ let JobOfferGroup = React.createClass({
 
     return (
       div({className: 'panel panel-default participant-group-panel'},
-        EmployerHeader({ employer }),
+        EmployerHeader({ employer, staff }),
         div({className: 'list-group'},
           jobOfferGroup.job_offers.map(jobOffer => {
             let key = jobOffer.id;

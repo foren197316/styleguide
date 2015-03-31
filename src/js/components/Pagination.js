@@ -24,7 +24,7 @@ let Pagination = React.createClass({
       page: 1,
       pageCount: 1,
       anchor: null,
-      recordName: 'Records',
+      recordName: 'Record',
       maxPages: 9
     };
   },
@@ -36,6 +36,9 @@ let Pagination = React.createClass({
   },
 
   onClick (page) {
+    let queryWithPage = '';
+    let originalQuery = query.getQuery();
+
     if (this.props.anchor) {
       global.location = '#' + this.props.anchor;
     }
@@ -43,13 +46,10 @@ let Pagination = React.createClass({
     this.props.formSending.requestChange(true);
     this.setState({ page });
 
-    let queryWithPage = '';
-    let originalQuery = query.getQuery();
-
     if (/\bpage=/i.test(originalQuery)) {
       queryWithPage = originalQuery.replace(/&?\bpage=\d+\b/i, `&page=${page}`);
     } else {
-      queryWithPage += `page=${page}`;
+      queryWithPage = `${originalQuery}&page=${page}`;
     }
 
     let callbacks = (this.props.callbacks || []).concat([() => {
@@ -109,9 +109,11 @@ let Pagination = React.createClass({
   },
 
   render () {
+    let { recordCount, recordName } = this.props;
+
     return div({className: 'row react-pagination'},
       div({className: 'col-xs-12 col-md-4'},
-        div({className: 'count label label-default'}, `${this.props.recordCount} ${this.props.recordName}`)
+        div({className: 'count label label-default'}, `${recordCount} ${recordName.pluralize(recordCount)}`)
       ),
       div({className: 'col-xs-12 col-md-8 text-right'},
         nav({},

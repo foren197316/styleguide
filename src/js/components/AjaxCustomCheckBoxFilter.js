@@ -51,13 +51,12 @@ let AjaxCustomCheckBoxFilter = React.createClass({
   },
 
   onChange () {
-    let ids = Object.keys(this.refs).map(ref => (
-      ref.getDOMNode().getAttribute('value')
-    ));
+    let ids = Object.keys(this.refs).
+        map(refName => this.refs[refName].getDOMNode()).
+        filter(ref => ref.checked).
+        map(ref => ref.getAttribute('value'));
 
-    this.setState({ ids }, () => {
-      this.props.submit();
-    });
+    this.setState({ ids }, this.props.submit);
   },
 
   getFieldName (id) {
@@ -85,12 +84,12 @@ let AjaxCustomCheckBoxFilter = React.createClass({
                 type: 'checkbox',
                 name: `${this.props.title.toLowerCase()}[${option.id}]`,
                 value: option.id,
-                onChange: this.onChange
+                onChange: this.onChange,
+                ref: `option_${option.id}`
               };
 
               if (this.state.ids.indexOf(option.id) >= 0) {
                 checkboxAttributes.checked = 'checked';
-                checkboxAttributes.ref = `option_${option.id}`;
               }
 
               return (

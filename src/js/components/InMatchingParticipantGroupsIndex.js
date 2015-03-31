@@ -74,7 +74,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     let pageCount = this.state.meta.pageCount;
     let recordCount = this.state.meta.recordCount;
     let formSendingLink = this.linkState('formSending');
-    let recordName = 'Participants';
+    let recordName = 'Participant';
     let anchor = 'searchTop';
 
     return (

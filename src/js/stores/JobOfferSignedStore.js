@@ -1,6 +1,6 @@
 'use strict';
 let Reflux = require('reflux');
-let JobOfferSignedActions = require('../actions').JobOfferSignedActions;
+let { JobOfferSignedActions } = require('../actions');
 
 let JobOfferSignedStore = Reflux.createStore({
   listenables: JobOfferSignedActions,
@@ -8,8 +8,8 @@ let JobOfferSignedStore = Reflux.createStore({
 
   init () {
     this.data = [
-      { id: 'All Signed', name: 'All Signed' },
-      { id: 'Any Unsigned', name: 'Any Unsigned' }
+      { id: 'true', name: 'All Signed', value: '1' },
+      { id: 'false', name: 'Any Unsigned', value: '1' }
     ];
   }
 });

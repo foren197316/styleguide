@@ -1,15 +1,16 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var EmployerStore = require('../stores/EmployerStore');
-var EmployerHeader = require('./EmployerHeader');
-var JobOffer = React.createFactory(require('./JobOffer'));
-var ParticipantGroupPanelFooter = require('./ParticipantGroupPanelFooter');
-var moment = require('moment');
+let React = require('react/addons');
+let EmployerStore = require('../stores/EmployerStore');
+let StaffStore = require('../stores/StaffStore');
+let EmployerHeader = React.createFactory(require('./EmployerHeader'));
+let JobOffer = React.createFactory(require('./JobOffer'));
+let ParticipantGroupPanelFooter = React.createFactory(require('./ParticipantGroupPanelFooter'));
+let moment = require('moment');
 let { div } = React.DOM;
 
-module.exports = React.createClass({
+let JobOfferParticipantAgreement = React.createClass({
   displayName: 'JobOfferParticipantAgreement',
   propTypes: {
     jobOffer: React.PropTypes.object.isRequired,
@@ -17,24 +18,27 @@ module.exports = React.createClass({
     position: React.PropTypes.object.isRequired
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {};
   },
 
-  render: function () {
-    let employer = EmployerStore.findById(this.props.jobOfferParticipantAgreement.job_offer.employer_id);
+  render () {
     let { jobOffer, position, jobOfferParticipantAgreement } = this.props;
+    let employer = EmployerStore.findById(jobOfferParticipantAgreement.job_offer.employer_id);
+    let staff = StaffStore.findById(employer.staff_id);
 
     return (
       div({className: 'panel panel-default participant-group-panel'},
-        React.createElement(EmployerHeader, {employer: employer}),
+        EmployerHeader({employer, staff}),
         div({className: 'list-group'},
           JobOffer({jobOffer, jobOfferParticipantAgreement, position})
         ),
-        React.createElement(ParticipantGroupPanelFooter, {name: ''},
-          div({}, moment(this.props.jobOfferParticipantAgreement.created_at).fromNow())
+        ParticipantGroupPanelFooter({name: ''},
+          div({}, moment(jobOfferParticipantAgreement.created_at).fromNow())
         )
       )
     );
   }
 });
+
+module.exports = JobOfferParticipantAgreement;

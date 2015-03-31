@@ -7,6 +7,7 @@ let { JobOfferGroupActions, loadFromJobOfferGroups, PositionActions } = require(
 let AjaxSearchForm = React.createFactory(require('./AjaxSearchForm'));
 let AjaxSearchFilter = React.createFactory(require('./AjaxSearchFilter'));
 let AjaxCheckBoxFilter = React.createFactory(require('./AjaxCheckBoxFilter'));
+let AjaxCustomCheckBoxFilter = React.createFactory(require('./AjaxCustomCheckBoxFilter'));
 let ExportButton = React.createFactory(require('./ExportButton'));
 let JobOfferGroup = React.createFactory(require('./JobOfferGroup'));
 let Pagination = React.createFactory(require('./Pagination'));
@@ -68,25 +69,25 @@ let JobOfferGroupsIndex = React.createClass({
   renderLoaded () {
     let { jobOfferGroups, programs, positions, employers, staffs, meta } = this.state;
     let formSending = this.linkState('formSending');
-    let recordName = 'Job Offers';
+    let recordName = 'Job Offer';
     let anchor = 'searchTop';
     let page = getCurrentPage();
     let pageCount = meta.pageCount;
     let recordCount = meta.recordCount;
     let callbacks = [loadFromJobOfferGroups];
     let jobOfferIds = jobOfferGroups ?
-      jobOfferGroups.mapAttribute('job_offers').flatten().mapAttribute('id') :
+      jobOfferGroups.map(o => o.job_offers).flatten().map(o => o.id) :
       [];
 
     return (
       div({className: 'row'},
         div({className: 'col-md-3'},
           AjaxSearchForm({ actions: JobOfferGroupActions, formSending, callbacks },
-            AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
-            AjaxCheckBoxFilter({title: 'Participant Agreement', fieldName: 'participant_agreement', store: JobOfferSignedStore}),
-            AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
-            AjaxCheckBoxFilter({title: 'Employer', fieldName: 'participant_agreement_employer_id', store: EmployerStore}),
-            AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'staff_id', store: StaffStore})
+            AjaxSearchFilter({title: 'Search', searchOn: 'job_offers_participant_name'}),
+            AjaxCustomCheckBoxFilter({title: 'Participant Agreement', fieldName: 'all_signed', store: JobOfferSignedStore}),
+            AjaxCheckBoxFilter({title: 'Program', fieldName: 'job_offers_participant_program_id', store: ProgramStore}),
+            AjaxCheckBoxFilter({title: 'Employer', fieldName: 'employer_id', store: EmployerStore}),
+            AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'employer_staff_id', store: StaffStore})
           ),
           ExportButton({url: this.props.exportUrl, ids: jobOfferIds})
         ),
