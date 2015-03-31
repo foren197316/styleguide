@@ -9,6 +9,7 @@ let EmployerStore = require('../stores/EmployerStore');
 let PositionStore = require('../stores/PositionStore');
 let { RenderLoadedMixin } = require('../mixins');
 let { OnReviewParticipantGroupActions, PositionActions, loadFromOnReviewParticipantGroups } = require('../actions');
+let { getQuery } = require('../query');
 
 let OnReviewParticipantGroupPanels = React.createClass({
   displayName: 'OnReviewParticipantGroupPanels',
@@ -24,17 +25,18 @@ let OnReviewParticipantGroupPanels = React.createClass({
   },
 
   componentDidMount () {
-    OnReviewParticipantGroupActions.ajaxLoad(loadFromOnReviewParticipantGroups);
+    OnReviewParticipantGroupActions.ajaxSearch(getQuery(), loadFromOnReviewParticipantGroups);
     PositionActions.ajaxLoad();
   },
 
   renderLoaded () {
+    let { positions } = this.state;
+
     return (
       React.DOM.div({id: 'participant-group-panels'},
         this.state.onReviewParticipantGroups.map((onReviewParticipantGroup, key) => {
           let employer = this.state.employers.findById(onReviewParticipantGroup.employer_id);
-          let { positions } = this.state;
-          return OnReviewParticipantGroupPanel({key, data: onReviewParticipantGroup, employerId: employer.id, employerName: employer.name, positions});
+          return OnReviewParticipantGroupPanel({key, onReviewParticipantGroup, employer, positions});
         })
       )
     );
