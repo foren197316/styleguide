@@ -28,8 +28,13 @@ let JobOfferGroupsIndex = React.createClass({
   displayName: 'JobOfferGroupsIndex',
   mixins: [
     React.addons.LinkedStateMixin,
+    Reflux.connect(JobOfferGroupStore, 'jobOfferGroups'),
+    Reflux.connect(ProgramStore, 'programs'),
+    Reflux.connect(EmployerStore, 'employers'),
+    Reflux.connect(StaffStore, 'staffs'),
+    Reflux.connect(MetaStore, 'meta'),
     Reflux.connect(PositionStore, 'positions'),
-    RenderLoadedMixin('jobOfferGroups', 'programs', 'positions', 'employers', 'staffs', 'meta')
+    RenderLoadedMixin('jobOfferGroups', 'programs', 'positions', 'employers', 'staffs', 'meta'),
   ],
 
   propTypes: {
@@ -43,27 +48,8 @@ let JobOfferGroupsIndex = React.createClass({
   },
 
   componentDidMount () {
-    this.joinTrailing(
-      JobOfferGroupStore,
-      ProgramStore,
-      EmployerStore,
-      StaffStore,
-      MetaStore,
-      this.setData
-    );
-
     JobOfferGroupActions.ajaxSearch(getQuery(), loadFromJobOfferGroups);
     PositionActions.ajaxLoad();
-  },
-
-  setData (jobOfferGroupData, programData, employerData, staffData, metaData) {
-    let jobOfferGroups = jobOfferGroupData[0];
-    let programs = programData[0];
-    let employers = employerData[0];
-    let staffs = staffData[0];
-    let meta = metaData[0];
-    let state = { jobOfferGroups, programs, employers, staffs, meta };
-    this.setState(state);
   },
 
   renderLoaded () {

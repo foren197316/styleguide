@@ -1,6 +1,5 @@
 /* @flow */
 'use strict';
-
 let React = require('react/addons');
 let Reflux = require('reflux');
 let actions = require('../actions');
@@ -11,6 +10,7 @@ let CheckBoxFilter = React.createFactory(require('./CheckBoxFilter'));
 let BooleanFilter = React.createFactory(require('./BooleanFilter'));
 let ExportButton = React.createFactory(require('./ExportButton'));
 let ProgramStore = require('../stores/ProgramStore');
+let { div } = React.DOM;
 
 module.exports = React.createClass({
   displayName: 'JobOfferParticipantAgreementsIndex',
@@ -22,20 +22,20 @@ module.exports = React.createClass({
     exportUrl: React.PropTypes.string.isRequired
   },
 
-  render: function () {
-    var jobOfferIds = this.state.jobOfferParticipantAgreements ?
-      this.state.jobOfferParticipantAgreements.mapAttribute('job_offer').mapAttribute('id') :
+  render () {
+    let jobOfferIds = this.state.jobOfferParticipantAgreements ?
+      this.state.jobOfferParticipantAgreements.map(o => o.job_offer.id) :
       [];
 
     return (
-      React.DOM.div({className: 'row'},
-        React.DOM.div({className: 'col-md-3'},
+      div({className: 'row'},
+        div({className: 'col-md-3'},
           SearchFilter({title: 'Search', searchOn: [['job_offer', 'participant', 'name'], ['job_offer', 'participant', 'email'], ['job_offer', 'participant', 'uuid']], actions: actions.JobOfferParticipantAgreementActions}),
           CheckBoxFilter({title: 'Program', store: ProgramStore, actions: actions.ProgramActions}),
           BooleanFilter({title: 'FileMaker', label: 'Not in FileMaker', action: JobOfferParticipantAgreementStore.toggleNotInFileMaker}),
           ExportButton({url: this.props.exportUrl, ids: jobOfferIds})
         ),
-        React.DOM.div({className: 'col-md-9'},
+        div({className: 'col-md-9'},
           JobOfferParticipantAgreementsPanel({jobOfferParticipantAgreements: this.state.jobOfferParticipantAgreements})
         )
       )

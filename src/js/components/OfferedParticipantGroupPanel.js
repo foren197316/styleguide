@@ -49,8 +49,9 @@ module.exports = React.createClass({displayName: 'OfferedParticipantGroupPanel',
     let node = this.getDOMNode();
 
     if (this.state.sendingJobOffer) {
-      JobOfferGroupStore.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id }, (response) => {
-        this.setState({ status: response.responseJSON.status });
+      JobOfferGroupStore.create({ offered_participant_group_id: this.props.offeredParticipantGroup.id })
+      .then(response => {
+        this.setState({ status: response.data.status });
       });
     } else if (this.state.rejecting) {
       actions.OfferedParticipantGroupActions.reject(this.props.offeredParticipantGroup.id, () => {
