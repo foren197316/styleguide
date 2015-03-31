@@ -37,7 +37,7 @@ let Pagination = React.createClass({
 
   onClick (page) {
     let queryWithPage = '';
-    let originalQuery = query.getQuery();
+    let originalQuery = query.getQuery() || '';
 
     if (this.props.anchor) {
       global.location = '#' + this.props.anchor;
@@ -49,7 +49,8 @@ let Pagination = React.createClass({
     if (/\bpage=/i.test(originalQuery)) {
       queryWithPage = originalQuery.replace(/&?\bpage=\d+\b/i, `&page=${page}`);
     } else {
-      queryWithPage = `${originalQuery}&page=${page}`;
+      originalQuery = originalQuery.length > 0 ? `${originalQuery}&` : '';
+      queryWithPage = `${originalQuery}page=${page}`;
     }
 
     let callbacks = (this.props.callbacks || []).concat([() => {
