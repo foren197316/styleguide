@@ -271,7 +271,10 @@ let OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
         React.DOM.form({className: 'panel panel-default participant-group-panel form-horizontal', role: 'form', onSubmit: this.handleSubmit},
           React.createElement(OnReviewParticipantGroupPanelHeading, {data: this.props.data}),
           React.createElement(OnReviewParticipantGroupPanelListGroup, {data: this.props.data, isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState}),
-          React.createElement(OnReviewParticipantGroupPanelFooter, {data: this.props.data, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.participantNames(), isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState})
+          React.createElement(OnReviewParticipantGroupPanelFooter, {data: this.props.data, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.participantNames(), isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState}),
+          React.createElement(ParticipantGroupPanelFooter, {name: ''},
+            React.DOM.div({}, `Put On Review by ${this.props.data.created_by_name}`)
+          )
         )
       );
     }
