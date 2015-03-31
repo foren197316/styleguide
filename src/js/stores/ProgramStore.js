@@ -6,6 +6,7 @@ let {
   loadFromOfferedParticipantGroups,
   loadFromJobOfferParticipantAgreements
 } = require('../actions');
+let nameSort = require('../util/name-sort');
 
 let ProgramStore = Reflux.createStore({
   resourceName: 'programs',
@@ -30,7 +31,7 @@ let ProgramStore = Reflux.createStore({
 
   extractProgramsFromResponse (data) {
     this.permission = true;
-    this.data = data.programs;
+    this.data = data.programs.sort(nameSort);
     this.trigger(this.data);
   },
 

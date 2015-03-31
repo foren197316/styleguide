@@ -9,6 +9,7 @@ let {
   loadFromJobListings,
   loadFromJobOfferGroups
 } = require('../actions');
+let nameSort = require('../util/name-sort');
 
 let EmployerStore = Reflux.createStore({
   resourceName: 'employers',
@@ -39,7 +40,7 @@ let EmployerStore = Reflux.createStore({
 
   extractEmployersFromResponse (data) {
     this.permission = true;
-    this.data = data.employers;
+    this.data = data.employers.sort(nameSort);
     this.trigger(this.data);
   },
 

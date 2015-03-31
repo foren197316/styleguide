@@ -2,6 +2,7 @@
 
 let Reflux = require('reflux');
 let { StaffActions, loadFromJobOfferGroups } = require('../actions');
+let nameSort = require('../util/name-sort');
 
 let StaffStore = Reflux.createStore({
   resourceName: 'staffs',
@@ -13,7 +14,7 @@ let StaffStore = Reflux.createStore({
 
   onLoadFromJobOfferGroups (data) {
     this.permission = true;
-    this.data = data.staffs;
+    this.data = data.staffs.sort(nameSort);
     this.trigger(this.data);
   },
 
