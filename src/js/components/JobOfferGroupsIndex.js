@@ -55,7 +55,7 @@ let JobOfferGroupsIndex = React.createClass({
   renderLoaded () {
     let { jobOfferGroups, programs, positions, employers, staffs, meta } = this.state;
     let formSending = this.linkState('formSending');
-    let recordName = 'Job Offer';
+    let recordName = 'Participant';
     let anchor = 'searchTop';
     let page = getCurrentPage();
     let pageCount = meta.pageCount;

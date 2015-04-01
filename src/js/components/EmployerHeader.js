@@ -19,7 +19,7 @@ let EmployerHeader = React.createClass({
     return (
       ParticipantGroupHeader({},
         span({className: 'pull-right text-muted'}, staff.name),
-        LinkToIf({name: employer.name, href: employer.href})
+        LinkToIf({name: employer.name, href: employer.url})
       )
     );
   }
