@@ -7,7 +7,7 @@ let {
   loadFromOfferedParticipantGroups,
   loadFromJobOfferParticipantAgreements,
   loadFromJobListings,
-  loadFromJobOfferGroups
+  loadFromOnReviewParticipantGroups
 } = require('../actions');
 let nameSort = require('../util/name-sort');
 
@@ -18,8 +18,8 @@ let EmployerStore = Reflux.createStore({
   init () {
     this.listenTo(loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
     this.listenTo(loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
-    this.listenTo(loadFromJobListings, this.extractEmployersFromResponse);
-    this.listenTo(loadFromJobOfferGroups, this.extractEmployersFromResponse);
+    this.listenTo(loadFromJobListings, this.extractFromData);
+    this.listenTo(loadFromOnReviewParticipantGroups, this.extractFromData);
   },
 
   onLoadFromOfferedParticipantGroups (data) {
@@ -38,7 +38,7 @@ let EmployerStore = Reflux.createStore({
     );
   },
 
-  extractEmployersFromResponse (data) {
+  extractFromData (data) {
     this.permission = true;
     this.data = data.employers.sort(nameSort);
     this.trigger(this.data);
