@@ -32,7 +32,6 @@ let AjaxSearchForm = React.createClass({
 
     let lastData = data.filter(datum => (datum != null)).join('&');
 
-    /* TODO: does this ever return true? */
     if (lastData === this.state.lastData) {
       return;
     }
