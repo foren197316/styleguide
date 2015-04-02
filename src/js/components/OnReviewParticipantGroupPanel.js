@@ -21,14 +21,16 @@ let OnReviewParticipantGroupPanelHeading = React.createClass({displayName: 'OnRe
   }
 });
 
-let OnReviewParticipantGroupPanelListGroup = React.createClass({displayName: 'OnReviewParticipantGroupPanelListGroup',
+let OnReviewParticipantGroupPanelListGroup = React.createClass({
+  displayName: 'OnReviewParticipantGroupPanelListGroup',
   mixins: [React.addons.LinkedStateMixin],
 
   propTypes: {
     draftJobOfferValidState: React.PropTypes.object.isRequired,
     isOfferingState: React.PropTypes.object.isRequired,
     isDecliningState: React.PropTypes.object.isRequired,
-    data: React.PropTypes.object.isRequired
+    data: React.PropTypes.object.isRequired,
+    positions: React.PropTypes.array.isRequired,
   },
 
   getInitialState: function () {
@@ -63,15 +65,17 @@ let OnReviewParticipantGroupPanelListGroup = React.createClass({displayName: 'On
   },
 
   render: function() {
-    var participantNodes = this.props.data.participants.map(function (participant, i) {
+    var participantNodes = this.props.data.participants.map((participant, i) => {
           if (this.props.isOfferingState.value) {
-            return ParticipantGroupParticipantOffering({validationState: this.linkState(this.stateName(i)), key: participant.id, data: participant});
+            console.log(participant);
+            let positions = this.props.positions.findById(participant.position_ids);
+            return ParticipantGroupParticipantOffering({validationState: this.linkState(this.stateName(i)), key: participant.id, data: participant, positions});
           } else if (this.props.isDecliningState.value) {
             return ParticipantGroupParticipantDeclining({key: participant.id, data: participant});
           } else {
             return ParticipantGroupParticipant({key: participant.id, participant: participant});
           }
-        }.bind(this));
+        });
 
     return (
       React.DOM.div({className: 'list-group'},
@@ -197,6 +201,13 @@ let OnReviewParticipantGroupPanelFooter = React.createClass({displayName: 'OnRev
 let OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewParticipantGroupPanel',
   mixins: [React.addons.LinkedStateMixin],
 
+  propTypes: {
+    data: React.PropTypes.object.isRequired,
+    employerId: React.PropTypes.number.isRequired,
+    employerName: React.PropTypes.string.isRequired,
+    positions: React.PropTypes.array.isRequired,
+  },
+
   getInitialState: function() {
     return {
       isOffering: false,
@@ -259,6 +270,8 @@ let OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
   },
 
   render: function() {
+    let { data, employerId, employerName, positions } = this.props;
+    let participantNames = this.participantNames();
     var isOfferingState         = this.linkState('isOffering'),
         isDecliningState        = this.linkState('isDeclining'),
         draftJobOfferValidState = this.linkState('draftJobOfferValid');
@@ -269,9 +282,9 @@ let OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
     } else {
       return (
         React.DOM.form({className: 'panel panel-default participant-group-panel form-horizontal', role: 'form', onSubmit: this.handleSubmit},
-          React.createElement(OnReviewParticipantGroupPanelHeading, {data: this.props.data}),
-          React.createElement(OnReviewParticipantGroupPanelListGroup, {data: this.props.data, isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState}),
-          React.createElement(OnReviewParticipantGroupPanelFooter, {data: this.props.data, employerId: this.props.employerId, employerName: this.props.employerName, participantNames: this.participantNames(), isOfferingState: isOfferingState, isDecliningState: isDecliningState, draftJobOfferValidState: draftJobOfferValidState}),
+          React.createElement(OnReviewParticipantGroupPanelHeading, {data}),
+          React.createElement(OnReviewParticipantGroupPanelListGroup, {data, positions, isOfferingState, isDecliningState, draftJobOfferValidState}),
+          React.createElement(OnReviewParticipantGroupPanelFooter, {data, employerId, employerName, participantNames, isOfferingState, isDecliningState, draftJobOfferValidState}),
           React.createElement(ParticipantGroupPanelFooter, {name: ''},
             React.DOM.div({}, `Put On Review by ${this.props.data.created_by_name}`)
           )

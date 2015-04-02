@@ -95,7 +95,7 @@ let ReservedParticipantGroupPanel = React.createFactory(React.createClass({
   }
 }));
 
-module.exports = React.createClass({
+let ReservedParticipantGroupPanels = React.createClass({
   displayName: 'ReservedParticipantGroupPanels',
   propTypes: {
     source: React.PropTypes.string.isRequired
@@ -107,7 +107,7 @@ module.exports = React.createClass({
     };
   },
 
-  componentDidMount() {
+  componentDidMount () {
     axios({
       url: this.props.source,
       method: 'get'
@@ -137,3 +137,5 @@ module.exports = React.createClass({
     }
   }
 });
+
+module.exports = ReservedParticipantGroupPanels;

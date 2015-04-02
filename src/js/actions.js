@@ -1,9 +1,9 @@
 /* @flow */
 'use strict';
 
-var Reflux = require('reflux');
-var genericStoreActions    = ['setData', 'ajaxLoad', 'filterByIds', 'forceTrigger', 'removeByIds', 'setSingleton', 'ajaxLoadSingleton'];
-var filterableStoreActions = ['search', 'resetSearch', 'dateFilter', 'ajaxSearch'];
+let Reflux = require('reflux');
+let genericStoreActions    = ['setData', 'ajaxLoad', 'filterByIds', 'forceTrigger', 'removeByIds', 'setSingleton', 'ajaxLoadSingleton'];
+let filterableStoreActions = ['search', 'resetSearch', 'dateFilter', 'ajaxSearch'];
 
 module.exports = {
   OfferedParticipantGroupActions: Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
@@ -12,6 +12,7 @@ module.exports = {
   InMatchingParticipantGroupActions: Reflux.createActions(genericStoreActions.concat(filterableStoreActions).concat(
     ['offer', 'toggleInternationalDriversLicense', 'togglePreviousParticipation']
   )),
+  OnReviewParticipantGroupActions: Reflux.createActions(genericStoreActions),
   JobListingActions: Reflux.createActions(genericStoreActions.concat(filterableStoreActions)),
   JobOfferGroupActions: Reflux.createActions(genericStoreActions.concat(filterableStoreActions)),
   ParticipantGroupNameActions: Reflux.createActions(genericStoreActions.concat(
@@ -38,5 +39,6 @@ module.exports = {
   loadFromJobOfferGroups: Reflux.createAction('loadFromJobOfferGroups'),
   loadFromOfferedParticipantGroups: Reflux.createAction('loadFromOfferedParticipantGroups'),
   loadFromJobOfferParticipantAgreements: Reflux.createAction('loadFromJobOfferParticipantAgreements'),
-  loadFromJobListings: Reflux.createAction('loadFromJobListings')
+  loadFromJobListings: Reflux.createAction('loadFromJobListings'),
+  loadFromOnReviewParticipantGroups: Reflux.createAction('loadFromOnReviewParticipantGroups')
 };

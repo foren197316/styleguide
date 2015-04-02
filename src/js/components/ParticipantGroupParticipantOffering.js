@@ -104,13 +104,20 @@ var ParticipantGroupParticipantOfferingFormOvertimeRate = React.createClass({dis
   }
 });
 
-var ParticipantGroupParticipantOffering = React.createClass({displayName: 'ParticipantGroupParticipantOffering',
+var ParticipantGroupParticipantOffering = React.createClass({
+  displayName: 'ParticipantGroupParticipantOffering',
+
+  propTypes: {
+    positions: React.PropTypes.array.isRequired,
+  },
+
   render: function() {
+    let { positions } = this.props;
     return (
       React.createElement(ParticipantGroupParticipant, {participant: this.props.data},
         React.createElement(ValidatingFormGroup, {validationState: this.props.validationState, resourceId: this.props.data.id},
           React.createElement(ReactBootstrap.Input, {name: draftJobOfferFormName(this.props.data.id, 'participant_id'), id: draftJobOfferFormId(this.props.data.id, 'participant_id'), defaultValue: this.props.data.id, type: 'hidden'}),
-          React.createElement(DraftJobOfferPositionSelect, {name: draftJobOfferFormName(this.props.data.id, 'position_id'), id: draftJobOfferFormId(this.props.data.id, 'position_id'), positions: this.props.data.positions}),
+          React.createElement(DraftJobOfferPositionSelect, {name: draftJobOfferFormName(this.props.data.id, 'position_id'), id: draftJobOfferFormId(this.props.data.id, 'position_id'), positions}),
           React.createElement(DraftJobOfferWageInput, {name: draftJobOfferFormName(this.props.data.id, 'wage'), id: draftJobOfferFormId(this.props.data.id, 'wage')}),
           React.createElement(ParticipantGroupParticipantOfferingFormTipped, {name: draftJobOfferFormName(this.props.data.id, 'tipped'), id: draftJobOfferFormId(this.props.data.id, 'tipped')}),
           React.createElement(DraftJobOfferHoursInput, {name: draftJobOfferFormName(this.props.data.id, 'hours'), id: draftJobOfferFormId(this.props.data.id, 'hours')}),

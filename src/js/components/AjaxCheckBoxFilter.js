@@ -12,7 +12,14 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
     title: React.PropTypes.string.isRequired,
     fieldName: React.PropTypes.string.isRequired,
     submit: React.PropTypes.func.isRequired,
-    store: React.PropTypes.object.isRequired
+    store: React.PropTypes.object.isRequired,
+    predicate: React.PropTypes.oneOf(['eq_any', 'in_overlap']),
+  },
+
+  getDefaultProps () {
+    return {
+      predicate: 'eq_any'
+    };
   },
 
   getInitialState: function () {
@@ -50,7 +57,7 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
   },
 
   searchField: function () {
-    return this.props.fieldName + '_eq_any';
+    return `${this.props.fieldName}_${this.props.predicate}`;
   },
 
   query: function () {
