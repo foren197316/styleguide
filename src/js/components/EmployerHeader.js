@@ -1,23 +1,28 @@
 /* @flow */
 'use strict';
+let React = require('react/addons');
+let LinkToIf = React.createFactory(require('./LinkToIf'));
+let ParticipantGroupHeader = React.createFactory(require('./ParticipantGroupHeader'));
+let { span } = React.DOM;
 
-var React = require('react/addons');
-var StaffStore = require('../stores/StaffStore');
-var LinkToIf = require('./LinkToIf');
-var ParticipantGroupHeader = require('./ParticipantGroupHeader');
-
-module.exports = React.createClass({displayName: 'EmployerHeader',
+let EmployerHeader = React.createClass({
+  displayName: 'EmployerHeader',
   propTypes: {
-    employer: React.PropTypes.object.isRequired
+    employer: React.PropTypes.object.isRequired,
+    staff: React.PropTypes.object,
   },
 
-  render: function () {
-    var employer = this.props.employer;
-    var staff = StaffStore.findById(employer.staff_id) || {};
+  render () {
+    let { employer, staff } = this.props;
+    staff = staff || {};
 
-    return React.createElement(ParticipantGroupHeader, {},
-      React.DOM.span({className: 'pull-right text-muted'}, staff.name),
-      React.createElement(LinkToIf, {name: employer.name, href: employer.href})
+    return (
+      ParticipantGroupHeader({},
+        span({className: 'pull-right text-muted'}, staff.name),
+        LinkToIf({name: employer.name, href: employer.url})
+      )
     );
   }
 });
+
+module.exports = EmployerHeader;

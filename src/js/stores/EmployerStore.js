@@ -1,52 +1,51 @@
 /* @flow */
 'use strict';
-
 let Reflux = require('reflux');
-let actions = require('../actions');
+let {
+  EmployerActions,
+  StaffActions,
+  loadFromOfferedParticipantGroups,
+  loadFromJobOfferParticipantAgreements,
+  loadFromJobListings,
+  loadFromJobOfferGroups
+} = require('../actions');
+let nameSort = require('../util/name-sort');
 
 let EmployerStore = Reflux.createStore({
   resourceName: 'employers',
-  listenables: actions.EmployerActions,
+  listenables: EmployerActions,
 
   init () {
-    this.listenTo(actions.loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
-    this.listenTo(actions.loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
-    this.listenTo(actions.loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
-    this.listenTo(actions.loadFromJobListings, this.onLoadFromJobListings);
-  },
-
-  onLoadFromJobOfferGroups (data) {
-    let jobOfferGroups = data.job_offer_groups;
-    actions.EmployerActions.ajaxLoad(
-      jobOfferGroups.mapAttribute('employer_id'),
-      actions.StaffActions.loadFromEmployer
-    );
+    this.listenTo(loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
+    this.listenTo(loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
+    this.listenTo(loadFromJobListings, this.extractEmployersFromResponse);
+    this.listenTo(loadFromJobOfferGroups, this.extractEmployersFromResponse);
   },
 
   onLoadFromOfferedParticipantGroups (data) {
     let offeredParticipantGroups = data.offered_participant_groups;
-    actions.EmployerActions.ajaxLoad(
+    EmployerActions.ajaxLoad(
       offeredParticipantGroups.mapAttribute('employer_id'),
-      actions.StaffActions.loadFromEmployer
+      StaffActions.loadFromEmployer
     );
   },
 
   onLoadFromJobOfferParticipantAgreements (data) {
     let jobOfferParticipantAgreements = data.job_offer_participant_agreements;
-    actions.EmployerActions.ajaxLoad(
+    EmployerActions.ajaxLoad(
       jobOfferParticipantAgreements.mapAttribute('job_offer').mapAttribute('employer_id'),
-      actions.StaffActions.loadFromEmployer
+      StaffActions.loadFromEmployer
     );
   },
 
-  onLoadFromJobListings (data) {
-    let employers = data.employers;
-    this.data = employers;
+  extractEmployersFromResponse (data) {
+    this.permission = true;
+    this.data = data.employers.sort(nameSort);
     this.trigger(this.data);
   },
 
   onUpdateOnReviewCount (employerId, enrollmentId, count) {
-    var updateEnrollmentOnReviewCount = (enrollment) => {
+    let updateEnrollmentOnReviewCount = (enrollment) => {
       if (enrollment.id === enrollmentId) {
         enrollment.on_review_count += count;
       }

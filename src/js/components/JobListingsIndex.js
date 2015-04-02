@@ -64,7 +64,7 @@ let JobListingsIndex = React.createClass({
     let recordCount = meta.recordCount;
     let page = query.getCurrentPage();
     let formSending = this.linkState('formSending');
-    let recordName = 'Job Listings';
+    let recordName = 'Job Listing';
     let callbacks = [loadFromJobListings];
 
     return (

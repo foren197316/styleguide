@@ -1,16 +1,15 @@
 'use strict';
+let Reflux = require('reflux');
+let { JobOfferSignedActions } = require('../actions');
 
-var Reflux = require('reflux');
-var JobOfferSignedActions = require('../actions').JobOfferSignedActions;
-
-var JobOfferSignedStore = Reflux.createStore({
+let JobOfferSignedStore = Reflux.createStore({
   listenables: JobOfferSignedActions,
   permission: true,
 
-  init: function () {
+  init () {
     this.data = [
-      { id: 'All Signed', name: 'All Signed' },
-      { id: 'Any Unsigned', name: 'Any Unsigned' }
+      { id: 'true', name: 'All Signed', value: '1' },
+      { id: 'false', name: 'Any Unsigned', value: '1' }
     ];
   }
 });

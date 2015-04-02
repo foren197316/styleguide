@@ -32,7 +32,8 @@ let query = require('../query');
 
 let { div, a } = React.DOM;
 
-var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchingParticipantGroupsIndex',
+var InMatchingParticipantGroupsIndex = React.createClass({
+  displayName: 'InMatchingParticipantGroupsIndex',
   mixins: [
     Reflux.connect(InMatchingParticipantGroupStore, 'inMatchingParticipantGroups'),
     Reflux.connect(EmployerStore, 'employer'),
@@ -73,7 +74,7 @@ var InMatchingParticipantGroupsIndex = React.createClass({displayName: 'InMatchi
     let pageCount = this.state.meta.pageCount;
     let recordCount = this.state.meta.recordCount;
     let formSendingLink = this.linkState('formSending');
-    let recordName = 'Participants';
+    let recordName = 'Participant';
     let anchor = 'searchTop';
 
     return (
