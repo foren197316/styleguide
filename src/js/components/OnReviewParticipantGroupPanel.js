@@ -22,14 +22,18 @@ let trackIntercom = (trackEventName, employer, participants) => {
 let OnReviewParticipantGroupPanelHeading = React.createClass({
   displayName: 'OnReviewParticipantGroupPanelHeading',
   propTypes: {
-    onReviewParticipantGroup: React.PropTypes.object.isRequired
+    onReviewParticipantGroup: React.PropTypes.object.isRequired,
+    employer: React.PropTypes.object.isRequired,
   },
 
   render () {
     return (
       div({className: 'panel-heading text-right'},
         h1({className: 'panel-title'},
-          'On Review until ', strong({}, this.props.onReviewParticipantGroup.expires_on)
+          'On Review with ',
+          strong({}, this.props.employer.name),
+          ' until ',
+          strong({}, this.props.onReviewParticipantGroup.expires_on)
         )
       )
     );
@@ -193,7 +197,7 @@ let OnReviewParticipantGroupPanelFooter = React.createClass({
     isDecliningState: React.PropTypes.object.isRequired,
   },
 
-  render: function() {
+  render () {
     let { onReviewParticipantGroup, employer, isOfferingState, isDecliningState, draftJobOfferValidState } = this.props;
     let { participants } = onReviewParticipantGroup;
     let footerName = onReviewParticipantGroup.name + (onReviewParticipantGroup.program != null ? ' - ' + onReviewParticipantGroup.program.name : '');
@@ -215,26 +219,26 @@ let OnReviewParticipantGroupPanelFooter = React.createClass({
       } else if (isDecliningState.value) {
         return span({}, 'Are you sure you want to decline this participant?');
       }
-      return span();
     })();
 
     return (
-      React.createElement(ParticipantGroupPanelFooter, {name: footerName},
+      ParticipantGroupPanelFooter({name: footerName},
         buttonGroup,
-        legalese
+        legalese,
+        this.props.children
       )
     );
   }
 });
 
-let OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewParticipantGroupPanel',
+let OnReviewParticipantGroupPanel = React.createClass({
+  displayName: 'OnReviewParticipantGroupPanel',
   mixins: [React.addons.LinkedStateMixin],
 
   propTypes: {
     positions: React.PropTypes.array.isRequired,
     onReviewParticipantGroup: React.PropTypes.object.isRequired,
     employer: React.PropTypes.object.isRequired,
-    participants: React.PropTypes.array.isRequired,
   },
 
   getInitialState: function() {
@@ -248,12 +252,13 @@ let OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
   handleSubmit: function(event) {
     event.preventDefault();
 
-    let { onReviewParticipantGroup, employer, participants } = this.props;
+    let { onReviewParticipantGroup, employer } = this.props;
+    let { participants } = onReviewParticipantGroup;
 
-    var form = $(event.target),
-        data = null,
-        trackEventName = null,
-        url = null;
+    let form = $(event.target);
+    let data = null;
+    let trackEventName = null;
+    let url = null;
 
     if (this.state.isOffering) {
       url = '/offered_participant_groups.json';
@@ -289,22 +294,21 @@ let OnReviewParticipantGroupPanel = React.createClass({displayName: 'OnReviewPar
     });
   },
 
-  render: function() {
+  render () {
     let { onReviewParticipantGroup, employer, positions } = this.props;
     let isOfferingState = this.linkState('isOffering');
     let isDecliningState = this.linkState('isDeclining');
     let draftJobOfferValidState = this.linkState('draftJobOfferValid');
 
     if (this.state.status) {
-      var status = this.state.status;
-      return React.createElement(Alert, {type: status.type, message: status.message, instructions: status.instructions, actionTitle: status.action.title, actionUrl: status.action.url});
+      let { action, type, message, instructions } = this.state.status;
+      return React.createElement(Alert, {type, message, instructions, actionTitle: action.title, actionUrl: action.url});
     } else {
       return (
         form({className: 'panel panel-default participant-group-panel form-horizontal', role: 'form', onSubmit: this.handleSubmit},
-          React.createElement(OnReviewParticipantGroupPanelHeading, {onReviewParticipantGroup}),
+          React.createElement(OnReviewParticipantGroupPanelHeading, {onReviewParticipantGroup, employer}),
           React.createElement(OnReviewParticipantGroupPanelListGroup, {onReviewParticipantGroup, positions, isOfferingState, isDecliningState, draftJobOfferValidState}),
-          React.createElement(OnReviewParticipantGroupPanelFooter, {onReviewParticipantGroup, employer, isOfferingState, isDecliningState, draftJobOfferValidState}),
-          React.createElement(ParticipantGroupPanelFooter, {name: ''},
+          React.createElement(OnReviewParticipantGroupPanelFooter, {onReviewParticipantGroup, employer, isOfferingState, isDecliningState, draftJobOfferValidState},
             div({}, `Put On Review by ${onReviewParticipantGroup.created_by_name}`)
           )
         )
