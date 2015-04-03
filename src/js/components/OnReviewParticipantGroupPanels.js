@@ -33,8 +33,24 @@ let OnReviewParticipantGroupPanels = React.createClass({
   },
 
   componentDidMount () {
-    OnReviewParticipantGroupActions.ajaxSearch(getQuery(), loadFromOnReviewParticipantGroups);
-    PositionActions.ajaxLoad();
+    if (!this.state.onReviewParticipantGroups) {
+      let query = getQuery();
+      if (query) {
+        OnReviewParticipantGroupActions.ajaxSearch(getQuery(), loadFromOnReviewParticipantGroups);
+      } else {
+        let {
+          on_review_participant_groups:onReviewParticipantGroups,
+          employers,
+          meta
+        } = (global.INITIAL_DATA || {});
+
+        OnReviewParticipantGroupStore.set(onReviewParticipantGroups);
+        EmployerStore.set(employers);
+        MetaStore.set(meta);
+      }
+
+      PositionActions.ajaxLoad();
+    }
   },
 
   renderLoaded () {

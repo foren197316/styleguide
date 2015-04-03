@@ -10,12 +10,6 @@ let Pagination = React.createFactory(require('./Pagination'));
 let ReloadingComponent = require('./ReloadingComponent');
 let query = require('../query');
 let { div } = React.DOM;
-let initialData = query.getQuery() ? {} : (global.INITIAL_DATA || {});
-let {
-  job_listings:initialJobListings,
-  meta:initialMeta,
-  employers:initialEmployers
-} = initialData;
 
 let JobListingStore = require('../stores/JobListingStore');
 let EmployerStore = require('../stores/EmployerStore');
@@ -43,6 +37,12 @@ let JobListingsIndex = React.createClass({
       if (query.getQuery()) {
         JobListingActions.ajaxSearch(query.getQuery(), loadFromJobListings);
       } else {
+        let {
+          job_listings:initialJobListings,
+          meta:initialMeta,
+          employers:initialEmployers
+        } = (global.INITIAL_DATA || {});
+
         JobListingStore.set(initialJobListings);
         EmployerStore.set(initialEmployers);
         MetaStore.set(initialMeta);
