@@ -9,6 +9,7 @@ let ParticipantGroupPanelFooter = React.createFactory(require('./ParticipantGrou
 let ParticipantGroupParticipant = React.createFactory(require('./ParticipantGroupParticipant'));
 let ParticipantGroupParticipantDeclining = React.createFactory(require('./ParticipantGroupParticipantDeclining'));
 let ParticipantGroupParticipantOffering = React.createFactory(require('./ParticipantGroupParticipantOffering'));
+let LinkToIf = React.createFactory(require('./LinkToIf'));
 let { div, h1, strong, button, input, small, span, form } = React.DOM;
 
 let trackIntercom = (trackEventName, employer, participants) => {
@@ -27,11 +28,12 @@ let OnReviewParticipantGroupPanelHeading = React.createClass({
   },
 
   render () {
+    let { name, href } = this.props.employer;
     return (
       div({className: 'panel-heading text-right'},
         h1({className: 'panel-title'},
           'On Review with ',
-          strong({}, this.props.employer.name),
+          LinkToIf({name, href}),
           ' until ',
           strong({}, this.props.onReviewParticipantGroup.expires_on)
         )
