@@ -82,7 +82,8 @@ let OnReviewParticipantGroupPanels = React.createClass({
           AjaxSearchForm({ formSending, actions: OnReviewParticipantGroupActions, callbacks },
             AjaxSearchFilter({ title: 'Search', searchOn }),
             AjaxCheckBoxFilter({title: 'Program', store: ProgramStore, fieldName: 'participants_program_id'}),
-            AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'employer_staff_id', store: StaffStore})
+            AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'employer_staff_id', store: StaffStore}),
+            AjaxCheckBoxFilter({title: 'Employer', fieldName: 'employer_id', store: EmployerStore})
           )
         ),
         div({className: 'col-md-9'},
