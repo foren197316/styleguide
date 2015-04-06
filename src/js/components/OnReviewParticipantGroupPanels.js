@@ -9,11 +9,17 @@ let OnReviewParticipantGroupPanel = React.createFactory(require('./OnReviewParti
 let OnReviewParticipantGroupStore = require('../stores/OnReviewParticipantGroupStore');
 let AjaxSearchForm = React.createFactory(require('./AjaxSearchForm'));
 let AjaxSearchFilter = React.createFactory(require('./AjaxSearchFilter'));
+let AjaxCheckBoxFilter = React.createFactory(require('./AjaxCheckBoxFilter'));
 let EmployerStore = require('../stores/EmployerStore');
 let PositionStore = require('../stores/PositionStore');
 let MetaStore = require('../stores/MetaStore');
+let ProgramStore = require('../stores/ProgramStore');
 let { RenderLoadedMixin } = require('../mixins');
-let { OnReviewParticipantGroupActions, PositionActions, loadFromOnReviewParticipantGroups } = require('../actions');
+let {
+  OnReviewParticipantGroupActions,
+  PositionActions,
+  loadFromOnReviewParticipantGroups
+} = require('../actions');
 let { getQuery, getCurrentPage } = require('../query');
 let { div, a } = React.DOM;
 
@@ -43,12 +49,14 @@ let OnReviewParticipantGroupPanels = React.createClass({
         let {
           on_review_participant_groups:onReviewParticipantGroups,
           employers,
-          meta
+          meta,
+          programs
         } = (global.INITIAL_DATA || {});
 
         OnReviewParticipantGroupStore.set(onReviewParticipantGroups);
         EmployerStore.set(employers);
         MetaStore.set(meta);
+        ProgramStore.set(programs);
       }
 
       PositionActions.ajaxLoad();
@@ -69,7 +77,8 @@ let OnReviewParticipantGroupPanels = React.createClass({
       div({className: 'row'},
         div({className: 'col-md-3'},
           AjaxSearchForm({ formSending, actions: OnReviewParticipantGroupActions, callbacks },
-            AjaxSearchFilter({ title: 'Search', searchOn })
+            AjaxSearchFilter({ title: 'Search', searchOn }),
+            AjaxCheckBoxFilter({title: 'Program', store: ProgramStore, fieldName: 'participants_program_id'})
           )
         ),
         div({className: 'col-md-9'},

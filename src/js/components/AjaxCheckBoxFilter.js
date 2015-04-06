@@ -3,9 +3,10 @@
 
 var React = require('react/addons');
 var $ = require('jquery');
-var UrlQueryMixin = require('../mixins').UrlQueryMixin;
+var { UrlQueryMixin } = require('../mixins');
 
-module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
+let AjaxCheckBoxFilter = React.createClass({
+  displayName: 'AjaxCheckBoxFilter',
   mixins: [UrlQueryMixin],
 
   propTypes: {
@@ -104,3 +105,5 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
     return null;
   }
 });
+
+module.exports = AjaxCheckBoxFilter;
