@@ -15,6 +15,7 @@ let EnglishLevelStore = require('../stores/EnglishLevelStore');
 let GenderStore = require('../stores/GenderStore');
 let InMatchingParticipantGroupStore = require('../stores/InMatchingParticipantGroupStore');
 let MetaStore = require('../stores/MetaStore');
+let LoadingStore = require('../stores/LoadingStore');
 let ParticipantGroupNameStore = require('../stores/ParticipantGroupNameStore');
 let PositionStore = require('../stores/PositionStore');
 let ProgramStore = require('../stores/ProgramStore');
@@ -39,14 +40,16 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     Reflux.connect(EmployerStore, 'employer'),
     Reflux.connect(ProgramStore, 'programs'),
     Reflux.connect(MetaStore, 'meta'),
+    Reflux.connect(LoadingStore, 'isLoading'),
     RenderLoadedMixin('inMatchingParticipantGroups', 'employer', 'programs', 'meta'),
-    React.addons.LinkedStateMixin
   ],
 
   noResultsMessage: 'There are currently no participants available who match your criteria. Check back soon!',
 
   getInitialState () {
-    return { formSending: false };
+    return {
+      isLoading: false
+    };
   },
 
   componentDidMount () {
@@ -73,14 +76,13 @@ var InMatchingParticipantGroupsIndex = React.createClass({
     let page = query.getCurrentPage();
     let pageCount = this.state.meta.pageCount;
     let recordCount = this.state.meta.recordCount;
-    let formSendingLink = this.linkState('formSending');
     let recordName = 'Participant';
     let anchor = 'searchTop';
 
     return (
       div({className: 'row'},
         div({className: 'col-md-3'},
-          AjaxSearchForm({ actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink },
+          AjaxSearchForm({ actions: actions.InMatchingParticipantGroupActions },
             AjaxSearchFilter({title: 'Search', searchOn: 'name'}),
             AjaxCheckBoxFilter({title: 'Program', fieldName: 'program_id', store: ProgramStore}),
             AjaxCustomCheckBoxFilter({title: 'Age at Arrival', fieldName: 'age_at_arrival', store: AgeAtArrivalStore}),
@@ -97,37 +99,30 @@ var InMatchingParticipantGroupsIndex = React.createClass({
         div({className: 'col-md-9'},
           a({name: anchor}),
           (() => {
-            if (this.state.formSending) {
+            if (this.state.isLoading) {
               return Spinner();
             } else if (this.state.inMatchingParticipantGroups.length > 0) {
               return (
                 div({},
                   div({className: 'row'},
                     div({className: 'col-md-12'},
-                      Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
+                      Pagination({ pageCount, recordCount, page, actions: actions.InMatchingParticipantGroupActions, recordName })
                     )
                   ),
                   div({className: 'row'},
                     div({className: 'col-md-12'},
                       div({id: 'participant-group-panels'},
-                        this.state.inMatchingParticipantGroups.map(inMatchingParticipantGroup => {
-                          var program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
-                          var enrollment = employer.enrollments.findById(program.id, 'program_id');
-
-                          return InMatchingParticipantGroupPanel({
-                            employer: employer,
-                            enrollment: enrollment,
-                            inMatchingParticipantGroup: inMatchingParticipantGroup,
-                            program: program,
-                            key: inMatchingParticipantGroup.id
-                          });
+                        this.state.inMatchingParticipantGroups.map((inMatchingParticipantGroup, key) => {
+                          let program = this.state.programs.findById(inMatchingParticipantGroup.participants[0].program_id);
+                          let enrollment = employer.enrollments.findById(program.id, 'program_id');
+                          return InMatchingParticipantGroupPanel({ employer, enrollment, inMatchingParticipantGroup, program, key });
                         })
                       )
                     )
                   ),
                   div({className: 'row'},
                     div({className: 'col-md-12'},
-                      Pagination({ pageCount: pageCount, recordCount: recordCount, page: page, anchor: anchor, actions: actions.InMatchingParticipantGroupActions, formSending: formSendingLink, recordName: recordName })
+                      Pagination({ pageCount, recordCount, page, anchor, actions: actions.InMatchingParticipantGroupActions, recordName })
                     )
                   )
                 )
