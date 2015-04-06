@@ -5,7 +5,11 @@ let CreatedByUserTypeStore = Reflux.createStore({
   permission: true,
 
   init () {
-    this.data = ['Coordinator', 'Participant', 'Employee'].map(type => ({ id: type, name: type }));
+    this.data = [
+      { id: 'Staff', name: 'Coordinator' },
+      { id: 'Participant', name: 'Participant' },
+      { id: 'Employee', name: 'Employer' },
+    ];
     this.trigger(this.data);
   }
 });
