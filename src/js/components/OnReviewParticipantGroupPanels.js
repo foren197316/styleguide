@@ -29,7 +29,6 @@ let { div, a } = React.DOM;
 let OnReviewParticipantGroupPanels = React.createClass({
   displayName: 'OnReviewParticipantGroupPanels',
   mixins: [
-    React.addons.LinkedStateMixin,
     Reflux.connect(OnReviewParticipantGroupStore, 'onReviewParticipantGroups'),
     Reflux.connect(EmployerStore, 'employers'),
     Reflux.connect(PositionStore, 'positions'),

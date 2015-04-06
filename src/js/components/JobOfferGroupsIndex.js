@@ -20,6 +20,7 @@ let PositionStore = require('../stores/PositionStore');
 let EmployerStore = require('../stores/EmployerStore');
 let MetaStore = require('../stores/MetaStore');
 let StaffStore = require('../stores/StaffStore');
+let LoadingStore = require('../stores/LoadingStore');
 let { RenderLoadedMixin } = require('../mixins');
 let { getQuery, getCurrentPage } = require('../query');
 let { div, a } = React.DOM;
@@ -27,13 +28,13 @@ let { div, a } = React.DOM;
 let JobOfferGroupsIndex = React.createClass({
   displayName: 'JobOfferGroupsIndex',
   mixins: [
-    React.addons.LinkedStateMixin,
     Reflux.connect(JobOfferGroupStore, 'jobOfferGroups'),
     Reflux.connect(ProgramStore, 'programs'),
     Reflux.connect(EmployerStore, 'employers'),
     Reflux.connect(StaffStore, 'staffs'),
     Reflux.connect(MetaStore, 'meta'),
     Reflux.connect(PositionStore, 'positions'),
+    Reflux.connect(LoadingStore, 'isLoading'),
     RenderLoadedMixin('jobOfferGroups', 'programs', 'positions', 'employers', 'staffs', 'meta'),
   ],
 
@@ -43,7 +44,7 @@ let JobOfferGroupsIndex = React.createClass({
 
   getInitialState () {
     return {
-      formSending: false
+      isLoading: false
     };
   },
 
@@ -53,8 +54,7 @@ let JobOfferGroupsIndex = React.createClass({
   },
 
   renderLoaded () {
-    let { jobOfferGroups, programs, positions, employers, staffs, meta } = this.state;
-    let formSending = this.linkState('formSending');
+    let { jobOfferGroups, programs, positions, employers, staffs, meta, isLoading } = this.state;
     let recordName = 'Participant';
     let anchor = 'searchTop';
     let page = getCurrentPage();
@@ -68,7 +68,7 @@ let JobOfferGroupsIndex = React.createClass({
     return (
       div({className: 'row'},
         div({className: 'col-md-3'},
-          AjaxSearchForm({ actions: JobOfferGroupActions, formSending, callbacks },
+          AjaxSearchForm({ actions: JobOfferGroupActions, callbacks },
             AjaxSearchFilter({title: 'Search', searchOn: 'job_offers_participant_name'}),
             AjaxCustomCheckBoxFilter({title: 'Participant Agreement', fieldName: 'all_signed', store: JobOfferSignedStore}),
             AjaxCheckBoxFilter({title: 'Program', fieldName: 'job_offers_participant_program_id', store: ProgramStore}),
@@ -80,10 +80,10 @@ let JobOfferGroupsIndex = React.createClass({
         div({className: 'col-md-9'},
           div({id: 'participant-group-panels'},
             a({ name: anchor }),
-            ReloadingComponent({ loadingLink: formSending },
+            ReloadingComponent({ isLoading },
               div({className: 'row'},
                 div({className: 'col-md-12'},
-                  Pagination({ pageCount, recordCount, page, actions: JobOfferGroupActions, formSending, recordName, callbacks })
+                  Pagination({ pageCount, recordCount, page, actions: JobOfferGroupActions, recordName, callbacks })
                 )
               ),
               jobOfferGroups.map(jobOfferGroup => {
@@ -95,7 +95,7 @@ let JobOfferGroupsIndex = React.createClass({
               }),
               div({className: 'row'},
                 div({className: 'col-md-12'},
-                  Pagination({ pageCount, recordCount, page, anchor, actions: JobOfferGroupActions, formSending, recordName, callbacks })
+                  Pagination({ pageCount, recordCount, page, anchor, actions: JobOfferGroupActions, recordName, callbacks })
                 )
               )
             )
