@@ -12,6 +12,7 @@ let AjaxSearchFilter = React.createFactory(require('./AjaxSearchFilter'));
 let AjaxCheckBoxFilter = React.createFactory(require('./AjaxCheckBoxFilter'));
 let EmployerStore = require('../stores/EmployerStore');
 let PositionStore = require('../stores/PositionStore');
+let CreatedByUserTypeStore = require('../stores/CreatedByUserTypeStore');
 let MetaStore = require('../stores/MetaStore');
 let ProgramStore = require('../stores/ProgramStore');
 let StaffStore = require('../stores/StaffStore');
@@ -83,7 +84,8 @@ let OnReviewParticipantGroupPanels = React.createClass({
             AjaxSearchFilter({ title: 'Search', searchOn }),
             AjaxCheckBoxFilter({title: 'Program', store: ProgramStore, fieldName: 'participants_program_id'}),
             AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'employer_staff_id', store: StaffStore}),
-            AjaxCheckBoxFilter({title: 'Employer', fieldName: 'employer_id', store: EmployerStore})
+            AjaxCheckBoxFilter({title: 'Employer', fieldName: 'employer_id', store: EmployerStore}),
+            AjaxCheckBoxFilter({title: 'Created By User Type', fieldName: 'created_by_type', store: CreatedByUserTypeStore})
           )
         ),
         div({className: 'col-md-9'},
