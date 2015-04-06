@@ -14,6 +14,7 @@ let EmployerStore = require('../stores/EmployerStore');
 let PositionStore = require('../stores/PositionStore');
 let MetaStore = require('../stores/MetaStore');
 let ProgramStore = require('../stores/ProgramStore');
+let StaffStore = require('../stores/StaffStore');
 let { RenderLoadedMixin } = require('../mixins');
 let {
   OnReviewParticipantGroupActions,
@@ -50,13 +51,15 @@ let OnReviewParticipantGroupPanels = React.createClass({
           on_review_participant_groups:onReviewParticipantGroups,
           employers,
           meta,
-          programs
+          programs,
+          staffs
         } = (global.INITIAL_DATA || {});
 
         OnReviewParticipantGroupStore.set(onReviewParticipantGroups);
         EmployerStore.set(employers);
         MetaStore.set(meta);
         ProgramStore.set(programs);
+        StaffStore.set(staffs);
       }
 
       PositionActions.ajaxLoad();
@@ -78,7 +81,8 @@ let OnReviewParticipantGroupPanels = React.createClass({
         div({className: 'col-md-3'},
           AjaxSearchForm({ formSending, actions: OnReviewParticipantGroupActions, callbacks },
             AjaxSearchFilter({ title: 'Search', searchOn }),
-            AjaxCheckBoxFilter({title: 'Program', store: ProgramStore, fieldName: 'participants_program_id'})
+            AjaxCheckBoxFilter({title: 'Program', store: ProgramStore, fieldName: 'participants_program_id'}),
+            AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'employer_staff_id', store: StaffStore})
           )
         ),
         div({className: 'col-md-9'},
