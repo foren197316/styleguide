@@ -6,9 +6,9 @@ let CreatedByUserTypeStore = Reflux.createStore({
 
   init () {
     this.data = [
+      { id: 'Staff', name: 'Coordinator' },
       { id: 'Employee', name: 'Employer' },
       { id: 'Participant', name: 'Participant' },
-      { id: 'Staff', name: 'Coordinator' },
     ];
     this.trigger(this.data);
   }
