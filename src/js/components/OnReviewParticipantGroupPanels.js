@@ -16,6 +16,7 @@ let CreatedByUserTypeStore = require('../stores/CreatedByUserTypeStore');
 let MetaStore = require('../stores/MetaStore');
 let ProgramStore = require('../stores/ProgramStore');
 let StaffStore = require('../stores/StaffStore');
+let LoadingStore = require('../stores/LoadingStore');
 let { RenderLoadedMixin } = require('../mixins');
 let {
   OnReviewParticipantGroupActions,
@@ -33,12 +34,13 @@ let OnReviewParticipantGroupPanels = React.createClass({
     Reflux.connect(EmployerStore, 'employers'),
     Reflux.connect(PositionStore, 'positions'),
     Reflux.connect(MetaStore, 'meta'),
+    Reflux.connect(LoadingStore, 'isLoading'),
     RenderLoadedMixin('onReviewParticipantGroups', 'employers', 'positions', 'meta')
   ],
 
   getInitialState () {
     return {
-      formSending: false
+      isLoading: false
     };
   },
 
@@ -68,8 +70,7 @@ let OnReviewParticipantGroupPanels = React.createClass({
   },
 
   renderLoaded () {
-    let { positions, employers, meta, onReviewParticipantGroups } = this.state;
-    let formSending = this.linkState('formSending');
+    let { positions, employers, meta, onReviewParticipantGroups, isLoading } = this.state;
     let recordName = 'Participant';
     let anchor = 'searchTop';
     let page = getCurrentPage();
@@ -80,7 +81,7 @@ let OnReviewParticipantGroupPanels = React.createClass({
     return (
       div({className: 'row'},
         div({className: 'col-md-3'},
-          AjaxSearchForm({ formSending, actions: OnReviewParticipantGroupActions, callbacks },
+          AjaxSearchForm({ actions: OnReviewParticipantGroupActions, callbacks },
             AjaxSearchFilter({ title: 'Search', searchOn }),
             AjaxCheckBoxFilter({title: 'Program', store: ProgramStore, fieldName: 'participants_program_id'}),
             AjaxCheckBoxFilter({title: 'Coordinator', fieldName: 'employer_staff_id', store: StaffStore}),
@@ -91,10 +92,10 @@ let OnReviewParticipantGroupPanels = React.createClass({
         div({className: 'col-md-9'},
           div({id: 'participant-group-panels'},
             a({ name: anchor }),
-            ReloadingComponent({ loadingLink: formSending },
+            ReloadingComponent({ isLoading },
               div({className: 'row'},
                 div({className: 'col-md-12'},
-                  Pagination({ pageCount, recordCount, page, actions: OnReviewParticipantGroupActions, formSending, recordName, callbacks })
+                  Pagination({ pageCount, recordCount, page, actions: OnReviewParticipantGroupActions, recordName, callbacks })
                 )
               ),
               onReviewParticipantGroups.map((onReviewParticipantGroup, key) => {
@@ -105,7 +106,7 @@ let OnReviewParticipantGroupPanels = React.createClass({
               }),
               div({className: 'row'},
                 div({className: 'col-md-12'},
-                  Pagination({ pageCount, recordCount, page, anchor, actions: OnReviewParticipantGroupActions, formSending, recordName, callbacks })
+                  Pagination({ pageCount, recordCount, page, anchor, actions: OnReviewParticipantGroupActions, recordName, callbacks })
                 )
               )
             )

@@ -12,11 +12,6 @@ describe('AjaxSearchForm', function () {
     var $ = require('../node_modules/jquery');
     var Base64 = require('../src/js/base64');
 
-    var formSending = {
-      requestChange: jest.genMockFn(),
-      value: false
-    };
-
     $.ajax = jest.genMockFn().mockImpl(function (ajaxOptions) {
       ajaxOptions.success();
     });
@@ -40,9 +35,7 @@ describe('AjaxSearchForm', function () {
     };
 
     var ajaxSearchForm = TestUtils.renderIntoDocument(
-      AjaxSearchForm({ actions: actions, formSending: formSending },
-        child(null)
-      )
+      AjaxSearchForm({ actions: actions }, child(null))
     );
 
     var form = TestUtils.findRenderedDOMComponentWithTag(ajaxSearchForm, 'form');
