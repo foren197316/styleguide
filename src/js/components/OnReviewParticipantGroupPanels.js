@@ -7,6 +7,8 @@ let ReloadingComponent = React.createFactory(require('./ReloadingComponent'));
 let Pagination = React.createFactory(require('./Pagination'));
 let OnReviewParticipantGroupPanel = React.createFactory(require('./OnReviewParticipantGroupPanel'));
 let OnReviewParticipantGroupStore = require('../stores/OnReviewParticipantGroupStore');
+let AjaxSearchForm = React.createFactory(require('./AjaxSearchForm'));
+let AjaxSearchFilter = React.createFactory(require('./AjaxSearchFilter'));
 let EmployerStore = require('../stores/EmployerStore');
 let PositionStore = require('../stores/PositionStore');
 let MetaStore = require('../stores/MetaStore');
@@ -61,10 +63,15 @@ let OnReviewParticipantGroupPanels = React.createClass({
     let page = getCurrentPage();
     let { pageCount, recordCount } = meta;
     let callbacks = [loadFromOnReviewParticipantGroups];
+    let searchOn = ['participants_name', 'participants_email', 'participants_deprecated_wt_participant_application_uuid'];
 
     return (
       div({className: 'row'},
-        div({className: 'col-md-3'}),
+        div({className: 'col-md-3'},
+          AjaxSearchForm({ formSending, actions: OnReviewParticipantGroupActions, callbacks },
+            AjaxSearchFilter({ title: 'Search', searchOn })
+          )
+        ),
         div({className: 'col-md-9'},
           div({id: 'participant-group-panels'},
             a({ name: anchor }),
