@@ -4,7 +4,8 @@ let {
   ProgramActions,
   loadFromJobOfferGroups,
   loadFromOfferedParticipantGroups,
-  loadFromJobOfferParticipantAgreements
+  loadFromJobOfferParticipantAgreements,
+  loadFromOnReviewParticipantGroups
 } = require('../actions');
 let nameSort = require('../util/name-sort');
 
@@ -17,6 +18,7 @@ let ProgramStore = Reflux.createStore({
     this.listenTo(loadFromJobOfferGroups, this.extractProgramsFromResponse);
     this.listenTo(loadFromOfferedParticipantGroups, this.onLoadFromOfferedParticipantGroups);
     this.listenTo(loadFromJobOfferParticipantAgreements, this.onLoadFromJobOfferParticipantAgreements);
+    this.listenTo(loadFromOnReviewParticipantGroups, this.extractProgramsFromResponse);
   },
 
   initPostAjaxLoad () {
@@ -30,9 +32,7 @@ let ProgramStore = Reflux.createStore({
   },
 
   extractProgramsFromResponse (data) {
-    this.permission = true;
-    this.data = data.programs.sort(nameSort);
-    this.trigger(this.data);
+    this.set(data.programs);
   },
 
   onLoadFromOfferedParticipantGroups (data) {
@@ -51,6 +51,12 @@ let ProgramStore = Reflux.createStore({
     )).uniq();
 
     ProgramActions.ajaxLoad();
+  },
+
+  set (programs) {
+    this.permission = true;
+    this.data = programs.sort(nameSort);
+    this.trigger(this.data);
   }
 });
 

@@ -12,7 +12,7 @@ let ExportButton = React.createFactory(require('./ExportButton'));
 let ProgramStore = require('../stores/ProgramStore');
 let { div } = React.DOM;
 
-module.exports = React.createClass({
+let JobOfferParticipantAgreementsIndex = React.createClass({
   displayName: 'JobOfferParticipantAgreementsIndex',
   mixins: [
     Reflux.connect(JobOfferParticipantAgreementStore, 'jobOfferParticipantAgreements')
@@ -42,3 +42,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+module.exports = JobOfferParticipantAgreementsIndex;

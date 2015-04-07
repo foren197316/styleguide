@@ -23,14 +23,15 @@ var ParticipantGroupPanelFooterName = React.createClass({displayName: 'Participa
   }
 });
 
-var ParticipantGroupPanelFooter = React.createClass({displayName: 'ParticipantGroupPanelFooter',
+let ParticipantGroupPanelFooter = React.createClass({
+  displayName: 'ParticipantGroupPanelFooter',
   propTypes: {
     name: React.PropTypes.string.isRequired
   },
 
-  render: function () {
+  render () {
     var name = this.props.name,
-        children = React.Children.map(this.props.children, function (child, index) {
+        children = React.Children.map(this.props.children, (child, index) => {
           if (child == null) {
             return;
           }

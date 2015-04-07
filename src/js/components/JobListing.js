@@ -34,8 +34,8 @@ module.exports = React.createClass({
     .then(() => {
       MetaStore.setAttribute('on_review_participant_group_employer_id', this.props.jobListing.employer_id);
     })
-    .catch(err => {
-      console.log(err);
+    .catch(() => {
+      global.location = global.location;
     });
   },
 

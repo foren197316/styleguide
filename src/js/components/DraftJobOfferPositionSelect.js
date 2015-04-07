@@ -9,6 +9,13 @@ let DraftJobOfferPositionSelect = React.createClass({
   displayName: 'DraftJobOfferPositionSelect',
   mixins: [ValidatingInputMixin],
 
+  propTypes: {
+    id: React.PropTypes.number.isRequired,
+    position_id: React.PropTypes.number,
+    name: React.PropTypes.string.isRequired,
+    positions: React.PropTypes.array,
+  },
+
   validate (value) {
     return value != null && value.length > 0;
   },
@@ -27,7 +34,7 @@ let DraftJobOfferPositionSelect = React.createClass({
           wrapperClassName: 'col-sm-8'
         },
         option({disabled: 'disabled'}),
-        this.props.positions.map((position, key) => (
+        (this.props.positions || []).map((position, key) => (
           option({value: position.id, key}, position.name)
         ))
       )

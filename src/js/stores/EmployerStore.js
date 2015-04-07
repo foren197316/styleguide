@@ -73,6 +73,7 @@ let EmployerStore = Reflux.createStore({
       return;
     }
 
+    this.permission = true;
     this.mergeData(data);
 
     this.trigger(this.data);

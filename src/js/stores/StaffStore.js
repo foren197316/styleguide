@@ -1,7 +1,7 @@
 'use strict';
 
 let Reflux = require('reflux');
-let { StaffActions, loadFromJobOfferGroups } = require('../actions');
+let { StaffActions, loadFromJobOfferGroups, loadFromOnReviewParticipantGroups } = require('../actions');
 let nameSort = require('../util/name-sort');
 
 let StaffStore = Reflux.createStore({
@@ -9,18 +9,23 @@ let StaffStore = Reflux.createStore({
   listenables: StaffActions,
 
   init () {
-    this.listenTo(loadFromJobOfferGroups, this.onLoadFromJobOfferGroups);
+    this.listenTo(loadFromJobOfferGroups, this.extractStaffsFromData);
+    this.listenTo(loadFromOnReviewParticipantGroups, this.extractStaffsFromData);
   },
 
-  onLoadFromJobOfferGroups (data) {
-    this.permission = true;
-    this.data = data.staffs.sort(nameSort);
-    this.trigger(this.data);
+  extractStaffsFromData (data) {
+    this.set(data.staffs);
   },
 
   onLoadFromEmployer (data) {
     let { employers } = data;
     StaffActions.ajaxLoad(employers.mapAttribute('staff_id'));
+  },
+
+  set (staffs) {
+    this.permission = true;
+    this.data = staffs.sort(nameSort);
+    this.trigger(this.data);
   }
 });
 

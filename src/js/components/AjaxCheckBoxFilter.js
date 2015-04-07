@@ -1,11 +1,12 @@
 /* @flow */
 'use strict';
 
-var React = require('react/addons');
-var $ = require('jquery');
-var UrlQueryMixin = require('../mixins').UrlQueryMixin;
+let React = require('react/addons');
+let { UrlQueryMixin } = require('../mixins');
+let { div, span, input, label } = React.DOM;
 
-module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
+let AjaxCheckBoxFilter = React.createClass({
+  displayName: 'AjaxCheckBoxFilter',
   mixins: [UrlQueryMixin],
 
   propTypes: {
@@ -22,80 +23,78 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
     };
   },
 
-  getInitialState: function () {
+  getInitialState () {
     return {
       isLoaded: !!this.props.store.data,
       ids: []
     };
   },
 
-  getCheckedValues: function () {
+  getCheckedValues () {
     return this.getValueFromUrl(this.searchField());
   },
 
-  componentDidMount: function () {
+  componentDidMount () {
     if (!this.state.isLoaded) {
-      this.stopListener = this.props.store.listen(function () {
+      this.stopListener = this.props.store.listen(() => {
         this.stopListener();
-        var ids = this.getCheckedValues() || [];
-        this.setState({ ids: ids, isLoaded: true });
-      }.bind(this));
+        let ids = this.getCheckedValues() || [];
+        this.setState({ ids, isLoaded: true });
+      });
     } else {
-      var ids = this.getCheckedValues() || [];
-      this.setState({ ids: ids });
+      let ids = this.getCheckedValues() || [];
+      this.setState({ ids });
     }
   },
 
-  onChange: function () {
-    var $domNode = $(this.getDOMNode());
-    var ids = $.map($domNode.find('input[type="checkbox"]:checked'), function (checkbox) {
-      return checkbox.getAttribute('value');
-    });
-    this.setState({ ids: ids }, function () {
-      this.props.submit();
-    }.bind(this));
+  onChange () {
+    let ids = Object.keys(this.refs).
+        map(refName => this.refs[refName].getDOMNode()).
+        filter(ref => ref.checked).
+        map(ref => ref.getAttribute('value'));
+
+    this.setState({ ids }, this.props.submit);
   },
 
-  searchField: function () {
+  searchField () {
     return `${this.props.fieldName}_${this.props.predicate}`;
   },
 
-  query: function () {
+  query () {
     if (this.state.ids.length === 0) {
       return null;
     }
 
-    var base = 'q[' + this.searchField() + '][]=';
-    return this.state.ids.map(function (id) {
-      return base + id;
-    }, this).join('&');
+    let base = `q[${this.searchField()}][]=`;
+    return this.state.ids.map(id => (base + id)).join('&');
   },
 
-  render: function () {
+  render () {
     if (this.props.store.permission && this.props.store.data.length > 0 && this.state.isLoaded) {
-      var stringIds = this.state.ids.map(function (obj) { return obj.toString(); });
+      let stringIds = this.state.ids.map(obj => obj.toString());
 
       return (
-        React.DOM.div({className: 'panel panel-default'},
-          React.DOM.div({className: 'panel-heading'}, this.props.title),
-          React.DOM.div({className: 'list-group list-group-scrollable'},
-            this.props.store.data.map(function (option) {
-              var checkboxAttributes = {
+        div({className: 'panel panel-default'},
+          div({className: 'panel-heading'}, this.props.title),
+          div({className: 'list-group list-group-scrollable'},
+            this.props.store.data.map(option => {
+              let checkboxAttributes = {
                 type: 'checkbox',
-                name: this.props.title.toLowerCase() + '[' + option.id + ']',
+                name: `${this.props.title.toLowerCase()}[${option.id}]`,
                 value: option.id,
-                onChange: this.onChange
+                onChange: this.onChange,
+                ref: `option_${option.id}`
               };
 
               if (stringIds.indexOf(option.id.toString()) >= 0) {
                 checkboxAttributes.checked = 'checked';
               }
 
-              return React.DOM.label({key: this.props.title+'_checkbox_'+option.id, className: 'list-group-item'},
-                React.DOM.input(checkboxAttributes),
-                React.DOM.span({className: 'title'}, option.name)
+              return label({key: `${this.props.title}_checkbox_${option.id}`, className: 'list-group-item'},
+                input(checkboxAttributes),
+                span({className: 'title'}, option.name)
               );
-            }.bind(this))
+            })
           )
         )
       );
@@ -104,3 +103,5 @@ module.exports = React.createClass({displayName: 'AjaxCheckBoxFilter',
     return null;
   }
 });
+
+module.exports = AjaxCheckBoxFilter;
