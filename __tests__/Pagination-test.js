@@ -13,11 +13,6 @@ describe('Pagination', function () {
     ajaxSearch: jest.genMockFn()
   };
 
-  var formSending = {
-    requestChange: jest.genMockFn(),
-    value: false
-  };
-
   var pageCount;
   var page;
   var recordCount;
@@ -30,8 +25,7 @@ describe('Pagination', function () {
         pageCount: pageCount,
         page: page,
         recordCount: recordCount,
-        actions: actions,
-        formSending: formSending
+        actions: actions
       })
     );
     buttons = TestUtils.scryRenderedDOMComponentsWithTag(pagination, 'a');

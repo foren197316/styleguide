@@ -1,7 +1,7 @@
 /* @flow */
 'use strict';
-
 let React = require('react/addons');
+let LoadingStore = require('../stores/LoadingStore');
 let query = require('../query');
 let { li, a, div, ul, nav } = React.DOM;
 
@@ -12,7 +12,6 @@ let Pagination = React.createClass({
     recordCount: React.PropTypes.number.isRequired,
     actions: React.PropTypes.object.isRequired,
     page: React.PropTypes.number,
-    formSending: React.PropTypes.object.isRequired,
     anchor: React.PropTypes.string,
     recordName: React.PropTypes.string,
     maxPages: React.PropTypes.number,
@@ -43,7 +42,7 @@ let Pagination = React.createClass({
       global.location = '#' + this.props.anchor;
     }
 
-    this.props.formSending.requestChange(true);
+    LoadingStore.setTrue();
     this.setState({ page });
 
     if (/\bpage=/i.test(originalQuery)) {
@@ -53,9 +52,7 @@ let Pagination = React.createClass({
       queryWithPage = `${originalQuery}page=${page}`;
     }
 
-    let callbacks = (this.props.callbacks || []).concat([() => {
-      this.props.formSending.requestChange(false);
-    }]);
+    let callbacks = (this.props.callbacks || []).concat([LoadingStore.setFalse]);
 
     this.props.actions.ajaxSearch(queryWithPage, ...callbacks);
   },

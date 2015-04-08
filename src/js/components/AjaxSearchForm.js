@@ -1,12 +1,12 @@
 /* @flow */
 'use strict';
 let React = require('react/addons');
+let LoadingStore = require('../stores/LoadingStore');
 
 let AjaxSearchForm = React.createClass({
   displayName: 'AjaxSearchForm',
   propTypes: {
     actions: React.PropTypes.object.isRequired,
-    formSending: React.PropTypes.object.isRequired,
     delay: React.PropTypes.number,
     callbacks: React.PropTypes.array
   },
@@ -36,12 +36,10 @@ let AjaxSearchForm = React.createClass({
       return;
     }
 
-    this.props.formSending.requestChange(true);
+    LoadingStore.setTrue();
     this.setState({ lastData });
 
-    let callbacks = (this.props.callbacks || []).concat([() => {
-      this.props.formSending.requestChange(false);
-    }]);
+    let callbacks = (this.props.callbacks || []).concat([LoadingStore.setFalse]);
 
     this.props.actions.ajaxSearch(lastData, ...callbacks);
   },
@@ -62,7 +60,10 @@ let AjaxSearchForm = React.createClass({
     return (
       React.DOM.form({method: '', action: '', onSubmit: this.onSubmit},
         React.Children.map(this.props.children, (child, index) => (
-          React.addons.cloneWithProps(child, { ref: `child${index}`, submit: this.onSubmit })
+          React.addons.cloneWithProps(child, {
+            ref: `child${index}`,
+            submit: this.onSubmit
+          })
         ))
       )
     );
