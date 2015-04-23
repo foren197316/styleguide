@@ -1,6 +1,8 @@
 'use strict';
 let React = require('react/addons');
-let { a, div, img, h4 } = React.DOM;
+let { div, h4 } = React.DOM;
+
+let ImagePicker = React.createFactory(require('./ImagePicker'));
 
 let ParticipantBanner = React.createClass({
   displayName: 'ParticipantBanner',
@@ -15,9 +17,12 @@ let ParticipantBanner = React.createClass({
     return (
       div({className: 'media'},
         div({className: 'pull-left'},
-          a({href:'#', title: 'Choose Photo', style: {'display': 'block'}},
-            img({className: 'media-object img-circle img-thumbnail', src: `${participant.photo_url}/convert?h=100&w=100&fit=crop`, alt: participant.name})
-          )
+          ImagePicker({
+            alt: participant.name,
+            anchorTitle: 'Choose Photo',
+            imageClassName: 'media-object img-circle img-thumbnail',
+            src: participant.photo_url
+          })
         ),
         div({className: 'media-body'},
           div({className: 'row'},
