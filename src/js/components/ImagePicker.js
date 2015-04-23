@@ -4,6 +4,12 @@ let filepicker = global.filepicker;
 let { a, img } = React.DOM;
 let { updateUrl } = require('../api');
 
+let options = {
+  debug: global.FILEPICKER_DEBUG,
+  service: 'COMPUTER',
+  mimetype: 'image/*'
+};
+
 let ImagePicker = React.createClass({
   displayName: 'ImagePicker',
 
@@ -26,9 +32,7 @@ let ImagePicker = React.createClass({
 
   filePicker () {
     filepicker.pick(
-      {
-        debug: global.FILEPICKER_DEBUG
-      },
+      options,
       Blob => {
         updateUrl(Blob.url, this.props.updateEndpoint)
           .then(() => {

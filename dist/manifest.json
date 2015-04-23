@@ -60,11 +60,11 @@
       "size": 106176,
       "digest": "c4e3c0f6"
     },
-    "js/ParticipantBanner.min-a194e914.js": {
+    "js/ParticipantBanner.min-dc2e3bcb.js": {
       "logical_path": "js/ParticipantBanner.min.js",
-      "mtime": "2015-04-23T19:39:30.000Z",
-      "size": 2260,
-      "digest": "a194e914"
+      "mtime": "2015-04-23T19:51:28.000Z",
+      "size": 2391,
+      "digest": "dc2e3bcb"
     },
     "js/ReservedParticipantGroups.min-780da1de.js": {
       "logical_path": "js/ReservedParticipantGroups.min.js",
@@ -96,7 +96,7 @@
     "js/JobOfferParticipantAgreements.min.js": "js/JobOfferParticipantAgreements.min-284ec3c0.js",
     "js/OfferedParticipantGroups.min.js": "js/OfferedParticipantGroups.min-eba29e6a.js",
     "js/OnReviewParticipantGroups.min.js": "js/OnReviewParticipantGroups.min-c4e3c0f6.js",
-    "js/ParticipantBanner.min.js": "js/ParticipantBanner.min-a194e914.js",
+    "js/ParticipantBanner.min.js": "js/ParticipantBanner.min-dc2e3bcb.js",
     "js/ReservedParticipantGroups.min.js": "js/ReservedParticipantGroups.min-780da1de.js",
     "js/interexchange-components.min.js": "js/interexchange-components.min-e63cf762.js",
     "js/interexchange.min.js": "js/interexchange.min-86b0fe6a.js"
