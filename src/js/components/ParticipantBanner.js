@@ -21,7 +21,8 @@ let ParticipantBanner = React.createClass({
             alt: participant.name,
             anchorTitle: 'Choose Photo',
             imageClassName: 'media-object img-circle img-thumbnail',
-            src: participant.photo_url
+            url: participant.photo_url,
+            updateEndpoint: `/photos/${participant.photo_id}.json`
           })
         ),
         div({className: 'media-body'},

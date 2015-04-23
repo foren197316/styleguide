@@ -2,6 +2,7 @@
 let React = require('react/addons');
 let filepicker = global.filepicker;
 let { a, img } = React.DOM;
+let { updateUrl } = require('../api');
 
 let ImagePicker = React.createClass({
   displayName: 'ImagePicker',
@@ -10,9 +11,10 @@ let ImagePicker = React.createClass({
     alt: React.PropTypes.string,
     anchorTitle: React.PropTypes.string,
     imageClassName: React.PropTypes.string,
-    src: React.PropTypes.string,
+    url: React.PropTypes.string,
     width: React.PropTypes.string,
     height: React.PropTypes.string,
+    updateEndpoint: React.PropTypes.string.isRequired,
   },
 
   getDefaultProps () {
@@ -28,7 +30,12 @@ let ImagePicker = React.createClass({
         debug: global.FILEPICKER_DEBUG
       },
       Blob => {
-        this.refs.img.getDOMNode().src = this.getCroppedUrl(Blob.url);
+        updateUrl(Blob.url, this.props.updateEndpoint)
+          .then(() => {
+            this.refs.img.getDOMNode().src = this.getCroppedUrl(Blob.url);
+          }, () => {
+            global.location = global.location;
+          });
       }
     );
   },
@@ -43,11 +50,11 @@ let ImagePicker = React.createClass({
   },
 
   render () {
-    let { alt, anchorTitle, imageClassName, src } = this.props;
+    let { alt, anchorTitle, imageClassName, url } = this.props;
 
     return (
       a({ href:'#', title: anchorTitle, onClick: this.filePicker, style: { 'display': 'block' } },
-        img({ src: this.getCroppedUrl(src), alt, ref: 'img', className: imageClassName })
+        img({ src: this.getCroppedUrl(url), alt, ref: 'img', className: imageClassName })
       )
     );
   }
