@@ -1,7 +1,7 @@
 'use strict';
 let React = require('react/addons');
 let filepicker = global.filepicker;
-let { a, img } = React.DOM;
+let { a, div, img } = React.DOM;
 let { updateUrl } = require('../api');
 
 let options = {
@@ -57,8 +57,11 @@ let ImagePicker = React.createClass({
     let { alt, anchorTitle, imageClassName, url } = this.props;
 
     return (
-      a({ href:'#', title: anchorTitle, onClick: this.filePicker, style: { 'display': 'block' } },
-        img({ src: this.getCroppedUrl(url), alt, ref: 'img', className: imageClassName })
+      div({},
+        a({ href: url, target: '_blank' },
+          img({ src: this.getCroppedUrl(url), alt, ref: 'img', className: imageClassName })
+        ),
+        a({ href: '#', onClick: this.filePicker }, anchorTitle)
       )
     );
   }
