@@ -23,6 +23,12 @@ let ImagePicker = React.createClass({
     updateEndpoint: React.PropTypes.string.isRequired,
   },
 
+  getInitialState () {
+    return {
+      url: this.props.url
+    };
+  },
+
   getDefaultProps () {
     return {
       width: 150,
@@ -36,7 +42,7 @@ let ImagePicker = React.createClass({
       Blob => {
         updateUrl(Blob.url, this.props.updateEndpoint)
           .then(() => {
-            this.refs.img.getDOMNode().src = this.getCroppedUrl(Blob.url);
+            this.setState({ url: Blob.url });
           }, () => {
             global.location = global.location;
           });
@@ -44,8 +50,10 @@ let ImagePicker = React.createClass({
     );
   },
 
-  getCroppedUrl (url) {
+  getCroppedUrl () {
     let { width, height } = this.props;
+    let { url } = this.state;
+
     if (!width || !height) {
       return url;
     }
@@ -54,12 +62,13 @@ let ImagePicker = React.createClass({
   },
 
   render () {
-    let { alt, anchorTitle, imageClassName, url } = this.props;
+    let { alt, anchorTitle, imageClassName } = this.props;
+    let { url } = this.state;
 
     return (
       div({},
         a({ href: url, target: '_blank' },
-          img({ src: this.getCroppedUrl(url), alt, ref: 'img', className: imageClassName })
+          img({ src: this.getCroppedUrl(), alt, ref: 'img', className: imageClassName })
         ),
         a({ href: '#', onClick: this.filePicker }, anchorTitle)
       )
