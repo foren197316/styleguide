@@ -57,7 +57,8 @@ module.exports = function (environment) {
     JobListings: createEntry('JobListings'),
     JobListing: createEntry('JobListing'),
     JobOfferGroups: createEntry('JobOfferGroups'),
-    JobOfferParticipantAgreements: createEntry('JobOfferParticipantAgreements')
+    JobOfferParticipantAgreements: createEntry('JobOfferParticipantAgreements'),
+    ParticipantBanner: createEntry('ParticipantBanner')
   };
 
   return config;

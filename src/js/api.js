@@ -17,5 +17,13 @@ module.exports = {
       method: 'post',
       data
     });
+  },
+
+  updateUrl (url, endpoint) {
+    return axios({
+      url: endpoint,
+      method: 'put',
+      data: { url }
+    });
   }
 };
