@@ -1,0 +1,23 @@
+<% wrap_layout :layout do %>
+  <img src="/images/examples/program/banner.png" class="img-responsive" />
+  <div style="padding: 20px 0 40px; background-color: #EEEEF0">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>Work & Travel Winter USA</h1>
+          <p>Come work during an American Winter and experience some snow!</p>
+          <div>
+            <a href="" class="btn btn-primary btn-large">
+              <strong>Sign up & check eligibility</strong>
+              <i class="fa fa-chevron-right"></i>
+            </a>
+            <small class="text-muted" style="padding-left: 10px">Totally free to get started. No credit card required.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <%= yield %>
+  </div>
+<% end %>

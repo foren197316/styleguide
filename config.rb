@@ -12,6 +12,7 @@ set :analytics_key, ENV.fetch("ANALYTICS_KEY")
 
 page "index.html", layout: :index_layout
 page "examples/layouts/article.html", layout: :article_layout
+page "examples/layouts/program.html", layout: :program_layout
 
 configure :build do
 end
