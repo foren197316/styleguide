@@ -1,6 +1,0 @@
-source: src
-destination: build
-documentation_assets: layout
-custom_markdown: lib/CortanaMarkdownRenderer.rb
-index: README
-name_scope: ' - '

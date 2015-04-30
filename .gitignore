@@ -1,11 +1,5 @@
-.sass-cache
-node_modules
-bower_components
-build
-tmp
-dist/css
-dist/fonts
-dist/images
-dist/js
-*.log
-npm-debug.log
+/.bundle
+/build
+/.sass-cache
+/.cache
+.DS_Store

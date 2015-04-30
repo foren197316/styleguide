@@ -1,1 +1,1 @@
-web: gulp start
+middleman: bundle exec middleman -p $PORT

@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    <%= render_partial "head" %>
+    <%= render_partial "analytics" %>
+  </head>
+  <body class="<%= page_classes %>">
+    <%= render_partial "navbar" %>
+
+    <div class="non-footer">
+      <div class="container">
+        <%= yield %>
+      </div>
+    </div>
+
+    <div class="footer">
+      <%= render_partial "footer" %>
+    </div>
+    <%= render_partial "foot" %>
+  </body>
+</html>

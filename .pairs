@@ -1,10 +1,10 @@
 pairs:
-  dk: Dirk Kelly; dirkkelly
-  to: Ted Olsen; tgolsen
-  ns: Nicole Santomasso; ns
-  ac: Alex Cohen; ac
-  nh: Nathan Harper; nathanharper
+  ac: Alex Cohen; acohen
   at: Aaron Todd; ozzyaaron
+  dk: Dirk Kelly; dirkkelly
+  lp: Luc Prenoveau; ljpren
+  nh: Nathan Harper; nathanharper
+  ns: Nicole Santomasso; santomasso
 email:
   prefix: iex-eng
   domain: googlegroups.com
