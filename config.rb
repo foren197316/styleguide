@@ -1,3 +1,5 @@
+require 'rack/cors'
+
 activate :dotenv
 activate :i18n, mount_at_root: false
 
@@ -17,5 +19,14 @@ end
 helpers do
   def render_partial(partial_name, opts = {})
     partial "partials/#{partial_name}", opts
+  end
+end
+
+use Rack::Cors do
+  allow do
+    origins '*'
+    resource '*',
+      headers: :any,
+      methods: [:get, :options]
   end
 end
