@@ -38,4 +38,6 @@
       you and will leave you with no money to enjoy these activities.
     </p>
   </div>
+  <div class="col-xs-12 col-md-4">
+  </div>
 </div>
