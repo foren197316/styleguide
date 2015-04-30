@@ -6,13 +6,16 @@
     "ANALYTICS_KEY":{
       "required":true
     },
+    "CDN_URL":{
+      "required":true
+    },
     "LANG":{
       "required":true
     },
     "RACK_ENV":{
       "required":true
     },
-    "URL_ROOT":{
+    "ROOT_URL":{
       "required":true
     },
     "USE_SSL":{
