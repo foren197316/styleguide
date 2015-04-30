@@ -2,7 +2,7 @@
   "name": "stylez",
   "devDependencies": {
     "bootstrap-datepicker": "v1.3.0",
-    "bootstrap-sass-official": "v3.2.0+2",
+    "bootstrap-sass": "v3.3.4",
     "components-font-awesome": "v4.2.0",
     "jquery.serializeJSON": "2.4.1"
   }

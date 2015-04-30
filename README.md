@@ -19,6 +19,8 @@ $ bower install
 $ gulp serve
 ```
 
+https://localhost:3000
+
 You still have to save twice before the page reloads. I can't figure out how to fix this. If you have an idea, you're most welcome to share it!
 
 ### How to publish to GH Pages

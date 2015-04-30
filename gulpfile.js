@@ -2,14 +2,10 @@
 
 var gulp        = require('gulp'),
     clean       = require('gulp-clean'),
-    _if         = require('gulp-if'),
     browserSync = require('browser-sync'),
     concat      = require('gulp-concat'),
-    consolidate = require('gulp-consolidate'),
-    deploy      = require('gulp-gh-pages'),
     flow        = require('gulp-flowtype'),
     hologram    = require('gulp-hologram'),
-    iconfont    = require('gulp-iconfont'),
     jshint      = require('gulp-jshint'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
@@ -19,31 +15,16 @@ var gulp        = require('gulp'),
     sourcemaps  = require('gulp-sourcemaps'),
     uglify      = require('gulp-uglify'),
     runSequence = require('run-sequence'),
-    webpack     = require("webpack"),
-    WebpackDevServer = require("webpack-dev-server"),
+    webpack     = require('webpack'),
+    WebpackDevServer = require('webpack-dev-server'),
     webpackDevConfig = require(__dirname + '/webpack-development.config.js'),
     webpackProdConfig = require(__dirname + '/webpack-production.config.js');
 
-gulp.task('font-awesome-interexchange', function() {
-  return gulp.src(['src/vectors/*.svg'])
-    .pipe(iconfont({ fontName: 'font-awesome-interexchange' }))
-    .on('codepoints', function(codepoints, options) {
-      gulp.src('src/templates/font-awesome-interexchange.scss')
-        .pipe(consolidate('lodash', {
-          glyphs: codepoints,
-          fontName: 'font-awesome-interexchange',
-          fontPath: '../fonts/',
-          className: 'fa-iex'
-        }))
-        .pipe(gulp.dest('src/scss/'));
-    })
-    .pipe(gulp.dest('build/fonts/'));
-});
-
-gulp.task('fonts', ['font-awesome-interexchange'], function() {
+gulp.task('fonts', function() {
   return gulp.src([
     'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
-    'bower_components/components-font-awesome/fonts/*'
+    'bower_components/components-font-awesome/fonts/*',
+    'src/fonts/*'
   ])
   .pipe(gulp.dest('build/fonts'))
   .pipe(gulp.dest('dist/fonts'));
@@ -62,8 +43,7 @@ gulp.task('json', function() {
 
 gulp.task('styles', function() {
   return gulp.src([
-    'src/scss/interexchange.scss',
-    'src/scss/font-awesome-interexchange.scss'
+    'src/scss/interexchange.scss'
   ])
   .pipe(sass({keepSpecialComments: 0}))
   .pipe(concat('interexchange.css'))
@@ -71,16 +51,6 @@ gulp.task('styles', function() {
   .pipe(minifyCSS())
   .pipe(rename('interexchange.min.css'))
   .pipe(gulp.dest('build/css'));
-});
-
-gulp.task('styles-app', function() {
-  return gulp.src(['src/scss/app/*.scss'])
-    .pipe(sass({keepSpecialComments: 0}))
-    .pipe(concat('interexchange-app.css'))
-    .pipe(gulp.dest('build/css'))
-    .pipe(minifyCSS())
-    .pipe(rename('interexchange-app.min.css'))
-    .pipe(gulp.dest('build/css'));
 });
 
 gulp.task('javascript', function() {
@@ -168,7 +138,7 @@ gulp.task('webpack-dev-server', function(callback) {
   });
 });
 
-gulp.task('browser-sync-dist-server', function(callback) {
+gulp.task('browser-sync-dist-server', function() {
   return browserSync({
     open: false,
     port: 8080,
@@ -181,12 +151,12 @@ gulp.task('browser-sync-dist-server', function(callback) {
   });
 });
 
-gulp.task('serve', ['styles', 'styles-app', 'javascript', 'javascript-components', 'json', 'images', 'fonts', 'styleguide'], function () {
+gulp.task('serve', ['styles', 'javascript', 'javascript-components', 'json', 'images', 'fonts', 'styleguide'], function () {
   gulp.start('webpack-dev-server');
   gulp.start('browser-sync-dist-server');
 
   gulp.watch(['build/css/**/*', 'build/fonts/**/*', 'build/images/**/*'], function() { gulp.start('manifest'); });
-  gulp.watch(['src/**/*.scss'], function() { runSequence('styles', 'styles-app'); });
+  gulp.watch(['src/**/*.scss'], function() { runSequence('styles'); });
   gulp.watch(['src/js/**/*.js'], function() { gulp.start('jshint'); });
   gulp.watch(['src/**/*.json'], function() { gulp.start('json'); });
   gulp.watch(['src/images/*'], function() { gulp.start('images'); });

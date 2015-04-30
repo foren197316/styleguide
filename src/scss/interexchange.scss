@@ -1,34 +1,9 @@
 @charset "UTF-8";
 
 // Init ------------------------------------
-@import 'interexchange-mixins';
 @import 'interexchange-variables';
 @import 'bootstrap';
-@import 'bootstrap-datepicker';
 @import 'font-awesome';
 
-// Components -------------------------------
-@import 'components/participant-group-panel.scss';
-@import 'components/on-review-participant-group-panel.scss';
-@import 'components/reserved-participant-group-panel.scss';
-
 // CSS -------------------------------------
-@import 'css/alert.scss';
-@import 'css/body.scss';
-@import 'css/button.scss';
-@import 'css/code.scss';
-@import 'css/contract.scss';
-@import 'css/list-group.scss';
-@import 'css/nav.scss';
-@import 'css/navbar.scss';
-@import 'css/page-header.scss';
-@import 'css/pagination.scss';
-@import 'css/panel.scss';
-@import 'css/program.scss';
-@import 'css/site-title.scss';
-@import 'css/text.scss';
-@import 'css/table.scss';
-@import 'css/tooltip.scss';
-
-// JAVASCRIPT WIDGET -----------------------
-@import 'javascript/tab.scss';
+@import 'css/type';
