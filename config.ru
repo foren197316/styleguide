@@ -4,10 +4,20 @@ Dotenv.load
 
 require 'rack'
 require 'rack/contrib/try_static'
+require 'rack/cors'
 require 'rack/domain'
 require 'rack/ssl'
 
 use Rack::SSL if ENV['USE_SSL']
+
+use Rack::Cors do
+  allow do
+    origins '*'
+    resource '*',
+      headers: :any,
+      methods: [:get, :options]
+  end
+end
 
 map "/" do
   use Rack::TryStatic, root: "build", urls: %w[/], try: %w(/index.html)
