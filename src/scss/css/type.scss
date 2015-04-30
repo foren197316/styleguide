@@ -50,7 +50,7 @@ h1, h2, h3, h4, h5 {
   margin: 0;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, p {
   margin: 0 0 0.5em;
   line-height: 1.5em;
 }
@@ -80,12 +80,19 @@ h4 {
 h5 {
   margin: 1.414em 0 0.5em;
   font-weight: 700;
-  font-size: 0.7em;
+  font-size: 0.75em;
 }
 
 p {
-  font-size: 0.7em;
+  font-size: 0.9em;
+  margin-top: 0.5em;
   margin-bottom: 1.3em;
+}
+
+blockquote {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 0.9em;
 }
 
 small, .font_small {
@@ -93,12 +100,8 @@ small, .font_small {
 }
 
 .fonts-loaded {
-  font-size: 1.25em;
-
   body {
-    *:not(.navbar) {
-      font-family: Founders Grotesk Web, sans-serif;
-    }
+    font-family: Founders Grotesk Web, helvetica;
   }
 
   body, h1, h2, h3, h4, h5 {
@@ -106,7 +109,7 @@ small, .font_small {
   }
 
   h1, h2, h3, h4, h5 {
-    font-family: Founders Grotesk Web, sans-serif;
+    font-family: Founders Grotesk Web, helvetica;
     line-height: 1.2;
   }
 
@@ -131,6 +134,10 @@ small, .font_small {
   }
 
   p {
+    font-size: 1em;
+  }
+
+  blockquote {
     font-size: 1em;
   }
 }

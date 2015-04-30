@@ -19,5 +19,23 @@
       and services, nightlife venues, diversity, green space, etc. This might be a lot to
       consider, but it's important to go into detail since this city has so many great.
     </p>
+
+    <blockquote>
+      <p>
+        Quisque est nisl, rutrum eu rutrum quis, gravida aliquam mauris. Aenean vel feugiat quam.
+        Integer ipsum arcu, facilisis ac augue eget, iaculis vestibulum odio. Mauris ut varius metus.
+      </p>
+    </blockquote>
+
+    <strong>Tip 1: <a href="#">Do this</a></strong>
+
+    <p>
+      If you compare Brooklyn Heights and the Upper West Side for example,
+      Brooklyn is about $1,000 a month cheaper for a comparable two-bedroom apartment.
+      Pick a neighborhood that is within your budget.
+      If you plan on engaging in the city's social activities such as going to restaurants and museums,
+      it's important that you don't make the mistake of living in an apartment that is too expensive for
+      you and will leave you with no money to enjoy these activities.
+    </p>
   </div>
 </div>
