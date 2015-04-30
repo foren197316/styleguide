@@ -1,0 +1,16 @@
+{
+  "programs": [
+    {
+      "id": 1,
+      "name": "2014 Winter Work Travel"
+    },
+    {
+      "id": 2,
+      "name": "2015 Summer Work Travel"
+    },
+    {
+      "id": 3,
+      "name": "2016 Summer Work Travel"
+    }
+  ]
+}

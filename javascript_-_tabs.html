@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/images/logo-100.png" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+    <title>StyleGuide - InterExchange</title>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="/css/interexchange.min.css">
+    <script type="text/javascript">
+      document.fonts.load('1em Founders Grotesk Web')
+      .then(function() {
+        var docEl = document.documentElement;
+        docEl.className += ' fonts-loaded';
+      });
+    </script>
+  </head>
+  <body>
+    
+    
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#primary-navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="https://www.interexchange.org"><img class="navbar-brand" src="/images/logo-100-white.png" alt="InterExchange"/></a>
+          <a href="/" class="navbar-brand">InterExchange</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="primary-navigation">
+          <ul class="nav navbar-nav">
+            
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Components <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="components_-_awaiting_orders_participant_group.html">Awaiting Orders Participant Group</a></li>
+                      
+                    
+                  
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="components_-_filtered_in_matching_participant_group.html">Filtered In Matching Participant Group</a></li>
+                      
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="components_-_filtered_job_offer_groups.html">Filtered Job Offer Groups</a></li>
+                      
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="components_-_offered_participant_groups_index.html">Offered Participant Groups Index</a></li>
+                      
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="components_-_on_review_participant_group.html">On Review Participant Group</a></li>
+                      
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="components_-_reserved_participant_group.html">Reserved Participant Group</a></li>
+                      
+                    
+                  
+                    
+                  
+                </ul>
+              </li>
+            
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Examples <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  
+                    
+                  
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="examples_-_host_family_signup.html">Host Family Signup</a></li>
+                      
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                      
+                      
+                        <li><a href="examples_-_search_panels.html">Search Panels</a></li>
+                      
+                    
+                  
+                </ul>
+              </li>
+            
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">JavaScript <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  
+                    
+                      
+                      
+                        <li><a class="active" href="javascript_-_tabs.html">Tabs</a></li>
+                      
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                </ul>
+              </li>
+            
+          </ul>
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Libraries <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="http://getbootstrap.com/css/">Twitter Bootstrap</a></li>
+                <li><a href="http://fortawesome.github.io/Font-Awesome/icons/">Font Awesome</a></li>
+                <li><a href="http://facebook.github.io/react/index.html">React JS</a></li>
+                <li><a href="http://react-bootstrap.github.io/components.html">React Boostrap</a></li>
+                <li><a href="http://api.jquery.com/">jQuery</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            <li><a href="#">EN</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="non-footer">
+      <div class="container">
+<h1 id="a-tabs">Tabs</h1>
+<div class="codeExample"><div class="exampleOutput"><ul id="program-details-navigation" class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#about" role="tab" data-toggle="tab">About The Job</a></li>
+  <li><a href="#locations" role="tab" data-toggle="tab">Locations</a></li>
+  <li><a href="#dates" role="tab" data-toggle="tab">Key Dates</a></li>
+</ul>
+<div id="program-details-content" class="tab-content">
+  <div class="tab-pane active" id="about">
+    <p>
+      Being an au pair abroad is a serious job.
+      You'll need to be patient, kind, loving and extremely responsible as you care for your host children.
+      You'll also need to communicate well with your host parents regularly about how things are going.
+    </p>
+
+    <p><strong>Think you're ready to become an au pair abroad?</strong></p>
+
+    <p class="text-center">
+      <a href="/working-abroad/au-pair-program/being-au-pair-abroad-right-me" class="btn btn-success">Take Our Au Pair Quiz!</a>
+    </p>
+
+    <p>
+      Au pairs' responsibilities vary, but most contribute to their host family households by:
+    </p>
+
+    <ul>
+      <li>
+        <i class="fa fa-car fa-fw">&nbsp;</i>
+        Dropping the children off and picking them up from school or after-school activities
+      </li>
+      <li>
+        <i class="fa fa-futbol-o fa-fw">&nbsp;</i>
+        Taking children to lessons, play groups, parks and other fun outings
+      </li>
+      <li>
+        <i class="fa fa-pencil fa-fw">&nbsp;</i>
+        Helping children with homework
+      </li>
+      <li>
+        <i class="fa fa-puzzle-piece fa-fw">&nbsp;</i>
+        Assisting in keeping the children's rooms and play areas clean
+      </li>
+      <li>
+        <i class="fa fa-cutlery fa-fw">&nbsp;</i>
+        Preparing snacks and meals for the children
+      </li>
+      <li>
+        <i class="fa fa-calendar-o fa-fw">&nbsp;</i>
+        Staying home during school vacations, when a child is sick or on other unexpected days off
+      </li>
+    </ul>
+
+    <p>
+      Your responsibilities as an au pair are only related to child care. As a member of the household, you might contribute to small, everyday tasks like washing dinner dishes or taking the dog for a walk, but only in a way that is equal to the contributions of other members of the family.
+    </p>
+  </div>
+  <div class="tab-pane" id="locations">
+    <div class="list-group">
+      <a class="list-group-item" href="/working-abroad/au-pair-program/become-au-pair-australia">
+        <i class="fa fa-globe">&nbsp;</i>
+        Australia
+      </a>
+      <a class="list-group-item" href="/working-abroad/au-pair-program/become-au-pair-france">
+        <i class="fa fa-globe">&nbsp;</i>
+        France
+      </a>
+      <a class="list-group-item" href="/working-abroad/au-pair-program/become-au-pair-germany">
+        <i class="fa fa-globe">&nbsp;</i>
+        Germany
+      </a>
+      <a class="list-group-item" href="/working-abroad/au-pair-program/become-au-pair-netherlands">
+        <i class="fa fa-globe">&nbsp;</i>
+        Netherlands
+      </a>
+      <a class="list-group-item" href="/working-abroad/au-pair-program/become-au-pair-new-zealand">
+        <i class="fa fa-globe">&nbsp;</i>
+        New Zealand
+      </a>
+      <a class="list-group-item" href="/working-abroad/au-pair-program/become-au-pair-spain">
+        <i class="fa fa-globe">&nbsp;</i>
+        Spain
+      </a>
+    </div>
+  </div>
+  <div class="tab-pane" id="dates">
+    <h5>Program Length</h5>
+    <p>
+      Most au pair abroad placements last nine to 12 months. We also have a limited number of six-month and summer positions available.
+    </p>
+
+    <h5>Start Dates</h5>
+    <p>
+      For the nine- to 12-month and six-month placements, start dates are rolling. Most families prefer au pairs to start in May/June for the summer programs.
+    </p>
+
+    <h5>Interested?</h5>
+    <p>
+      <a href="/working-abroad/form/request-information">Request Information</a>
+    </p>
+
+    <p class="text-center">
+      <a href="https://app.interexchange.org/wa/participant_signups/new" class="btn btn-success">
+        Start Your Application
+      </a>
+    </p>
+  </div>
+</div>
+</div><div class="codeBlock"><div class="highlight"><pre><span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">"program-details-navigation"</span> <span class="na">class=</span><span class="s">"nav nav-tabs"</span> <span class="na">role=</span><span class="s">"tablist"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"active"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#about"</span> <span class="na">role=</span><span class="s">"tab"</span> <span class="na">data-toggle=</span><span class="s">"tab"</span><span class="nt">&gt;</span>About The Job<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#locations"</span> <span class="na">role=</span><span class="s">"tab"</span> <span class="na">data-toggle=</span><span class="s">"tab"</span><span class="nt">&gt;</span>Locations<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#dates"</span> <span class="na">role=</span><span class="s">"tab"</span> <span class="na">data-toggle=</span><span class="s">"tab"</span><span class="nt">&gt;</span>Key Dates<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"program-details-content"</span> <span class="na">class=</span><span class="s">"tab-content"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"tab-pane active"</span> <span class="na">id=</span><span class="s">"about"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      Being an au pair abroad is a serious job.
+      You'll need to be patient, kind, loving and extremely responsible as you care for your host children.
+      You'll also need to communicate well with your host parents regularly about how things are going.
+    <span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;p&gt;&lt;strong&gt;</span>Think you're ready to become an au pair abroad?<span class="nt">&lt;/strong&gt;&lt;/p&gt;</span>
+
+    <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-center"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/working-abroad/au-pair-program/being-au-pair-abroad-right-me"</span> <span class="na">class=</span><span class="s">"btn btn-success"</span><span class="nt">&gt;</span>Take Our Au Pair Quiz!<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;p&gt;</span>
+      Au pairs' responsibilities vary, but most contribute to their host family households by:
+    <span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;ul&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-car fa-fw"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Dropping the children off and picking them up from school or after-school activities
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-futbol-o fa-fw"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Taking children to lessons, play groups, parks and other fun outings
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-pencil fa-fw"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Helping children with homework
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-puzzle-piece fa-fw"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Assisting in keeping the children's rooms and play areas clean
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-cutlery fa-fw"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Preparing snacks and meals for the children
+      <span class="nt">&lt;/li&gt;</span>
+      <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-calendar-o fa-fw"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Staying home during school vacations, when a child is sick or on other unexpected days off
+      <span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+
+    <span class="nt">&lt;p&gt;</span>
+      Your responsibilities as an au pair are only related to child care. As a member of the household, you might contribute to small, everyday tasks like washing dinner dishes or taking the dog for a walk, but only in a way that is equal to the contributions of other members of the family.
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"tab-pane"</span> <span class="na">id=</span><span class="s">"locations"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"list-group"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"list-group-item"</span> <span class="na">href=</span><span class="s">"/working-abroad/au-pair-program/become-au-pair-australia"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-globe"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Australia
+      <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"list-group-item"</span> <span class="na">href=</span><span class="s">"/working-abroad/au-pair-program/become-au-pair-france"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-globe"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        France
+      <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"list-group-item"</span> <span class="na">href=</span><span class="s">"/working-abroad/au-pair-program/become-au-pair-germany"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-globe"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Germany
+      <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"list-group-item"</span> <span class="na">href=</span><span class="s">"/working-abroad/au-pair-program/become-au-pair-netherlands"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-globe"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Netherlands
+      <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"list-group-item"</span> <span class="na">href=</span><span class="s">"/working-abroad/au-pair-program/become-au-pair-new-zealand"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-globe"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        New Zealand
+      <span class="nt">&lt;/a&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"list-group-item"</span> <span class="na">href=</span><span class="s">"/working-abroad/au-pair-program/become-au-pair-spain"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;i</span> <span class="na">class=</span><span class="s">"fa fa-globe"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/i&gt;</span>
+        Spain
+      <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"tab-pane"</span> <span class="na">id=</span><span class="s">"dates"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;h5&gt;</span>Program Length<span class="nt">&lt;/h5&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      Most au pair abroad placements last nine to 12 months. We also have a limited number of six-month and summer positions available.
+    <span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;h5&gt;</span>Start Dates<span class="nt">&lt;/h5&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      For the nine- to 12-month and six-month placements, start dates are rolling. Most families prefer au pairs to start in May/June for the summer programs.
+    <span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;h5&gt;</span>Interested?<span class="nt">&lt;/h5&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/working-abroad/form/request-information"</span><span class="nt">&gt;</span>Request Information<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+
+    <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-center"</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://app.interexchange.org/wa/participant_signups/new"</span> <span class="na">class=</span><span class="s">"btn btn-success"</span><span class="nt">&gt;</span>
+        Start Your Application
+      <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div></div></div>    </div>
+  </div>
+</body>

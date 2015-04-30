@@ -1,0 +1,22 @@
+{
+  "job_offer_participant_agreements": [
+    {
+      "id": 1,
+      "job_offer_id": 1,
+      "full_name": "Mr Flinterson",
+      "created_at": "2014-11-02"
+    },
+    {
+      "id": 2,
+      "job_offer_id": 2,
+      "full_name": "Miss Pansy Parkinson",
+      "created_at": "2014-11-01"
+    },
+    {
+      "id": 3,
+      "job_offer_id": 3,
+      "full_name": "Mr. Draco Malfoy",
+      "created_at": "2014-11-01"
+    }
+  ]
+}
