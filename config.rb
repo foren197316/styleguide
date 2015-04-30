@@ -8,8 +8,6 @@ set :images_dir, 'images'
 set :url_root, ENV.fetch("URL_ROOT")
 set :analytics_key, ENV.fetch("ANALYTICS_KEY")
 
-ignore(/stylesheets/)
-
 configure :build do
 end
 
