@@ -8,7 +8,8 @@ set :images_dir, 'images'
 set :url_root, ENV.fetch("URL_ROOT")
 set :analytics_key, ENV.fetch("ANALYTICS_KEY")
 
-page "index.html", :layout => :article_layout
+page "index.html", layout: :index_layout
+page "examples/layouts/article.html", layout: :article_layout
 
 configure :build do
 end
