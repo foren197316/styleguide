@@ -4,29 +4,20 @@
   border-radius: 0;
   margin-bottom: 0;
   font-weight: 400;
-  font-size: 0.8em;
-}
+  font-size: 0.9em;
 
-.navbar-brand {
-  font-size: 1.4em;
-  font-weight: 700;
-}
-
-.fonts-loaded {
-  .navbar {
-    font-size: 0.9em;
-  }
-
-  img.navbar-brand {
+  img.logo {
+    float: left;
     padding: 0;
     margin: 8px 10px 0 0 !important;
     width: 30px;
     height: 30px;
   }
+}
 
-  a.navbar-brand {
-    font-family: helvetica;
-    padding: 10px;
-    font-size: 1.2em;
-  }
+a.navbar-brand {
+  font-family: Helvetica;
+  padding: 10px;
+  font-size: 1.1em;
+  font-weight: 700;
 }
