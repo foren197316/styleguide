@@ -8,6 +8,11 @@
   }
 }
 
+.margin {
+  display: block;
+  margin-top: $navbar-margin-bottom;
+}
+
 .nowrap {
  white-space: nowrap;
 }
