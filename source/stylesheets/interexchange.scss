@@ -3,8 +3,15 @@
 // Init ------------------------------------
 @import 'interexchange/variables';
 @import 'bootstrap';
+@import 'font-awesome';
 
 // CSS -------------------------------------
+@import 'interexchange/css/banner';
+@import 'interexchange/css/button';
+@import 'interexchange/css/hr';
+@import 'interexchange/css/logo';
+@import 'interexchange/css/tools';
 @import 'interexchange/css/footer';
 @import 'interexchange/css/navbar';
+@import 'interexchange/css/sidebar';
 @import 'interexchange/css/type';

@@ -1,0 +1,28 @@
+.crush {
+  > *:first-child {
+    margin-bottom: 0;
+  }
+
+  > *:last-child {
+    margin-top: 0;
+  }
+}
+
+.margin {
+  display: block;
+  margin-top: $navbar-margin-bottom;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.margin-right-one {
+  margin-right: 1em;
+}
+
+@media (max-width: $screen-sm-min) {
+  .xs-pull-none {
+    float: none !important;
+  }
+}

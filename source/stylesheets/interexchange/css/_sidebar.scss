@@ -1,0 +1,25 @@
+.sidebar {
+  background-color: $gray-lightest;
+
+  > h5 {
+    margin: 0;
+    padding: 1em;
+  }
+
+  hr {
+    margin: 0;
+  }
+
+  > ul {
+    margin: 0;
+    padding: 1.2em;
+
+    li + li {
+      margin-top: 0.6em;
+    }
+  }
+
+  > p {
+    padding: 0 1.2em 1.2em;
+  }
+}

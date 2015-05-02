@@ -1,0 +1,27 @@
+{
+  "name":"styleguide",
+  "description":"",
+  "scripts":{},
+  "env":{
+    "ANALYTICS_KEY":{
+      "required":true
+    },
+    "CDN_URL":{
+      "required":true
+    },
+    "LANG":{
+      "required":true
+    },
+    "RACK_ENV":{
+      "required":true
+    },
+    "ROOT_URL":{
+      "required":true
+    },
+    "USE_SSL":{
+      "required":true
+    }
+  },
+  "addons":[]
+}
+

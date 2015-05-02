@@ -7,7 +7,8 @@ ruby '2.2.0'
 gem 'middleman'
 gem 'middleman-dotenv'
 gem 'middleman-search_engine_sitemap'
-gem 'bootstrap-sass', '~> 3.3.4', :require => false
+gem 'bootstrap-sass', '~> 3.3.4', require: false
+gem 'font-awesome-sass', '~> 4.3.0', require: false
 
 group :development do
   gem 'rake'
@@ -26,4 +27,5 @@ group :production do
   gem 'rack-contrib'
   gem 'rack-ssl'
   gem 'rack-domain'
+  gem 'rack-cors', require: 'rack/cors'
 end
