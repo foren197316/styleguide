@@ -14,7 +14,7 @@ set :cdn_url, ENV.fetch("CDN_URL")
 
 page "index.html", layout: :page_layout
 page "examples/article.html", layout: :page_layout
-page "examples/program.html", layout: :program_layout
+page "examples/program.html", layout: :page_layout
 
 configure :build do
 end
