@@ -12,9 +12,7 @@ set :analytics_key, ENV.fetch("ANALYTICS_KEY")
 set :root_url, ENV.fetch("ROOT_URL")
 set :cdn_url, ENV.fetch("CDN_URL")
 
-page "index.html", layout: :page_layout
-page "examples/article.html", layout: :page_layout
-page "examples/program.html", layout: :page_layout
+page "examples/dialog.html", layout: :blank_layout
 
 configure :build do
 end

@@ -1,0 +1,27 @@
+.dialog {
+  .dialog-header {
+    small {
+      margin-top: 3.5em;
+
+      img.logo-small {
+        margin-top: -2px;
+      }
+
+      a {
+        color: $gray-light;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .dialog-body {
+    border-top: 0.25em solid $interexchange-primary;
+    background-color: #F8F8F9;
+    padding: 1em 2em;
+  }
+
+  .dialog-footer {
+    background-color: #DFEAF3;
+    padding: 1em 2em;
+  }
+}
