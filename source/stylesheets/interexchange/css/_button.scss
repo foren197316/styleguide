@@ -1,10 +1,16 @@
 .btn.btn-large {
+  i {
+    padding: 0.25em 0;
+  }
+}
+
+.btn {
   strong {
     display: inline-block;
-    padding: 5px 10px 7px;
+    padding: 0.25em 0.5em;
   }
 
   i {
-    padding: 5px 0;
+    margin-left: 0.5em;
   }
 }

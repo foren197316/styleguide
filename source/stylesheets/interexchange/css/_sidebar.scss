@@ -3,16 +3,16 @@
 
   h5 {
     margin: 0;
-    padding: 1em;
+    padding: 1em 0.8em;
   }
 
   hr {
     margin: 0;
   }
 
-  > ul, .font-small > ul {
+  > ul {
     margin: 0;
-    padding: 1.2em;
+    padding: 1em;
 
     li + li {
       margin-top: 0.6em;
@@ -20,6 +20,10 @@
   }
 
   p {
-    padding: 0 1.2em;
+    padding: 0 1em;
+  }
+
+  img {
+    width: 100%;
   }
 }
