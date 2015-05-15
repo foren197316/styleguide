@@ -1,7 +1,5 @@
 # InterExchange Styleguide
 
-This is a Yeoman generated styleguide for InterExchange.
-
 ### How to build the styleguide
 
 ```bash
