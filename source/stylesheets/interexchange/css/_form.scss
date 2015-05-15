@@ -1,0 +1,7 @@
+.control-group {
+  .labels {
+    .control-label + .error {
+      margin-left: 0.2em;
+    }
+  }
+}
