@@ -5,6 +5,12 @@ img.logo {
   height: 30px;
 }
 
+@media (max-width: $screen-sm-min) {
+  img.logo {
+    margin: 0.5em 0 0 0.5em !important
+  }
+}
+
 img.logo-small {
   height: 15px;
   width: 15px;
