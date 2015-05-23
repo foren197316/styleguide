@@ -18,11 +18,26 @@
   position: static !important;
 }
 
+.dropdown-menu {
+  background-color: $gray-lightest;
+  min-width: 0;
+
+  /* Ensures the language drop down looks balanced */
+  > li > a {
+    color: $link-color;
+    padding: 3px 27px 3px 13px;
+
+    &:hover {
+      color: $link-color;
+      text-decoration: underline;
+    }
+  }
+}
+
 .megamenu {
   padding: 1em 0;
   @include container-fixed;
   left: 50%;
-  background-color: $gray-lightest;
 
   > li > ul {
     padding: 0;
