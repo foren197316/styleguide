@@ -48,14 +48,17 @@
 @media (max-width: $grid-float-breakpoint-max) {
   .megamenu {
     padding: 0.5em 0;
+    color: $navbar-default-link-color;
 
-    a {
+    > li > strong > *, > li > ul > li > a {
       display: block;
       padding: 0.2em 1.5em;
       line-height: $line-height-computed;
-      color: $navbar-default-link-color;
-      &:hover,
-      &:focus {
+    }
+
+    a {
+      display: block;
+      &:hover, &:focus {
         text-decoration: none;
         color: $navbar-default-link-hover-color;
         background-color: $navbar-default-link-hover-bg;
