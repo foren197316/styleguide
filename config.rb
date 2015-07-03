@@ -7,12 +7,12 @@ set :css_dir, 'stylesheets'
 set :js_dir, 'javascripts'
 set :images_dir, 'images'
 
-set :analytics_key, ENV.fetch("ANALYTICS_KEY")
+set :analytics_key, ENV.fetch('ANALYTICS_KEY')
 
-set :root_url, ENV.fetch("ROOT_URL")
-set :cdn_url, ENV.fetch("CDN_URL")
+set :root_url, ENV.fetch('ROOT_URL')
+set :cdn_url, ENV.fetch('CDN_URL')
 
-page "examples/dialog.html", layout: :blank_layout
+page 'examples/dialog.html', layout: :blank_layout
 
 configure :build do
 end

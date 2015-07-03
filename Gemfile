@@ -18,8 +18,10 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
   gem 'capybara'
+  gem 'launchy'
+  gem 'poltergeist'
+  gem 'rspec'
 end
 
 group :production do
