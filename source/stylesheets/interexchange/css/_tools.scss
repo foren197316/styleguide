@@ -17,8 +17,8 @@
   white-space: nowrap;
 }
 
-.margin-right-one {
-  margin-right: 1em;
+.margin-right, .margin-right-one {
+  margin-right: 0.5em;
 }
 
 @media (max-width: $screen-xs-max) {

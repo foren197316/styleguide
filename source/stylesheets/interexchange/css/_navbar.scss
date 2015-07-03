@@ -50,7 +50,13 @@
     padding: 0.5em 0;
     color: $navbar-default-link-color;
 
-    > li > strong > *, > li > ul > li > a {
+    > li > strong > * {
+      display: block;
+      padding: 0.2em 1.5em;
+      line-height: $line-height-computed;
+    }
+
+    > li > ul > li > a {
       display: block;
       padding: 0.2em 1.5em;
       line-height: $line-height-computed;
