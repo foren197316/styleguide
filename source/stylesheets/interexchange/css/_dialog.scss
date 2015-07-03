@@ -1,5 +1,10 @@
 .dialog {
   .dialog-heading {
+    h1, h2, h3, h4, h5 {
+      padding-top: 0;
+      margin-top: 0.3em;
+    }
+
     small {
       margin-top: 3.5em;
 
@@ -17,7 +22,7 @@
   .dialog-body {
     border-top: 0.25em solid $interexchange-primary;
     background-color: #F8F8F9;
-    padding: 1em;
+    padding: 1em 1em 0;
   }
 
   .dialog-footer {
