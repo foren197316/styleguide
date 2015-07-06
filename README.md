@@ -28,11 +28,11 @@ bundle exec foreman start
 ### `foot` sits at the bottom of the html tag
 
 ```
-  <html>
-    <head>...</head>
+<html>
+  <head>...</head>
 
-    ...
+  ...
 
-    <script src="/javascripts/interexchange.js" type="text/javascript"></script>
-  </html>
+  <script src="/javascripts/interexchange.js" type="text/javascript"></script>
+</html>
 ```
