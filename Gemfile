@@ -25,7 +25,7 @@ end
 group :production do
   gem 'puma'
   gem 'rack-contrib'
-  gem 'rack-ssl'
-  gem 'rack-domain'
   gem 'rack-cors', require: 'rack/cors'
+  gem 'rack-domain'
+  gem 'rack-ssl'
 end
