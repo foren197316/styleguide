@@ -33,6 +33,6 @@ bundle exec foreman start
 
   ...
 
-  <script src="/javascripts/interexchange.js" type="text/javascript"></script>
+  <script src="https://styleguide.interexchange.org/javascripts/interexchange.js" type="text/javascript"></script>
 </html>
 ```
