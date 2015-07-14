@@ -1,27 +1,29 @@
-html {
-  height: 100%;
+$footer_height: 300px;
+
+* {
+  margin: 0;
 }
 
-body {
+html, body {
   height: 100%;
 }
 
 .non-footer {
-  position: relative;
   min-height: 100%;
+  margin-bottom: (-1 * $footer_height);
 }
 
-* html .non-footer {
-  height: 100%;
+.non-footer:after {
+  content: "";
+  display: block;
 }
 
-.non-footer > .container {
-  padding-bottom: 9em;
+.footer, .non-footer:after {
+  height: $footer_height;
 }
 
 .footer {
   position: relative;
-  margin-top: -7.5em;
   background-color: $interexchange-primary;
   color: $white;
 
