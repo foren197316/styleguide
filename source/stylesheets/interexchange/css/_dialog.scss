@@ -1,5 +1,10 @@
 .dialog {
   .dialog-heading {
+    h1, h2, h3, h4, h5 {
+      padding-top: 0;
+      margin-top: 0.2em;
+    }
+
     small {
       margin-top: 3.5em;
 
@@ -17,24 +22,20 @@
   .dialog-body {
     border-top: 0.25em solid $interexchange-primary;
     background-color: #F8F8F9;
-    padding: 1em 2em;
 
-    .form-group {
-      margin-bottom: 0;
+    fieldset {
+      padding: 1em 0 0;
 
-      .control-label {
-        display: block;
-        font-weight: 300;
-      }
-
-      .form-control {
-        width: 100%;
+      .form-group {
+        padding: 0 1em;
       }
     }
   }
 
   .dialog-footer {
     background-color: #DFEAF3;
-    padding: 1em 2em;
+    padding: 1em;
+    border-bottom-right-radius: $border-radius-base;
+    border-bottom-left-radius: $border-radius-base;
   }
 }
