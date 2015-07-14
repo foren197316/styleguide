@@ -15,6 +15,11 @@
   }
 }
 
+.clear-navbar {
+  display: inline-block;
+  height: $navbar-height;
+}
+
 .menu-large {
   position: static !important;
 }
