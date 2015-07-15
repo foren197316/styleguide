@@ -18,8 +18,12 @@ html, body {
   display: block;
 }
 
-.footer, .non-footer:after {
+.non-footer:after {
   height: $footer_height;
+}
+
+.footer {
+  min-height: $footer_height;
 }
 
 .footer {
