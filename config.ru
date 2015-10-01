@@ -3,6 +3,7 @@ require 'dotenv'
 Dotenv.load
 
 require 'rack'
+require 'rack/deflater'
 require 'rack/contrib/static_cache'
 require 'rack/contrib/try_static'
 require 'rack/cors'
@@ -10,6 +11,7 @@ require 'rack/domain'
 require 'rack/ssl'
 
 use Rack::SSL if ENV['USE_SSL']
+use Rack::Deflater
 
 use Rack::Cors do
   allow do
