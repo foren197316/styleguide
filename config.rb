@@ -9,7 +9,8 @@ set :images_dir, 'images'
 
 set :analytics_key, ENV.fetch('ANALYTICS_KEY')
 
-set :root_url, ENV.fetch('ROOT_URL')
+set :root_url, root_url = ENV.fetch('ROOT_URL')
+set :url_root, root_url
 set :cdn_url, ENV.fetch('CDN_URL')
 
 page 'examples/dialog.html', layout: :blank_layout
@@ -32,4 +33,7 @@ use Rack::Cors do
   end
 end
 
-set :url_root, root_url
+configure :build do
+  activate :minify_css
+  activate :minify_javascript
+end
