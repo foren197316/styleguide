@@ -6,6 +6,7 @@ ruby '2.2.0'
 
 gem 'middleman'
 gem 'middleman-dotenv'
+gem 'middleman-minify-html'
 gem 'middleman-search_engine_sitemap'
 gem 'bootstrap-sass', '~> 3.3.4', require: false
 gem 'font-awesome-sass', '~> 4.3.0', require: false
