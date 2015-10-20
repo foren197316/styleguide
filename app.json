@@ -3,9 +3,6 @@
   "description":"",
   "scripts":{},
   "env":{
-    "ANALYTICS_KEY":{
-      "required":true
-    },
     "CDN_URL":{
       "required":true
     },
